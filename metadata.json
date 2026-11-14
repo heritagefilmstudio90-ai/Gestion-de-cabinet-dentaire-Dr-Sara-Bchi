@@ -1,0 +1,8 @@
+{
+  "name": "Remix DentaFlow Pro",
+  "description": "Logiciel complet et hors ligne de gestion de cabinet dentaire : agenda multi-fauteuils, dossier patient 360° avec odontogramme FDI, imagerie, devis, facturation MAD (AMO/CNSS/CNOPS), prothèses, ordonnances, caisse et stock.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

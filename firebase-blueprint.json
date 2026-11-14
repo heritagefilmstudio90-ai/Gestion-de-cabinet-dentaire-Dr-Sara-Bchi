@@ -1,0 +1,514 @@
+{
+  "entities": {
+    "StaffMember": {
+      "title": "StaffMember",
+      "description": "Membre de l'équipe du cabinet dentaire avec rôle RBAC et affectation fauteuil.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "format": "email", "maxLength": 200 },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "role": { "type": "string", "enum": ["titulaire", "collaborateur", "secretaire", "assistant"] },
+        "specialty": { "type": "string", "maxLength": 100 },
+        "chairName": { "type": "string", "maxLength": 60 },
+        "color": { "type": "string", "maxLength": 20 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "role", "active", "createdAt", "updatedAt"]
+    },
+    "StaffInvite": {
+      "title": "StaffInvite",
+      "description": "Invitation pré-configurée par le praticien titulaire associant un email et un rôle.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email", "maxLength": 200 },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "role": { "type": "string", "enum": ["titulaire", "collaborateur", "secretaire", "assistant"] },
+        "specialty": { "type": "string", "maxLength": 100 },
+        "chairName": { "type": "string", "maxLength": 60 },
+        "color": { "type": "string", "maxLength": 20 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "displayName", "role", "createdBy", "createdAt"]
+    },
+    "ClinicSettings": {
+      "title": "ClinicSettings",
+      "description": "Paramètres généraux du cabinet, identifiants fiscaux marocains, fauteuils et compteurs séquentiels.",
+      "type": "object",
+      "properties": {
+        "clinicName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "subtitle": { "type": "string", "maxLength": 150 },
+        "address": { "type": "string", "maxLength": 250 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "email": { "type": "string", "maxLength": 150 },
+        "ice": { "type": "string", "maxLength": 40 },
+        "ifNumber": { "type": "string", "maxLength": 40 },
+        "patente": { "type": "string", "maxLength": 40 },
+        "inpe": { "type": "string", "maxLength": 40 },
+        "currency": { "type": "string", "maxLength": 10 },
+        "chairs": { "type": "array" },
+        "workingHours": { "type": "object" },
+        "smsReminders": { "type": "object" },
+        "invoiceCounter": { "type": "number" },
+        "quoteCounter": { "type": "number" },
+        "receiptCounter": { "type": "number" },
+        "betaZeroInitialized": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clinicName", "currency", "chairs", "invoiceCounter", "quoteCounter", "receiptCounter", "updatedAt"]
+    },
+    "Patient": {
+      "title": "Patient",
+      "description": "Dossier patient 360° incluant identité, CIN, mutuelle AMO/CNSS/CNOPS, anamnèse et odontogramme FDI.",
+      "type": "object",
+      "properties": {
+        "fileNumber": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "firstName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "lastName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "birthDate": { "type": "string", "maxLength": 20 },
+        "cin": { "type": "string", "maxLength": 30 },
+        "profession": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "minLength": 1, "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 150 },
+        "address": { "type": "string", "maxLength": 250 },
+        "referringDoctor": { "type": "string", "maxLength": 120 },
+        "insuranceType": { "type": "string", "enum": ["Aucune", "AMO", "CNSS", "CNOPS", "Mutuelle Privée"] },
+        "insuranceNumber": { "type": "string", "maxLength": 60 },
+        "coverageRate": { "type": "number" },
+        "anamnesis": { "type": "object" },
+        "hasCriticalAlert": { "type": "boolean" },
+        "alertSummary": { "type": "string", "maxLength": 250 },
+        "assignedPractitionerId": { "type": "string", "maxLength": 128 },
+        "dentitionMode": { "type": "string", "enum": ["adulte", "mixte", "temporaire"] },
+        "odontogram": { "type": "object" },
+        "active": { "type": "boolean" },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fileNumber", "firstName", "lastName", "phone", "insuranceType", "coverageRate", "hasCriticalAlert", "assignedPractitionerId", "dentitionMode", "odontogram", "active", "createdBy", "createdAt", "updatedAt"]
+    },
+    "PatientImaging": {
+      "title": "PatientImaging",
+      "description": "Cliché radiographique ou photo clinique avant/après rattachée à un dossier patient.",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "category": { "type": "string", "enum": ["Panoramique", "Rétro-alvéolaire", "Téléradiographie", "Photo Avant", "Photo Après", "Document"] },
+        "toothRef": { "type": "string", "maxLength": 30 },
+        "date": { "type": "string", "maxLength": 20 },
+        "dataUrl": { "type": "string", "maxLength": 900000 },
+        "notes": { "type": "string", "maxLength": 400 },
+        "uploadedBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "title", "category", "date", "dataUrl", "uploadedBy", "createdAt"]
+    },
+    "ClinicalNote": {
+      "title": "ClinicalNote",
+      "description": "Entrée chronologique du fil d'actes cliniques avec matériaux et liaison comptable.",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "date": { "type": "string", "maxLength": 30 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "practitionerName": { "type": "string", "maxLength": 120 },
+        "tooth": { "type": "string", "maxLength": 20 },
+        "faces": { "type": "string", "maxLength": 30 },
+        "actCode": { "type": "string", "maxLength": 30 },
+        "actName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "materials": { "type": "string", "maxLength": 200 },
+        "report": { "type": "string", "maxLength": 1000 },
+        "amount": { "type": "number" },
+        "billed": { "type": "boolean" },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "date", "practitionerId", "practitionerName", "actName", "amount", "billed", "createdBy", "createdAt"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Rendez-vous clinique multi-praticiens et multi-fauteuils avec suivi de salle d'attente.",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "patientName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "patientPhone": { "type": "string", "maxLength": 40 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "practitionerName": { "type": "string", "maxLength": 120 },
+        "chair": { "type": "string", "maxLength": 60 },
+        "date": { "type": "string", "maxLength": 20 },
+        "startTime": { "type": "string", "maxLength": 10 },
+        "durationMinutes": { "type": "number" },
+        "actType": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "categoryColor": { "type": "string", "maxLength": 30 },
+        "status": { "type": "string", "enum": ["En attente", "Confirmé", "Arrivé en salle d'attente", "Au fauteuil", "Terminé", "Absent", "Annulé"] },
+        "arrivedAt": { "type": "string", "maxLength": 40 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "isUrgent": { "type": "boolean" },
+        "reminderStatus": { "type": "string", "maxLength": 40 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "patientName", "practitionerId", "practitionerName", "chair", "date", "startTime", "durationMinutes", "actType", "status", "isUrgent", "createdBy", "createdAt", "updatedAt"]
+    },
+    "BookingRequest": {
+      "title": "BookingRequest",
+      "description": "Demande de pré-réservation en ligne en attente de validation par l'accueil.",
+      "type": "object",
+      "properties": {
+        "patientName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "phone": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "preferredDate": { "type": "string", "maxLength": 20 },
+        "preferredSlot": { "type": "string", "maxLength": 40 },
+        "reason": { "type": "string", "maxLength": 250 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["En attente", "Validé", "Refusé"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientName", "phone", "preferredDate", "reason", "status", "createdAt", "updatedAt"]
+    },
+    "CatalogAct": {
+      "title": "CatalogAct",
+      "description": "Acte médical hiérarchisé du catalogue avec durée standard et fourchette tarifaire MAD.",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "minLength": 1, "maxLength": 30 },
+        "category": { "type": "string", "enum": ["Consultations", "Soins conservateurs", "Endodontie", "Parodontologie", "Chirurgie", "Implantologie", "Prothèse fixe", "Prothèse amovible", "ODF"] },
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "defaultDuration": { "type": "number" },
+        "minPrice": { "type": "number" },
+        "maxPrice": { "type": "number" },
+        "defaultPrice": { "type": "number" },
+        "color": { "type": "string", "maxLength": 30 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["code", "category", "name", "defaultDuration", "minPrice", "maxPrice", "defaultPrice", "createdAt"]
+    },
+    "TreatmentPlan": {
+      "title": "TreatmentPlan",
+      "description": "Plan de traitement multi-phases et devis conforme avec consentement.",
+      "type": "object",
+      "properties": {
+        "quoteNumber": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "patientName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "practitionerName": { "type": "string", "maxLength": 120 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 180 },
+        "isAlternative": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["Brouillon", "Devis envoyé", "Accepté", "En cours", "Terminé", "Refusé"] },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "insuranceEstimated": { "type": "number" },
+        "consentSigned": { "type": "boolean" },
+        "lockedVersion": { "type": "boolean" },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["quoteNumber", "patientId", "patientName", "practitionerId", "practitionerName", "title", "status", "items", "totalAmount", "consentSigned", "lockedVersion", "createdBy", "createdAt", "updatedAt"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "Facture ou note d'honoraire séquentielle avec ventilation part patient et part mutuelle.",
+      "type": "object",
+      "properties": {
+        "invoiceNumber": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "patientName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "practitionerName": { "type": "string", "maxLength": 120 },
+        "planId": { "type": "string", "maxLength": 128 },
+        "issueDate": { "type": "string", "maxLength": 20 },
+        "dueDate": { "type": "string", "maxLength": 20 },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "insuranceType": { "type": "string", "maxLength": 40 },
+        "insuranceShare": { "type": "number" },
+        "patientShare": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "insurancePaidAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["Émise", "Partiellement payée", "Payée", "En retard", "Annulée"] },
+        "insuranceClaimStatus": { "type": "string", "enum": ["Aucune", "Dossier déposé", "En attente remboursement", "Remboursée"] },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["invoiceNumber", "patientId", "patientName", "practitionerId", "issueDate", "items", "totalAmount", "insuranceShare", "patientShare", "paidAmount", "status", "createdBy", "createdAt", "updatedAt"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Encaissement et reçu de paiement multi-modes (Espèces, Carte, Virement, Chèque).",
+      "type": "object",
+      "properties": {
+        "receiptNumber": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "invoiceId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "patientName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 20 },
+        "amount": { "type": "number" },
+        "method": { "type": "string", "enum": ["Espèces", "Carte bancaire", "Virement", "Chèque"] },
+        "payerType": { "type": "string", "enum": ["Patient", "Mutuelle"] },
+        "isAdvance": { "type": "boolean" },
+        "chequeNumber": { "type": "string", "maxLength": 60 },
+        "bankName": { "type": "string", "maxLength": 80 },
+        "chequeDepositDate": { "type": "string", "maxLength": 20 },
+        "notes": { "type": "string", "maxLength": 250 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["receiptNumber", "invoiceId", "patientId", "patientName", "practitionerId", "date", "amount", "method", "payerType", "isAdvance", "createdBy", "createdAt"]
+    },
+    "LabOrder": {
+      "title": "LabOrder",
+      "description": "Fiche de commande prothétique externe avec teinte VITA, traçabilité et contrôle fournisseur.",
+      "type": "object",
+      "properties": {
+        "orderNumber": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "patientName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "practitionerName": { "type": "string", "maxLength": 120 },
+        "labName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "prosthesisType": { "type": "string", "enum": ["Zircone", "Céramo-métallique", "E-max", "Squeletté", "Résine amovible", "Gouttière", "Sur implant"] },
+        "shadeVita": { "type": "string", "maxLength": 20 },
+        "teeth": { "type": "string", "maxLength": 60 },
+        "impressionType": { "type": "string", "enum": ["Empreinte physique", "Fichier numérique STL"] },
+        "sentDate": { "type": "string", "maxLength": 20 },
+        "dueDate": { "type": "string", "maxLength": 20 },
+        "nextAppointmentDate": { "type": "string", "maxLength": 20 },
+        "status": { "type": "string", "enum": ["Envoyé", "Au labo", "Reçu au cabinet", "En essayage", "Validé posé", "Retour pour correction"] },
+        "labCost": { "type": "number" },
+        "supplierInvoiceRef": { "type": "string", "maxLength": 60 },
+        "supplierPaid": { "type": "boolean" },
+        "notes": { "type": "string", "maxLength": 400 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderNumber", "patientId", "patientName", "practitionerId", "labName", "prosthesisType", "status", "labCost", "supplierPaid", "createdBy", "createdAt", "updatedAt"]
+    },
+    "MedicalDocument": {
+      "title": "MedicalDocument",
+      "description": "Ordonnance médicamenteuse, certificat, lettre confrère ou feuille de soins CNSS/CNOPS.",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "patientName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "practitionerName": { "type": "string", "maxLength": 120 },
+        "docType": { "type": "string", "enum": ["Ordonnance", "Certificat de présence", "Dispense", "Attestation de soins", "Consentement éclairé", "Lettre confrère", "Feuille de soins"] },
+        "date": { "type": "string", "maxLength": 20 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "prescriptions": { "type": "array" },
+        "bodyText": { "type": "string", "maxLength": 3000 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "patientName", "practitionerId", "docType", "date", "title", "createdBy", "createdAt"]
+    },
+    "Recall": {
+      "title": "Recall",
+      "description": "Rappel ou relance patient avec canal SMS/WhatsApp et journal de livraison.",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "patientName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "patientPhone": { "type": "string", "maxLength": 40 },
+        "practitionerId": { "type": "string", "maxLength": 128 },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "dueDate": { "type": "string", "maxLength": 20 },
+        "channel": { "type": "string", "enum": ["WhatsApp", "SMS", "Appel"] },
+        "status": { "type": "string", "enum": ["À faire", "En retard", "Envoyé", "RDV pris"] },
+        "deliveryStatus": { "type": "string", "enum": ["Non envoyé", "Délivré", "Lu", "Échec"] },
+        "lastSentAt": { "type": "string", "maxLength": 40 },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "patientName", "reason", "dueDate", "channel", "status", "deliveryStatus", "createdBy", "createdAt", "updatedAt"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Charge fixe récurrente ou dépense variable du cabinet.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 20 },
+        "category": { "type": "string", "enum": ["Loyer", "Salaires", "Maintenance", "Leasing", "Fournitures", "Laboratoire", "Réparations", "Électricité/Eau", "Autre"] },
+        "expenseType": { "type": "string", "enum": ["Charge fixe", "Dépense variable"] },
+        "label": { "type": "string", "minLength": 1, "maxLength": 180 },
+        "supplier": { "type": "string", "maxLength": 120 },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["Espèces", "Virement", "Carte bancaire", "Chèque"] },
+        "receiptRef": { "type": "string", "maxLength": 80 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["date", "category", "expenseType", "label", "amount", "paymentMethod", "createdBy", "createdAt"]
+    },
+    "CashClosure": {
+      "title": "CashClosure",
+      "description": "Clôture journalière verrouillée du livre de caisse espèces.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 20 },
+        "openingBalance": { "type": "number" },
+        "cashInflows": { "type": "number" },
+        "cashOutflows": { "type": "number" },
+        "expectedBalance": { "type": "number" },
+        "countedBalance": { "type": "number" },
+        "discrepancy": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 400 },
+        "locked": { "type": "boolean" },
+        "closedByUid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "closedByName": { "type": "string", "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["date", "openingBalance", "cashInflows", "cashOutflows", "expectedBalance", "countedBalance", "discrepancy", "locked", "closedByUid", "closedByName", "createdAt"]
+    },
+    "InventoryItem": {
+      "title": "InventoryItem",
+      "description": "Article de stock et consommables dentaires avec seuil d'alerte.",
+      "type": "object",
+      "properties": {
+        "sku": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "category": { "type": "string", "enum": ["Consommables", "Désinfection", "Résines & Composites", "Ciments", "Anesthésie", "Implants & Chirurgie", "Autre"] },
+        "unit": { "type": "string", "maxLength": 30 },
+        "quantity": { "type": "number" },
+        "minThreshold": { "type": "number" },
+        "unitCost": { "type": "number" },
+        "supplier": { "type": "string", "maxLength": 120 },
+        "expiryDate": { "type": "string", "maxLength": 20 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["sku", "name", "category", "unit", "quantity", "minThreshold", "unitCost", "updatedAt"]
+    },
+    "StockMovement": {
+      "title": "StockMovement",
+      "description": "Mouvement d'entrée ou de sortie de stock traçable.",
+      "type": "object",
+      "properties": {
+        "itemId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "itemName": { "type": "string", "minLength": 1, "maxLength": 150 },
+        "type": { "type": "string", "enum": ["Entrée", "Sortie"] },
+        "quantity": { "type": "number" },
+        "reason": { "type": "string", "maxLength": 200 },
+        "date": { "type": "string", "maxLength": 20 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["itemId", "itemName", "type", "quantity", "date", "createdBy", "createdAt"]
+    },
+    "AdminDocument": {
+      "title": "AdminDocument",
+      "description": "Licence logicielle, contrat d'entretien de matériel dentaire ou document administratif soumis à renouvellement.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "category": { "type": "string", "enum": ["Licence logicielle", "Contrat d'entretien", "Assurance & Conformité", "Autre"] },
+        "provider": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "reference": { "type": "string", "maxLength": 80 },
+        "expiryDate": { "type": "string", "maxLength": 20 },
+        "alertDaysBefore": { "type": "number" },
+        "status": { "type": "string", "enum": ["Actif", "À renouveler", "Renouvelé"] },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "provider", "expiryDate", "alertDaysBefore", "status", "createdBy", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/staff/{userId}": {
+      "schema": { "$ref": "#/entities/StaffMember" },
+      "description": "Profils et rôles RBAC des membres du cabinet."
+    },
+    "/staffInvites/{inviteId}": {
+      "schema": { "$ref": "#/entities/StaffInvite" },
+      "description": "Invitations d'accès attribuées par le praticien titulaire."
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/ClinicSettings" },
+      "description": "Configuration globale du cabinet et compteurs séquentiels."
+    },
+    "/patients/{patientId}": {
+      "schema": { "$ref": "#/entities/Patient" },
+      "description": "Dossiers patients 360° et odontogrammes FDI."
+    },
+    "/patients/{patientId}/imaging/{imageId}": {
+      "schema": { "$ref": "#/entities/PatientImaging" },
+      "description": "Clichés radiologiques et galerie avant/après du patient."
+    },
+    "/patients/{patientId}/clinicalNotes/{noteId}": {
+      "schema": { "$ref": "#/entities/ClinicalNote" },
+      "description": "Fil d'actes cliniques chronologique du patient."
+    },
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Agenda multi-praticiens, multi-fauteuils et salle d'attente."
+    },
+    "/bookingRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/BookingRequest" },
+      "description": "Demandes de pré-réservation en ligne à valider par l'accueil."
+    },
+    "/actsCatalog/{actId}": {
+      "schema": { "$ref": "#/entities/CatalogAct" },
+      "description": "Nomenclature des actes médicaux dentaires et tarifs MAD."
+    },
+    "/treatmentPlans/{planId}": {
+      "schema": { "$ref": "#/entities/TreatmentPlan" },
+      "description": "Plans de traitement multi-phases et devis conformes."
+    },
+    "/invoices/{invoiceId}": {
+      "schema": { "$ref": "#/entities/Invoice" },
+      "description": "Factures patients et créances mutuelles AMO/CNSS/CNOPS."
+    },
+    "/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/Payment" },
+      "description": "Encaissements multi-modes et reçus séquentiels."
+    },
+    "/labOrders/{orderId}": {
+      "schema": { "$ref": "#/entities/LabOrder" },
+      "description": "Ordres de fabrication prothétique et contrôle fournisseurs."
+    },
+    "/medicalDocuments/{docId}": {
+      "schema": { "$ref": "#/entities/MedicalDocument" },
+      "description": "Ordonnances, certificats et feuilles de soins."
+    },
+    "/recalls/{recallId}": {
+      "schema": { "$ref": "#/entities/Recall" },
+      "description": "Rappels et relances WhatsApp / SMS."
+    },
+    "/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/Expense" },
+      "description": "Charges fixes et dépenses variables du cabinet."
+    },
+    "/cashClosures/{closureId}": {
+      "schema": { "$ref": "#/entities/CashClosure" },
+      "description": "Clôtures journalières verrouillées du livre de caisse."
+    },
+    "/inventory/{itemId}": {
+      "schema": { "$ref": "#/entities/InventoryItem" },
+      "description": "Répertoire des fournitures et consommables dentaires."
+    },
+    "/stockMovements/{movementId}": {
+      "schema": { "$ref": "#/entities/StockMovement" },
+      "description": "Historique des entrées et sorties de stock."
+    },
+    "/adminDocuments/{docId}": {
+      "schema": { "$ref": "#/entities/AdminDocument" },
+      "description": "Licences logicielles, contrats d'entretien matériel et documents administratifs à renouveler."
+    }
+  }
+}

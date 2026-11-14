@@ -1,0 +1,939 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // =========================================================================
+    // GLOBAL PRIMITIVES & RBAC HELPERS
+    // =========================================================================
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    function isBootstrapAdmin() {
+      return isSignedIn() && request.auth.token.email == 'heritagefilmstudio90@gmail.com';
+    }
+
+    function hasStaffProfile() {
+      return isSignedIn() && exists(/databases/$(database)/documents/staff/$(request.auth.uid));
+    }
+
+    function staffData() {
+      return get(/databases/$(database)/documents/staff/$(request.auth.uid)).data;
+    }
+
+    function isActiveStaff() {
+      return hasStaffProfile() && staffData().active == true;
+    }
+
+    function isTitulaire() {
+      return isBootstrapAdmin() || (isActiveStaff() && staffData().role == 'titulaire');
+    }
+
+    function isCollaborateur() {
+      return isActiveStaff() && staffData().role == 'collaborateur';
+    }
+
+    function isSecretaire() {
+      return isActiveStaff() && staffData().role == 'secretaire';
+    }
+
+    function isAssistant() {
+      return isActiveStaff() && staffData().role == 'assistant';
+    }
+
+    function isClinicStaff() {
+      return isBootstrapAdmin() || isActiveStaff();
+    }
+
+    function isValidNonEmptyString(val, maxLen) {
+      return val is string && val.size() >= 1 && val.size() <= maxLen;
+    }
+
+    function isValidOptionalString(val, maxLen) {
+      return val is string && val.size() <= maxLen;
+    }
+
+    // =========================================================================
+    // ENTITY VALIDATION HELPERS (ANTI-UPDATE-GAP BLUEPRINTS)
+    // =========================================================================
+    function isValidStaff(data) {
+      return data.keys().hasAll(['uid', 'email', 'displayName', 'role', 'active', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'email', 'displayName', 'role', 'specialty', 'chairName', 'color', 'active', 'inviteId', 'createdAt', 'updatedAt'])
+        && isValidId(data.uid)
+        && isValidNonEmptyString(data.email, 200)
+        && isValidNonEmptyString(data.displayName, 120)
+        && data.role in ['titulaire', 'collaborateur', 'secretaire', 'assistant']
+        && (!('specialty' in data) || isValidOptionalString(data.specialty, 100))
+        && (!('chairName' in data) || isValidOptionalString(data.chairName, 60))
+        && (!('color' in data) || isValidOptionalString(data.color, 20))
+        && (!('inviteId' in data) || isValidOptionalString(data.inviteId, 128))
+        && data.active is bool
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidStaffInvite(data) {
+      return data.keys().hasAll(['email', 'displayName', 'role', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['email', 'displayName', 'role', 'specialty', 'chairName', 'color', 'createdBy', 'createdAt'])
+        && isValidNonEmptyString(data.email, 200)
+        && isValidNonEmptyString(data.displayName, 120)
+        && data.role in ['titulaire', 'collaborateur', 'secretaire', 'assistant']
+        && (!('specialty' in data) || isValidOptionalString(data.specialty, 100))
+        && (!('chairName' in data) || isValidOptionalString(data.chairName, 60))
+        && (!('color' in data) || isValidOptionalString(data.color, 20))
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidClinicSettings(data) {
+      return data.keys().hasAll(['clinicName', 'currency', 'chairs', 'invoiceCounter', 'quoteCounter', 'receiptCounter', 'updatedAt'])
+        && data.keys().hasOnly(['clinicName', 'subtitle', 'address', 'phone', 'email', 'ice', 'ifNumber', 'patente', 'inpe', 'currency', 'chairs', 'workingHours', 'smsReminders', 'invoiceCounter', 'quoteCounter', 'receiptCounter', 'betaZeroInitialized', 'updatedAt'])
+        && isValidNonEmptyString(data.clinicName, 150)
+        && (!('subtitle' in data) || isValidOptionalString(data.subtitle, 150))
+        && (!('address' in data) || isValidOptionalString(data.address, 250))
+        && (!('phone' in data) || isValidOptionalString(data.phone, 40))
+        && (!('email' in data) || isValidOptionalString(data.email, 150))
+        && (!('ice' in data) || isValidOptionalString(data.ice, 40))
+        && (!('ifNumber' in data) || isValidOptionalString(data.ifNumber, 40))
+        && (!('patente' in data) || isValidOptionalString(data.patente, 40))
+        && (!('inpe' in data) || isValidOptionalString(data.inpe, 40))
+        && isValidNonEmptyString(data.currency, 10)
+        && data.chairs is list && data.chairs.size() >= 1 && data.chairs.size() <= 10
+        && data.chairs[0] is string
+        && (!('workingHours' in data) || data.workingHours is map)
+        && (!('smsReminders' in data) || data.smsReminders is map)
+        && data.invoiceCounter is number && data.invoiceCounter >= 0
+        && data.quoteCounter is number && data.quoteCounter >= 0
+        && data.receiptCounter is number && data.receiptCounter >= 0
+        && (!('betaZeroInitialized' in data) || data.betaZeroInitialized is bool)
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidPatient(data) {
+      return data.keys().hasAll(['fileNumber', 'firstName', 'lastName', 'phone', 'insuranceType', 'coverageRate', 'hasCriticalAlert', 'assignedPractitionerId', 'dentitionMode', 'odontogram', 'active', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['fileNumber', 'firstName', 'lastName', 'birthDate', 'cin', 'profession', 'phone', 'email', 'address', 'referringDoctor', 'insuranceType', 'insuranceNumber', 'coverageRate', 'anamnesis', 'hasCriticalAlert', 'alertSummary', 'assignedPractitionerId', 'dentitionMode', 'odontogram', 'active', 'createdBy', 'createdAt', 'updatedAt'])
+        && isValidNonEmptyString(data.fileNumber, 40)
+        && isValidNonEmptyString(data.firstName, 80)
+        && isValidNonEmptyString(data.lastName, 80)
+        && (!('birthDate' in data) || isValidOptionalString(data.birthDate, 20))
+        && (!('cin' in data) || isValidOptionalString(data.cin, 30))
+        && (!('profession' in data) || isValidOptionalString(data.profession, 100))
+        && isValidNonEmptyString(data.phone, 30)
+        && (!('email' in data) || isValidOptionalString(data.email, 150))
+        && (!('address' in data) || isValidOptionalString(data.address, 250))
+        && (!('referringDoctor' in data) || isValidOptionalString(data.referringDoctor, 120))
+        && data.insuranceType in ['Aucune', 'AMO', 'CNSS', 'CNOPS', 'Mutuelle Privée']
+        && (!('insuranceNumber' in data) || isValidOptionalString(data.insuranceNumber, 60))
+        && data.coverageRate is number && data.coverageRate >= 0 && data.coverageRate <= 100
+        && (!('anamnesis' in data) || data.anamnesis is map)
+        && data.hasCriticalAlert is bool
+        && (!('alertSummary' in data) || isValidOptionalString(data.alertSummary, 250))
+        && isValidOptionalString(data.assignedPractitionerId, 128)
+        && data.dentitionMode in ['adulte', 'mixte', 'temporaire']
+        && data.odontogram is map
+        && data.active is bool
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidPatientImaging(data) {
+      return data.keys().hasAll(['patientId', 'title', 'category', 'date', 'dataUrl', 'uploadedBy', 'createdAt'])
+        && data.keys().hasOnly(['patientId', 'title', 'category', 'toothRef', 'date', 'dataUrl', 'notes', 'uploadedBy', 'createdAt'])
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.title, 150)
+        && data.category in ['Panoramique', 'Rétro-alvéolaire', 'Téléradiographie', 'Photo Avant', 'Photo Après', 'Document']
+        && (!('toothRef' in data) || isValidOptionalString(data.toothRef, 30))
+        && isValidNonEmptyString(data.date, 20)
+        && isValidNonEmptyString(data.dataUrl, 900000)
+        && (!('notes' in data) || isValidOptionalString(data.notes, 400))
+        && isValidId(data.uploadedBy)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidClinicalNote(data) {
+      return data.keys().hasAll(['patientId', 'date', 'practitionerId', 'practitionerName', 'actName', 'amount', 'billed', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['patientId', 'date', 'practitionerId', 'practitionerName', 'tooth', 'faces', 'actCode', 'actName', 'materials', 'report', 'amount', 'billed', 'createdBy', 'createdAt'])
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.date, 30)
+        && isValidOptionalString(data.practitionerId, 128)
+        && isValidNonEmptyString(data.practitionerName, 120)
+        && (!('tooth' in data) || isValidOptionalString(data.tooth, 20))
+        && (!('faces' in data) || isValidOptionalString(data.faces, 30))
+        && (!('actCode' in data) || isValidOptionalString(data.actCode, 30))
+        && isValidNonEmptyString(data.actName, 150)
+        && (!('materials' in data) || isValidOptionalString(data.materials, 200))
+        && (!('report' in data) || isValidOptionalString(data.report, 1000))
+        && data.amount is number && data.amount >= 0
+        && data.billed is bool
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidAppointment(data) {
+      return data.keys().hasAll(['patientId', 'patientName', 'practitionerId', 'practitionerName', 'chair', 'date', 'startTime', 'durationMinutes', 'actType', 'status', 'isUrgent', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['patientId', 'patientName', 'patientPhone', 'practitionerId', 'practitionerName', 'chair', 'date', 'startTime', 'durationMinutes', 'actType', 'categoryColor', 'status', 'arrivedAt', 'notes', 'isUrgent', 'reminderStatus', 'createdBy', 'createdAt', 'updatedAt'])
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.patientName, 150)
+        && (!('patientPhone' in data) || isValidOptionalString(data.patientPhone, 40))
+        && isValidOptionalString(data.practitionerId, 128)
+        && isValidNonEmptyString(data.practitionerName, 120)
+        && isValidNonEmptyString(data.chair, 60)
+        && isValidNonEmptyString(data.date, 20)
+        && isValidNonEmptyString(data.startTime, 10)
+        && data.durationMinutes is number && data.durationMinutes >= 5 && data.durationMinutes <= 480
+        && isValidNonEmptyString(data.actType, 120)
+        && (!('categoryColor' in data) || isValidOptionalString(data.categoryColor, 30))
+        && data.status in ['En attente', 'Confirmé', 'Arrivé en salle d\'attente', 'Au fauteuil', 'Terminé', 'Absent', 'Annulé']
+        && (!('arrivedAt' in data) || isValidOptionalString(data.arrivedAt, 40))
+        && (!('notes' in data) || isValidOptionalString(data.notes, 500))
+        && data.isUrgent is bool
+        && (!('reminderStatus' in data) || isValidOptionalString(data.reminderStatus, 40))
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidBookingRequest(data) {
+      return data.keys().hasAll(['patientName', 'phone', 'preferredDate', 'reason', 'status', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['patientName', 'phone', 'preferredDate', 'preferredSlot', 'reason', 'practitionerId', 'status', 'createdAt', 'updatedAt'])
+        && isValidNonEmptyString(data.patientName, 150)
+        && isValidNonEmptyString(data.phone, 40)
+        && isValidNonEmptyString(data.preferredDate, 20)
+        && (!('preferredSlot' in data) || isValidOptionalString(data.preferredSlot, 40))
+        && isValidNonEmptyString(data.reason, 250)
+        && (!('practitionerId' in data) || isValidOptionalString(data.practitionerId, 128))
+        && data.status in ['En attente', 'Validé', 'Refusé']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidCatalogAct(data) {
+      return data.keys().hasAll(['code', 'category', 'name', 'defaultDuration', 'minPrice', 'maxPrice', 'defaultPrice', 'createdAt'])
+        && data.keys().hasOnly(['code', 'category', 'name', 'defaultDuration', 'minPrice', 'maxPrice', 'defaultPrice', 'color', 'createdAt'])
+        && isValidNonEmptyString(data.code, 30)
+        && data.category in ['Consultations', 'Soins conservateurs', 'Endodontie', 'Parodontologie', 'Chirurgie', 'Implantologie', 'Prothèse fixe', 'Prothèse amovible', 'ODF']
+        && isValidNonEmptyString(data.name, 160)
+        && data.defaultDuration is number && data.defaultDuration >= 5 && data.defaultDuration <= 480
+        && data.minPrice is number && data.minPrice >= 0
+        && data.maxPrice is number && data.maxPrice >= 0
+        && data.defaultPrice is number && data.defaultPrice >= 0
+        && (!('color' in data) || isValidOptionalString(data.color, 30))
+        && data.createdAt is timestamp;
+    }
+
+    function isValidTreatmentPlan(data) {
+      return data.keys().hasAll(['quoteNumber', 'patientId', 'patientName', 'practitionerId', 'practitionerName', 'title', 'status', 'items', 'totalAmount', 'consentSigned', 'lockedVersion', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['quoteNumber', 'patientId', 'patientName', 'practitionerId', 'practitionerName', 'title', 'isAlternative', 'status', 'items', 'totalAmount', 'insuranceEstimated', 'consentSigned', 'lockedVersion', 'createdBy', 'createdAt', 'updatedAt'])
+        && isValidNonEmptyString(data.quoteNumber, 40)
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.patientName, 150)
+        && isValidOptionalString(data.practitionerId, 128)
+        && isValidNonEmptyString(data.practitionerName, 120)
+        && isValidNonEmptyString(data.title, 180)
+        && (!('isAlternative' in data) || data.isAlternative is bool)
+        && data.status in ['Brouillon', 'Devis envoyé', 'Accepté', 'En cours', 'Terminé', 'Refusé']
+        && data.items is list && data.items.size() <= 40
+        && (data.items.size() == 0 || data.items[0] is map)
+        && data.totalAmount is number && data.totalAmount >= 0
+        && (!('insuranceEstimated' in data) || (data.insuranceEstimated is number && data.insuranceEstimated >= 0))
+        && data.consentSigned is bool
+        && data.lockedVersion is bool
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidInvoice(data) {
+      return data.keys().hasAll(['invoiceNumber', 'patientId', 'patientName', 'practitionerId', 'issueDate', 'items', 'totalAmount', 'insuranceShare', 'patientShare', 'paidAmount', 'status', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['invoiceNumber', 'patientId', 'patientName', 'practitionerId', 'practitionerName', 'planId', 'issueDate', 'dueDate', 'items', 'totalAmount', 'insuranceType', 'insuranceShare', 'patientShare', 'paidAmount', 'insurancePaidAmount', 'status', 'insuranceClaimStatus', 'createdBy', 'createdAt', 'updatedAt'])
+        && isValidNonEmptyString(data.invoiceNumber, 40)
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.patientName, 150)
+        && isValidOptionalString(data.practitionerId, 128)
+        && (!('practitionerName' in data) || isValidOptionalString(data.practitionerName, 120))
+        && (!('planId' in data) || isValidOptionalString(data.planId, 128))
+        && isValidNonEmptyString(data.issueDate, 20)
+        && (!('dueDate' in data) || isValidOptionalString(data.dueDate, 20))
+        && data.items is list && data.items.size() <= 40
+        && (data.items.size() == 0 || data.items[0] is map)
+        && data.totalAmount is number && data.totalAmount >= 0
+        && (!('insuranceType' in data) || isValidOptionalString(data.insuranceType, 40))
+        && data.insuranceShare is number && data.insuranceShare >= 0
+        && data.patientShare is number && data.patientShare >= 0
+        && data.paidAmount is number && data.paidAmount >= 0
+        && (!('insurancePaidAmount' in data) || (data.insurancePaidAmount is number && data.insurancePaidAmount >= 0))
+        && data.status in ['Émise', 'Partiellement payée', 'Payée', 'En retard', 'Annulée']
+        && (!('insuranceClaimStatus' in data) || data.insuranceClaimStatus in ['Aucune', 'Dossier déposé', 'En attente remboursement', 'Remboursée'])
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidPayment(data) {
+      return data.keys().hasAll(['receiptNumber', 'invoiceId', 'patientId', 'patientName', 'practitionerId', 'date', 'amount', 'method', 'payerType', 'isAdvance', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['receiptNumber', 'invoiceId', 'patientId', 'patientName', 'practitionerId', 'date', 'amount', 'method', 'payerType', 'isAdvance', 'chequeNumber', 'bankName', 'chequeDepositDate', 'notes', 'createdBy', 'createdAt'])
+        && isValidNonEmptyString(data.receiptNumber, 40)
+        && isValidId(data.invoiceId)
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.patientName, 150)
+        && isValidOptionalString(data.practitionerId, 128)
+        && isValidNonEmptyString(data.date, 20)
+        && data.amount is number && data.amount > 0
+        && data.method in ['Espèces', 'Carte bancaire', 'Virement', 'Chèque']
+        && data.payerType in ['Patient', 'Mutuelle']
+        && data.isAdvance is bool
+        && (!('chequeNumber' in data) || isValidOptionalString(data.chequeNumber, 60))
+        && (!('bankName' in data) || isValidOptionalString(data.bankName, 80))
+        && (!('chequeDepositDate' in data) || isValidOptionalString(data.chequeDepositDate, 20))
+        && (!('notes' in data) || isValidOptionalString(data.notes, 250))
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidLabOrder(data) {
+      return data.keys().hasAll(['orderNumber', 'patientId', 'patientName', 'practitionerId', 'labName', 'prosthesisType', 'status', 'labCost', 'supplierPaid', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['orderNumber', 'patientId', 'patientName', 'practitionerId', 'practitionerName', 'labName', 'prosthesisType', 'shadeVita', 'teeth', 'impressionType', 'sentDate', 'dueDate', 'nextAppointmentDate', 'status', 'labCost', 'supplierInvoiceRef', 'supplierPaid', 'notes', 'createdBy', 'createdAt', 'updatedAt'])
+        && isValidNonEmptyString(data.orderNumber, 40)
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.patientName, 150)
+        && isValidOptionalString(data.practitionerId, 128)
+        && (!('practitionerName' in data) || isValidOptionalString(data.practitionerName, 120))
+        && isValidNonEmptyString(data.labName, 120)
+        && data.prosthesisType in ['Zircone', 'Céramo-métallique', 'E-max', 'Squeletté', 'Résine amovible', 'Gouttière', 'Sur implant']
+        && (!('shadeVita' in data) || isValidOptionalString(data.shadeVita, 20))
+        && (!('teeth' in data) || isValidOptionalString(data.teeth, 60))
+        && (!('impressionType' in data) || data.impressionType in ['Empreinte physique', 'Fichier numérique STL'])
+        && (!('sentDate' in data) || isValidOptionalString(data.sentDate, 20))
+        && (!('dueDate' in data) || isValidOptionalString(data.dueDate, 20))
+        && (!('nextAppointmentDate' in data) || isValidOptionalString(data.nextAppointmentDate, 20))
+        && data.status in ['Envoyé', 'Au labo', 'Reçu au cabinet', 'En essayage', 'Validé posé', 'Retour pour correction']
+        && data.labCost is number && data.labCost >= 0
+        && (!('supplierInvoiceRef' in data) || isValidOptionalString(data.supplierInvoiceRef, 60))
+        && data.supplierPaid is bool
+        && (!('notes' in data) || isValidOptionalString(data.notes, 400))
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidMedicalDocument(data) {
+      return data.keys().hasAll(['patientId', 'patientName', 'practitionerId', 'docType', 'date', 'title', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['patientId', 'patientName', 'practitionerId', 'practitionerName', 'docType', 'date', 'title', 'prescriptions', 'bodyText', 'createdBy', 'createdAt'])
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.patientName, 150)
+        && isValidOptionalString(data.practitionerId, 128)
+        && (!('practitionerName' in data) || isValidOptionalString(data.practitionerName, 120))
+        && data.docType in ['Ordonnance', 'Certificat de présence', 'Dispense', 'Attestation de soins', 'Consentement éclairé', 'Lettre confrère', 'Feuille de soins']
+        && isValidNonEmptyString(data.date, 20)
+        && isValidNonEmptyString(data.title, 160)
+        && (!('prescriptions' in data) || (data.prescriptions is list && data.prescriptions.size() <= 20 && (data.prescriptions.size() == 0 || data.prescriptions[0] is map)))
+        && (!('bodyText' in data) || isValidOptionalString(data.bodyText, 3000))
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidRecall(data) {
+      return data.keys().hasAll(['patientId', 'patientName', 'reason', 'dueDate', 'channel', 'status', 'deliveryStatus', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['patientId', 'patientName', 'patientPhone', 'practitionerId', 'reason', 'dueDate', 'channel', 'status', 'deliveryStatus', 'lastSentAt', 'notes', 'createdBy', 'createdAt', 'updatedAt'])
+        && isValidId(data.patientId)
+        && isValidNonEmptyString(data.patientName, 150)
+        && (!('patientPhone' in data) || isValidOptionalString(data.patientPhone, 40))
+        && (!('practitionerId' in data) || isValidOptionalString(data.practitionerId, 128))
+        && isValidNonEmptyString(data.reason, 160)
+        && isValidNonEmptyString(data.dueDate, 20)
+        && data.channel in ['WhatsApp', 'SMS', 'Appel']
+        && data.status in ['À faire', 'En retard', 'Envoyé', 'RDV pris']
+        && data.deliveryStatus in ['Non envoyé', 'Délivré', 'Lu', 'Échec']
+        && (!('lastSentAt' in data) || isValidOptionalString(data.lastSentAt, 40))
+        && (!('notes' in data) || isValidOptionalString(data.notes, 300))
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidExpense(data) {
+      return data.keys().hasAll(['date', 'category', 'expenseType', 'label', 'amount', 'paymentMethod', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['date', 'category', 'expenseType', 'label', 'supplier', 'amount', 'paymentMethod', 'receiptRef', 'createdBy', 'createdAt'])
+        && isValidNonEmptyString(data.date, 20)
+        && data.category in ['Loyer', 'Salaires', 'Maintenance', 'Leasing', 'Fournitures', 'Laboratoire', 'Réparations', 'Électricité/Eau', 'Autre']
+        && data.expenseType in ['Charge fixe', 'Dépense variable']
+        && isValidNonEmptyString(data.label, 180)
+        && (!('supplier' in data) || isValidOptionalString(data.supplier, 120))
+        && data.amount is number && data.amount >= 0
+        && data.paymentMethod in ['Espèces', 'Virement', 'Carte bancaire', 'Chèque']
+        && (!('receiptRef' in data) || isValidOptionalString(data.receiptRef, 80))
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidCashClosure(data) {
+      return data.keys().hasAll(['date', 'openingBalance', 'cashInflows', 'cashOutflows', 'expectedBalance', 'countedBalance', 'discrepancy', 'locked', 'closedByUid', 'closedByName', 'createdAt'])
+        && data.keys().hasOnly(['date', 'openingBalance', 'cashInflows', 'cashOutflows', 'expectedBalance', 'countedBalance', 'discrepancy', 'notes', 'locked', 'closedByUid', 'closedByName', 'createdAt'])
+        && isValidNonEmptyString(data.date, 20)
+        && data.openingBalance is number
+        && data.cashInflows is number && data.cashInflows >= 0
+        && data.cashOutflows is number && data.cashOutflows >= 0
+        && data.expectedBalance is number
+        && data.countedBalance is number
+        && data.discrepancy is number
+        && (!('notes' in data) || isValidOptionalString(data.notes, 400))
+        && data.locked is bool
+        && isValidId(data.closedByUid)
+        && isValidNonEmptyString(data.closedByName, 120)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidInventoryItem(data) {
+      return data.keys().hasAll(['sku', 'name', 'category', 'unit', 'quantity', 'minThreshold', 'unitCost', 'updatedAt'])
+        && data.keys().hasOnly(['sku', 'name', 'category', 'unit', 'quantity', 'minThreshold', 'unitCost', 'supplier', 'expiryDate', 'updatedAt'])
+        && isValidNonEmptyString(data.sku, 40)
+        && isValidNonEmptyString(data.name, 150)
+        && data.category in ['Consommables', 'Désinfection', 'Résines & Composites', 'Ciments', 'Anesthésie', 'Implants & Chirurgie', 'Autre']
+        && isValidNonEmptyString(data.unit, 30)
+        && data.quantity is number && data.quantity >= 0
+        && data.minThreshold is number && data.minThreshold >= 0
+        && data.unitCost is number && data.unitCost >= 0
+        && (!('supplier' in data) || isValidOptionalString(data.supplier, 120))
+        && (!('expiryDate' in data) || isValidOptionalString(data.expiryDate, 20))
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidStockMovement(data) {
+      return data.keys().hasAll(['itemId', 'itemName', 'type', 'quantity', 'date', 'createdBy', 'createdAt'])
+        && data.keys().hasOnly(['itemId', 'itemName', 'type', 'quantity', 'reason', 'date', 'createdBy', 'createdAt'])
+        && isValidId(data.itemId)
+        && isValidNonEmptyString(data.itemName, 150)
+        && data.type in ['Entrée', 'Sortie']
+        && data.quantity is number && data.quantity > 0
+        && (!('reason' in data) || isValidOptionalString(data.reason, 200))
+        && isValidNonEmptyString(data.date, 20)
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidAdminDocument(data) {
+      return data.keys().hasAll(['title', 'category', 'provider', 'expiryDate', 'alertDaysBefore', 'status', 'createdBy', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['title', 'category', 'provider', 'reference', 'expiryDate', 'alertDaysBefore', 'status', 'notes', 'createdBy', 'createdAt', 'updatedAt'])
+        && isValidNonEmptyString(data.title, 160)
+        && data.category in ['Licence logicielle', "Contrat d'entretien", 'Assurance & Conformité', 'Autre']
+        && isValidNonEmptyString(data.provider, 120)
+        && (!('reference' in data) || isValidOptionalString(data.reference, 80))
+        && isValidNonEmptyString(data.expiryDate, 20)
+        && data.alertDaysBefore is number && data.alertDaysBefore >= 1 && data.alertDaysBefore <= 365
+        && data.status in ['Actif', 'À renouveler', 'Renouvelé']
+        && (!('notes' in data) || isValidOptionalString(data.notes, 300))
+        && isValidId(data.createdBy)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // =========================================================================
+    // COLLECTION RULES
+    // =========================================================================
+
+    match /staff/{userId} {
+      allow get: if isValidId(userId) && isSignedIn() && (userId == request.auth.uid || isClinicStaff());
+      allow list: if isSignedIn() && resource.data.active is bool && isClinicStaff();
+      allow create: if isValidId(userId)
+        && isSignedIn()
+        && isValidStaff(incoming())
+        && incoming().uid == userId
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || (isBootstrapAdmin() && userId == request.auth.uid && incoming().role == 'titulaire')
+          || (
+            userId == request.auth.uid
+            && 'inviteId' in incoming()
+            && isValidId(incoming().inviteId)
+            && exists(/databases/$(database)/documents/staffInvites/$(incoming().inviteId))
+            && get(/databases/$(database)/documents/staffInvites/$(incoming().inviteId)).data.email == request.auth.token.email
+            && get(/databases/$(database)/documents/staffInvites/$(incoming().inviteId)).data.role == incoming().role
+          )
+        );
+      allow update: if isValidId(userId)
+        && isSignedIn()
+        && isValidStaff(incoming())
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || (
+            userId == request.auth.uid
+            && incoming().role == existing().role
+            && incoming().active == existing().active
+            && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'specialty', 'chairName', 'color', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidId(userId) && isTitulaire() && userId != request.auth.uid;
+    }
+
+    match /staffInvites/{inviteId} {
+      allow get: if isValidId(inviteId) && isSignedIn() && (isTitulaire() || existing().email == request.auth.token.email);
+      allow list: if isSignedIn() && (isTitulaire() || resource.data.email == request.auth.token.email);
+      allow create: if isValidId(inviteId)
+        && isTitulaire()
+        && isValidStaffInvite(incoming())
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time;
+      allow update: if isValidId(inviteId)
+        && isTitulaire()
+        && isValidStaffInvite(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'role', 'specialty', 'chairName', 'color']);
+      allow delete: if isValidId(inviteId) && isTitulaire();
+    }
+
+    match /settings/{settingId} {
+      allow get: if isValidId(settingId) && isClinicStaff();
+      allow list: if isClinicStaff() && resource.data.currency is string;
+      allow create: if isValidId(settingId)
+        && isTitulaire()
+        && isValidClinicSettings(incoming())
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(settingId)
+        && isValidClinicSettings(incoming())
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || (
+            (isSecretaire() || isCollaborateur())
+            && incoming().diff(existing()).affectedKeys().hasOnly(['invoiceCounter', 'quoteCounter', 'receiptCounter', 'updatedAt'])
+          )
+        );
+      allow delete: if false;
+    }
+
+    match /patients/{patientId} {
+      allow get: if isValidId(patientId) && (
+        isTitulaire() || isSecretaire() || isAssistant()
+        || (isCollaborateur() && existing().assignedPractitionerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && resource.data.active is bool && (
+        isTitulaire() || isSecretaire() || isAssistant()
+        || (isCollaborateur() && resource.data.assignedPractitionerId == request.auth.uid)
+      );
+      allow create: if isValidId(patientId)
+        && isValidPatient(incoming())
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || isSecretaire()
+          || (isCollaborateur() && incoming().assignedPractitionerId == request.auth.uid)
+        );
+      allow update: if isValidId(patientId)
+        && isValidPatient(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || (
+            isCollaborateur()
+            && existing().assignedPractitionerId == request.auth.uid
+            && incoming().assignedPractitionerId == existing().assignedPractitionerId
+          )
+          || (
+            isSecretaire()
+            && incoming().diff(existing()).affectedKeys().hasOnly(['firstName', 'lastName', 'birthDate', 'cin', 'profession', 'phone', 'email', 'address', 'referringDoctor', 'insuranceType', 'insuranceNumber', 'coverageRate', 'assignedPractitionerId', 'active', 'updatedAt'])
+          )
+          || (
+            isAssistant()
+            && incoming().diff(existing()).affectedKeys().hasOnly(['odontogram', 'dentitionMode', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidId(patientId) && isTitulaire();
+
+      match /imaging/{imageId} {
+        allow get: if isValidId(patientId) && isValidId(imageId) && (
+          isTitulaire() || isAssistant()
+          || (isCollaborateur() && get(/databases/$(database)/documents/patients/$(patientId)).data.assignedPractitionerId == request.auth.uid)
+        );
+        allow list: if isValidId(patientId) && resource.data.patientId == patientId && (
+          isTitulaire() || isAssistant()
+          || (isCollaborateur() && get(/databases/$(database)/documents/patients/$(patientId)).data.assignedPractitionerId == request.auth.uid)
+        );
+        allow create: if isValidId(patientId) && isValidId(imageId)
+          && exists(/databases/$(database)/documents/patients/$(patientId))
+          && isValidPatientImaging(incoming())
+          && incoming().patientId == patientId
+          && incoming().uploadedBy == request.auth.uid
+          && incoming().createdAt == request.time
+          && (
+            isTitulaire() || isAssistant()
+            || (isCollaborateur() && get(/databases/$(database)/documents/patients/$(patientId)).data.assignedPractitionerId == request.auth.uid)
+          );
+        allow update: if isValidId(patientId) && isValidId(imageId)
+          && isValidPatientImaging(incoming())
+          && incoming().patientId == existing().patientId
+          && incoming().uploadedBy == existing().uploadedBy
+          && incoming().createdAt == existing().createdAt
+          && isTitulaire()
+          && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'category', 'toothRef', 'notes']);
+        allow delete: if isValidId(patientId) && isValidId(imageId) && isTitulaire();
+      }
+
+      match /clinicalNotes/{noteId} {
+        allow get: if isValidId(patientId) && isValidId(noteId) && (
+          isTitulaire() || isSecretaire() || isAssistant()
+          || (isCollaborateur() && get(/databases/$(database)/documents/patients/$(patientId)).data.assignedPractitionerId == request.auth.uid)
+        );
+        allow list: if isValidId(patientId) && resource.data.patientId == patientId && (
+          isTitulaire() || isSecretaire() || isAssistant()
+          || (isCollaborateur() && get(/databases/$(database)/documents/patients/$(patientId)).data.assignedPractitionerId == request.auth.uid)
+        );
+        allow create: if isValidId(patientId) && isValidId(noteId)
+          && exists(/databases/$(database)/documents/patients/$(patientId))
+          && isValidClinicalNote(incoming())
+          && incoming().patientId == patientId
+          && incoming().createdBy == request.auth.uid
+          && incoming().createdAt == request.time
+          && (
+            isTitulaire() || isAssistant()
+            || (isCollaborateur() && get(/databases/$(database)/documents/patients/$(patientId)).data.assignedPractitionerId == request.auth.uid)
+          );
+        allow update: if isValidId(patientId) && isValidId(noteId)
+          && isValidClinicalNote(incoming())
+          && incoming().patientId == existing().patientId
+          && incoming().createdBy == existing().createdBy
+          && incoming().createdAt == existing().createdAt
+          && (isTitulaire() || isSecretaire())
+          && incoming().diff(existing()).affectedKeys().hasOnly(['billed', 'report']);
+        allow delete: if isValidId(patientId) && isValidId(noteId) && isTitulaire();
+      }
+    }
+
+    match /appointments/{appointmentId} {
+      allow get: if isValidId(appointmentId) && (
+        isTitulaire() || isSecretaire() || isAssistant()
+        || (isCollaborateur() && existing().practitionerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && resource.data.date is string && (
+        isTitulaire() || isSecretaire() || isAssistant()
+        || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
+      );
+      allow create: if isValidId(appointmentId)
+        && isValidAppointment(incoming())
+        && exists(/databases/$(database)/documents/patients/$(incoming().patientId))
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire() || isSecretaire()
+          || (isCollaborateur() && incoming().practitionerId == request.auth.uid)
+        );
+      allow update: if isValidId(appointmentId)
+        && isValidAppointment(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || (isSecretaire() && incoming().diff(existing()).affectedKeys().hasOnly(['practitionerId', 'practitionerName', 'chair', 'date', 'startTime', 'durationMinutes', 'actType', 'categoryColor', 'status', 'arrivedAt', 'notes', 'isUrgent', 'reminderStatus', 'updatedAt']))
+          || (isCollaborateur() && existing().practitionerId == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['date', 'startTime', 'durationMinutes', 'actType', 'status', 'arrivedAt', 'notes', 'updatedAt']))
+        );
+      allow delete: if isValidId(appointmentId) && isTitulaire();
+    }
+
+    match /bookingRequests/{requestId} {
+      allow get: if isValidId(requestId) && (isTitulaire() || isSecretaire());
+      allow list: if isSignedIn() && resource.data.status is string && (isTitulaire() || isSecretaire());
+      allow create: if isValidId(requestId)
+        && isSignedIn()
+        && isValidBookingRequest(incoming())
+        && incoming().status == 'En attente'
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(requestId)
+        && (isTitulaire() || isSecretaire())
+        && isValidBookingRequest(incoming())
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'practitionerId', 'updatedAt']);
+      allow delete: if isValidId(requestId) && isTitulaire();
+    }
+
+    match /actsCatalog/{actId} {
+      allow get: if isValidId(actId) && isClinicStaff();
+      allow list: if isSignedIn() && resource.data.code is string && isClinicStaff();
+      allow create: if isValidId(actId) && isTitulaire() && isValidCatalogAct(incoming()) && incoming().createdAt == request.time;
+      allow update: if isValidId(actId) && isTitulaire() && isValidCatalogAct(incoming()) && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['code', 'category', 'name', 'defaultDuration', 'minPrice', 'maxPrice', 'defaultPrice', 'color']);
+      allow delete: if isValidId(actId) && isTitulaire();
+    }
+
+    match /treatmentPlans/{planId} {
+      allow get: if isValidId(planId) && (
+        isTitulaire() || isSecretaire()
+        || (isCollaborateur() && existing().practitionerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && resource.data.quoteNumber is string && (
+        isTitulaire() || isSecretaire()
+        || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
+      );
+      allow create: if isValidId(planId)
+        && isValidTreatmentPlan(incoming())
+        && exists(/databases/$(database)/documents/patients/$(incoming().patientId))
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (isTitulaire() || isSecretaire() || (isCollaborateur() && incoming().practitionerId == request.auth.uid));
+      allow update: if isValidId(planId)
+        && isValidTreatmentPlan(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || (
+            !existing().lockedVersion
+            && (isSecretaire() || (isCollaborateur() && existing().practitionerId == request.auth.uid))
+            && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'status', 'items', 'totalAmount', 'insuranceEstimated', 'consentSigned', 'lockedVersion', 'updatedAt'])
+          )
+          || (
+            existing().lockedVersion
+            && (isSecretaire() || (isCollaborateur() && existing().practitionerId == request.auth.uid))
+            && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'items', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidId(planId) && isTitulaire();
+    }
+
+    match /invoices/{invoiceId} {
+      allow get: if isValidId(invoiceId) && (
+        isTitulaire() || isSecretaire()
+        || (isCollaborateur() && existing().practitionerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && resource.data.invoiceNumber is string && (
+        isTitulaire() || isSecretaire()
+        || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
+      );
+      allow create: if isValidId(invoiceId)
+        && isValidInvoice(incoming())
+        && exists(/databases/$(database)/documents/patients/$(incoming().patientId))
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (isTitulaire() || isSecretaire());
+      allow update: if isValidId(invoiceId)
+        && isValidInvoice(incoming())
+        && incoming().invoiceNumber == existing().invoiceNumber
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || (
+            isSecretaire()
+            && existing().status != 'Annulée'
+            && incoming().diff(existing()).affectedKeys().hasOnly(['paidAmount', 'insurancePaidAmount', 'status', 'insuranceClaimStatus', 'dueDate', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidId(invoiceId) && isTitulaire();
+    }
+
+    match /payments/{paymentId} {
+      allow get: if isValidId(paymentId) && (
+        isTitulaire() || isSecretaire()
+        || (isCollaborateur() && existing().practitionerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && resource.data.receiptNumber is string && (
+        isTitulaire() || isSecretaire()
+        || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
+      );
+      allow create: if isValidId(paymentId)
+        && isValidPayment(incoming())
+        && exists(/databases/$(database)/documents/invoices/$(incoming().invoiceId))
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && (isTitulaire() || isSecretaire());
+      allow update: if isValidId(paymentId) && isTitulaire()
+        && isValidPayment(incoming())
+        && incoming().receiptNumber == existing().receiptNumber
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['notes', 'chequeDepositDate']);
+      allow delete: if isValidId(paymentId) && isTitulaire();
+    }
+
+    match /labOrders/{orderId} {
+      allow get: if isValidId(orderId) && (
+        isTitulaire() || isAssistant() || isSecretaire()
+        || (isCollaborateur() && existing().practitionerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && resource.data.orderNumber is string && (
+        isTitulaire() || isAssistant() || isSecretaire()
+        || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
+      );
+      allow create: if isValidId(orderId)
+        && isValidLabOrder(incoming())
+        && exists(/databases/$(database)/documents/patients/$(incoming().patientId))
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (isTitulaire() || isAssistant() || (isCollaborateur() && incoming().practitionerId == request.auth.uid));
+      allow update: if isValidId(orderId)
+        && isValidLabOrder(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || ((isAssistant() || isSecretaire() || (isCollaborateur() && existing().practitionerId == request.auth.uid))
+            && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'dueDate', 'nextAppointmentDate', 'supplierInvoiceRef', 'supplierPaid', 'labCost', 'notes', 'updatedAt']))
+        );
+      allow delete: if isValidId(orderId) && isTitulaire();
+    }
+
+    match /medicalDocuments/{docId} {
+      allow get: if isValidId(docId) && (
+        isTitulaire() || isSecretaire()
+        || (isCollaborateur() && existing().practitionerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && resource.data.docType is string && (
+        isTitulaire() || isSecretaire()
+        || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
+      );
+      allow create: if isValidId(docId)
+        && isValidMedicalDocument(incoming())
+        && exists(/databases/$(database)/documents/patients/$(incoming().patientId))
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && (isTitulaire() || (isCollaborateur() && incoming().practitionerId == request.auth.uid));
+      allow update: if isValidId(docId) && isTitulaire()
+        && isValidMedicalDocument(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'prescriptions', 'bodyText']);
+      allow delete: if isValidId(docId) && isTitulaire();
+    }
+
+    match /recalls/{recallId} {
+      allow get: if isValidId(recallId) && (isTitulaire() || isSecretaire() || isCollaborateur());
+      allow list: if isSignedIn() && resource.data.dueDate is string && (isTitulaire() || isSecretaire() || isCollaborateur());
+      allow create: if isValidId(recallId)
+        && isValidRecall(incoming())
+        && exists(/databases/$(database)/documents/patients/$(incoming().patientId))
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (isTitulaire() || isSecretaire() || isCollaborateur());
+      allow update: if isValidId(recallId)
+        && (isTitulaire() || isSecretaire() || isCollaborateur())
+        && isValidRecall(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['channel', 'status', 'deliveryStatus', 'lastSentAt', 'dueDate', 'notes', 'updatedAt']);
+      allow delete: if isValidId(recallId) && isTitulaire();
+    }
+
+    match /expenses/{expenseId} {
+      allow get: if isValidId(expenseId) && isTitulaire();
+      allow list: if isSignedIn() && resource.data.date is string && isTitulaire();
+      allow create: if isValidId(expenseId)
+        && isTitulaire()
+        && isValidExpense(incoming())
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time;
+      allow update: if isValidId(expenseId)
+        && isTitulaire()
+        && isValidExpense(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['date', 'category', 'expenseType', 'label', 'supplier', 'amount', 'paymentMethod', 'receiptRef']);
+      allow delete: if isValidId(expenseId) && isTitulaire();
+    }
+
+    match /cashClosures/{closureId} {
+      allow get: if isValidId(closureId) && (isTitulaire() || isSecretaire());
+      allow list: if isSignedIn() && resource.data.date is string && (isTitulaire() || isSecretaire());
+      allow create: if isValidId(closureId)
+        && (isTitulaire() || isSecretaire())
+        && isValidCashClosure(incoming())
+        && incoming().closedByUid == request.auth.uid
+        && incoming().createdAt == request.time;
+      allow update: if isValidId(closureId)
+        && isTitulaire()
+        && isValidCashClosure(incoming())
+        && incoming().closedByUid == existing().closedByUid
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['countedBalance', 'discrepancy', 'notes', 'locked']);
+      allow delete: if isValidId(closureId) && isTitulaire() && !existing().locked;
+    }
+
+    match /inventory/{itemId} {
+      allow get: if isValidId(itemId) && (isTitulaire() || isAssistant());
+      allow list: if isSignedIn() && resource.data.sku is string && (isTitulaire() || isAssistant());
+      allow create: if isValidId(itemId)
+        && (isTitulaire() || isAssistant())
+        && isValidInventoryItem(incoming())
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(itemId)
+        && (isTitulaire() || isAssistant())
+        && isValidInventoryItem(incoming())
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['sku', 'name', 'category', 'unit', 'quantity', 'minThreshold', 'unitCost', 'supplier', 'expiryDate', 'updatedAt']);
+      allow delete: if isValidId(itemId) && isTitulaire();
+    }
+
+    match /stockMovements/{movementId} {
+      allow get: if isValidId(movementId) && (isTitulaire() || isAssistant());
+      allow list: if isSignedIn() && resource.data.itemId is string && (isTitulaire() || isAssistant());
+      allow create: if isValidId(movementId)
+        && (isTitulaire() || isAssistant())
+        && isValidStockMovement(incoming())
+        && exists(/databases/$(database)/documents/inventory/$(incoming().itemId))
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time;
+      allow update: if false;
+      allow delete: if isValidId(movementId) && isTitulaire();
+    }
+
+    match /adminDocuments/{docId} {
+      allow get: if isValidId(docId) && isClinicStaff();
+      allow list: if isSignedIn() && resource.data.expiryDate is string && isClinicStaff();
+      allow create: if isValidId(docId)
+        && (isTitulaire() || isSecretaire())
+        && isValidAdminDocument(incoming())
+        && incoming().createdBy == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(docId)
+        && (isTitulaire() || isSecretaire())
+        && isValidAdminDocument(incoming())
+        && incoming().createdBy == existing().createdBy
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          isTitulaire()
+          || incoming().diff(existing()).affectedKeys().hasOnly(['title', 'category', 'provider', 'reference', 'expiryDate', 'alertDaysBefore', 'status', 'notes', 'updatedAt'])
+        );
+      allow delete: if isValidId(docId) && isTitulaire();
+    }
+  }
+}
