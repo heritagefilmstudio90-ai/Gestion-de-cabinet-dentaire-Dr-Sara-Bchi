@@ -14,10 +14,18 @@ import {
   persistentLocalCache,
   persistentMultipleTabManager,
   getFirestore,
+  disableNetwork,
   enableNetwork,
   doc,
   getDocFromServer,
   waitForPendingWrites,
+  onSnapshot,
+  DocumentData,
+  DocumentReference,
+  DocumentSnapshot,
+  Query,
+  QuerySnapshot,
+  Unsubscribe,
   Firestore,
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
@@ -202,6 +210,8 @@ function extractErrorCodeAndMessage(error: unknown): { code: string; message: st
     const lower = message.toLowerCase();
     if (lower.includes('permission-denied') || lower.includes('missing or insufficient permissions')) {
       code = 'permission-denied';
+    } else if (lower.includes('target id already exists') || lower.includes('already-exists')) {
+      code = 'already-exists';
     } else if (lower.includes('client is offline') || lower.includes('unavailable') || lower.includes('failed to get document because the client is offline')) {
       code = 'unavailable';
     } else if (lower.includes('resource-exhausted') || lower.includes('quota exceeded')) {
@@ -250,6 +260,14 @@ function classifySyncError(
       category: 'permission',
       diagnosticHint:
         "Accès refusé par les règles Firestore pour ce rôle ou ce document. Vérifiez le rôle attribué dans Équipe & Rôles ou actualisez la session.",
+    };
+  }
+
+  if (code === 'already-exists' || lower.includes('target id already exists')) {
+    return {
+      category: 'listener',
+      diagnosticHint:
+        'Conflit temporaire d’identifiant de flux temps réel Firestore. La réinitialisation automatique du flux rétablit l’écoute sans perte de données.',
     };
   }
 
@@ -362,10 +380,16 @@ export function autoResolveRecoverableSyncErrors() {
   const nowIso = new Date().toISOString();
   let changed = false;
   syncErrorLogsState = syncErrorLogsState.map((entry) => {
+    const isTargetCollision =
+      entry.errorCode === 'already-exists' ||
+      entry.message.toLowerCase().includes('target id already exists');
     if (
       !entry.resolved &&
       !entry.retryPayload &&
-      (entry.category === 'offline' || entry.category === 'listener' || entry.category === 'timeout')
+      (entry.category === 'offline' ||
+        entry.category === 'listener' ||
+        entry.category === 'timeout' ||
+        isTargetCollision)
     ) {
       changed = true;
       return { ...entry, resolved: true, resolvedAt: nowIso };
@@ -382,39 +406,26 @@ export function markCollectionSyncHealthy(pathPrefix: string) {
   if (!pathPrefix) return;
   const cleanPrefix = pathPrefix.trim();
   if (!cleanPrefix) return;
-  const hasMatching = syncErrorLogsState.some(
-    (entry) =>
-      !entry.resolved &&
-      !entry.retryPayload &&
-      (entry.path === cleanPrefix ||
-        entry.path.startsWith(`${cleanPrefix}/`) ||
-        entry.collectionName === cleanPrefix) &&
-      (entry.operationType === OperationType.LIST ||
-        entry.operationType === OperationType.GET ||
-        entry.category === 'offline' ||
-        entry.category === 'listener' ||
-        entry.category === 'timeout')
-  );
-  if (!hasMatching) return;
+  const matchesRecoverable = (entry: SyncErrorLog) =>
+    !entry.resolved &&
+    !entry.retryPayload &&
+    (entry.path === cleanPrefix ||
+      entry.path.startsWith(`${cleanPrefix}/`) ||
+      entry.collectionName === cleanPrefix) &&
+    (entry.operationType === OperationType.LIST ||
+      entry.operationType === OperationType.GET ||
+      entry.category === 'offline' ||
+      entry.category === 'listener' ||
+      entry.category === 'timeout' ||
+      entry.errorCode === 'already-exists' ||
+      entry.message.toLowerCase().includes('target id already exists'));
+
+  if (!syncErrorLogsState.some(matchesRecoverable)) return;
 
   const nowIso = new Date().toISOString();
-  syncErrorLogsState = syncErrorLogsState.map((entry) => {
-    if (
-      !entry.resolved &&
-      !entry.retryPayload &&
-      (entry.path === cleanPrefix ||
-        entry.path.startsWith(`${cleanPrefix}/`) ||
-        entry.collectionName === cleanPrefix) &&
-      (entry.operationType === OperationType.LIST ||
-        entry.operationType === OperationType.GET ||
-        entry.category === 'offline' ||
-        entry.category === 'listener' ||
-        entry.category === 'timeout')
-    ) {
-      return { ...entry, resolved: true, resolvedAt: nowIso };
-    }
-    return entry;
-  });
+  syncErrorLogsState = syncErrorLogsState.map((entry) =>
+    matchesRecoverable(entry) ? { ...entry, resolved: true, resolvedAt: nowIso } : entry
+  );
   persistSyncErrors(syncErrorLogsState);
   emitSyncErrorLogs();
 }
@@ -557,11 +568,182 @@ export async function testConnection(): Promise<boolean> {
   }
 }
 
-export async function resyncFirestoreNetwork(): Promise<boolean> {
+const MAX_TARGET_ID_COLLISION_RETRIES = 3;
+const WATCH_RESET_COOLDOWN_MS = 2500;
+let watchStreamResetPromise: Promise<boolean> | null = null;
+let lastWatchStreamResetAt = 0;
+
+export function isTargetIdCollisionError(error: unknown): boolean {
+  const { code, message } = extractErrorCodeAndMessage(error);
+  const lower = message.toLowerCase();
+  return (
+    code === 'already-exists' ||
+    lower.includes('target id already exists')
+  );
+}
+
+export async function resetFirestoreWatchStream(force = false): Promise<boolean> {
+  if (typeof navigator !== 'undefined' && !navigator.onLine) return false;
+  if (watchStreamResetPromise) return watchStreamResetPromise;
+
+  const now = Date.now();
+  if (!force && now - lastWatchStreamResetAt < WATCH_RESET_COOLDOWN_MS) {
+    return true;
+  }
+
+  watchStreamResetPromise = (async () => {
+    try {
+      lastWatchStreamResetAt = Date.now();
+      await disableNetwork(db);
+      await new Promise<void>((resolve) => {
+        if (typeof window !== 'undefined') {
+          window.setTimeout(resolve, 160);
+        } else {
+          setTimeout(resolve, 160);
+        }
+      });
+      await enableNetwork(db);
+      return true;
+    } catch {
+      try {
+        await enableNetwork(db);
+      } catch {
+        // Ignore follow-up enableNetwork errors
+      }
+      return false;
+    } finally {
+      watchStreamResetPromise = null;
+    }
+  })();
+
+  return watchStreamResetPromise;
+}
+
+export function subscribeFirestoreDoc<T = DocumentData>(
+  ref: DocumentReference<T>,
+  onNext: (snap: DocumentSnapshot<T>) => void,
+  path: string
+): () => void {
+  let disposed = false;
+  let retryCount = 0;
+  let currentUnsub: Unsubscribe | null = null;
+  let retryTimer: number | null = null;
+
+  const attach = () => {
+    if (disposed) return;
+    currentUnsub = onSnapshot(
+      ref,
+      (snap) => {
+        if (disposed) return;
+        retryCount = 0;
+        onNext(snap);
+      },
+      (err) => {
+        if (disposed) return;
+        if (isTargetIdCollisionError(err) && retryCount < MAX_TARGET_ID_COLLISION_RETRIES && auth.currentUser) {
+          retryCount += 1;
+          const unsubFailed = currentUnsub;
+          currentUnsub = null;
+          unsubFailed?.();
+          console.warn(
+            `Réinitialisation automatique du flux Firestore (${path}, tentative ${retryCount}/${MAX_TARGET_ID_COLLISION_RETRIES}).`
+          );
+          void resetFirestoreWatchStream().then(() => {
+            if (disposed || !auth.currentUser) return;
+            const jitter = 80 + retryCount * 140 + Math.floor(Math.random() * 100);
+            retryTimer = window.setTimeout(() => {
+              retryTimer = null;
+              attach();
+            }, jitter);
+          });
+          return;
+        }
+        reportFirestoreListenerError(err, OperationType.GET, path);
+      }
+    );
+  };
+
+  attach();
+
+  return () => {
+    disposed = true;
+    if (retryTimer !== null) {
+      window.clearTimeout(retryTimer);
+      retryTimer = null;
+    }
+    const unsub = currentUnsub;
+    currentUnsub = null;
+    unsub?.();
+  };
+}
+
+export function subscribeFirestoreQuery<T = DocumentData>(
+  targetQuery: Query<T>,
+  onNext: (snap: QuerySnapshot<T>) => void,
+  path: string
+): () => void {
+  let disposed = false;
+  let retryCount = 0;
+  let currentUnsub: Unsubscribe | null = null;
+  let retryTimer: number | null = null;
+
+  const attach = () => {
+    if (disposed) return;
+    currentUnsub = onSnapshot(
+      targetQuery,
+      (snap) => {
+        if (disposed) return;
+        retryCount = 0;
+        onNext(snap);
+      },
+      (err) => {
+        if (disposed) return;
+        if (isTargetIdCollisionError(err) && retryCount < MAX_TARGET_ID_COLLISION_RETRIES && auth.currentUser) {
+          retryCount += 1;
+          const unsubFailed = currentUnsub;
+          currentUnsub = null;
+          unsubFailed?.();
+          console.warn(
+            `Réinitialisation automatique du flux Firestore (${path}, tentative ${retryCount}/${MAX_TARGET_ID_COLLISION_RETRIES}).`
+          );
+          void resetFirestoreWatchStream().then(() => {
+            if (disposed || !auth.currentUser) return;
+            const jitter = 80 + retryCount * 140 + Math.floor(Math.random() * 100);
+            retryTimer = window.setTimeout(() => {
+              retryTimer = null;
+              attach();
+            }, jitter);
+          });
+          return;
+        }
+        reportFirestoreListenerError(err, OperationType.LIST, path);
+      }
+    );
+  };
+
+  attach();
+
+  return () => {
+    disposed = true;
+    if (retryTimer !== null) {
+      window.clearTimeout(retryTimer);
+      retryTimer = null;
+    }
+    const unsub = currentUnsub;
+    currentUnsub = null;
+    unsub?.();
+  };
+}
+
+export async function resyncFirestoreNetwork(options?: { forceReset?: boolean }): Promise<boolean> {
   if (!auth.currentUser) return false;
   if (typeof navigator !== 'undefined' && !navigator.onLine) return false;
   try {
-    await enableNetwork(db);
+    if (options?.forceReset) {
+      await resetFirestoreWatchStream(true);
+    } else {
+      await enableNetwork(db);
+    }
     await Promise.race([
       waitForPendingWrites(db),
       new Promise<void>((resolve) => window.setTimeout(resolve, 4000)),

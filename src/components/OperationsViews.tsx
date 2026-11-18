@@ -14,6 +14,7 @@ import {
   KeyRound,
   Lock,
   Maximize2,
+  MessageCircle,
   MessageSquare,
   Minimize2,
   Monitor,
@@ -34,8 +35,11 @@ import { useFullscreen } from '../hooks/useFullscreen';
 import { AccessDeniedView } from './AccessDeniedView';
 import {
   fetchSystemHealth,
+  GatewayVerificationReport,
   sendSmsViaGateway,
+  sendWhatsAppViaGateway,
   SystemHealthReport,
+  verifyMessagingGateways,
 } from '../lib/smsGateway';
 import { formatStaffDisplayLogin, generateSecurePassword } from '../lib/authIdentifier';
 import { DOCUMENT_TEMPLATES, STOMATOLOGY_MOLECULES } from '../data/dentalCatalog';
@@ -2690,6 +2694,10 @@ export const SettingsView: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'general' | 'sms'>('general');
   const [sendingNow, setSendingNow] = useState(false);
   const [sendingTest, setSendingTest] = useState(false);
+  const [sendingWhatsAppTest, setSendingWhatsAppTest] = useState(false);
+  const [verifyingGateways, setVerifyingGateways] = useState(false);
+  const [gatewayVerifyReport, setGatewayVerifyReport] =
+    useState<GatewayVerificationReport | null>(null);
   const [savingSettings, setSavingSettings] = useState(false);
   const [checkingDiagnostics, setCheckingDiagnostics] = useState(false);
   const [systemHealth, setSystemHealth] = useState<SystemHealthReport | null>(null);
@@ -2703,6 +2711,7 @@ export const SettingsView: React.FC = () => {
     clinicSettings?.phone || '+212 661 00 00 00'
   );
   const [testResult, setTestResult] = useState<{
+    channel: 'SMS' | 'WhatsApp';
     phone: string;
     patientName: string;
     message: string;
@@ -2711,6 +2720,7 @@ export const SettingsView: React.FC = () => {
     mode: string;
     delivered: boolean;
     providerId?: string | null;
+    waUrl?: string | null;
     detail?: string;
   } | null>(null);
   const [form, setForm] = useState({
@@ -2877,6 +2887,7 @@ export const SettingsView: React.FC = () => {
         return;
       }
       setTestResult({
+        channel: 'SMS',
         phone: cleanedPhone,
         patientName: targetName,
         message: smsPreview,
@@ -2903,6 +2914,95 @@ export const SettingsView: React.FC = () => {
       );
     } finally {
       setSendingTest(false);
+    }
+  };
+
+  const handleSendTestWhatsApp = async () => {
+    const cleanedPhone = testPhone.trim();
+    if (cleanedPhone.replace(/\D/g, '').length < 6) {
+      showToast('Veuillez saisir un numéro WhatsApp valide pour le test.', 'error');
+      return;
+    }
+    setSendingWhatsAppTest(true);
+    try {
+      const targetName = selectedTestPatientName || 'Patient Test';
+      const gwRes = await sendWhatsAppViaGateway({
+        to: cleanedPhone,
+        message: smsPreview,
+        patientName: targetName,
+        appointmentDate: formatDateFR(todayISO()),
+        appointmentTime: '10:30',
+        actType: 'Consultation de contrôle',
+        clinicName: form.clinicName || clinicSettings?.clinicName,
+      });
+      const nowTime = new Date().toLocaleTimeString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+      if (!gwRes.ok) {
+        showToast(gwRes.error || "Erreur lors du test d'envoi WhatsApp.", 'error');
+        return;
+      }
+      setTestResult({
+        channel: 'WhatsApp',
+        phone: cleanedPhone,
+        patientName: targetName,
+        message: smsPreview,
+        sentAt: nowTime,
+        segments: smsSegmentCount,
+        mode: gwRes.mode,
+        delivered: gwRes.delivered,
+        providerId: gwRes.providerId,
+        waUrl: gwRes.waUrl,
+        detail: gwRes.detail,
+      });
+      logActivity({
+        category: 'administration',
+        title: gwRes.delivered
+          ? `Test WhatsApp Business réel envoyé (${gwRes.mode})`
+          : 'Test WhatsApp généré (lien direct wa.me)',
+        detail: `Destinataire : ${cleanedPhone} (${targetName}) · ${smsPreview}`,
+        section: 'settings',
+      });
+      showToast(
+        gwRes.delivered
+          ? `Message WhatsApp réel expédié vers ${cleanedPhone} via Meta Cloud API.`
+          : `Lien WhatsApp prêt pour ${cleanedPhone} (API Meta non encore configurée).`,
+        'success'
+      );
+    } finally {
+      setSendingWhatsAppTest(false);
+    }
+  };
+
+  const handleVerifyGateways = async () => {
+    setVerifyingGateways(true);
+    try {
+      const report = await verifyMessagingGateways();
+      if (!report) {
+        showToast('Impossible de vérifier les passerelles serveur pour le moment.', 'error');
+        return;
+      }
+      setGatewayVerifyReport(report);
+      setSystemHealth((prev) =>
+        prev
+          ? {
+              ...prev,
+              smsGateway: report.smsGateway,
+              whatsappGateway: report.whatsappGateway,
+            }
+          : prev
+      );
+      if (report.twilio.reachable && report.metaWhatsApp.reachable) {
+        showToast('Twilio SMS et Meta WhatsApp Cloud API vérifiés avec succès.', 'success');
+      } else if (report.twilio.reachable || report.metaWhatsApp.reachable) {
+        showToast('Vérification terminée : une passerelle est active, consultez les détails ci-dessous.', 'info');
+      } else {
+        showToast('Variables Twilio / Meta manquantes ou invalides côté serveur.', 'info');
+      }
+    } finally {
+      setVerifyingGateways(false);
     }
   };
 
@@ -3027,7 +3127,7 @@ export const SettingsView: React.FC = () => {
           }`}
         >
           <MessageSquare className="h-3.5 w-3.5 shrink-0" />
-          <span>Paramètres SMS</span>
+          <span>SMS &amp; WhatsApp</span>
           {dueSmsAppointments.length > 0 && (
             <span className="font-mono tabular-nums text-[11px] text-[#1598C7] dark:text-sky-400">
               ({dueSmsAppointments.length})
@@ -3325,19 +3425,19 @@ export const SettingsView: React.FC = () => {
               </p>
             </div>
 
-            {/* Test d'envoi SMS */}
+            {/* Test d'envoi SMS & WhatsApp */}
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/30 p-4 space-y-3">
               <div>
                 <p className="font-semibold text-slate-900 dark:text-slate-100">
-                  Test d'envoi SMS
+                  Test d'envoi direct (Twilio SMS &amp; Meta WhatsApp)
                 </p>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                  Vérifiez le rendu final de votre modèle sur un numéro de test sans impacter les rappels planifiés
+                  Testez l'expédition réelle SMS (Twilio) ou WhatsApp (Meta Cloud API) sur un numéro sans impacter les rappels planifiés
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-end">
-                <div className="sm:col-span-5">
+                <div className="sm:col-span-4">
                   <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
                     Patient exemple (optionnel)
                   </label>
@@ -3368,22 +3468,34 @@ export const SettingsView: React.FC = () => {
                   />
                 </div>
 
-                <div className="sm:col-span-3">
+                <div className="sm:col-span-2">
                   <button
                     type="button"
-                    disabled={sendingTest}
+                    disabled={sendingTest || sendingWhatsAppTest}
                     onClick={handleSendTestSms}
                     className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#1598C7] hover:bg-[#117fa7] px-3 py-2 text-xs font-medium text-white disabled:opacity-60 whitespace-nowrap"
                   >
                     <Send className="h-3.5 w-3.5 shrink-0" />
-                    <span>{sendingTest ? 'Envoi...' : "Tester l'envoi"}</span>
+                    <span>{sendingTest ? 'SMS...' : 'Tester SMS'}</span>
+                  </button>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <button
+                    type="button"
+                    disabled={sendingWhatsAppTest || sendingTest}
+                    onClick={handleSendTestWhatsApp}
+                    className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-3 py-2 text-xs font-medium text-white disabled:opacity-60 whitespace-nowrap"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5 shrink-0" />
+                    <span>{sendingWhatsAppTest ? 'Meta...' : 'Tester WA'}</span>
                   </button>
                 </div>
               </div>
 
               {testResult && (
                 <div
-                  className={`rounded-lg border p-3 space-y-1 ${
+                  className={`rounded-lg border p-3 space-y-1.5 ${
                     testResult.delivered
                       ? 'border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/70 dark:bg-emerald-950/30'
                       : 'border-amber-200 dark:border-amber-900/60 bg-amber-50/70 dark:bg-amber-950/30'
@@ -3400,12 +3512,12 @@ export const SettingsView: React.FC = () => {
                       <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
                       <span>
                         {testResult.delivered
-                          ? `SMS réel envoyé (${testResult.mode}) vers ${testResult.phone}`
-                          : `Test vérifié (${testResult.mode}) pour ${testResult.phone}`}
+                          ? `${testResult.channel} réel envoyé (${testResult.mode}) vers ${testResult.phone}`
+                          : `Test ${testResult.channel} vérifié (${testResult.mode}) pour ${testResult.phone}`}
                       </span>
                     </span>
                     <span className="font-mono tabular-nums text-[11px] text-slate-600 dark:text-slate-300">
-                      {testResult.sentAt} · {testResult.segments} SMS
+                      {testResult.sentAt} · {testResult.segments} seg.
                       {testResult.providerId ? ` · Réf ${testResult.providerId}` : ''}
                     </span>
                   </div>
@@ -3417,8 +3529,224 @@ export const SettingsView: React.FC = () => {
                       {testResult.detail}
                     </p>
                   )}
+                  {testResult.waUrl && (
+                    <a
+                      href={testResult.waUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400 hover:underline"
+                    >
+                      <ExternalLink className="h-3 w-3 shrink-0" />
+                      <span>Ouvrir le lien WhatsApp généré (wa.me)</span>
+                    </a>
+                  )}
                 </div>
               )}
+            </div>
+
+            {/* Configuration Twilio & Meta WhatsApp Business Cloud API (Variables serveur sécurisées) */}
+            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                  <p className="font-semibold text-slate-900 dark:text-slate-100">
+                    Passerelles Opérateur : Twilio SMS &amp; Meta WhatsApp Cloud API
+                  </p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                    Par sécurité, vos jetons et secrets API sont lus uniquement côté serveur (Variables d'environnement / Secrets).
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  disabled={verifyingGateways}
+                  onClick={() => void handleVerifyGateways()}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 text-[11px] font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-60 whitespace-nowrap"
+                >
+                  <RefreshCw className={`h-3.5 w-3.5 ${verifyingGateways ? 'animate-spin' : ''}`} />
+                  <span>{verifyingGateways ? 'Vérification...' : 'Vérifier Twilio & Meta'}</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Twilio Checklist */}
+                <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/30 p-3.5 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">
+                      1. Twilio SMS
+                    </span>
+                    <span
+                      className={`text-[11px] font-semibold ${
+                        systemHealth?.smsGateway.provider === 'twilio'
+                          ? 'text-emerald-700 dark:text-emerald-400'
+                          : 'text-amber-700 dark:text-amber-400'
+                      }`}
+                    >
+                      {systemHealth?.smsGateway.provider === 'twilio'
+                        ? 'Actif côté serveur'
+                        : 'En attente de clés'}
+                    </span>
+                  </div>
+                  <div className="space-y-1 text-[11px]">
+                    {[
+                      {
+                        key: 'TWILIO_ACCOUNT_SID',
+                        ok: Boolean(systemHealth?.smsGateway.envChecklist?.accountSid),
+                        note: 'ACxxxxxxxx...',
+                      },
+                      {
+                        key: 'TWILIO_AUTH_TOKEN',
+                        ok: Boolean(systemHealth?.smsGateway.envChecklist?.authToken),
+                        note: 'Secret Twilio Console',
+                      },
+                      {
+                        key: 'TWILIO_FROM_NUMBER',
+                        ok: Boolean(systemHealth?.smsGateway.envChecklist?.senderNumberOrService),
+                        note: '+212... ou TWILIO_MESSAGING_SERVICE_SID',
+                      },
+                    ].map((item) => (
+                      <div key={item.key} className="flex items-center justify-between gap-2">
+                        <code className="font-mono text-[10px] text-slate-700 dark:text-slate-300">
+                          {item.key}
+                        </code>
+                        <span
+                          className={`text-[10px] font-medium whitespace-nowrap ${
+                            item.ok
+                              ? 'text-emerald-700 dark:text-emerald-400'
+                              : 'text-slate-500 dark:text-slate-400'
+                          }`}
+                        >
+                          {item.ok ? '✓ Configurée' : `Manquante (${item.note})`}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  {gatewayVerifyReport?.twilio && (
+                    <p
+                      className={`text-[11px] pt-1 border-t border-slate-200/70 dark:border-slate-700/60 ${
+                        gatewayVerifyReport.twilio.reachable
+                          ? 'text-emerald-700 dark:text-emerald-400'
+                          : 'text-amber-700 dark:text-amber-300'
+                      }`}
+                    >
+                      {gatewayVerifyReport.twilio.reachable
+                        ? `Connecté : ${gatewayVerifyReport.twilio.accountName} (${gatewayVerifyReport.twilio.accountStatus} · ${gatewayVerifyReport.twilio.accountType})`
+                        : gatewayVerifyReport.twilio.error ||
+                          'Ajoutez vos 3 variables Twilio dans Secrets puis cliquez sur Vérifier.'}
+                    </p>
+                  )}
+                </div>
+
+                {/* Meta WhatsApp Checklist */}
+                <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/30 p-3.5 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">
+                      2. Meta WhatsApp Cloud API
+                    </span>
+                    <span
+                      className={`text-[11px] font-semibold ${
+                        systemHealth?.whatsappGateway?.provider === 'whatsapp_cloud_api'
+                          ? 'text-emerald-700 dark:text-emerald-400'
+                          : 'text-amber-700 dark:text-amber-400'
+                      }`}
+                    >
+                      {systemHealth?.whatsappGateway?.provider === 'whatsapp_cloud_api'
+                        ? 'Actif côté serveur'
+                        : 'En attente de clés'}
+                    </span>
+                  </div>
+                  <div className="space-y-1 text-[11px]">
+                    {[
+                      {
+                        key: 'WHATSAPP_BUSINESS_TOKEN',
+                        ok: Boolean(systemHealth?.whatsappGateway?.envChecklist?.accessToken),
+                        note: 'Token System User Meta',
+                      },
+                      {
+                        key: 'WHATSAPP_PHONE_NUMBER_ID',
+                        ok: Boolean(systemHealth?.whatsappGateway?.envChecklist?.phoneNumberId),
+                        note: 'ID numéro WhatsApp Business',
+                      },
+                      {
+                        key: 'WHATSAPP_TEMPLATE_NAME',
+                        ok: Boolean(systemHealth?.whatsappGateway?.envChecklist?.templateName),
+                        note: 'Optionnel (ex. hello_world)',
+                      },
+                      {
+                        key: 'WHATSAPP_WEBHOOK_VERIFY_TOKEN',
+                        ok: Boolean(systemHealth?.whatsappGateway?.envChecklist?.webhookVerifyToken),
+                        note: 'Optionnel (Webhook Meta)',
+                      },
+                    ].map((item) => (
+                      <div key={item.key} className="flex items-center justify-between gap-2">
+                        <code className="font-mono text-[10px] text-slate-700 dark:text-slate-300">
+                          {item.key}
+                        </code>
+                        <span
+                          className={`text-[10px] font-medium whitespace-nowrap ${
+                            item.ok
+                              ? 'text-emerald-700 dark:text-emerald-400'
+                              : 'text-slate-500 dark:text-slate-400'
+                          }`}
+                        >
+                          {item.ok ? '✓ Configurée' : item.note}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  {gatewayVerifyReport?.metaWhatsApp && (
+                    <p
+                      className={`text-[11px] pt-1 border-t border-slate-200/70 dark:border-slate-700/60 ${
+                        gatewayVerifyReport.metaWhatsApp.reachable
+                          ? 'text-emerald-700 dark:text-emerald-400'
+                          : 'text-amber-700 dark:text-amber-300'
+                      }`}
+                    >
+                      {gatewayVerifyReport.metaWhatsApp.reachable
+                        ? `Connecté : ${gatewayVerifyReport.metaWhatsApp.verifiedName} (${gatewayVerifyReport.metaWhatsApp.displayPhoneNumber || 'numéro vérifié'})`
+                        : gatewayVerifyReport.metaWhatsApp.error ||
+                          'Ajoutez WHATSAPP_BUSINESS_TOKEN et WHATSAPP_PHONE_NUMBER_ID dans Secrets.'}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {typeof window !== 'undefined' && (() => {
+                const isPrivateDevPreview = window.location.origin.includes('://ais-dev-');
+                const publicOrigin = isPrivateDevPreview
+                  ? window.location.origin.replace('://ais-dev-', '://ais-pre-')
+                  : window.location.origin;
+                const publicWebhookUrl = `${publicOrigin}/api/whatsapp/webhook`;
+                return (
+                  <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 px-3 py-2.5 space-y-1.5 text-[11px]">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <span className="font-medium text-slate-700 dark:text-slate-300">
+                          URL publique Callback Webhook Meta WhatsApp :{' '}
+                        </span>
+                        <code className="font-mono text-[10px] text-slate-700 dark:text-slate-200 break-all">
+                          {publicWebhookUrl}
+                        </code>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          void navigator.clipboard?.writeText(publicWebhookUrl).then(() => {
+                            showToast('URL publique Webhook Meta copiée.', 'success');
+                          });
+                        }}
+                        className="inline-flex items-center gap-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-1 text-[10px] font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 shrink-0"
+                      >
+                        <Copy className="h-3 w-3" />
+                        <span>Copier URL publique</span>
+                      </button>
+                    </div>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                      {isPrivateDevPreview
+                        ? "L’URL privée ais-dev-... est protégée par connexion Google et bloquée pour Meta : publiez/partagez l’application (bouton Share) pour activer l’URL publique ais-pre-... ci-dessus. Note : l’envoi sortant SMS (Twilio) et WhatsApp (Meta) fonctionne sans Webhook."
+                        : "Note : le Webhook est optionnel et sert uniquement à recevoir les accusés/réponses entrants depuis Meta."}
+                    </p>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Envoi groupé des rappels dus */}

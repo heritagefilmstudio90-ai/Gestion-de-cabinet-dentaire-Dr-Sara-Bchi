@@ -129,7 +129,11 @@ function clearDevServiceWorkers() {
   }
 }
 
-if (import.meta.env.PROD) {
+const isNativeCapacitor =
+  typeof window !== 'undefined' &&
+  (window.location.protocol === 'capacitor:' || 'Capacitor' in window);
+
+if (!isNativeCapacitor) {
   initServiceWorkerLifecycle();
 } else {
   clearDevServiceWorkers();

@@ -4,6 +4,12 @@ export interface SmsGatewayStatus {
   configured: boolean;
   provider: 'twilio' | 'webhook' | 'simulation';
   senderLabel: string;
+  envChecklist?: {
+    accountSid: boolean;
+    authToken: boolean;
+    senderNumberOrService: boolean;
+    webhookUrl: boolean;
+  };
 }
 
 export interface WhatsAppGatewayStatus {
@@ -12,6 +18,15 @@ export interface WhatsAppGatewayStatus {
   senderLabel: string;
   graphVersion?: string;
   templateMode?: boolean;
+  templateName?: string | null;
+  templateLang?: string;
+  envChecklist?: {
+    accessToken: boolean;
+    phoneNumberId: boolean;
+    templateName: boolean;
+    webhookVerifyToken: boolean;
+    webhookUrl: boolean;
+  };
 }
 
 export interface SystemHealthReport {
@@ -25,6 +40,29 @@ export interface SystemHealthReport {
   smsGateway: SmsGatewayStatus;
   whatsappGateway?: WhatsAppGatewayStatus;
   serverTime: string;
+}
+
+export interface GatewayVerificationReport {
+  ok: boolean;
+  twilio: {
+    configured: boolean;
+    reachable: boolean;
+    accountName?: string;
+    accountStatus?: string;
+    accountType?: string;
+    error?: string;
+  };
+  metaWhatsApp: {
+    configured: boolean;
+    reachable: boolean;
+    verifiedName?: string;
+    displayPhoneNumber?: string;
+    qualityRating?: string;
+    error?: string;
+  };
+  smsGateway: SmsGatewayStatus;
+  whatsappGateway: WhatsAppGatewayStatus;
+  checkedAt: string;
 }
 
 export interface SmsSendResult {
@@ -77,6 +115,28 @@ export async function fetchSystemHealth(): Promise<SystemHealthReport | null> {
     const res = await fetchWithTimeout(resolveApiUrl('/api/health'), { cache: 'no-store' }, 8000);
     if (!res.ok) return null;
     return (await res.json()) as SystemHealthReport;
+  } catch {
+    return null;
+  }
+}
+
+export async function verifyMessagingGateways(): Promise<GatewayVerificationReport | null> {
+  try {
+    const idToken = await auth.currentUser?.getIdToken();
+    if (!idToken) return null;
+    const res = await fetchWithTimeout(
+      resolveApiUrl('/api/gateways/verify'),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        },
+      },
+      12000
+    );
+    if (!res.ok) return null;
+    return (await res.json()) as GatewayVerificationReport;
   } catch {
     return null;
   }

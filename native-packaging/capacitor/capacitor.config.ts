@@ -11,6 +11,8 @@ const config: CapacitorConfig = {
     allowNavigation: [
       '*.firebaseapp.com',
       '*.googleapis.com',
+      '*.google.com',
+      '*.gstatic.com',
       'accounts.google.com',
       '*.run.app',
     ],

@@ -408,7 +408,7 @@ export const LoginScreen: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <WifiOff className="h-3.5 w-3.5 text-[#1598C7] dark:text-sky-400 shrink-0" />
-                  <span>Synchronisation temps réel et continuité hors ligne</span>
+                  <span>Synchronisation temps réel et continuité hors ligne (PC, Mac, Android &amp; iOS)</span>
                 </div>
               </div>
             </div>

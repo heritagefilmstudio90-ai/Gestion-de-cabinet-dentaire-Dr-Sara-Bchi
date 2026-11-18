@@ -30,17 +30,27 @@ function getSmsGatewayStatus() {
   const twilioSid = (process.env.TWILIO_ACCOUNT_SID || '').trim();
   const twilioToken = (process.env.TWILIO_AUTH_TOKEN || '').trim();
   const twilioFrom = (process.env.TWILIO_FROM_NUMBER || '').trim();
+  const twilioMessagingServiceSid = (process.env.TWILIO_MESSAGING_SERVICE_SID || '').trim();
   const webhookUrl = (process.env.SMS_WEBHOOK_URL || '').trim();
 
-  if (twilioSid && twilioToken && twilioFrom) {
+  const envChecklist = {
+    accountSid: Boolean(twilioSid),
+    authToken: Boolean(twilioToken),
+    senderNumberOrService: Boolean(twilioFrom || twilioMessagingServiceSid),
+    webhookUrl: Boolean(webhookUrl),
+  };
+
+  if (twilioSid && twilioToken && (twilioFrom || twilioMessagingServiceSid)) {
+    const senderRaw = twilioFrom || twilioMessagingServiceSid;
     const maskedFrom =
-      twilioFrom.length > 6
-        ? `${twilioFrom.slice(0, 4)}••••${twilioFrom.slice(-3)}`
-        : twilioFrom;
+      senderRaw.length > 6
+        ? `${senderRaw.slice(0, 4)}••••${senderRaw.slice(-3)}`
+        : senderRaw;
     return {
       configured: true,
       provider: 'twilio' as const,
       senderLabel: `Twilio (${maskedFrom})`,
+      envChecklist,
     };
   }
 
@@ -55,13 +65,15 @@ function getSmsGatewayStatus() {
       configured: true,
       provider: 'webhook' as const,
       senderLabel: `Passerelle HTTP (${hostLabel})`,
+      envChecklist,
     };
   }
 
   return {
     configured: false,
     provider: 'simulation' as const,
-    senderLabel: 'Mode Test / Simulation (aucune passerelle SMS configurée)',
+    senderLabel: 'Mode Test / Simulation (configurez TWILIO_* dans Secrets)',
+    envChecklist,
   };
 }
 
@@ -74,7 +86,17 @@ function getWhatsAppGatewayStatus() {
   const phoneNumberId = (process.env.WHATSAPP_PHONE_NUMBER_ID || '').trim();
   const graphVersion = (process.env.WHATSAPP_GRAPH_VERSION || 'v21.0').trim() || 'v21.0';
   const templateName = (process.env.WHATSAPP_TEMPLATE_NAME || '').trim();
+  const templateLang = (process.env.WHATSAPP_TEMPLATE_LANG || 'fr').trim() || 'fr';
+  const webhookVerifyToken = (process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN || '').trim();
   const webhookUrl = (process.env.WHATSAPP_WEBHOOK_URL || '').trim();
+
+  const envChecklist = {
+    accessToken: Boolean(businessToken),
+    phoneNumberId: Boolean(phoneNumberId),
+    templateName: Boolean(templateName),
+    webhookVerifyToken: Boolean(webhookVerifyToken),
+    webhookUrl: Boolean(webhookUrl),
+  };
 
   if (businessToken && phoneNumberId) {
     const maskedId =
@@ -84,9 +106,12 @@ function getWhatsAppGatewayStatus() {
     return {
       configured: true,
       provider: 'whatsapp_cloud_api' as const,
-      senderLabel: `WhatsApp Business Cloud API (ID ${maskedId})`,
+      senderLabel: `Meta WhatsApp Cloud API (ID ${maskedId})`,
       graphVersion,
       templateMode: Boolean(templateName),
+      templateName: templateName || null,
+      templateLang,
+      envChecklist,
     };
   }
 
@@ -103,15 +128,21 @@ function getWhatsAppGatewayStatus() {
       senderLabel: `Passerelle WhatsApp (${hostLabel})`,
       graphVersion,
       templateMode: false,
+      templateName: null,
+      templateLang,
+      envChecklist,
     };
   }
 
   return {
     configured: false,
     provider: 'fallback_link' as const,
-    senderLabel: 'Lien direct WhatsApp Business / App (configurez WHATSAPP_BUSINESS_TOKEN pour envoi API)',
+    senderLabel: 'Lien direct WhatsApp Business (configurez WHATSAPP_BUSINESS_TOKEN dans Secrets)',
     graphVersion,
     templateMode: false,
+    templateName: templateName || null,
+    templateLang,
+    envChecklist,
   };
 }
 
@@ -195,7 +226,9 @@ async function startServer() {
     'https://tauri.localhost',
     'capacitor://localhost',
     'https://localhost',
+    'http://localhost',
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
   ]);
   const appUrlOrigin = (() => {
     try {
@@ -341,13 +374,18 @@ async function startServer() {
         const sid = (process.env.TWILIO_ACCOUNT_SID || '').trim();
         const token = (process.env.TWILIO_AUTH_TOKEN || '').trim();
         const from = (process.env.TWILIO_FROM_NUMBER || '').trim();
+        const messagingServiceSid = (process.env.TWILIO_MESSAGING_SERVICE_SID || '').trim();
         const credentials = Buffer.from(`${sid}:${token}`).toString('base64');
 
         const formParams = new URLSearchParams({
           To: normalizedTo,
-          From: from,
           Body: safeMessage,
         });
+        if (from) {
+          formParams.set('From', from);
+        } else if (messagingServiceSid) {
+          formParams.set('MessagingServiceSid', messagingServiceSid);
+        }
 
         const twilioRes = await fetch(
           `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(sid)}/Messages.json`,
@@ -366,14 +404,17 @@ async function startServer() {
           sid?: string;
           message?: string;
           status?: string;
+          code?: number;
         };
 
         if (!twilioRes.ok) {
+          const codeLabel = twilioJson.code ? ` [Code Twilio ${twilioJson.code}]` : '';
           res.status(502).json({
             ok: false,
             delivered: false,
             mode: 'twilio',
-            error: twilioJson.message || `Erreur opérateur Twilio (${twilioRes.status}).`,
+            error:
+              (twilioJson.message || `Erreur opérateur Twilio (${twilioRes.status}).`) + codeLabel,
           });
           return;
         }
@@ -535,27 +576,40 @@ async function startServer() {
             ? body.actType.trim().slice(0, 120)
             : 'Consultation';
 
+        const noParamsTemplate =
+          templateName.toLowerCase() === 'hello_world' ||
+          process.env.WHATSAPP_TEMPLATE_NO_PARAMS === 'true';
+        const effectiveLang =
+          templateName.toLowerCase() === 'hello_world' && !process.env.WHATSAPP_TEMPLATE_LANG
+            ? 'en_US'
+            : templateLang;
+
         const graphPayload = templateName
           ? {
               messaging_product: 'whatsapp',
               recipient_type: 'individual',
               to: waDigits,
               type: 'template',
-              template: {
-                name: templateName,
-                language: { code: templateLang },
-                components: [
-                  {
-                    type: 'body',
-                    parameters: [
-                      { type: 'text', text: safePatientName },
-                      { type: 'text', text: safeDate || 'prochainement' },
-                      { type: 'text', text: safeTime || 'confirmée' },
-                      { type: 'text', text: safeAct },
+              template: noParamsTemplate
+                ? {
+                    name: templateName,
+                    language: { code: effectiveLang },
+                  }
+                : {
+                    name: templateName,
+                    language: { code: effectiveLang },
+                    components: [
+                      {
+                        type: 'body',
+                        parameters: [
+                          { type: 'text', text: safePatientName },
+                          { type: 'text', text: safeDate || 'prochainement' },
+                          { type: 'text', text: safeTime || 'confirmée' },
+                          { type: 'text', text: safeAct },
+                        ],
+                      },
                     ],
                   },
-                ],
-              },
             }
           : {
               messaging_product: 'whatsapp',
@@ -707,6 +761,155 @@ async function startServer() {
       waUrl,
       detail:
         "API WhatsApp Business non configurée côté serveur (WHATSAPP_BUSINESS_TOKEN / WHATSAPP_PHONE_NUMBER_ID). Ouverture de WhatsApp via lien pré-rempli.",
+    });
+  });
+
+  app.get('/api/whatsapp/webhook', (req, res) => {
+    const verifyToken = (process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN || '').trim();
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
+
+    if (mode === undefined && token === undefined && challenge === undefined) {
+      res.status(200).json({
+        ok: true,
+        service: 'Meta WhatsApp Cloud API Webhook',
+        verifyTokenConfigured: Boolean(verifyToken),
+        message:
+          "Route webhook prête. Pour la validation dans Meta Developers, publiez l'app et utilisez l'URL publique partagée (ais-pre-...) avec ?hub.mode=subscribe.",
+      });
+      return;
+    }
+
+    if (mode === 'subscribe' && verifyToken && token === verifyToken && typeof challenge === 'string') {
+      res.status(200).send(challenge);
+      return;
+    }
+
+    res.status(403).json({
+      ok: false,
+      error: verifyToken
+        ? 'Validation Meta refusée : hub.verify_token différent de WHATSAPP_WEBHOOK_VERIFY_TOKEN.'
+        : 'WHATSAPP_WEBHOOK_VERIFY_TOKEN non configuré dans les Secrets serveur.',
+    });
+  });
+
+  app.post('/api/whatsapp/webhook', (_req, res) => {
+    res.sendStatus(200);
+  });
+
+  app.post('/api/gateways/verify', async (req, res) => {
+    const authUser = await verifyFirebaseBearerToken(req.headers.authorization);
+    if (!authUser) {
+      res.status(401).json({
+        ok: false,
+        error: 'Authentification Firebase requise pour vérifier les passerelles.',
+      });
+      return;
+    }
+
+    const smsStatus = getSmsGatewayStatus();
+    const waStatus = getWhatsAppGatewayStatus();
+
+    const twilioResult: {
+      configured: boolean;
+      reachable: boolean;
+      accountName?: string;
+      accountStatus?: string;
+      accountType?: string;
+      error?: string;
+    } = {
+      configured: smsStatus.provider === 'twilio',
+      reachable: false,
+    };
+
+    if (smsStatus.provider === 'twilio') {
+      try {
+        const sid = (process.env.TWILIO_ACCOUNT_SID || '').trim();
+        const token = (process.env.TWILIO_AUTH_TOKEN || '').trim();
+        const credentials = Buffer.from(`${sid}:${token}`).toString('base64');
+        const resp = await fetch(
+          `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(sid)}.json`,
+          {
+            headers: { Authorization: `Basic ${credentials}` },
+            signal: AbortSignal.timeout(8000),
+          }
+        );
+        const data = (await resp.json().catch(() => ({}))) as {
+          friendly_name?: string;
+          status?: string;
+          type?: string;
+          message?: string;
+        };
+        if (resp.ok) {
+          twilioResult.reachable = true;
+          twilioResult.accountName = data.friendly_name || 'Compte Twilio';
+          twilioResult.accountStatus = data.status || 'active';
+          twilioResult.accountType = data.type || 'Full';
+        } else {
+          twilioResult.error = data.message || `Erreur Twilio HTTP ${resp.status}`;
+        }
+      } catch (err) {
+        twilioResult.error =
+          err instanceof Error ? err.message : 'Impossible de joindre api.twilio.com';
+      }
+    }
+
+    const metaResult: {
+      configured: boolean;
+      reachable: boolean;
+      verifiedName?: string;
+      displayPhoneNumber?: string;
+      qualityRating?: string;
+      error?: string;
+    } = {
+      configured: waStatus.provider === 'whatsapp_cloud_api',
+      reachable: false,
+    };
+
+    if (waStatus.provider === 'whatsapp_cloud_api') {
+      try {
+        const businessToken = (
+          process.env.WHATSAPP_BUSINESS_TOKEN ||
+          process.env.WHATSAPP_CLOUD_ACCESS_TOKEN ||
+          ''
+        ).trim();
+        const phoneNumberId = (process.env.WHATSAPP_PHONE_NUMBER_ID || '').trim();
+        const resp = await fetch(
+          `https://graph.facebook.com/${encodeURIComponent(waStatus.graphVersion)}/${encodeURIComponent(phoneNumberId)}?fields=display_phone_number,verified_name,quality_rating`,
+          {
+            headers: { Authorization: `Bearer ${businessToken}` },
+            signal: AbortSignal.timeout(8000),
+          }
+        );
+        const data = (await resp.json().catch(() => ({}))) as {
+          display_phone_number?: string;
+          verified_name?: string;
+          quality_rating?: string;
+          error?: { message?: string };
+        };
+        if (resp.ok) {
+          metaResult.reachable = true;
+          metaResult.verifiedName = data.verified_name || 'WhatsApp Business';
+          metaResult.displayPhoneNumber = data.display_phone_number || '';
+          metaResult.qualityRating = data.quality_rating || '';
+        } else {
+          metaResult.error =
+            data.error?.message || `Erreur Meta Graph HTTP ${resp.status}`;
+        }
+      } catch (err) {
+        metaResult.error =
+          err instanceof Error ? err.message : 'Impossible de joindre graph.facebook.com';
+      }
+    }
+
+    res.json({
+      ok: true,
+      twilio: twilioResult,
+      metaWhatsApp: metaResult,
+      smsGateway: smsStatus,
+      whatsappGateway: waStatus,
+      checkedAt: new Date().toISOString(),
     });
   });
 

@@ -115,29 +115,40 @@ export function useAppointmentNotifications({
       const minsLeft = Math.max(1, Math.ceil(diffMs / 60_000));
       const title = `Rendez-vous dans ${minsLeft} min · ${apt.startTime}`;
       const body = `${apt.patientName} — ${apt.actType} (${apt.chair} · ${apt.practitionerName})`;
+      const notifOptions: NotificationOptions = {
+        body,
+        icon: '/pwa-192x192.png',
+        badge: '/pwa-192x192.png',
+        tag: `dentaflow-apt-${dedupeKey}`,
+      };
 
+      let dispatched = false;
       try {
-        const notification = new window.Notification(title, {
-          body,
-          icon: '/pwa-192x192.png',
-          badge: '/pwa-192x192.png',
-          tag: `dentaflow-apt-${dedupeKey}`,
-        });
-
+        const notification = new window.Notification(title, notifOptions);
         notification.onclick = () => {
           window.focus();
           onSelectRef.current?.(apt);
           notification.close();
         };
+        dispatched = true;
+      } catch {
+        if ('serviceWorker' in navigator) {
+          void navigator.serviceWorker.ready
+            .then((registration) => registration.showNotification(title, notifOptions))
+            .catch(() => {
+              // Ignore OS notification fallback errors
+            });
+        }
+        dispatched = true;
+      }
 
+      if (dispatched) {
         notifiedSet.add(dedupeKey);
         changed = true;
         onToastRef.current?.(
           `Rappel RDV (${apt.startTime}) : ${apt.patientName} dans ${minsLeft} min.`,
           'info'
         );
-      } catch {
-        // Ignore browser notification construction restrictions
       }
     }
 

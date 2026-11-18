@@ -248,7 +248,7 @@ export const PWAInstallButton: React.FC<{
               <div className="flex items-start justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
                 <div>
                   <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-                    Installer Gestion de cabinet dentaire Dr. Sara Bchi — iPhone, Mac &amp; Windows
+                    Installer Gestion de cabinet dentaire Dr. Sara Bchi — iPhone, Android, Mac &amp; Windows
                   </h3>
                   <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
                     Créez une application autonome avec icône sur le Bureau ou l’écran d’accueil, sans barre Chrome.
@@ -268,14 +268,14 @@ export const PWAInstallButton: React.FC<{
                 <div className="rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/50 p-3.5 space-y-1.5 text-xs text-amber-950 dark:text-amber-100">
                   <div className="flex items-center gap-2 font-semibold">
                     <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
-                    <span>Application non encore publiée — étape importante pour iPhone, Mac &amp; PC</span>
+                    <span>Application non encore publiée — étape requise pour Android, iPhone, Mac &amp; PC</span>
                   </div>
                   <p className="text-[11px] leading-relaxed text-amber-900 dark:text-amber-200">
                     L’adresse publique partagée (<code>ais-pre-...</code>) répond actuellement <strong>404</strong> car l’application est en mode Aperçu privé (<code>ais-dev-...</code>).
-                    Pour qu’elle s’ouvre librement sur <strong>iPhone</strong> et sur n’importe quel <strong>Mac / PC Windows</strong> : publiez l’application depuis votre espace d’hébergement pour activer l’adresse publique permanente, puis réinstallez avec ce nouveau lien.
+                    Pour qu’elle s’ouvre librement sur <strong>Android</strong>, <strong>iPhone / iPad</strong> et sur n’importe quel <strong>Mac / PC Windows</strong> : cliquez sur <strong>Partager / Publier (Publish)</strong> pour activer l’adresse publique permanente, puis ouvrez ce nouveau lien sur mobile.
                   </p>
                   <p className="text-[11px] leading-relaxed text-amber-900 dark:text-amber-200">
-                    En attendant, le lien actuel ci-dessous pointe sur l’aperçu actif et fonctionne sur le Mac/PC déjà authentifié sur cette session.
+                    En attendant, le lien ci-dessous pointe sur l’aperçu actif et fonctionne sur l’appareil déjà connecté à votre compte Google.
                   </p>
                 </div>
               )}
@@ -292,7 +292,11 @@ export const PWAInstallButton: React.FC<{
               {isInstallable && (
                 <div className="rounded-xl border border-emerald-300 dark:border-emerald-700 bg-emerald-50/90 dark:bg-emerald-950/40 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="text-xs text-emerald-950 dark:text-emerald-100 space-y-0.5">
-                    <p className="font-semibold">Installation directe prête sur cet ordinateur</p>
+                    <p className="font-semibold">
+                      {isAndroid
+                        ? 'Installation directe prête sur cet appareil Android'
+                        : 'Installation directe prête sur cet appareil'}
+                    </p>
                     <p className="text-[11px] text-emerald-800 dark:text-emerald-300">
                       Installe l’application en fenêtre autonome (mode standalone, sans barre Chrome).
                     </p>

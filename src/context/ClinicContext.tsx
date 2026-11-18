@@ -19,7 +19,6 @@ import {
   getDoc,
   getDocs,
   limit,
-  onSnapshot,
   query,
   runTransaction,
   serverTimestamp,
@@ -40,8 +39,9 @@ import {
   markSyncErrorResolved,
   OperationType,
   provisionAuthUserWithPassword,
-  reportFirestoreListenerError,
   resyncFirestoreNetwork,
+  subscribeFirestoreDoc,
+  subscribeFirestoreQuery,
   subscribeSyncErrorLogs,
   testConnection,
   verifyFirestoreServerSync,
@@ -640,6 +640,7 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [resolveStaffProfile]);
 
   const hasValidSession = Boolean(user && staffProfile && staffProfile.active && !accessPending);
+  const activeSessionUid = hasValidSession && user ? user.uid : null;
   const actualRole: StaffRole = staffProfile?.role || 'assistant';
   const activeRole: StaffRole = actualRole === 'titulaire' ? previewRole : actualRole;
   const permissions = useMemo(
@@ -649,10 +650,10 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   // Load CSV clinic archives & deleted tombstones once authenticated staff session starts (strictly keyed by role attribution)
   useEffect(() => {
-    if (!hasValidSession || !user) return;
+    if (!activeSessionUid) return;
     let cancelled = false;
     try {
-      const rawDeleted = window.localStorage.getItem(`dentaflow_csv_deleted_${user.uid}`);
+      const rawDeleted = window.localStorage.getItem(`dentaflow_csv_deleted_${activeSessionUid}`);
       if (rawDeleted) {
         const parsed = JSON.parse(rawDeleted);
         if (parsed && typeof parsed === 'object') {
@@ -663,7 +664,7 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       // Ignore malformed storage
     }
 
-    const csvOwnerUid = actualRole === 'titulaire' ? user.uid : 'csv_dr_sara_bchi';
+    const csvOwnerUid = actualRole === 'titulaire' ? activeSessionUid : 'csv_dr_sara_bchi';
     loadAllCabinetCsvData(csvOwnerUid)
       .then((bundle) => {
         if (!cancelled) {
@@ -677,44 +678,50 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return () => {
       cancelled = true;
     };
-  }, [hasValidSession, user, actualRole]);
+  }, [activeSessionUid, actualRole]);
 
-  // Verify live Firestore connectivity on authenticated session start & auto-flush pending offline writes on reconnect
+  // Verify live Firestore connectivity on authenticated session start & auto-flush pending offline writes when coming back online
   useEffect(() => {
-    if (!hasValidSession || !user) return;
+    if (!activeSessionUid) return;
+    let disposed = false;
+    let wasOffline = typeof navigator !== 'undefined' ? !navigator.onLine : false;
+
     void testConnection().then((ok) => {
-      if (ok) {
+      if (!disposed && ok) {
         autoResolveRecoverableSyncErrors();
       }
     });
 
-    const handleReconnect = () => {
+    const handleOffline = () => {
+      wasOffline = true;
+    };
+
+    const handleOnline = () => {
       if (typeof navigator !== 'undefined' && !navigator.onLine) return;
-      void resyncFirestoreNetwork().then(() => {
+      const recoverFromOffline = wasOffline;
+      wasOffline = false;
+      if (!recoverFromOffline) return;
+      void resyncFirestoreNetwork({ forceReset: false }).then(() => {
         void testConnection().then((ok) => {
-          if (ok) {
+          if (!disposed && ok) {
             autoResolveRecoverableSyncErrors();
           }
         });
       });
     };
-    const handleVisibility = () => {
-      if (document.visibilityState === 'visible') {
-        handleReconnect();
-      }
-    };
 
-    window.addEventListener('online', handleReconnect);
-    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
     return () => {
-      window.removeEventListener('online', handleReconnect);
-      document.removeEventListener('visibilitychange', handleVisibility);
+      disposed = true;
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
     };
-  }, [hasValidSession, user]);
+  }, [activeSessionUid]);
 
   // Attach real-time Firestore listeners scoped to the authenticated user's actual RBAC role
   useEffect(() => {
-    if (!user || !staffProfile || !staffProfile.active) return;
+    if (!activeSessionUid) return;
 
     const unsubscribers: Array<() => void> = [];
     const trackPending = (key: string, pending: boolean) => {
@@ -723,7 +730,7 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     // Settings
     unsubscribers.push(
-      onSnapshot(
+      subscribeFirestoreDoc(
         doc(db, 'settings', 'clinic'),
         (snap) => {
           markCollectionSyncHealthy('settings');
@@ -732,13 +739,13 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setClinicSettings({ id: snap.id, ...(snap.data() as Omit<ClinicSettings, 'id'>) });
           }
         },
-        (err) => reportFirestoreListenerError(err, OperationType.GET, 'settings/clinic')
+        'settings/clinic'
       )
     );
 
     // Staff
     unsubscribers.push(
-      onSnapshot(
+      subscribeFirestoreQuery(
         collection(db, 'staff'),
         (snap) => {
           markCollectionSyncHealthy('staff');
@@ -747,13 +754,13 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           list.sort((a, b) => (a.displayName || '').localeCompare(b.displayName || '', 'fr'));
           setStaffList(list);
         },
-        (err) => reportFirestoreListenerError(err, OperationType.LIST, 'staff')
+        'staff'
       )
     );
 
     // Acts catalog
     unsubscribers.push(
-      onSnapshot(
+      subscribeFirestoreQuery(
         collection(db, 'actsCatalog'),
         (snap) => {
           markCollectionSyncHealthy('actsCatalog');
@@ -770,17 +777,17 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setActsCatalog(list);
           }
         },
-        (err) => reportFirestoreListenerError(err, OperationType.LIST, 'actsCatalog')
+        'actsCatalog'
       )
     );
 
     // Patients
     const patientsQuery =
       actualRole === 'collaborateur'
-        ? query(collection(db, 'patients'), where('assignedPractitionerId', '==', user.uid))
+        ? query(collection(db, 'patients'), where('assignedPractitionerId', '==', activeSessionUid))
         : collection(db, 'patients');
     unsubscribers.push(
-      onSnapshot(
+      subscribeFirestoreQuery(
         patientsQuery,
         (snap) => {
           markCollectionSyncHealthy('patients');
@@ -788,17 +795,17 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Patient, 'id'>) }));
           setFsPatients(list);
         },
-        (err) => reportFirestoreListenerError(err, OperationType.LIST, 'patients')
+        'patients'
       )
     );
 
     // Appointments
     const aptQuery =
       actualRole === 'collaborateur'
-        ? query(collection(db, 'appointments'), where('practitionerId', '==', user.uid))
+        ? query(collection(db, 'appointments'), where('practitionerId', '==', activeSessionUid))
         : collection(db, 'appointments');
     unsubscribers.push(
-      onSnapshot(
+      subscribeFirestoreQuery(
         aptQuery,
         (snap) => {
           markCollectionSyncHealthy('appointments');
@@ -807,14 +814,14 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           list.sort((a, b) => `${a.date || ''}T${a.startTime || ''}`.localeCompare(`${b.date || ''}T${b.startTime || ''}`));
           setFsAppointments(list);
         },
-        (err) => reportFirestoreListenerError(err, OperationType.LIST, 'appointments')
+        'appointments'
       )
     );
 
     // Booking requests (Titulaire & Secrétaire)
     if (actualRole === 'titulaire' || actualRole === 'secretaire') {
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           collection(db, 'bookingRequests'),
           (snap) => {
             markCollectionSyncHealthy('bookingRequests');
@@ -822,7 +829,7 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             list.sort((a, b) => `${b.preferredDate || ''}T${b.preferredSlot || ''}`.localeCompare(`${a.preferredDate || ''}T${a.preferredSlot || ''}`));
             setFsBookingRequests(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'bookingRequests')
+          'bookingRequests'
         )
       );
     }
@@ -831,10 +838,10 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     if (actualRole !== 'assistant') {
       const plansQ =
         actualRole === 'collaborateur'
-          ? query(collection(db, 'treatmentPlans'), where('practitionerId', '==', user.uid))
+          ? query(collection(db, 'treatmentPlans'), where('practitionerId', '==', activeSessionUid))
           : collection(db, 'treatmentPlans');
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           plansQ,
           (snap) => {
             markCollectionSyncHealthy('treatmentPlans');
@@ -842,17 +849,17 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<TreatmentPlan, 'id'>) }));
             setFsTreatmentPlans(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'treatmentPlans')
+          'treatmentPlans'
         )
       );
 
       // Invoices
       const invQ =
         actualRole === 'collaborateur'
-          ? query(collection(db, 'invoices'), where('practitionerId', '==', user.uid))
+          ? query(collection(db, 'invoices'), where('practitionerId', '==', activeSessionUid))
           : collection(db, 'invoices');
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           invQ,
           (snap) => {
             markCollectionSyncHealthy('invoices');
@@ -860,17 +867,17 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Invoice, 'id'>) }));
             setFsInvoices(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'invoices')
+          'invoices'
         )
       );
 
       // Payments
       const payQ =
         actualRole === 'collaborateur'
-          ? query(collection(db, 'payments'), where('practitionerId', '==', user.uid))
+          ? query(collection(db, 'payments'), where('practitionerId', '==', activeSessionUid))
           : collection(db, 'payments');
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           payQ,
           (snap) => {
             markCollectionSyncHealthy('payments');
@@ -878,34 +885,34 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Payment, 'id'>) }));
             setFsPayments(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'payments')
+          'payments'
         )
       );
 
       // Medical Documents
       const docQ =
         actualRole === 'collaborateur'
-          ? query(collection(db, 'medicalDocuments'), where('practitionerId', '==', user.uid))
+          ? query(collection(db, 'medicalDocuments'), where('practitionerId', '==', activeSessionUid))
           : collection(db, 'medicalDocuments');
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           docQ,
           (snap) => {
             markCollectionSyncHealthy('medicalDocuments');
             const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<MedicalDocument, 'id'>) }));
             setFsMedicalDocuments(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'medicalDocuments')
+          'medicalDocuments'
         )
       );
 
       // Recalls (scoped strictly to practitionerId for collaborateur)
       const recallsQ =
         actualRole === 'collaborateur'
-          ? query(collection(db, 'recalls'), where('practitionerId', '==', user.uid))
+          ? query(collection(db, 'recalls'), where('practitionerId', '==', activeSessionUid))
           : collection(db, 'recalls');
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           recallsQ,
           (snap) => {
             markCollectionSyncHealthy('recalls');
@@ -913,7 +920,7 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             list.sort((a, b) => (a.dueDate || '').localeCompare(b.dueDate || ''));
             setFsRecalls(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'recalls')
+          'recalls'
         )
       );
     }
@@ -921,31 +928,31 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // Lab orders
     const labQ =
       actualRole === 'collaborateur'
-        ? query(collection(db, 'labOrders'), where('practitionerId', '==', user.uid))
+        ? query(collection(db, 'labOrders'), where('practitionerId', '==', activeSessionUid))
         : collection(db, 'labOrders');
     unsubscribers.push(
-      onSnapshot(
+      subscribeFirestoreQuery(
         labQ,
         (snap) => {
           markCollectionSyncHealthy('labOrders');
           const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<LabOrder, 'id'>) }));
           setFsLabOrders(list);
         },
-        (err) => reportFirestoreListenerError(err, OperationType.LIST, 'labOrders')
+        'labOrders'
       )
     );
 
     // Expenses (Titulaire only)
     if (actualRole === 'titulaire') {
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           collection(db, 'expenses'),
           (snap) => {
             markCollectionSyncHealthy('expenses');
             const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Expense, 'id'>) }));
             setFsExpenses(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'expenses')
+          'expenses'
         )
       );
     }
@@ -953,7 +960,7 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // Cash closures (Titulaire & Secrétaire)
     if (actualRole === 'titulaire' || actualRole === 'secretaire') {
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           collection(db, 'cashClosures'),
           (snap) => {
             markCollectionSyncHealthy('cashClosures');
@@ -961,7 +968,7 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             setFsCashClosures(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'cashClosures')
+          'cashClosures'
         )
       );
     }
@@ -969,7 +976,7 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // Inventory & movements (Titulaire & Assistant)
     if (actualRole === 'titulaire' || actualRole === 'assistant') {
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           collection(db, 'inventory'),
           (snap) => {
             markCollectionSyncHealthy('inventory');
@@ -977,11 +984,11 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             list.sort((a, b) => (a.sku || a.name || '').localeCompare(b.sku || b.name || '', 'fr'));
             setFsInventory(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'inventory')
+          'inventory'
         )
       );
       unsubscribers.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           collection(db, 'stockMovements'),
           (snap) => {
             markCollectionSyncHealthy('stockMovements');
@@ -989,14 +996,14 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             setFsStockMovements(list);
           },
-          (err) => reportFirestoreListenerError(err, OperationType.LIST, 'stockMovements')
+          'stockMovements'
         )
       );
     }
 
     // Administrative documents (licenses & maintenance contracts)
     unsubscribers.push(
-      onSnapshot(
+      subscribeFirestoreQuery(
         collection(db, 'adminDocuments'),
         (snap) => {
           markCollectionSyncHealthy('adminDocuments');
@@ -1004,14 +1011,14 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           list.sort((a, b) => (a.expiryDate || '').localeCompare(b.expiryDate || ''));
           setAdminDocuments(list);
         },
-        (err) => reportFirestoreListenerError(err, OperationType.LIST, 'adminDocuments')
+        'adminDocuments'
       )
     );
 
     return () => {
       unsubscribers.forEach((u) => u());
     };
-  }, [user, staffProfile, actualRole]);
+  }, [activeSessionUid, actualRole]);
 
   // Merge CSV archives with live Firestore documents (Firestore edits win; CSV-only display fields preserved)
   const mergeCollection = useCallback(
@@ -1312,9 +1319,46 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const signInWithGoogle = useCallback(async () => {
     setAuthError(null);
+    const isInIframe = typeof window !== 'undefined' && window.self !== window.top;
+    const isStandaloneMobile =
+      typeof window !== 'undefined' &&
+      (window.matchMedia?.('(display-mode: standalone)').matches ||
+        (window.navigator as unknown as { standalone?: boolean }).standalone === true ||
+        window.location.protocol === 'capacitor:' ||
+        'Capacitor' in window) &&
+      /iphone|ipad|ipod|android/i.test(window.navigator.userAgent || '');
+
+    if (isStandaloneMobile && !isInIframe) {
+      try {
+        await signInWithRedirect(auth, googleProvider);
+        return;
+      } catch (redirectErr) {
+        const friendly = mapFirebaseAuthError(redirectErr);
+        setAuthError(friendly);
+        throw new Error(friendly);
+      }
+    }
+
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (err) {
+      const code =
+        typeof err === 'object' && err !== null && 'code' in err
+          ? String((err as { code?: unknown }).code || '')
+          : '';
+      if (
+        !isInIframe &&
+        (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment')
+      ) {
+        try {
+          await signInWithRedirect(auth, googleProvider);
+          return;
+        } catch (redirectErr) {
+          const friendlyRedirect = mapFirebaseAuthError(redirectErr);
+          setAuthError(friendlyRedirect);
+          throw new Error(friendlyRedirect);
+        }
+      }
       const friendly = mapFirebaseAuthError(err);
       setAuthError(friendly);
       throw new Error(friendly);
@@ -2546,6 +2590,8 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
         if (target.category === 'permission') {
           await refreshAuthAccess();
+        } else if (target.category === 'listener' || target.errorCode === 'already-exists') {
+          await resyncFirestoreNetwork({ forceReset: true });
         }
         const serverCheck = await verifyFirestoreServerSync();
         if (serverCheck.ok) {

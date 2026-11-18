@@ -27,7 +27,6 @@ import {
 import {
   collection,
   doc,
-  onSnapshot,
   query,
   serverTimestamp,
   setDoc,
@@ -40,6 +39,7 @@ import {
   markCollectionSyncHealthy,
   OperationType,
   reportFirestoreListenerError,
+  subscribeFirestoreQuery,
 } from '../lib/firebase';
 import {
   exportToCsv,
@@ -242,7 +242,7 @@ export const PatientsView: React.FC = () => {
 
     if (permissions.canUploadImaging || permissions.canEditOdontogramAndNotes) {
       unsubs.push(
-        onSnapshot(
+        subscribeFirestoreQuery(
           query(
             collection(db, 'patients', selectedPatientIdValue, 'imaging'),
             where('patientId', '==', selectedPatientIdValue)
@@ -253,18 +253,13 @@ export const PatientsView: React.FC = () => {
               snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<PatientImaging, 'id'>) }))
             );
           },
-          (err) =>
-            reportFirestoreListenerError(
-              err,
-              OperationType.LIST,
-              `patients/${selectedPatientIdValue}/imaging`
-            )
+          `patients/${selectedPatientIdValue}/imaging`
         )
       );
     }
 
     unsubs.push(
-      onSnapshot(
+      subscribeFirestoreQuery(
         query(
           collection(db, 'patients', selectedPatientIdValue, 'clinicalNotes'),
           where('patientId', '==', selectedPatientIdValue)
@@ -277,12 +272,7 @@ export const PatientsView: React.FC = () => {
               .sort((a, b) => b.date.localeCompare(a.date))
           );
         },
-        (err) =>
-          reportFirestoreListenerError(
-            err,
-            OperationType.LIST,
-            `patients/${selectedPatientIdValue}/clinicalNotes`
-          )
+        `patients/${selectedPatientIdValue}/clinicalNotes`
       )
     );
 
