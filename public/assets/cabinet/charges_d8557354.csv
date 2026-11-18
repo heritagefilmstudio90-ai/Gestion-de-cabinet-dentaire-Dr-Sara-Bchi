@@ -1,0 +1,5 @@
+﻿Date,Montant,Type,Description,Praticien,"Saisi par","Moyen de paiement","Date de règlement",Declaré
+01/01/2026,5200,Loyer,,"Dr.Sara BCHI","Dr.Sara BCHI","Virement bancaire",,Non
+01/01/2026,3000,"Salaire Assistante",,"Dr.Sara BCHI","Dr.Sara BCHI",Espèce,,Non
+01/01/2026,550,"Impôt sur loyer",,"Dr.Sara BCHI","Dr.Sara BCHI",Espèce,,Non
+01/01/2026,300,"Cotisation CNSS assistante",,"Dr.Sara BCHI","Dr.Sara BCHI",Espèce,,Non

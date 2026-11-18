@@ -3,9 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Component, ErrorInfo, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Component, ErrorInfo, lazy, ReactNode, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Activity,
   BarChart3,
   Bell,
   BellOff,
@@ -37,27 +36,61 @@ import {
   X,
 } from 'lucide-react';
 import { ClinicProvider, useClinic } from './context/ClinicContext';
-import { AppSection, Patient, ROLE_LABELS, StaffRole } from './types/dental';
+import { AppSection, canAccessSection, Patient, ROLE_LABELS, StaffRole } from './types/dental';
 import { LoginScreen } from './components/LoginScreen';
-import { DashboardView } from './components/DashboardView';
-import { AppointmentsView } from './components/AppointmentsView';
-import { PatientsView } from './components/PatientsView';
-import { TreatmentPlansView } from './components/TreatmentPlansView';
-import { InsuranceARView, InvoicesView, PaymentsView, RecallsView } from './components/FinanceViews';
-import {
-  CashExpensesView,
-  DocumentsView,
-  InventoryView,
-  LabOrdersView,
-  ReportsView,
-  SettingsView,
-  StaffView,
-} from './components/OperationsViews';
+import { AccessDeniedView } from './components/AccessDeniedView';
 import { PrintModal } from './components/PrintModal';
 import { OfflineIndicator, PWAInstallButton } from './components/PWAControls';
 import { ActivityDrawer } from './components/ActivityDrawer';
 import { QuickAppointmentModal } from './components/QuickAppointmentModal';
 import { SectionSkeleton } from './components/SectionSkeleton';
+import { ClinicSplashLoader } from './components/ClinicSplashLoader';
+
+const DashboardView = lazy(() =>
+  import('./components/DashboardView').then((m) => ({ default: m.DashboardView }))
+);
+const AppointmentsView = lazy(() =>
+  import('./components/AppointmentsView').then((m) => ({ default: m.AppointmentsView }))
+);
+const PatientsView = lazy(() =>
+  import('./components/PatientsView').then((m) => ({ default: m.PatientsView }))
+);
+const TreatmentPlansView = lazy(() =>
+  import('./components/TreatmentPlansView').then((m) => ({ default: m.TreatmentPlansView }))
+);
+const InvoicesView = lazy(() =>
+  import('./components/FinanceViews').then((m) => ({ default: m.InvoicesView }))
+);
+const PaymentsView = lazy(() =>
+  import('./components/FinanceViews').then((m) => ({ default: m.PaymentsView }))
+);
+const InsuranceARView = lazy(() =>
+  import('./components/FinanceViews').then((m) => ({ default: m.InsuranceARView }))
+);
+const RecallsView = lazy(() =>
+  import('./components/FinanceViews').then((m) => ({ default: m.RecallsView }))
+);
+const LabOrdersView = lazy(() =>
+  import('./components/OperationsViews').then((m) => ({ default: m.LabOrdersView }))
+);
+const DocumentsView = lazy(() =>
+  import('./components/OperationsViews').then((m) => ({ default: m.DocumentsView }))
+);
+const CashExpensesView = lazy(() =>
+  import('./components/OperationsViews').then((m) => ({ default: m.CashExpensesView }))
+);
+const InventoryView = lazy(() =>
+  import('./components/OperationsViews').then((m) => ({ default: m.InventoryView }))
+);
+const StaffView = lazy(() =>
+  import('./components/OperationsViews').then((m) => ({ default: m.StaffView }))
+);
+const ReportsView = lazy(() =>
+  import('./components/OperationsViews').then((m) => ({ default: m.ReportsView }))
+);
+const SettingsView = lazy(() =>
+  import('./components/OperationsViews').then((m) => ({ default: m.SettingsView }))
+);
 import { ThemeToggle } from './components/ThemeToggle';
 import { ThemeProvider } from './context/ThemeContext';
 import { useAppointmentNotifications } from './hooks/useAppointmentNotifications';
@@ -78,13 +111,13 @@ class ClinicErrorBoundary extends Component<{ children: ReactNode }, ErrorBounda
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('Erreur applicative DentaFlow Pro:', error, info);
+    console.error('Erreur applicative Gestion de cabinet dentaire Dr. Sara Bchi:', error, info);
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#EDF2F7] dark:bg-slate-950 flex items-center justify-center p-6">
+        <div className="min-h-dvh pt-safe pb-safe bg-[#EDF2F7] dark:bg-slate-950 flex items-center justify-center p-4 sm:p-6">
           <div className="max-w-md w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-4 shadow-sm">
             <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100">Interruption de session clinique</h1>
             <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -254,6 +287,7 @@ const ClinicShell: React.FC = () => {
     openPatientFile,
     favoritePatientIds,
     toggleFavoritePatient,
+    printableDoc,
     hasPendingSync,
     toastMessage,
     showToast,
@@ -276,10 +310,28 @@ const ClinicShell: React.FC = () => {
     right: number;
   } | null>(null);
   const [quickAppointmentPatient, setQuickAppointmentPatient] = useState<Patient | null>(null);
+  const [minBootDone, setMinBootDone] = useState(false);
+  const [splashPhase, setSplashPhase] = useState<'active' | 'fading' | 'done'>('active');
   const prevSectionRef = useRef<AppSection>(activeSection);
   const [isSectionTransitioning, setIsSectionTransitioning] = useState(false);
   const modulesMenuRef = useRef<HTMLDivElement>(null);
   const quickSearchRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const reducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const timer = window.setTimeout(() => setMinBootDone(true), reducedMotion ? 80 : 200);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!authLoading && minBootDone && splashPhase === 'active') {
+      setSplashPhase('fading');
+      const fadeTimer = window.setTimeout(() => setSplashPhase('done'), 220);
+      return () => window.clearTimeout(fadeTimer);
+    }
+  }, [authLoading, minBootDone, splashPhase]);
 
   const {
     isSupported: notificationsSupported,
@@ -296,7 +348,7 @@ const ClinicShell: React.FC = () => {
   });
 
   const visibleNavItems = useMemo(
-    () => NAV_ITEMS.filter((item) => item.roles.includes(activeRole)),
+    () => NAV_ITEMS.filter((item) => canAccessSection(activeRole, item.id)),
     [activeRole]
   );
 
@@ -310,11 +362,19 @@ const ClinicShell: React.FC = () => {
     [visibleNavItems]
   );
 
+  const mobileBottomTabs = useMemo(() => primaryNavItems.slice(0, 4), [primaryNavItems]);
+
   useEffect(() => {
     if (!visibleNavItems.some((i) => i.id === activeSection)) {
       setActiveSection('dashboard');
     }
   }, [visibleNavItems, activeSection, setActiveSection]);
+
+  useEffect(() => {
+    if (!permissions.canViewFinancialTotals && quickFilter === 'unpaid') {
+      setQuickFilter('all');
+    }
+  }, [permissions.canViewFinancialTotals, quickFilter]);
 
   useEffect(() => {
     if (!user || !staffProfile || accessPending) {
@@ -334,6 +394,15 @@ const ClinicShell: React.FC = () => {
   }, [activeSection, user, staffProfile, accessPending]);
 
   useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
     const handleOutside = (event: MouseEvent) => {
       if (modulesMenuRef.current && !modulesMenuRef.current.contains(event.target as Node)) {
         setModulesMenuOpen(false);
@@ -347,6 +416,7 @@ const ClinicShell: React.FC = () => {
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
         setModulesMenuOpen(false);
         setSearchOpen(false);
         setHoveredBookingTooltip(null);
@@ -383,15 +453,31 @@ const ClinicShell: React.FC = () => {
 
   const unpaidBalanceByPatient = useMemo(() => {
     const map = new Map<string, number>();
+    const csvInvoicedByPatient = new Map<string, number>();
     for (const inv of invoices) {
       if (inv.status === 'Annulée') continue;
       const due = Math.max(0, Number(inv.patientShare || 0) - Number(inv.paidAmount || 0));
       if (due > 0) {
         map.set(inv.patientId, (map.get(inv.patientId) || 0) + due);
       }
+      if (inv.isCsvArchive) {
+        csvInvoicedByPatient.set(
+          inv.patientId,
+          (csvInvoicedByPatient.get(inv.patientId) || 0) + Number(inv.totalAmount || 0)
+        );
+      }
+    }
+    for (const p of patients) {
+      if (p.isCsvArchive && typeof p.remainingDue === 'number' && p.remainingDue > 0) {
+        const csvInvoiced = csvInvoicedByPatient.get(p.id) || 0;
+        const unInvoicedDebt = Math.max(0, p.remainingDue - csvInvoiced);
+        if (unInvoicedDebt > 0) {
+          map.set(p.id, (map.get(p.id) || 0) + unInvoicedDebt);
+        }
+      }
     }
     return map;
-  }, [invoices]);
+  }, [invoices, patients]);
 
   const lastVisitDateByPatient = useMemo(() => {
     const today = todayISO();
@@ -463,7 +549,7 @@ const ClinicShell: React.FC = () => {
     const q = quickSearch.trim().toLowerCase();
     const list = q
       ? patients.filter((p) =>
-          `${p.firstName} ${p.lastName} ${p.fileNumber} ${p.phone} ${p.cin || ''}`
+          `${p.fullName || ''} ${p.firstName} ${p.lastName} ${p.fileNumber} ${p.phone} ${p.cin || ''}`
             .toLowerCase()
             .includes(q)
         )
@@ -489,31 +575,43 @@ const ClinicShell: React.FC = () => {
     const filtered = quickSearchBaseMatches.filter((p) => {
       if (quickFilter === 'favorites') return favoritePatientIds.includes(p.id);
       if (quickFilter === 'in_care') return inCarePatientIds.has(p.id);
-      if (quickFilter === 'unpaid') return (unpaidBalanceByPatient.get(p.id) || 0) > 0;
+      if (quickFilter === 'unpaid' && permissions.canViewFinancialTotals) {
+        return (unpaidBalanceByPatient.get(p.id) || 0) > 0;
+      }
       return true;
     });
     return filtered.slice(0, 8);
-  }, [quickSearchBaseMatches, quickFilter, favoritePatientIds, inCarePatientIds, unpaidBalanceByPatient]);
+  }, [quickSearchBaseMatches, quickFilter, favoritePatientIds, inCarePatientIds, unpaidBalanceByPatient, permissions.canViewFinancialTotals]);
 
   if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#EDF2F7] dark:bg-slate-950 flex items-center justify-center p-6">
-        <div className="flex items-center gap-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-5 py-4 shadow-sm">
-          <Activity className="h-5 w-5 text-[#1598C7] dark:text-sky-400 animate-spin" />
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-            Initialisation sécurisée du cabinet...
-          </span>
-        </div>
-      </div>
-    );
+    return <ClinicSplashLoader subtitle="Initialisation sécurisée du cabinet..." />;
   }
 
   if (!user || !staffProfile || accessPending) {
-    return <LoginScreen />;
+    return (
+      <>
+        <LoginScreen />
+        <OfflineIndicator />
+        {splashPhase !== 'done' && (
+          <ClinicSplashLoader
+            fadingOut={splashPhase === 'fading'}
+            subtitle="Ouverture du cabinet..."
+          />
+        )}
+      </>
+    );
   }
 
   const activeNavMeta = NAV_ITEMS.find((i) => i.id === activeSection) || NAV_ITEMS[0];
   const isSecondaryActive = secondaryNavItems.some((i) => i.id === activeSection);
+  const isMobileMoreActive = !mobileBottomTabs.some((item) => item.id === activeSection);
+  const MOBILE_SHORT_LABELS: Partial<Record<AppSection, string>> = {
+    dashboard: 'Accueil',
+    patients: 'Patients',
+    appointments: 'Agenda',
+    invoices: 'Factures',
+    reports: 'Rapports',
+  };
   const clinicTitle = clinicSettings?.clinicName || 'Cabinet Dentaire Dr. Sara Bchi';
   const initials = staffProfile.displayName
     .replace(/^Dr\.?\s*/i, '')
@@ -524,6 +622,9 @@ const ClinicShell: React.FC = () => {
     .join('');
 
   const renderSection = () => {
+    if (!canAccessSection(activeRole, activeSection)) {
+      return <AccessDeniedView sectionLabel={activeNavMeta?.label} />;
+    }
     switch (activeSection) {
       case 'dashboard':
         return <DashboardView />;
@@ -561,7 +662,7 @@ const ClinicShell: React.FC = () => {
   const hasCustomOverviewHeader = activeSection === 'dashboard' || activeSection === 'reports';
 
   return (
-    <div className="min-h-screen bg-[#EDF2F7] dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
+    <div className="min-h-dvh bg-[#EDF2F7] dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
       {/* Mobile Slide-Over Drawer */}
       {mobileMenuOpen && (
         <div
@@ -570,14 +671,16 @@ const ClinicShell: React.FC = () => {
         />
       )}
       <aside
-        className={`no-print fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-transform duration-200 lg:hidden ${
-          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        aria-label="Menu de navigation mobile"
+        aria-hidden={!mobileMenuOpen}
+        className={`no-print fixed inset-y-0 left-0 z-50 w-[84vw] max-w-72 pt-safe pb-safe pl-safe bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col overscroll-contain transition-transform duration-200 lg:hidden ${
+          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full pointer-events-none'
         }`}
       >
-        <div className="flex items-center justify-between gap-3 px-4 py-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center justify-between gap-3 px-4 py-3.5 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-2.5 min-w-0">
             <img
-              src="/assets/aistudio/logo_Dr_sara_50e1a027.png"
+              src="/assets/cabinet/logo_Dr_sara_50e1a027.png"
               alt="Logo Cabinet Dentaire Dr. Sara Bchi"
               width={52}
               height={38}
@@ -590,13 +693,14 @@ const ClinicShell: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(false)}
-            className="rounded-full p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+            aria-label="Fermer le menu"
+            className="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
+        <nav className="flex-1 overflow-y-auto overscroll-contain px-3 py-4 space-y-5">
           {NAV_GROUPS.map((groupName) => {
             const groupItems = visibleNavItems.filter((item) => item.group === groupName);
             if (groupItems.length === 0) return null;
@@ -616,7 +720,7 @@ const ClinicShell: React.FC = () => {
                         setActiveSection(item.id);
                         setMobileMenuOpen(false);
                       }}
-                      className={`flex w-full items-center gap-3 rounded-full px-3.5 py-2 text-xs font-medium transition-colors whitespace-nowrap ${
+                      className={`flex w-full min-h-[44px] items-center gap-3 rounded-full px-3.5 py-2 text-xs font-medium transition-colors whitespace-nowrap ${
                         isActive
                           ? 'bg-[#163B63] dark:bg-sky-600 text-white shadow-sm'
                           : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -633,18 +737,60 @@ const ClinicShell: React.FC = () => {
         </nav>
 
         <div className="border-t border-slate-200 dark:border-slate-800 p-3 space-y-2.5">
-          <button
-            type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              setActivityDrawerOpen(true);
-            }}
-            className="flex w-full items-center gap-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-          >
-            <History className="h-4 w-4 text-[#1598C7] dark:text-sky-400 shrink-0" />
-            <span>Journal d'activité récent</span>
-          </button>
+          {actualRole === 'titulaire' && (
+            <div className="flex items-center justify-between gap-2 px-1">
+              <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                Aperçu rôle
+              </span>
+              <select
+                aria-label="Aperçu du rôle mobile"
+                value={activeRole}
+                onChange={(e) => setPreviewRole(e.target.value as StaffRole)}
+                className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200"
+              >
+                <option value="titulaire">Titulaire</option>
+                <option value="collaborateur">Collaborateur</option>
+                <option value="secretaire">Secrétaire</option>
+                <option value="assistant">Assistant(e)</option>
+              </select>
+            </div>
+          )}
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setActivityDrawerOpen(true);
+              }}
+              className="flex flex-1 min-h-[40px] items-center justify-center gap-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap"
+            >
+              <History className="h-4 w-4 text-[#1598C7] dark:text-sky-400 shrink-0" />
+              <span>Journal</span>
+            </button>
+            {notificationsSupported && (
+              <button
+                type="button"
+                onClick={toggleNotifications}
+                aria-label="Rappels rendez-vous"
+                className={`min-h-[40px] min-w-[40px] flex items-center justify-center rounded-full border transition-colors ${
+                  notificationsActive
+                    ? 'border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/60 text-[#1598C7] dark:text-sky-400'
+                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+                }`}
+              >
+                {notificationsActive || notificationPermission === 'default' ? (
+                  <Bell className="h-4 w-4" />
+                ) : (
+                  <BellOff className="h-4 w-4" />
+                )}
+              </button>
+            )}
+            <ThemeToggle compact />
+          </div>
+
           <PWAInstallButton variant="sidebar" />
+
           <div className="flex items-center justify-between gap-2 rounded-xl bg-slate-50 dark:bg-slate-800 px-3 py-2">
             <div className="min-w-0">
               <p className="text-xs font-semibold text-slate-900 dark:text-white truncate">
@@ -658,7 +804,8 @@ const ClinicShell: React.FC = () => {
               type="button"
               onClick={logout}
               title="Se déconnecter"
-              className="rounded-full p-1.5 text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 shrink-0"
+              aria-label="Se déconnecter"
+              className="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 shrink-0"
             >
               <LogOut className="h-4 w-4" />
             </button>
@@ -666,19 +813,19 @@ const ClinicShell: React.FC = () => {
         </div>
       </aside>
 
-      {/* Top Horizontal Navigation Header (matching reference UI) */}
-      <header className="no-print sticky top-0 z-30 border-b border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur transition-colors duration-200">
+      {/* Top Horizontal Navigation Header */}
+      <header className="no-print sticky top-0 z-30 pt-safe border-b border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md transition-colors duration-200">
         <div
           className={`${
-            isFullscreen ? 'max-w-none px-3 sm:px-5' : 'max-w-[1440px] px-4 sm:px-6'
-          } w-full mx-auto py-3 flex items-center justify-between gap-3 transition-all duration-200`}
+            isFullscreen ? 'max-w-none px-3 sm:px-5' : 'max-w-[1440px] px-3 sm:px-6'
+          } w-full mx-auto py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-3 transition-all duration-200`}
         >
-          {/* Left: Logo + Brand */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* Left: Hamburger (mobile) + Logo + Brand / Active Section */}
+          <div className="flex items-center gap-2 min-w-0 flex-1 lg:flex-initial">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              className="rounded-full border border-slate-200 dark:border-slate-700 p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 lg:hidden shrink-0"
+              className="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 lg:hidden shrink-0"
               aria-label="Ouvrir le menu"
             >
               <Menu className="h-4 w-4" />
@@ -686,16 +833,19 @@ const ClinicShell: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveSection('dashboard')}
-              className="flex items-center gap-2.5 text-left shrink-0 group"
+              className="flex items-center gap-2 text-left min-w-0 group"
               title={clinicTitle}
             >
               <img
-                src="/assets/aistudio/logo_Dr_sara_50e1a027.png"
+                src="/assets/cabinet/logo_Dr_sara_50e1a027.png"
                 alt="Logo Cabinet Dentaire Dr. Sara Bchi"
                 width={54}
                 height={40}
-                className="h-9 w-auto shrink-0 object-contain dark:invert transition-transform group-hover:scale-[1.03]"
+                className="h-8 sm:h-9 w-auto shrink-0 object-contain dark:invert transition-transform group-hover:scale-[1.03]"
               />
+              <span className="sm:hidden font-display text-sm font-bold tracking-tight text-slate-900 dark:text-white truncate">
+                {activeNavMeta.label}
+              </span>
               <span className="hidden sm:inline font-display text-sm font-bold tracking-tight text-slate-900 dark:text-white truncate max-w-[160px] xl:max-w-[200px]">
                 {clinicTitle}
               </span>
@@ -782,7 +932,7 @@ const ClinicShell: React.FC = () => {
           </nav>
 
           {/* Right: Circular Utilities, Search, Theme, Profile */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Quick Search Popover */}
             <div className="relative shrink-0" ref={quickSearchRef}>
               <div className="hidden 2xl:block relative w-48">
@@ -802,26 +952,26 @@ const ClinicShell: React.FC = () => {
                 onClick={() => setSearchOpen((prev) => !prev)}
                 aria-label="Rechercher un patient"
                 aria-expanded={searchOpen}
-                className="2xl:hidden rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
+                className="2xl:hidden min-h-[40px] min-w-[40px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
               >
-                <Search className="h-3.5 w-3.5" />
+                <Search className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
               </button>
 
               {(searchOpen || quickSearch.trim().length > 0) && (
                 <div
                   className={`${
-                    searchOpen ? 'block' : 'hidden 2xl:block'
-                  } absolute right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-[480px] rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-xl overflow-hidden z-40`}
+                    searchOpen ? 'flex' : 'hidden 2xl:flex'
+                  } flex-col fixed inset-x-3 top-[calc(env(safe-area-inset-top)+3.75rem)] max-h-[calc(100dvh-5.25rem)] sm:max-h-[75dvh] sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[480px] rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-xl overflow-hidden z-40`}
                 >
                   {searchOpen && (
-                    <div className="2xl:hidden border-b border-slate-100 dark:border-slate-800 p-2">
+                    <div className="2xl:hidden border-b border-slate-100 dark:border-slate-800 p-2 shrink-0">
                       <input
                         autoFocus
                         type="text"
                         value={quickSearch}
                         onChange={(e) => setQuickSearch(e.target.value)}
                         placeholder="Nom, Tél ou CIN patient..."
-                        className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 focus:border-sky-500 focus:outline-none"
+                        className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:border-sky-500 focus:outline-none"
                       />
                     </div>
                   )}
@@ -830,15 +980,17 @@ const ClinicShell: React.FC = () => {
                   <div
                     role="group"
                     aria-label="Filtres rapides de recherche patient"
-                    className="flex flex-wrap items-center gap-1 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 px-3 py-2"
+                    className="flex flex-wrap items-center gap-1 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 px-3 py-2 shrink-0"
                   >
                     {(
                       [
                         { id: 'all', label: 'Tout', count: quickFilterCounts.all },
                         { id: 'favorites', label: 'Favoris', count: quickFilterCounts.favorites },
                         { id: 'in_care', label: 'Avec soins en cours', count: quickFilterCounts.in_care },
-                        { id: 'unpaid', label: 'En attente de paiement', count: quickFilterCounts.unpaid },
-                      ] as const
+                        ...(permissions.canViewFinancialTotals
+                          ? [{ id: 'unpaid' as const, label: 'En attente de paiement', count: quickFilterCounts.unpaid }]
+                          : []),
+                      ] as Array<{ id: 'all' | 'favorites' | 'in_care' | 'unpaid'; label: string; count: number }>
                     ).map((tab) => {
                       const active = quickFilter === tab.id;
                       return (
@@ -869,7 +1021,7 @@ const ClinicShell: React.FC = () => {
                   {quickSearchMatches.length > 0 ? (
                     <div
                       onScroll={() => setHoveredBookingTooltip(null)}
-                      className="divide-y divide-slate-100 dark:divide-slate-800 max-h-80 overflow-y-auto"
+                      className="divide-y divide-slate-100 dark:divide-slate-800 flex-1 min-h-0 max-h-80 overflow-y-auto overscroll-contain"
                     >
                       {quickSearchMatches.map((pat) => {
                         const isFavorite = favoritePatientIds.includes(pat.id);
@@ -933,7 +1085,7 @@ const ClinicShell: React.FC = () => {
                                     · Soins en cours
                                   </span>
                                 )}
-                                {unpaidDue > 0 && (
+                                {permissions.canViewFinancialTotals && unpaidDue > 0 && (
                                   <span className="font-mono font-medium text-amber-700 dark:text-amber-400">
                                     {' '}
                                     · {formatMAD(unpaidDue)} dû
@@ -951,6 +1103,7 @@ const ClinicShell: React.FC = () => {
                                     : undefined
                                 }
                                 onMouseEnter={(e) => {
+                                  if (window.matchMedia && !window.matchMedia('(hover: hover)').matches) return;
                                   const rect = e.currentTarget.getBoundingClientRect();
                                   setHoveredBookingTooltip({
                                     patientId: pat.id,
@@ -962,6 +1115,7 @@ const ClinicShell: React.FC = () => {
                                 }}
                                 onMouseLeave={() => setHoveredBookingTooltip(null)}
                                 onFocus={(e) => {
+                                  if (window.matchMedia && !window.matchMedia('(hover: hover)').matches) return;
                                   const rect = e.currentTarget.getBoundingClientRect();
                                   setHoveredBookingTooltip({
                                     patientId: pat.id,
@@ -982,7 +1136,8 @@ const ClinicShell: React.FC = () => {
                                 className="inline-flex items-center gap-1.5 rounded-lg bg-[#163B63] dark:bg-sky-600 px-2.5 py-1.5 text-[11px] font-medium text-white hover:bg-[#0F2C4C] dark:hover:bg-sky-500 transition-colors whitespace-nowrap shrink-0"
                               >
                                 <CalendarPlus className="h-3.5 w-3.5 shrink-0" />
-                                <span>Prendre Rendez-vous</span>
+                                <span className="sm:hidden">RDV</span>
+                                <span className="hidden sm:inline">Prendre Rendez-vous</span>
                               </button>
                             )}
                           </div>
@@ -1092,7 +1247,7 @@ const ClinicShell: React.FC = () => {
                     ? 'Notifications bloquées par le navigateur'
                     : 'Activer les rappels locaux (15 min avant chaque RDV)'
                 }
-                className={`flex items-center justify-center h-8 w-8 rounded-full border transition-colors ${
+                className={`hidden sm:flex items-center justify-center h-8 w-8 rounded-full border transition-colors ${
                   notificationsActive
                     ? 'border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/60 text-[#1598C7] dark:text-sky-400 hover:bg-sky-100 dark:hover:bg-sky-900/60'
                     : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
@@ -1112,7 +1267,7 @@ const ClinicShell: React.FC = () => {
               aria-label="Ouvrir le journal d'activité récent"
               aria-expanded={activityDrawerOpen}
               title="Journal d'activité récent (traçabilité cabinet)"
-              className={`flex items-center justify-center h-8 w-8 rounded-full border transition-colors ${
+              className={`hidden sm:flex items-center justify-center h-8 w-8 rounded-full border transition-colors ${
                 activityDrawerOpen
                   ? 'border-[#163B63] dark:border-sky-500 bg-[#163B63] dark:bg-sky-600 text-white'
                   : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
@@ -1121,7 +1276,11 @@ const ClinicShell: React.FC = () => {
               <History className="h-3.5 w-3.5" />
             </button>
 
-            <ThemeToggle compact />
+            <PWAInstallButton variant="header" openModalOnClick />
+
+            <div className="hidden sm:block">
+              <ThemeToggle compact />
+            </div>
 
             <button
               type="button"
@@ -1137,7 +1296,7 @@ const ClinicShell: React.FC = () => {
                   ? 'Quitter le mode Plein écran'
                   : "Plein écran (maximiser l'espace de travail)"
               }
-              className={`flex items-center justify-center gap-1.5 h-8 w-8 2xl:w-auto 2xl:px-3 rounded-full border transition-colors ${
+              className={`hidden sm:flex items-center justify-center gap-1.5 h-8 w-8 2xl:w-auto 2xl:px-3 rounded-full border transition-colors ${
                 isFullscreen
                   ? 'border-[#163B63] dark:border-sky-500 bg-[#163B63] dark:bg-sky-600 text-white'
                   : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
@@ -1167,11 +1326,16 @@ const ClinicShell: React.FC = () => {
               </select>
             )}
 
-            {/* User Profile Block (mirrors top-right profile in reference image) */}
-            <div className="flex items-center gap-2 pl-1">
-              <span className="h-8 w-8 rounded-full bg-[#163B63] dark:bg-sky-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
+            {/* User Profile Block */}
+            <div className="flex items-center gap-2 sm:pl-1">
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Profil et paramètres rapides"
+                className="h-9 w-9 sm:h-8 sm:w-8 rounded-full bg-[#163B63] dark:bg-sky-600 text-white font-bold text-xs flex items-center justify-center shrink-0 lg:pointer-events-none"
+              >
                 {initials || 'DR'}
-              </span>
+              </button>
               <div className="hidden sm:block leading-tight max-w-[130px]">
                 <p className="text-xs font-semibold text-slate-900 dark:text-white truncate">
                   {staffProfile.displayName}
@@ -1185,7 +1349,7 @@ const ClinicShell: React.FC = () => {
                 onClick={logout}
                 title="Se déconnecter"
                 aria-label="Se déconnecter"
-                className="rounded-full p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 shrink-0"
+                className="hidden sm:flex rounded-full p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 shrink-0"
               >
                 <LogOut className="h-3.5 w-3.5" />
               </button>
@@ -1196,8 +1360,10 @@ const ClinicShell: React.FC = () => {
 
       {/* Main Content Viewport */}
       <main
-        className={`relative flex-1 ${
-          isFullscreen ? 'max-w-none p-3 sm:p-4' : 'max-w-[1440px] p-4 sm:p-6'
+        className={`relative flex-1 pl-safe pr-safe ${printableDoc ? 'no-print' : ''} ${
+          isFullscreen
+            ? 'max-w-none p-3 sm:p-4 pb-24 lg:pb-4'
+            : 'max-w-[1440px] p-3.5 sm:p-6 pb-24 lg:pb-6'
         } w-full mx-auto transition-all duration-200`}
         aria-busy={isSectionTransitioning}
       >
@@ -1214,23 +1380,80 @@ const ClinicShell: React.FC = () => {
             <SectionSkeleton section={activeSection} label={activeNavMeta.label} />
           </>
         ) : (
-          <>
+          <Suspense fallback={<SectionSkeleton section={activeSection} label={activeNavMeta.label} />}>
             {!hasCustomOverviewHeader && (
-              <div className="mb-5 flex items-center justify-between gap-3">
-                <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+              <div className="mb-4 sm:mb-5 flex items-center justify-between gap-3">
+                <h1 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                   {activeNavMeta.label}
                 </h1>
               </div>
             )}
             {renderSection()}
-          </>
+          </Suspense>
         )}
       </main>
+
+      {/* Native-Style Mobile Bottom Tab Bar (iOS & Android thumb navigation) */}
+      <nav
+        aria-label="Navigation mobile rapide"
+        className="no-print fixed bottom-0 inset-x-0 z-30 pb-safe pl-safe pr-safe border-t border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md lg:hidden"
+      >
+        <div className="flex items-stretch justify-around px-1">
+          {mobileBottomTabs.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeSection === item.id;
+            const shortLabel = MOBILE_SHORT_LABELS[item.id] || item.label;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  setActiveSection(item.id);
+                  setMobileMenuOpen(false);
+                }}
+                aria-current={isActive ? 'page' : undefined}
+                className={`relative flex-1 min-w-0 min-h-[52px] flex flex-col items-center justify-center gap-0.5 px-1 py-1.5 transition-colors ${
+                  isActive
+                    ? 'text-[#163B63] dark:text-sky-400'
+                    : 'text-slate-500 dark:text-slate-400 active:text-slate-800 dark:active:text-slate-200'
+                }`}
+              >
+                {isActive && (
+                  <span className="absolute top-0 inset-x-4 h-0.5 rounded-full bg-[#1598C7] dark:bg-sky-400" />
+                )}
+                <Icon className="h-5 w-5 shrink-0" />
+                <span className="text-[10px] font-semibold tracking-tight truncate max-w-full whitespace-nowrap">
+                  {shortLabel}
+                </span>
+              </button>
+            );
+          })}
+
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Afficher tous les modules"
+            className={`relative flex-1 min-w-0 min-h-[52px] flex flex-col items-center justify-center gap-0.5 px-1 py-1.5 transition-colors ${
+              isMobileMoreActive
+                ? 'text-[#163B63] dark:text-sky-400'
+                : 'text-slate-500 dark:text-slate-400 active:text-slate-800 dark:active:text-slate-200'
+            }`}
+          >
+            {isMobileMoreActive && (
+              <span className="absolute top-0 inset-x-4 h-0.5 rounded-full bg-[#1598C7] dark:bg-sky-400" />
+            )}
+            <Menu className="h-5 w-5 shrink-0" />
+            <span className="text-[10px] font-semibold tracking-tight whitespace-nowrap">
+              Menu
+            </span>
+          </button>
+        </div>
+      </nav>
 
       {/* Global Toast */}
       {toastMessage && (
         <div
-          className={`no-print fixed top-16 right-4 z-50 rounded-2xl border px-4 py-2.5 text-xs font-medium shadow-lg ${
+          className={`no-print fixed top-[calc(env(safe-area-inset-top)+4rem)] inset-x-3 sm:inset-x-auto sm:right-4 z-50 rounded-2xl border px-4 py-2.5 text-xs font-medium shadow-lg ${
             toastMessage.tone === 'error'
               ? 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/90 text-red-900 dark:text-red-200'
               : toastMessage.tone === 'success'
@@ -1252,6 +1475,12 @@ const ClinicShell: React.FC = () => {
       />
       <PrintModal />
       <OfflineIndicator hasPendingSync={hasPendingSync} />
+      {splashPhase !== 'done' && (
+        <ClinicSplashLoader
+          fadingOut={splashPhase === 'fading'}
+          subtitle="Ouverture du cabinet..."
+        />
+      )}
     </div>
   );
 };

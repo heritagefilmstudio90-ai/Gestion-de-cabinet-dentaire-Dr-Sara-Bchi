@@ -10,7 +10,7 @@ export default defineConfig(() => {
       react(),
       tailwindcss(),
       VitePWA({
-        registerType: 'autoUpdate',
+        registerType: 'prompt',
         includeAssets: [
           'icon.svg',
           'apple-touch-icon.png',
@@ -18,13 +18,13 @@ export default defineConfig(() => {
           'pwa-256x256.png',
           'pwa-512x512.png',
           'pwa-maskable-512x512.png',
-          'assets/aistudio/logo_Dr_sara_50e1a027.png',
+          'assets/cabinet/logo_Dr_sara_50e1a027.png',
         ],
         manifest: {
           id: '/',
           lang: 'fr',
-          name: 'DentaFlow Pro — Cabinet Dentaire',
-          short_name: 'DentaFlow',
+          name: 'Gestion de cabinet dentaire Dr. Sara Bchi',
+          short_name: 'Dr Sara Bchi',
           description: 'Logiciel de gestion de cabinet dentaire hors ligne et multi-utilisateurs.',
           theme_color: '#0B2239',
           background_color: '#F8FAFC',
@@ -60,6 +60,8 @@ export default defineConfig(() => {
           ],
         },
         workbox: {
+          cleanupOutdatedCaches: true,
+          navigateFallbackDenylist: [/^\/api\//],
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
           runtimeCaching: [
@@ -94,14 +96,48 @@ export default defineConfig(() => {
           ],
         },
         devOptions: {
-          enabled: true,
+          enabled: false,
           type: 'module',
         },
       }),
     ],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (
+              id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/scheduler/')
+            ) {
+              return 'vendor-react';
+            }
+            if (id.includes('node_modules') && id.includes('firestore')) {
+              return 'vendor-firebase-firestore';
+            }
+            if (id.includes('node_modules') && id.includes('firebase') && id.includes('auth')) {
+              return 'vendor-firebase-auth';
+            }
+            if (id.includes('node_modules/firebase/') || id.includes('node_modules/@firebase/')) {
+              return 'vendor-firebase-core';
+            }
+            if (id.includes('node_modules/jspdf')) {
+              return 'vendor-pdf';
+            }
+            if (
+              id.includes('node_modules/lucide-react') ||
+              id.includes('node_modules/motion') ||
+              id.includes('node_modules/qrcode')
+            ) {
+              return 'vendor-ui';
+            }
+          },
+        },
+      },
+    },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname, '.'),
       },
     },
     server: {

@@ -1,9 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
+  Activity,
   AlertTriangle,
   Building2,
+  Check,
   CheckCircle2,
-  FolderArchive,
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  ExternalLink,
+  Eye,
+  EyeOff,
+  KeyRound,
   Lock,
   Maximize2,
   MessageSquare,
@@ -11,21 +19,25 @@ import {
   Monitor,
   Plus,
   Printer,
-  Puzzle,
+  RefreshCw,
   RotateCcw,
+  Search,
   Send,
-  Smartphone,
+  ShieldCheck,
   Trash2,
   UserPlus,
   X,
 } from 'lucide-react';
 import { useClinic } from '../context/ClinicContext';
+import firebaseConfig from '../../firebase-applet-config.json';
 import { useFullscreen } from '../hooks/useFullscreen';
-import { PWAInstallButton } from './PWAControls';
+import { AccessDeniedView } from './AccessDeniedView';
 import {
-  downloadBrowserExtensionPackage,
-  downloadMacAppPackage,
-} from '../lib/macInstaller';
+  fetchSystemHealth,
+  sendSmsViaGateway,
+  SystemHealthReport,
+} from '../lib/smsGateway';
+import { formatStaffDisplayLogin, generateSecurePassword } from '../lib/authIdentifier';
 import { DOCUMENT_TEMPLATES, STOMATOLOGY_MOLECULES } from '../data/dentalCatalog';
 import { formatDateFR, formatMAD, generateSafeId, todayISO } from '../lib/formatters';
 import {
@@ -35,6 +47,7 @@ import {
   resolveSmsReminderSettings,
 } from '../lib/smsReminders';
 import {
+  canAccessSection,
   Expense,
   InventoryItem,
   LabOrder,
@@ -49,8 +62,11 @@ import {
 // MODULE 6 : SUIVI DES TRAVAUX DE LABORATOIRE (PROTHÈSES)
 // ============================================================================
 export const LabOrdersView: React.FC = () => {
-  const { user, staffProfile, patients, labOrders, permissions, saveRecord, openPatientFile, showToast } = useClinic();
+  const { user, activeRole, staffProfile, patients, labOrders, permissions, saveRecord, openPatientFile, showToast } = useClinic();
   const [showModal, setShowModal] = useState(false);
+  const [labSearch, setLabSearch] = useState('');
+  const [savingLabOrder, setSavingLabOrder] = useState(false);
+  const [busyOrderId, setBusyOrderId] = useState<string | null>(null);
   const [form, setForm] = useState({
     patientId: '',
     labName: 'Laboratoire Atlas Prothèse',
@@ -67,12 +83,27 @@ export const LabOrdersView: React.FC = () => {
 
   const today = todayISO();
 
+  const filteredLabOrders = useMemo(() => {
+    const q = labSearch.trim().toLowerCase();
+    if (!q) return labOrders;
+    return labOrders.filter((o) =>
+      `${o.orderNumber} ${o.patientName} ${o.patientFileNumber || ''} ${o.practitionerName || ''} ${o.labName} ${o.labPhone || ''} ${o.prosthesisType} ${o.shadeVita || ''} ${o.teeth || ''} ${o.notes || ''} ${o.status}`
+        .toLowerCase()
+        .includes(q)
+    );
+  }, [labOrders, labSearch]);
+
   const handleCreateOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !permissions.canManageLabOrders) return;
+    if (!user || !permissions.canManageLabOrders || savingLabOrder) return;
     const pat = patients.find((p) => p.id === form.patientId) || patients[0];
     if (!pat) {
       showToast("Créez d'abord un dossier patient.", 'error');
+      return;
+    }
+    const safeLabName = form.labName.trim().slice(0, 120);
+    if (!safeLabName) {
+      showToast('Veuillez saisir le nom du laboratoire.', 'error');
       return;
     }
     const year = new Date().getFullYear();
@@ -80,184 +111,269 @@ export const LabOrdersView: React.FC = () => {
       const m = /-(\d+)$/.exec(o.orderNumber || '');
       return m ? Math.max(max, Number(m[1])) : max;
     }, 0);
-    await saveRecord(
-      'labOrders',
-      generateSafeId('lab'),
-      {
-        orderNumber: `LAB-${year}-${String(maxSeq + 1).padStart(3, '0')}`,
-        patientId: pat.id,
-        patientName: `${pat.firstName} ${pat.lastName}`,
-        practitionerId: user.uid,
-        practitionerName: staffProfile?.displayName || 'Praticien',
-        labName: form.labName.trim(),
-        prosthesisType: form.prosthesisType,
-        shadeVita: form.shadeVita,
-        teeth: form.teeth,
-        impressionType: form.impressionType,
-        sentDate: today,
-        dueDate: form.dueDate,
-        nextAppointmentDate: form.nextAppointmentDate,
-        status: 'Envoyé',
-        labCost: Number(form.labCost),
-        supplierInvoiceRef: form.supplierInvoiceRef.trim(),
-        supplierPaid: false,
-        notes: form.notes,
-        createdBy: user.uid,
-      },
-      true
-    );
-    setShowModal(false);
-    showToast('Ordre de fabrication prothétique enregistré.', 'success');
+    setSavingLabOrder(true);
+    try {
+      await saveRecord(
+        'labOrders',
+        generateSafeId('lab'),
+        {
+          orderNumber: `LAB-${year}-${String(maxSeq + 1).padStart(3, '0')}`,
+          patientId: pat.id,
+          patientName: `${pat.firstName} ${pat.lastName}`.trim().slice(0, 150),
+          practitionerId: user.uid,
+          practitionerName: (staffProfile?.displayName || 'Praticien').slice(0, 120),
+          labName: safeLabName,
+          prosthesisType: form.prosthesisType,
+          shadeVita: form.shadeVita.trim().slice(0, 20),
+          teeth: form.teeth.trim().slice(0, 60),
+          impressionType: form.impressionType,
+          sentDate: today,
+          dueDate: form.dueDate,
+          nextAppointmentDate: form.nextAppointmentDate,
+          status: 'Envoyé',
+          labCost: Math.max(0, Number(form.labCost) || 0),
+          supplierInvoiceRef: form.supplierInvoiceRef.trim().slice(0, 60),
+          supplierPaid: false,
+          notes: form.notes.trim().slice(0, 400),
+          createdBy: user.uid,
+        },
+        true
+      );
+      setShowModal(false);
+      showToast('Ordre de fabrication prothétique enregistré.', 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Erreur lors de l'enregistrement de la fiche prothétique.", 'error');
+    } finally {
+      setSavingLabOrder(false);
+    }
   };
 
   const updateOrderStatus = async (order: LabOrder, status: LabOrderStatus) => {
-    if (!permissions.canManageLabOrders) return;
-    await saveRecord('labOrders', order.id, { status }, false);
-    showToast(`Statut prothèse : ${status}`, 'success');
+    if (!permissions.canManageLabOrders || busyOrderId === order.id) return;
+    setBusyOrderId(order.id);
+    try {
+      await saveRecord('labOrders', order.id, { status }, false);
+      showToast(`Statut prothèse : ${status}`, 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la mise à jour du statut.', 'error');
+    } finally {
+      setBusyOrderId(null);
+    }
   };
 
   const toggleSupplierPaid = async (order: LabOrder) => {
-    if (!permissions.canManageLabOrders) return;
-    await saveRecord(
-      'labOrders',
-      order.id,
-      { supplierPaid: !order.supplierPaid },
-      false
-    );
+    if (!permissions.canManageLabOrders || busyOrderId === order.id) return;
+    setBusyOrderId(order.id);
+    try {
+      await saveRecord(
+        'labOrders',
+        order.id,
+        { supplierPaid: !order.supplierPaid },
+        false
+      );
+      showToast(
+        !order.supplierPaid ? 'Facture laboratoire marquée payée.' : 'Paiement laboratoire marqué non réglé.',
+        'info'
+      );
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la mise à jour du paiement labo.', 'error');
+    } finally {
+      setBusyOrderId(null);
+    }
   };
+
+  if (!canAccessSection(activeRole, 'lab-orders')) {
+    return <AccessDeniedView sectionLabel="Laboratoire de Prothèses" />;
+  }
 
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
         <div>
           <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-            Laboratoire de Prothèses & Contrôle Fournisseurs
+            Laboratoire de Prothèses & Contrôle Fournisseurs ({labOrders.length})
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Fiches de commande, teinte VITA, flux STL/physique et alertes de retard par rapport au RDV patient
+            Suivi complet des prothèses (Patient, N° P, Praticien, Laboratoire, Tél, Dates envoi/retour/pose, Type, Teinte, Dents, Payé, Statut, Observation)
           </p>
         </div>
-        {permissions.canManageLabOrders && (
-          <button
-            type="button"
-            onClick={() => {
-              if (patients.length === 0) {
-                showToast("Créez d'abord un dossier patient.", 'error');
-                return;
-              }
-              setForm({ ...form, patientId: patients[0]?.id || '', supplierInvoiceRef: '' });
-              setShowModal(true);
-            }}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-sky-600 px-3.5 py-2 text-xs font-medium text-white hover:bg-sky-700"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            <span>Nouvelle Fiche Prothétique</span>
-          </button>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="relative">
+            <Search className="h-3.5 w-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={labSearch}
+              onChange={(e) => setLabSearch(e.target.value)}
+              placeholder="Patient, N° P, labo, teinte..."
+              className="w-56 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+            />
+          </div>
+          {permissions.canManageLabOrders && (
+            <button
+              type="button"
+              onClick={() => {
+                if (patients.length === 0) {
+                  showToast("Créez d'abord un dossier patient.", 'error');
+                  return;
+                }
+                setForm({ ...form, patientId: patients[0]?.id || '', supplierInvoiceRef: '' });
+                setShowModal(true);
+              }}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-sky-600 px-3.5 py-2 text-xs font-medium text-white hover:bg-sky-700"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              <span>Nouvelle Fiche Prothétique</span>
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs whitespace-nowrap">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400">
-                <th className="px-4 py-3 font-medium">N° Ordre</th>
-                <th className="px-4 py-3 font-medium">Patient & Dents</th>
-                <th className="px-4 py-3 font-medium">Laboratoire & Type</th>
-                <th className="px-4 py-3 font-medium">Essayage / Délai</th>
-                <th className="px-4 py-3 font-medium">Statut Production</th>
-                <th className="px-4 py-3 font-medium text-right">Coût Labo</th>
-                <th className="px-4 py-3 font-medium text-right">Facture Labo</th>
+                <th className="px-3 py-3 font-medium">Patient</th>
+                <th className="px-3 py-3 font-medium">Num P</th>
+                <th className="px-3 py-3 font-medium">Praticien</th>
+                <th className="px-3 py-3 font-medium">Laboratoire</th>
+                <th className="px-3 py-3 font-medium">Laboratoire tel</th>
+                <th className="px-3 py-3 font-medium">Date d'envoi</th>
+                <th className="px-3 py-3 font-medium">Date de retour</th>
+                <th className="px-3 py-3 font-medium">Date de pose</th>
+                <th className="px-3 py-3 font-medium">Types de prothèse</th>
+                <th className="px-3 py-3 font-medium">Teinte</th>
+                <th className="px-3 py-3 font-medium">Dents</th>
+                <th className="px-3 py-3 font-medium text-center">Payé</th>
+                <th className="px-3 py-3 font-medium">Statut</th>
+                <th className="px-3 py-3 font-medium">Observation</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {labOrders.map((o) => {
-                const isLate =
-                  Boolean(o.dueDate && o.dueDate < today) &&
-                  o.status !== 'Reçu au cabinet' &&
-                  o.status !== 'Validé posé';
-                return (
-                  <tr key={o.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                    <td className="px-4 py-3 font-mono font-semibold text-slate-900 dark:text-slate-100">{o.orderNumber}</td>
-                    <td className="px-4 py-3">
-                      <button
-                        type="button"
-                        onClick={() => openPatientFile(o.patientId)}
-                        className="font-semibold text-sky-700 dark:text-sky-400 hover:underline text-left"
-                        title="Ouvrir le dossier patient 360°"
-                      >
-                        {o.patientName}
-                      </button>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
-                        Dents : {o.teeth || '—'} · Teinte {o.shadeVita || '—'}
-                        {o.supplierInvoiceRef ? ` · Réf. ${o.supplierInvoiceRef}` : ''}
-                      </p>
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-slate-800 dark:text-slate-200">{o.labName}</p>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                        {o.prosthesisType} · {o.impressionType}
-                      </p>
-                    </td>
-                    <td className="px-4 py-3 font-mono tabular-nums">
-                      <p className="text-slate-800 dark:text-slate-200">{formatDateFR(o.nextAppointmentDate)}</p>
-                      {isLate && (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-sans font-semibold text-red-700 dark:text-red-400">
-                          <AlertTriangle className="h-3 w-3" /> Retard livraison
+              {filteredLabOrders.length === 0 ? (
+                <tr>
+                  <td colSpan={14} className="px-4 py-10 text-center text-xs text-slate-500 dark:text-slate-400 whitespace-normal">
+                    {labOrders.length === 0
+                      ? 'Aucune prothèse enregistrée dans le fichier importé (protheses_5a69e534.csv contient 0 ligne de données). Cliquez sur « Nouvelle Fiche Prothétique » pour ajouter une commande.'
+                      : 'Aucune commande prothétique ne correspond à votre recherche.'}
+                  </td>
+                </tr>
+              ) : (
+                filteredLabOrders.map((o) => {
+                  const returnIso = o.returnDate || o.dueDate || '';
+                  const fittingIso = o.fittingDate || o.nextAppointmentDate || '';
+                  const isLate =
+                    Boolean(returnIso && returnIso < today) &&
+                    o.status !== 'Reçu au cabinet' &&
+                    o.status !== 'Validé posé';
+                  return (
+                    <tr key={o.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                      <td className="px-3 py-3">
+                        <button
+                          type="button"
+                          onClick={() => openPatientFile(o.patientId)}
+                          className="font-semibold text-sky-700 dark:text-sky-400 hover:underline text-left"
+                          title="Ouvrir le dossier patient 360°"
+                        >
+                          {o.patientName}
+                        </button>
+                        <p className="text-[11px] font-mono text-slate-400">{o.orderNumber}</p>
+                      </td>
+                      <td className="px-3 py-3 font-mono text-slate-600 dark:text-slate-300">
+                        {o.patientFileNumber || '—'}
+                      </td>
+                      <td className="px-3 py-3 text-slate-700 dark:text-slate-300">
+                        {o.practitionerName || '—'}
+                      </td>
+                      <td className="px-3 py-3 font-medium text-slate-800 dark:text-slate-200">
+                        {o.labName}
+                        {permissions.canViewFinancialTotals && o.labCost > 0 && (
+                          <span className="ml-1.5 text-[11px] font-mono text-slate-500">({formatMAD(o.labCost)})</span>
+                        )}
+                      </td>
+                      <td className="px-3 py-3 font-mono text-slate-600 dark:text-slate-300">
+                        {o.labPhone || '—'}
+                      </td>
+                      <td className="px-3 py-3 font-mono tabular-nums text-slate-600 dark:text-slate-300">
+                        {o.sentDate ? formatDateFR(o.sentDate) : '—'}
+                      </td>
+                      <td className="px-3 py-3 font-mono tabular-nums">
+                        <span className="text-slate-800 dark:text-slate-200">
+                          {returnIso ? formatDateFR(returnIso) : '—'}
                         </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <select
-                        disabled={!permissions.canManageLabOrders}
-                        value={o.status}
-                        onChange={(e) => updateOrderStatus(o, e.target.value as LabOrderStatus)}
-                        className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-2.5 py-1 text-xs"
-                      >
-                        {(
-                          [
-                            'Envoyé',
-                            'Au labo',
-                            'Reçu au cabinet',
-                            'En essayage',
-                            'Validé posé',
-                            'Retour pour correction',
-                          ] as LabOrderStatus[]
-                        ).map((st) => (
-                          <option key={st} value={st}>
-                            {st}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="px-4 py-3 text-right font-mono font-semibold tabular-nums text-slate-900 dark:text-slate-100">
-                      {formatMAD(o.labCost)}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <button
-                        type="button"
-                        disabled={!permissions.canManageLabOrders}
-                        onClick={() => toggleSupplierPaid(o)}
-                        className={`rounded-lg px-2.5 py-1 text-[11px] font-medium border disabled:opacity-60 disabled:cursor-not-allowed ${
-                          o.supplierPaid
-                            ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
-                            : 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300'
-                        }`}
-                      >
-                        {o.supplierPaid ? 'Contrôlée / Payée' : 'À rapprocher'}
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+                        {isLate && (
+                          <span className="ml-1.5 inline-flex items-center gap-1 text-[11px] font-sans font-semibold text-red-700 dark:text-red-400">
+                            <AlertTriangle className="h-3 w-3" /> Retard
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-3 py-3 font-mono tabular-nums text-slate-700 dark:text-slate-300">
+                        {fittingIso ? formatDateFR(fittingIso) : '—'}
+                      </td>
+                      <td className="px-3 py-3 text-slate-700 dark:text-slate-200">
+                        {o.prosthesisType}
+                        {o.impressionType ? (
+                          <span className="block text-[10px] text-slate-400">{o.impressionType}</span>
+                        ) : null}
+                      </td>
+                      <td className="px-3 py-3 font-mono text-slate-700 dark:text-slate-300">
+                        {o.shadeVita || '—'}
+                      </td>
+                      <td className="px-3 py-3 font-mono text-slate-700 dark:text-slate-300">
+                        {o.teeth || '—'}
+                      </td>
+                      <td className="px-3 py-3 text-center">
+                        <button
+                          type="button"
+                          disabled={!permissions.canManageLabOrders || busyOrderId === o.id}
+                          onClick={() => void toggleSupplierPaid(o)}
+                          className={`rounded-lg px-2.5 py-1 text-[11px] font-medium border disabled:opacity-60 disabled:cursor-not-allowed ${
+                            o.supplierPaid
+                              ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
+                              : 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300'
+                          }`}
+                        >
+                          {o.supplierPaid ? 'Oui (Payé)' : 'Non'}
+                        </button>
+                      </td>
+                      <td className="px-3 py-3">
+                        <select
+                          disabled={!permissions.canManageLabOrders || busyOrderId === o.id}
+                          value={o.status}
+                          onChange={(e) => void updateOrderStatus(o, e.target.value as LabOrderStatus)}
+                          className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-2.5 py-1 text-xs disabled:opacity-60"
+                        >
+                          {(
+                            [
+                              'Envoyé',
+                              'Au labo',
+                              'Reçu au cabinet',
+                              'En essayage',
+                              'Validé posé',
+                              'Retour pour correction',
+                            ] as LabOrderStatus[]
+                          ).map((st) => (
+                            <option key={st} value={st}>
+                              {st}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-3 py-3 text-slate-600 dark:text-slate-300 max-w-xs truncate whitespace-normal">
+                        {o.notes || '—'}
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 dark:bg-slate-950/75 p-4">
-          <div className="w-full max-w-lg rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-slate-900/50 dark:bg-slate-950/75 p-3 sm:p-4 pt-safe pb-safe overflow-y-auto">
+          <div className="my-auto w-full max-w-lg rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-xl max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">Nouvelle Commande Prothétique</h3>
               <button type="button" onClick={() => setShowModal(false)} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
@@ -265,11 +381,11 @@ export const LabOrdersView: React.FC = () => {
               </button>
             </div>
             <form onSubmit={handleCreateOrder} className="mt-4 space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <select
                   value={form.patientId}
                   onChange={(e) => setForm({ ...form, patientId: e.target.value })}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
+                  className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
                 >
                   {patients.map((p) => (
                     <option key={p.id} value={p.id}>
@@ -282,16 +398,16 @@ export const LabOrdersView: React.FC = () => {
                   placeholder="Nom du laboratoire"
                   value={form.labName}
                   onChange={(e) => setForm({ ...form, labName: e.target.value })}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2"
+                  className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2"
                 />
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <select
                   value={form.prosthesisType}
                   onChange={(e) =>
                     setForm({ ...form, prosthesisType: e.target.value as LabOrder['prosthesisType'] })
                   }
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
+                  className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
                 >
                   {['Zircone', 'Céramo-métallique', 'E-max', 'Squeletté', 'Résine amovible', 'Gouttière', 'Sur implant'].map(
                     (t) => (
@@ -305,17 +421,17 @@ export const LabOrdersView: React.FC = () => {
                   placeholder="Teinte VITA (A2)"
                   value={form.shadeVita}
                   onChange={(e) => setForm({ ...form, shadeVita: e.target.value })}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 font-mono"
+                  className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 font-mono"
                 />
                 <input
                   placeholder="Dents (16, 26)"
                   value={form.teeth}
                   onChange={(e) => setForm({ ...form, teeth: e.target.value })}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 font-mono"
+                  className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 font-mono"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="min-w-0">
                   <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Flux d'empreinte</label>
                   <select
                     value={form.impressionType}
@@ -325,13 +441,13 @@ export const LabOrdersView: React.FC = () => {
                         impressionType: e.target.value as 'Empreinte physique' | 'Fichier numérique STL',
                       })
                     }
-                    className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
+                    className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
                   >
                     <option value="Fichier numérique STL">Fichier STL</option>
                     <option value="Empreinte physique">Empreinte physique</option>
                   </select>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Coût labo (MAD)</label>
                   <input
                     type="number"
@@ -339,36 +455,36 @@ export const LabOrdersView: React.FC = () => {
                     placeholder="Coût MAD"
                     value={form.labCost}
                     onChange={(e) => setForm({ ...form, labCost: Number(e.target.value) })}
-                    className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 font-mono"
+                    className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 font-mono"
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-2">
-                <div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="min-w-0">
                   <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Livraison souhaitée</label>
                   <input
                     type="date"
                     value={form.dueDate}
                     onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
-                    className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-2.5 py-2 font-mono"
+                    className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-2.5 py-2 font-mono"
                   />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">RDV essayage patient</label>
                   <input
                     type="date"
                     value={form.nextAppointmentDate}
                     onChange={(e) => setForm({ ...form, nextAppointmentDate: e.target.value })}
-                    className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-2.5 py-2 font-mono"
+                    className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-2.5 py-2 font-mono"
                   />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Réf. facture labo</label>
                   <input
                     placeholder="Optionnel"
                     value={form.supplierInvoiceRef}
                     onChange={(e) => setForm({ ...form, supplierInvoiceRef: e.target.value })}
-                    className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-2.5 py-2 font-mono"
+                    className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-2.5 py-2 font-mono"
                   />
                 </div>
               </div>
@@ -382,16 +498,18 @@ export const LabOrdersView: React.FC = () => {
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
+                  disabled={savingLabOrder}
                   onClick={() => setShowModal(false)}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-60"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700"
+                  disabled={savingLabOrder}
+                  className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700 disabled:opacity-60"
                 >
-                  Créer la fiche
+                  {savingLabOrder ? 'Création...' : 'Créer la fiche'}
                 </button>
               </div>
             </form>
@@ -408,6 +526,7 @@ export const LabOrdersView: React.FC = () => {
 export const DocumentsView: React.FC = () => {
   const {
     user,
+    activeRole,
     staffProfile,
     patients,
     selectedPatientId: contextSelectedPatientId,
@@ -429,6 +548,16 @@ export const DocumentsView: React.FC = () => {
   const [prescriptions, setPrescriptions] = useState<PrescriptionLine[]>([
     STOMATOLOGY_MOLECULES[0].items[0],
   ]);
+  const [certDurationDays, setCertDurationDays] = useState<number>(2);
+  const [certCategory, setCertCategory] = useState<'Initial' | 'Prolongation'>('Initial');
+  const [feeNoteAmount, setFeeNoteAmount] = useState<number>(300);
+  const [feeNoteMethod, setFeeNoteMethod] = useState<string>('Espèce');
+
+  const [historyCategory, setHistoryCategory] = useState<'ALL' | 'Ordonnance' | 'Certificat médical' | 'Feuille de soins' | "Note d'honoraires">('ALL');
+  const [historySearch, setHistorySearch] = useState('');
+  const [savingDoc, setSavingDoc] = useState(false);
+  const [docPage, setDocPage] = useState(1);
+  const DOC_PAGE_SIZE = 30;
 
   useEffect(() => {
     if (contextSelectedPatientId && patients.some((p) => p.id === contextSelectedPatientId)) {
@@ -445,6 +574,14 @@ export const DocumentsView: React.FC = () => {
     if (type === 'Ordonnance') {
       setTitle('Ordonnance Médicamenteuse');
       setBodyText('');
+    } else if (type === 'Certificat médical') {
+      setTitle(`Certificat médical (${certCategory}) · ${certDurationDays} jour${certDurationDays > 1 ? 's' : ''}`);
+      setBodyText(
+        `Je soussigné(e), Docteur en Chirurgie Dentaire, certifie après examen clinique que l'état bucco-dentaire du/de la patient(e) nécessite un repos / arrêt de ${certDurationDays} jour(s) à compter de ce jour (Type : ${certCategory}).`
+      );
+    } else if (type === "Note d'honoraires") {
+      setTitle(`Note d'honoraires · ${feeNoteAmount.toLocaleString('fr-FR')} MAD (${feeNoteMethod})`);
+      setBodyText('Consultation & soins bucco-dentaires réalisés au cabinet.');
     } else {
       const tpl = DOCUMENT_TEMPLATES[type];
       setTitle(tpl?.title || type);
@@ -453,89 +590,168 @@ export const DocumentsView: React.FC = () => {
   };
 
   const addMolecule = (line: PrescriptionLine) => {
+    if (prescriptions.length >= 20) {
+      showToast('Limite maximale de 20 lignes par ordonnance atteinte.', 'info');
+      return;
+    }
     setPrescriptions((prev) => [...prev, { ...line }]);
   };
 
   const handleSaveAndPrint = async () => {
-    if (!user) return;
+    if (!user || savingDoc) return;
     if (!activePatient) {
       showToast("Créez d'abord un dossier patient.", 'error');
       return;
     }
-    if (permissions.canCreateMedicalDocs) {
-      await saveRecord(
-        'medicalDocuments',
-        generateSafeId('doc'),
-        {
-          patientId: activePatient.id,
-          patientName: `${activePatient.firstName} ${activePatient.lastName}`,
-          practitionerId: user.uid,
-          practitionerName: staffProfile?.displayName || 'Praticien',
-          docType,
-          date: todayISO(),
-          title,
-          prescriptions: docType === 'Ordonnance' ? prescriptions : [],
-          bodyText,
-          createdBy: user.uid,
-        },
-        true
-      );
-    }
+    const safeTitle = title.trim().slice(0, 160) || docType;
+    const safeBodyText = bodyText.trim().slice(0, 3000);
+    const safePrescriptions = docType === 'Ordonnance' ? prescriptions.slice(0, 20) : [];
 
-    const patientLastInv = invoices
-      .filter((i) => i.patientId === activePatient.id && i.status !== 'Annulée')
-      .sort((a, b) => (b.issueDate || '').localeCompare(a.issueDate || ''))[0];
-    setPrintableDoc({
-      kind:
-        docType === 'Ordonnance'
-          ? 'prescription'
-          : docType === 'Feuille de soins'
-          ? 'care-sheet'
-          : 'certificate',
-      title,
-      date: todayISO(),
-      patientName: `${activePatient.firstName} ${activePatient.lastName}`,
-      patientCin: activePatient.cin,
-      patientPhone: activePatient.phone,
-      patientInsurance: `${activePatient.insuranceType} (${activePatient.coverageRate}%)`,
-      patientInsuranceNumber: activePatient.insuranceNumber,
-      practitionerName: staffProfile?.displayName || 'Chirurgien-Dentiste',
-      prescriptions: docType === 'Ordonnance' ? prescriptions : undefined,
-      bodyText,
-      items:
-        docType === 'Feuille de soins' && patientLastInv
-          ? patientLastInv.items.map((it) => ({
-              label: it.actName,
-              tooth: it.tooth,
-              qty: it.quantity,
-              unitPrice: it.unitPrice,
-              total: it.total,
-            }))
-          : undefined,
-      totalAmount: docType === 'Feuille de soins' && patientLastInv ? patientLastInv.totalAmount : undefined,
-    });
-    showToast(
-      permissions.canCreateMedicalDocs
-        ? 'Document généré et archivé.'
-        : 'Aperçu A4 généré pour impression.',
-      'success'
-    );
+    setSavingDoc(true);
+    try {
+      if (permissions.canCreateMedicalDocs) {
+        await saveRecord(
+          'medicalDocuments',
+          generateSafeId('doc'),
+          {
+            patientId: activePatient.id,
+            patientName: `${activePatient.firstName} ${activePatient.lastName}`.trim().slice(0, 150),
+            practitionerId: user.uid,
+            practitionerName: (staffProfile?.displayName || 'Praticien').slice(0, 120),
+            docType,
+            date: todayISO(),
+            title: safeTitle,
+            prescriptions: safePrescriptions,
+            bodyText: safeBodyText,
+            createdBy: user.uid,
+          },
+          true
+        );
+      }
+
+      const patientLastInv = invoices
+        .filter((i) => i.patientId === activePatient.id && i.status !== 'Annulée')
+        .sort((a, b) => (b.issueDate || '').localeCompare(a.issueDate || ''))[0];
+      setPrintableDoc({
+        kind:
+          docType === 'Ordonnance'
+            ? 'prescription'
+            : docType === 'Feuille de soins'
+            ? 'care-sheet'
+            : docType === "Note d'honoraires"
+            ? 'fee-note'
+            : 'certificate',
+        title: safeTitle,
+        subtitle:
+          docType === 'Certificat médical'
+            ? `Type : ${certCategory} · Durée : ${certDurationDays} jour(s)`
+            : undefined,
+        reference: activePatient.fileNumber ? `P.${activePatient.fileNumber}` : undefined,
+        date: todayISO(),
+        patientName: `${activePatient.firstName} ${activePatient.lastName}`,
+        patientCin: activePatient.cin,
+        patientPhone: activePatient.phone,
+        patientInsurance: `${activePatient.insuranceType} (${activePatient.coverageRate}%)`,
+        patientInsuranceNumber: activePatient.insuranceNumber,
+        practitionerName: staffProfile?.displayName || 'Chirurgien-Dentiste',
+        prescriptions: docType === 'Ordonnance' ? safePrescriptions : undefined,
+        bodyText: safeBodyText,
+        items:
+          docType === 'Feuille de soins' && patientLastInv
+            ? patientLastInv.items.map((it) => ({
+                label: it.actName,
+                tooth: it.tooth,
+                qty: it.quantity,
+                unitPrice: it.unitPrice,
+                total: it.total,
+              }))
+            : undefined,
+        totalAmount:
+          docType === "Note d'honoraires"
+            ? feeNoteAmount
+            : docType === 'Feuille de soins' && patientLastInv
+            ? patientLastInv.totalAmount
+            : undefined,
+        paidAmount: docType === "Note d'honoraires" ? feeNoteAmount : undefined,
+        paymentMethod: docType === "Note d'honoraires" ? feeNoteMethod : undefined,
+      });
+      showToast(
+        permissions.canCreateMedicalDocs
+          ? 'Document généré et archivé.'
+          : 'Aperçu A4 généré pour impression.',
+        'success'
+      );
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la génération du document.', 'error');
+    } finally {
+      setSavingDoc(false);
+    }
   };
+
+  const docTypeCounts = useMemo(() => {
+    const counts = {
+      ALL: medicalDocuments.length,
+      Ordonnance: 0,
+      'Certificat médical': 0,
+      'Feuille de soins': 0,
+      "Note d'honoraires": 0,
+    };
+    medicalDocuments.forEach((d) => {
+      if (d.docType === 'Ordonnance') counts.Ordonnance += 1;
+      else if (d.docType === 'Certificat médical') counts['Certificat médical'] += 1;
+      else if (d.docType === 'Feuille de soins') counts['Feuille de soins'] += 1;
+      else if (d.docType === "Note d'honoraires") counts["Note d'honoraires"] += 1;
+    });
+    return counts;
+  }, [medicalDocuments]);
+
+  const filteredDocuments = useMemo(() => {
+    const q = historySearch.trim().toLowerCase();
+    return medicalDocuments.filter((d) => {
+      if (historyCategory !== 'ALL' && d.docType !== historyCategory) return false;
+      if (!q) return true;
+      return `${d.title} ${d.docType} ${d.patientName} ${d.patientFileNumber || ''} ${d.practitionerName || ''} ${d.actsText || ''} ${d.medicationsText || ''} ${d.bodyText || ''} ${d.certificateType || ''} ${d.careSheetFund || ''} ${d.paymentMethod || ''}`
+        .toLowerCase()
+        .includes(q);
+    });
+  }, [medicalDocuments, historyCategory, historySearch]);
+
+  useEffect(() => {
+    setDocPage(1);
+  }, [historyCategory, historySearch]);
+
+  const totalDocPages = Math.max(1, Math.ceil(filteredDocuments.length / DOC_PAGE_SIZE));
+  const safeDocPage = Math.min(docPage, totalDocPages);
+  const paginatedDocuments = useMemo(() => {
+    const start = (safeDocPage - 1) * DOC_PAGE_SIZE;
+    return filteredDocuments.slice(start, start + DOC_PAGE_SIZE);
+  }, [filteredDocuments, safeDocPage]);
+
+  if (!canAccessSection(activeRole, 'documents')) {
+    return <AccessDeniedView sectionLabel="Documents Médicaux & Ordonnances" />;
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-      <div className="lg:col-span-7 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4">
+      <div className="lg:col-span-5 min-w-0 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
           <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-            Éditeur d'Ordonnances, Certificats & Feuilles de Soins
+            Éditeur d'Ordonnances, Certificats, Feuilles & Notes
           </h2>
           <button
             type="button"
-            onClick={handleSaveAndPrint}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-sky-600 px-3.5 py-2 text-xs font-medium text-white hover:bg-sky-700"
+            disabled={savingDoc}
+            onClick={() => void handleSaveAndPrint()}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-sky-600 px-3.5 py-2 text-xs font-medium text-white hover:bg-sky-700 disabled:opacity-60"
           >
             <Printer className="h-3.5 w-3.5" />
-            <span>{permissions.canCreateMedicalDocs ? 'Enregistrer & Imprimer A4' : 'Imprimer A4'}</span>
+            <span>
+              {savingDoc
+                ? 'Génération...'
+                : permissions.canCreateMedicalDocs
+                ? 'Enregistrer & Imprimer A4'
+                : 'Imprimer A4'}
+            </span>
           </button>
         </div>
 
@@ -549,7 +765,7 @@ export const DocumentsView: React.FC = () => {
             >
               {patients.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.firstName} {p.lastName} ({p.insuranceType})
+                  {p.fileNumber ? `${p.fileNumber} · ` : ''}{p.firstName} {p.lastName}
                 </option>
               ))}
             </select>
@@ -562,7 +778,9 @@ export const DocumentsView: React.FC = () => {
               className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
             >
               <option value="Ordonnance">Ordonnance Médicamenteuse</option>
+              <option value="Certificat médical">Certificat médical</option>
               <option value="Feuille de soins">Feuille de Soins CNSS / CNOPS / AMO</option>
+              <option value="Note d'honoraires">Note d'honoraires</option>
               <option value="Certificat de présence">Certificat de présence</option>
               <option value="Dispense">Dispense scolaire / professionnelle</option>
               <option value="Attestation de soins">Attestation de soins</option>
@@ -571,6 +789,82 @@ export const DocumentsView: React.FC = () => {
             </select>
           </div>
         </div>
+
+        {docType === 'Certificat médical' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-3">
+            <div>
+              <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Durée (Jours)</label>
+              <input
+                type="number"
+                min={1}
+                value={certDurationDays}
+                onChange={(e) => {
+                  const days = Math.max(1, Number(e.target.value) || 1);
+                  setCertDurationDays(days);
+                  setTitle(`Certificat médical (${certCategory}) · ${days} jour${days > 1 ? 's' : ''}`);
+                  setBodyText(
+                    `Je soussigné(e), Docteur en Chirurgie Dentaire, certifie après examen clinique que l'état bucco-dentaire du/de la patient(e) nécessite un repos / arrêt de ${days} jour(s) à compter de ce jour (Type : ${certCategory}).`
+                  );
+                }}
+                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-1.5 font-mono"
+              />
+            </div>
+            <div>
+              <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Type</label>
+              <select
+                value={certCategory}
+                onChange={(e) => {
+                  const nextCat = e.target.value as 'Initial' | 'Prolongation';
+                  setCertCategory(nextCat);
+                  setTitle(`Certificat médical (${nextCat}) · ${certDurationDays} jour${certDurationDays > 1 ? 's' : ''}`);
+                  setBodyText(
+                    `Je soussigné(e), Docteur en Chirurgie Dentaire, certifie après examen clinique que l'état bucco-dentaire du/de la patient(e) nécessite un repos / arrêt de ${certDurationDays} jour(s) à compter de ce jour (Type : ${nextCat}).`
+                  );
+                }}
+                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-1.5"
+              >
+                <option value="Initial">Initial</option>
+                <option value="Prolongation">Prolongation</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {docType === "Note d'honoraires" && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-3">
+            <div>
+              <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Montant (MAD)</label>
+              <input
+                type="number"
+                min={0}
+                value={feeNoteAmount}
+                onChange={(e) => {
+                  const amt = Math.max(0, Number(e.target.value) || 0);
+                  setFeeNoteAmount(amt);
+                  setTitle(`Note d'honoraires · ${amt.toLocaleString('fr-FR')} MAD (${feeNoteMethod})`);
+                }}
+                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-1.5 font-mono"
+              />
+            </div>
+            <div>
+              <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Moyen de paiement</label>
+              <select
+                value={feeNoteMethod}
+                onChange={(e) => {
+                  const method = e.target.value;
+                  setFeeNoteMethod(method);
+                  setTitle(`Note d'honoraires · ${feeNoteAmount.toLocaleString('fr-FR')} MAD (${method})`);
+                }}
+                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-1.5"
+              >
+                <option value="Espèce">Espèce</option>
+                <option value="Virement bancaire">Virement bancaire</option>
+                <option value="Carte bancaire">Carte bancaire</option>
+                <option value="Chèque">Chèque</option>
+              </select>
+            </div>
+          </div>
+        )}
 
         <div className="text-xs">
           <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Titre du document</label>
@@ -656,82 +950,255 @@ export const DocumentsView: React.FC = () => {
           </div>
         ) : (
           <textarea
-            rows={8}
+            rows={7}
             value={bodyText}
             onChange={(e) => setBodyText(e.target.value)}
+            placeholder="Contenu détaillé / actes figurant sur le document..."
             className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2 text-xs leading-relaxed"
           />
         )}
       </div>
 
-      {/* Saved Documents History */}
-      <div className="lg:col-span-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-3">
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-          Historique des Documents Émis ({medicalDocuments.length})
-        </h3>
-        {medicalDocuments.length === 0 ? (
-          <p className="py-8 text-center text-xs text-slate-500 dark:text-slate-400">Aucun document archivé pour le moment.</p>
+      {/* Saved & CSV Documents History — Full Column Display */}
+      <div className="lg:col-span-7 min-w-0 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            Historique des Documents Émis ({filteredDocuments.length} / {medicalDocuments.length})
+          </h3>
+          <div className="relative w-full sm:w-auto">
+            <Search className="h-3.5 w-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={historySearch}
+              onChange={(e) => setHistorySearch(e.target.value)}
+              placeholder="Patient, N° P, actes, médicaments..."
+              className="w-full sm:w-56 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 pl-8 pr-2.5 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-1.5">
+          {(
+            [
+              { id: 'ALL', label: `Tous (${docTypeCounts.ALL})` },
+              { id: 'Certificat médical', label: `Certificats médicaux (${docTypeCounts['Certificat médical']})` },
+              { id: 'Ordonnance', label: `Ordonnances (${docTypeCounts.Ordonnance})` },
+              { id: 'Feuille de soins', label: `Feuilles de soins (${docTypeCounts['Feuille de soins']})` },
+              { id: "Note d'honoraires", label: `Notes d'honoraires (${docTypeCounts["Note d'honoraires"]})` },
+            ] as const
+          ).map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setHistoryCategory(tab.id)}
+              className={`rounded-lg px-2.5 py-1 text-[11px] font-medium transition-colors ${
+                historyCategory === tab.id
+                  ? 'bg-sky-600 text-white'
+                  : 'border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {filteredDocuments.length === 0 ? (
+          <p className="py-8 text-center text-xs text-slate-500 dark:text-slate-400">
+            Aucun document ne correspond à ce filtre.
+          </p>
         ) : (
-          <div className="divide-y divide-slate-100 dark:divide-slate-800">
-            {medicalDocuments.map((d) => (
-              <div key={d.id} className="py-3 flex items-center justify-between gap-2 text-xs">
-                <div>
-                  <p className="font-semibold text-slate-900 dark:text-slate-100">{d.title}</p>
-                  <p className="text-slate-500 dark:text-slate-400">
-                    <button
-                      type="button"
-                      onClick={() => openPatientFile(d.patientId)}
-                      className="font-medium text-sky-700 dark:text-sky-400 hover:underline"
-                      title="Ouvrir le dossier patient 360°"
-                    >
-                      {d.patientName}
-                    </button>{' '}
-                    · {d.docType} · {formatDateFR(d.date)}
-                  </p>
+          <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-[680px] overflow-y-auto pr-1">
+            {paginatedDocuments.map((d) => (
+              <div key={d.id} className="py-3.5 space-y-2 text-xs">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="rounded bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 px-2 py-0.5 text-[10px] font-semibold text-sky-800 dark:text-sky-300">
+                        {d.docType}
+                      </span>
+                      <span className="font-mono text-[11px] text-slate-600 dark:text-slate-300">
+                        Le : {formatDateFR(d.date)}
+                      </span>
+                      {d.patientFileNumber && (
+                        <span className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[10px] text-slate-600 dark:text-slate-300">
+                          N° Patient : {d.patientFileNumber}
+                        </span>
+                      )}
+                    </div>
+                    <p className="font-semibold text-slate-900 dark:text-slate-100">{d.title}</p>
+                    <p className="text-slate-500 dark:text-slate-400">
+                      Patient :{' '}
+                      <button
+                        type="button"
+                        onClick={() => openPatientFile(d.patientId)}
+                        className="font-semibold text-sky-700 dark:text-sky-400 hover:underline"
+                        title="Ouvrir le dossier patient 360°"
+                      >
+                        {d.patientName}
+                      </button>{' '}
+                      · Praticien : <span className="text-slate-700 dark:text-slate-200">{d.practitionerName || '—'}</span>
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const pat = patients.find((p) => p.id === d.patientId);
+                      const patInv = invoices
+                        .filter((i) => i.patientId === d.patientId && i.status !== 'Annulée')
+                        .sort((a, b) => (b.issueDate || '').localeCompare(a.issueDate || ''))[0];
+                      setPrintableDoc({
+                        kind:
+                          d.docType === 'Ordonnance'
+                            ? 'prescription'
+                            : d.docType === 'Feuille de soins'
+                            ? 'care-sheet'
+                            : d.docType === "Note d'honoraires"
+                            ? 'fee-note'
+                            : 'certificate',
+                        title: d.title,
+                        subtitle:
+                          d.docType === 'Certificat médical' && (d.certificateType || typeof d.durationDays === 'number')
+                            ? `Type : ${d.certificateType || '—'}${typeof d.durationDays === 'number' ? ` · Durée : ${d.durationDays} jour(s)` : ''}`
+                            : d.docType === 'Feuille de soins' && d.careSheetFund
+                            ? `${d.careSheetFund}${d.careSheetExecutionType ? ` · ${d.careSheetExecutionType}` : ''}`
+                            : undefined,
+                        reference: d.patientFileNumber ? `P.${d.patientFileNumber}` : pat?.fileNumber,
+                        date: d.date,
+                        patientName: d.patientName,
+                        patientCin: pat?.cin,
+                        patientPhone: pat?.phone,
+                        patientInsurance: pat ? `${pat.insuranceType} (${pat.coverageRate}%)` : undefined,
+                        patientInsuranceNumber: pat?.insuranceNumber,
+                        practitionerName: d.practitionerName || 'Praticien',
+                        prescriptions: d.prescriptions,
+                        bodyText: d.actsText || d.bodyText || d.medicationsText,
+                        items:
+                          d.docType === 'Feuille de soins' && !d.actsText && patInv
+                            ? patInv.items.map((it) => ({
+                                label: it.actName,
+                                tooth: it.tooth,
+                                qty: it.quantity,
+                                unitPrice: it.unitPrice,
+                                total: it.total,
+                              }))
+                            : undefined,
+                        totalAmount:
+                          typeof d.amount === 'number'
+                            ? d.amount
+                            : d.docType === 'Feuille de soins' && patInv
+                            ? patInv.totalAmount
+                            : undefined,
+                        paidAmount: d.docType === "Note d'honoraires" && typeof d.amount === 'number' ? d.amount : undefined,
+                        paymentMethod: d.paymentMethod,
+                      });
+                    }}
+                    className="shrink-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 text-[11px] font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
+                  >
+                    Réimprimer
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const pat = patients.find((p) => p.id === d.patientId);
-                    const patInv = invoices
-                      .filter((i) => i.patientId === d.patientId && i.status !== 'Annulée')
-                      .sort((a, b) => (b.issueDate || '').localeCompare(a.issueDate || ''))[0];
-                    setPrintableDoc({
-                      kind:
-                        d.docType === 'Ordonnance'
-                          ? 'prescription'
-                          : d.docType === 'Feuille de soins'
-                          ? 'care-sheet'
-                          : 'certificate',
-                      title: d.title,
-                      date: d.date,
-                      patientName: d.patientName,
-                      patientCin: pat?.cin,
-                      patientPhone: pat?.phone,
-                      patientInsurance: pat ? `${pat.insuranceType} (${pat.coverageRate}%)` : undefined,
-                      patientInsuranceNumber: pat?.insuranceNumber,
-                      practitionerName: d.practitionerName || 'Praticien',
-                      prescriptions: d.prescriptions,
-                      bodyText: d.bodyText,
-                      items:
-                        d.docType === 'Feuille de soins' && patInv
-                          ? patInv.items.map((it) => ({
-                              label: it.actName,
-                              tooth: it.tooth,
-                              qty: it.quantity,
-                              unitPrice: it.unitPrice,
-                              total: it.total,
-                            }))
-                          : undefined,
-                      totalAmount: d.docType === 'Feuille de soins' && patInv ? patInv.totalAmount : undefined,
-                    });
-                  }}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 text-[11px] font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
-                >
-                  Réimprimer
-                </button>
+
+                {/* Type-specific structured CSV metadata */}
+                {d.docType === 'Certificat médical' && (typeof d.durationDays === 'number' || d.certificateType) && (
+                  <div className="flex flex-wrap gap-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 px-3 py-1.5 text-[11px] text-slate-700 dark:text-slate-300">
+                    <span>
+                      Durée (Jours) : <strong className="font-mono">{d.durationDays ?? '—'}</strong>
+                    </span>
+                    <span>
+                      Type : <strong>{d.certificateType || '—'}</strong>
+                    </span>
+                  </div>
+                )}
+
+                {d.docType === 'Feuille de soins' && (
+                  <div className="space-y-1 rounded-lg bg-slate-50 dark:bg-slate-800/60 px-3 py-2 text-[11px] text-slate-700 dark:text-slate-300">
+                    <div className="flex flex-wrap gap-3">
+                      <span>
+                        Feuille de soins : <strong>{d.careSheetFund || '—'}</strong>
+                      </span>
+                      <span>
+                        Type : <strong>{d.careSheetExecutionType || '—'}</strong>
+                      </span>
+                      <span>
+                        Montant : <strong className="font-mono">{typeof d.amount === 'number' ? formatMAD(d.amount) : '—'}</strong>
+                      </span>
+                    </div>
+                    {(d.actsText || d.bodyText) && (
+                      <p className="whitespace-pre-line text-slate-600 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-700 pt-1">
+                        Actes : {d.actsText || d.bodyText}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {d.docType === "Note d'honoraires" && (
+                  <div className="space-y-1 rounded-lg bg-slate-50 dark:bg-slate-800/60 px-3 py-2 text-[11px] text-slate-700 dark:text-slate-300">
+                    <div className="flex flex-wrap gap-3">
+                      <span>
+                        Montant : <strong className="font-mono">{typeof d.amount === 'number' ? formatMAD(d.amount) : '—'}</strong>
+                      </span>
+                      <span>
+                        Moyen de paiement : <strong>{d.paymentMethod || '—'}</strong>
+                      </span>
+                    </div>
+                    {(d.actsText || d.bodyText) && (
+                      <p className="whitespace-pre-line text-slate-600 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-700 pt-1">
+                        Actes : {d.actsText || d.bodyText}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {d.docType === 'Ordonnance' && (d.medicationsText || (d.prescriptions && d.prescriptions.length > 0)) && (
+                  <div className="rounded-lg bg-slate-50 dark:bg-slate-800/60 px-3 py-2 text-[11px] text-slate-700 dark:text-slate-300 whitespace-pre-line">
+                    <span className="font-semibold text-slate-800 dark:text-slate-200 block mb-0.5">Les médicaments :</span>
+                    {d.medicationsText ||
+                      d.prescriptions?.map((p, i) => `${i + 1}. ${p.molecule} (${p.dosage} · ${p.frequency} · ${p.duration})`).join('\n')}
+                  </div>
+                )}
+
+                {(d.csvCreatedAt || d.csvCreatedBy || d.csvUpdatedAt || d.csvUpdatedBy) && (
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-slate-400 dark:text-slate-500 font-mono">
+                    {d.csvCreatedAt && <span>Créé le : {d.csvCreatedAt}</span>}
+                    {d.csvCreatedBy && <span>Créé par : {d.csvCreatedBy}</span>}
+                    {d.csvUpdatedAt && <span>Dernière MAJ le : {d.csvUpdatedAt}</span>}
+                    {d.csvUpdatedBy && <span>MAJ par : {d.csvUpdatedBy}</span>}
+                  </div>
+                )}
               </div>
             ))}
+          </div>
+        )}
+
+        {totalDocPages > 1 && (
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 dark:border-slate-800 pt-3 text-xs">
+            <span className="font-mono text-slate-600 dark:text-slate-300 tabular-nums">
+              {(safeDocPage - 1) * DOC_PAGE_SIZE + 1}–{Math.min(safeDocPage * DOC_PAGE_SIZE, filteredDocuments.length)} sur {filteredDocuments.length} document(s)
+            </span>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                disabled={safeDocPage <= 1}
+                onClick={() => setDocPage((p) => Math.max(1, p - 1))}
+                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 font-medium text-slate-700 dark:text-slate-200 disabled:opacity-40"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+                <span>Précédent</span>
+              </button>
+              <span className="px-2 font-mono text-slate-600 dark:text-slate-300 tabular-nums">
+                Page {safeDocPage} / {totalDocPages}
+              </span>
+              <button
+                type="button"
+                disabled={safeDocPage >= totalDocPages}
+                onClick={() => setDocPage((p) => Math.min(totalDocPages, p + 1))}
+                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 font-medium text-slate-700 dark:text-slate-200 disabled:opacity-40"
+              >
+                <span>Suivant</span>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -743,7 +1210,7 @@ export const DocumentsView: React.FC = () => {
 // MODULE 8 : CAISSE JOURNALIÈRE & CHARGES ANALYTIQUES
 // ============================================================================
 export const CashExpensesView: React.FC = () => {
-  const { user, staffProfile, payments, expenses, cashClosures, permissions, saveRecord, showToast } =
+  const { user, activeRole, staffProfile, payments, expenses, cashClosures, permissions, saveRecord, showToast } =
     useClinic();
   const [tab, setTab] = useState<'cash' | 'expenses'>('cash');
   const today = todayISO();
@@ -783,6 +1250,12 @@ export const CashExpensesView: React.FC = () => {
   );
   const [countedEdited, setCountedEdited] = useState(false);
   const [closureNotes, setClosureNotes] = useState(() => existingTodayClosure?.notes || '');
+  const [notesEdited, setNotesEdited] = useState(false);
+  const [savingClosure, setSavingClosure] = useState(false);
+  const [savingExpense, setSavingExpense] = useState(false);
+  const [expSearch, setExpSearch] = useState('');
+  const [expPage, setExpPage] = useState(1);
+  const EXP_PAGE_SIZE = 50;
 
   useEffect(() => {
     if (!openingEdited) {
@@ -797,10 +1270,36 @@ export const CashExpensesView: React.FC = () => {
   }, [existingTodayClosure, expectedBalance, countedEdited]);
 
   useEffect(() => {
-    if (existingTodayClosure?.notes && !closureNotes) {
-      setClosureNotes(existingTodayClosure.notes);
+    if (!notesEdited) {
+      setClosureNotes(existingTodayClosure?.notes || '');
     }
-  }, [existingTodayClosure, closureNotes]);
+  }, [existingTodayClosure, notesEdited]);
+
+  const filteredExpenses = useMemo(() => {
+    const q = expSearch.trim().toLowerCase();
+    if (!q) return expenses;
+    return expenses.filter((e) =>
+      `${e.date} ${e.category} ${e.expenseType} ${e.rawType || ''} ${e.label} ${e.description || ''} ${e.supplier || ''} ${e.practitionerName || ''} ${e.enteredBy || ''} ${e.rawPaymentMethod || e.paymentMethod}`
+        .toLowerCase()
+        .includes(q)
+    );
+  }, [expenses, expSearch]);
+
+  useEffect(() => {
+    setExpPage(1);
+  }, [expSearch]);
+
+  const totalFilteredExpenses = useMemo(
+    () => filteredExpenses.reduce((sum, item) => sum + Number(item.amount || 0), 0),
+    [filteredExpenses]
+  );
+
+  const totalExpPages = Math.max(1, Math.ceil(filteredExpenses.length / EXP_PAGE_SIZE));
+  const safeExpPage = Math.min(expPage, totalExpPages);
+  const paginatedExpenses = useMemo(() => {
+    const start = (safeExpPage - 1) * EXP_PAGE_SIZE;
+    return filteredExpenses.slice(start, start + EXP_PAGE_SIZE);
+  }, [filteredExpenses, safeExpPage]);
 
   const isClosureLockedForRole = Boolean(
     existingTodayClosure && !permissions.canManageExpensesAndClosures
@@ -819,71 +1318,95 @@ export const CashExpensesView: React.FC = () => {
 
   const handleCloseDay = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
-    if (existingTodayClosure) {
-      if (!permissions.canManageExpensesAndClosures) {
-        showToast('Clôture déjà verrouillée (modification réservée au Praticien Titulaire).', 'error');
-        return;
-      }
-      const discrepancy = Number(countedBalance) - existingTodayClosure.expectedBalance;
-      await saveRecord(
-        'cashClosures',
-        existingTodayClosure.id,
-        {
-          countedBalance: Number(countedBalance),
-          discrepancy,
-          notes: closureNotes,
-          locked: true,
-        },
-        false
-      );
-    } else {
-      const discrepancy = Number(countedBalance) - expectedBalance;
-      await saveRecord(
-        'cashClosures',
-        `close_${today}`,
-        {
-          date: today,
-          openingBalance: Number(openingBalance),
-          cashInflows: todayCashIn,
-          cashOutflows: todayCashOut,
-          expectedBalance,
-          countedBalance: Number(countedBalance),
-          discrepancy,
-          notes: closureNotes,
-          locked: true,
-          closedByUid: user.uid,
-          closedByName: staffProfile?.displayName || 'Responsable',
-        },
-        true
-      );
+    if (!user || savingClosure) return;
+    if (existingTodayClosure && !permissions.canManageExpensesAndClosures) {
+      showToast('Clôture déjà verrouillée (modification réservée au Praticien Titulaire).', 'error');
+      return;
     }
-    showToast('Clôture journalière de caisse verrouillée.', 'success');
+    setSavingClosure(true);
+    try {
+      const safeCounted = Number(countedBalance) || 0;
+      const safeNotes = closureNotes.trim().slice(0, 400);
+      if (existingTodayClosure) {
+        const discrepancy = safeCounted - existingTodayClosure.expectedBalance;
+        await saveRecord(
+          'cashClosures',
+          existingTodayClosure.id,
+          {
+            countedBalance: safeCounted,
+            discrepancy,
+            notes: safeNotes,
+            locked: true,
+          },
+          false
+        );
+      } else {
+        const discrepancy = safeCounted - expectedBalance;
+        await saveRecord(
+          'cashClosures',
+          `close_${today}`,
+          {
+            date: today,
+            openingBalance: Number(openingBalance) || 0,
+            cashInflows: todayCashIn,
+            cashOutflows: todayCashOut,
+            expectedBalance,
+            countedBalance: safeCounted,
+            discrepancy,
+            notes: safeNotes,
+            locked: true,
+            closedByUid: user.uid,
+            closedByName: (staffProfile?.displayName || 'Responsable').slice(0, 120),
+          },
+          true
+        );
+      }
+      showToast('Clôture journalière de caisse verrouillée.', 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la clôture de caisse.', 'error');
+    } finally {
+      setSavingClosure(false);
+    }
   };
 
   const handleAddExpense = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !expForm.label.trim()) return;
+    if (!user || !expForm.label.trim() || savingExpense) return;
     const amt = Number(expForm.amount);
     if (!Number.isFinite(amt) || amt <= 0) {
       showToast('Veuillez saisir un montant supérieur à 0 MAD.', 'error');
       return;
     }
-    await saveRecord(
-      'expenses',
-      generateSafeId('exp'),
-      {
-        ...expForm,
-        label: expForm.label.trim(),
-        supplier: expForm.supplier.trim(),
-        amount: amt,
-        createdBy: user.uid,
-      },
-      true
-    );
-    setExpForm({ ...expForm, label: '', supplier: '', amount: 0, receiptRef: '' });
-    showToast('Charge enregistrée dans la comptabilité analytique.', 'success');
+    setSavingExpense(true);
+    try {
+      await saveRecord(
+        'expenses',
+        generateSafeId('exp'),
+        {
+          date: expForm.date,
+          category: expForm.category,
+          expenseType: expForm.expenseType,
+          label: expForm.label.trim().slice(0, 180),
+          supplier: expForm.supplier.trim().slice(0, 120),
+          amount: amt,
+          paymentMethod: expForm.paymentMethod,
+          receiptRef: expForm.receiptRef.trim().slice(0, 80),
+          createdBy: user.uid,
+        },
+        true
+      );
+      setExpForm({ ...expForm, label: '', supplier: '', amount: 0, receiptRef: '' });
+      showToast('Charge enregistrée dans la comptabilité analytique.', 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Erreur lors de l'enregistrement de la charge.", 'error');
+    } finally {
+      setSavingExpense(false);
+    }
   };
+
+  if (!canAccessSection(activeRole, 'cash-expenses')) {
+    return <AccessDeniedView sectionLabel="Caisse & Dépenses" />;
+  }
 
   return (
     <div className="space-y-5">
@@ -920,7 +1443,7 @@ export const CashExpensesView: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           <form
             onSubmit={handleCloseDay}
-            className="lg:col-span-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4 text-xs"
+            className="lg:col-span-5 min-w-0 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 space-y-4 text-xs"
           >
             <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
               Clôture Journalière des Espèces — {formatDateFR(today)}
@@ -986,18 +1509,23 @@ export const CashExpensesView: React.FC = () => {
               disabled={isClosureLockedForRole}
               placeholder="Justification éventuelle d'écart de caisse..."
               value={closureNotes}
-              onChange={(e) => setClosureNotes(e.target.value)}
+              onChange={(e) => {
+                setNotesEdited(true);
+                setClosureNotes(e.target.value);
+              }}
               className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 disabled:opacity-60"
             />
 
             <button
               type="submit"
-              disabled={isClosureLockedForRole}
+              disabled={isClosureLockedForRole || savingClosure}
               className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-[#0B2239] dark:bg-sky-600 py-2.5 text-xs font-semibold text-white hover:bg-slate-800 dark:hover:bg-sky-700 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <Lock className="h-3.5 w-3.5" />
               <span>
-                {isClosureLockedForRole
+                {savingClosure
+                  ? 'Enregistrement...'
+                  : isClosureLockedForRole
                   ? 'Caisse verrouillée (modification réservée au Titulaire)'
                   : existingTodayClosure
                   ? 'Mettre à jour la Clôture du Jour'
@@ -1006,34 +1534,36 @@ export const CashExpensesView: React.FC = () => {
             </button>
           </form>
 
-          <div className="lg:col-span-7 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
-            <div className="border-b border-slate-200 dark:border-slate-800 px-5 py-3.5">
+          <div className="lg:col-span-7 min-w-0 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+            <div className="border-b border-slate-200 dark:border-slate-800 px-4 sm:px-5 py-3.5">
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Historique des Clôtures</h3>
             </div>
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400">
-                  <th className="px-4 py-2.5 font-medium">Date</th>
-                  <th className="px-4 py-2.5 font-medium text-right">Attendu</th>
-                  <th className="px-4 py-2.5 font-medium text-right">Compté</th>
-                  <th className="px-4 py-2.5 font-medium text-right">Écart</th>
-                  <th className="px-4 py-2.5 font-medium">Statut</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {cashClosures.map((c) => (
-                  <tr key={c.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                    <td className="px-4 py-3 font-mono tabular-nums text-slate-700 dark:text-slate-300">{formatDateFR(c.date)}</td>
-                    <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-700 dark:text-slate-200">{formatMAD(c.expectedBalance)}</td>
-                    <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-700 dark:text-slate-200">{formatMAD(c.countedBalance)}</td>
-                    <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-700 dark:text-slate-200">{formatMAD(c.discrepancy)}</td>
-                    <td className="px-4 py-3 text-emerald-700 dark:text-emerald-400 font-medium">
-                      {c.locked ? 'Verrouillée' : 'Ouverte'} · {c.closedByName}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                    <th className="px-4 py-2.5 font-medium">Date</th>
+                    <th className="px-4 py-2.5 font-medium text-right">Attendu</th>
+                    <th className="px-4 py-2.5 font-medium text-right">Compté</th>
+                    <th className="px-4 py-2.5 font-medium text-right">Écart</th>
+                    <th className="px-4 py-2.5 font-medium">Statut</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  {cashClosures.map((c) => (
+                    <tr key={c.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                      <td className="px-4 py-3 font-mono tabular-nums text-slate-700 dark:text-slate-300 whitespace-nowrap">{formatDateFR(c.date)}</td>
+                      <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-700 dark:text-slate-200 whitespace-nowrap">{formatMAD(c.expectedBalance)}</td>
+                      <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-700 dark:text-slate-200 whitespace-nowrap">{formatMAD(c.countedBalance)}</td>
+                      <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-700 dark:text-slate-200 whitespace-nowrap">{formatMAD(c.discrepancy)}</td>
+                      <td className="px-4 py-3 text-emerald-700 dark:text-emerald-400 font-medium whitespace-nowrap">
+                        {c.locked ? 'Verrouillée' : 'Ouverte'} · {c.closedByName}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       ) : (
@@ -1111,41 +1641,134 @@ export const CashExpensesView: React.FC = () => {
             </div>
             <button
               type="submit"
-              className="rounded-lg bg-sky-600 px-3 py-2 font-medium text-white hover:bg-sky-700 whitespace-nowrap"
+              disabled={savingExpense}
+              className="rounded-lg bg-sky-600 px-3 py-2 font-medium text-white hover:bg-sky-700 disabled:opacity-60 whitespace-nowrap"
             >
-              + Enregistrer
+              {savingExpense ? 'Ajout...' : '+ Enregistrer'}
             </button>
           </form>
 
           <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400">
-                  <th className="px-4 py-3 font-medium">Date</th>
-                  <th className="px-4 py-3 font-medium">Nature</th>
-                  <th className="px-4 py-3 font-medium">Catégorie</th>
-                  <th className="px-4 py-3 font-medium">Libellé & Fournisseur</th>
-                  <th className="px-4 py-3 font-medium">Mode</th>
-                  <th className="px-4 py-3 font-medium text-right">Montant</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {expenses.map((e) => (
-                  <tr key={e.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                    <td className="px-4 py-3 font-mono tabular-nums text-slate-700 dark:text-slate-300">{formatDateFR(e.date)}</td>
-                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{e.expenseType}</td>
-                    <td className="px-4 py-3 font-medium text-slate-800 dark:text-slate-200">{e.category}</td>
-                    <td className="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">
-                      {e.label} {e.supplier ? `· ${e.supplier}` : ''}
-                    </td>
-                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{e.paymentMethod}</td>
-                    <td className="px-4 py-3 text-right font-mono font-semibold tabular-nums text-red-700 dark:text-red-400">
-                      {formatMAD(e.amount)}
-                    </td>
+            <div className="border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex flex-wrap items-center justify-between gap-2 bg-slate-50/70 dark:bg-slate-800/40 text-xs">
+              <span className="font-semibold text-slate-800 dark:text-slate-200">
+                Registre complet des Charges ({filteredExpenses.length} / {expenses.length}) · Total :{' '}
+                <span className="font-mono text-red-700 dark:text-red-400">
+                  {formatMAD(totalFilteredExpenses)}
+                </span>
+              </span>
+              <div className="relative">
+                <Search className="h-3.5 w-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={expSearch}
+                  onChange={(e) => setExpSearch(e.target.value)}
+                  placeholder="Filtrer par libellé, type, fournisseur..."
+                  className="w-60 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 pl-8 pr-2.5 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
+                />
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs whitespace-nowrap">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400">
+                    <th className="px-3 py-3 font-medium">Date</th>
+                    <th className="px-3 py-3 font-medium text-right">Montant</th>
+                    <th className="px-3 py-3 font-medium">Type</th>
+                    <th className="px-3 py-3 font-medium">Description</th>
+                    <th className="px-3 py-3 font-medium">Praticien</th>
+                    <th className="px-3 py-3 font-medium">Saisi par</th>
+                    <th className="px-3 py-3 font-medium">Moyen de paiement</th>
+                    <th className="px-3 py-3 font-medium">Date de règlement</th>
+                    <th className="px-3 py-3 font-medium text-center">Declaré</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  {paginatedExpenses.length === 0 ? (
+                    <tr>
+                      <td colSpan={9} className="px-4 py-8 text-center text-slate-500 dark:text-slate-400">
+                        Aucune charge correspondante.
+                      </td>
+                    </tr>
+                  ) : (
+                    paginatedExpenses.map((e) => (
+                      <tr key={e.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                        <td className="px-3 py-3 font-mono tabular-nums text-slate-700 dark:text-slate-300">
+                          {formatDateFR(e.date)}
+                        </td>
+                        <td className="px-3 py-3 text-right font-mono font-semibold tabular-nums text-red-700 dark:text-red-400">
+                          {formatMAD(e.amount)}
+                        </td>
+                        <td className="px-3 py-3 font-medium text-slate-800 dark:text-slate-200">
+                          {e.rawType || `${e.category} (${e.expenseType})`}
+                        </td>
+                        <td className="px-3 py-3 text-slate-900 dark:text-slate-100 whitespace-normal min-w-[200px]">
+                          <span className="font-semibold">{e.description || e.label}</span>
+                          {e.supplier ? (
+                            <span className="block text-[11px] text-slate-500 dark:text-slate-400">
+                              Fournisseur : {e.supplier}
+                            </span>
+                          ) : null}
+                        </td>
+                        <td className="px-3 py-3 text-slate-700 dark:text-slate-300">
+                          {e.practitionerName || '—'}
+                        </td>
+                        <td className="px-3 py-3 text-slate-600 dark:text-slate-400">
+                          {e.enteredBy || '—'}
+                        </td>
+                        <td className="px-3 py-3 text-slate-700 dark:text-slate-300">
+                          {e.rawPaymentMethod || e.paymentMethod}
+                        </td>
+                        <td className="px-3 py-3 font-mono tabular-nums text-slate-600 dark:text-slate-300">
+                          {e.settlementDate ? formatDateFR(e.settlementDate) : '—'}
+                        </td>
+                        <td className="px-3 py-3 text-center">
+                          <span
+                            className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                              (e.declared || '').toLowerCase() === 'oui'
+                                ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+                            }`}
+                          >
+                            {e.declared || '—'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {totalExpPages > 1 && (
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 px-4 py-2.5 text-xs">
+                <span className="font-mono text-slate-600 dark:text-slate-300 tabular-nums">
+                  {(safeExpPage - 1) * EXP_PAGE_SIZE + 1}–{Math.min(safeExpPage * EXP_PAGE_SIZE, filteredExpenses.length)} sur {filteredExpenses.length} charge(s)
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    disabled={safeExpPage <= 1}
+                    onClick={() => setExpPage((p) => Math.max(1, p - 1))}
+                    className="inline-flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 font-medium text-slate-700 dark:text-slate-200 disabled:opacity-40"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" />
+                    <span>Précédent</span>
+                  </button>
+                  <span className="px-2 font-mono text-slate-600 dark:text-slate-300 tabular-nums">
+                    Page {safeExpPage} / {totalExpPages}
+                  </span>
+                  <button
+                    type="button"
+                    disabled={safeExpPage >= totalExpPages}
+                    onClick={() => setExpPage((p) => Math.min(totalExpPages, p + 1))}
+                    className="inline-flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 font-medium text-slate-700 dark:text-slate-200 disabled:opacity-40"
+                  >
+                    <span>Suivant</span>
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -1157,8 +1780,10 @@ export const CashExpensesView: React.FC = () => {
 // MODULE 9 : GESTION SIMPLIFIÉE DU STOCK & CONSOMMABLES
 // ============================================================================
 export const InventoryView: React.FC = () => {
-  const { user, inventory, stockMovements, saveRecord, showToast } = useClinic();
+  const { user, activeRole, inventory, stockMovements, saveRecord, showToast } = useClinic();
   const [showModal, setShowModal] = useState(false);
+  const [savingItem, setSavingItem] = useState(false);
+  const [busyItemId, setBusyItemId] = useState<string | null>(null);
   const [form, setForm] = useState({
     sku: '',
     name: '',
@@ -1172,50 +1797,86 @@ export const InventoryView: React.FC = () => {
 
   const handleAddItem = async (e: React.FormEvent) => {
     e.preventDefault();
-    await saveRecord(
-      'inventory',
-      generateSafeId('inv'),
-      {
-        sku: form.sku.trim().toUpperCase(),
-        name: form.name.trim(),
-        category: form.category,
-        unit: form.unit,
-        quantity: Number(form.quantity),
-        minThreshold: Number(form.minThreshold),
-        unitCost: Number(form.unitCost),
-        supplier: form.supplier.trim(),
-        expiryDate: '',
-      },
-      true
-    );
-    setShowModal(false);
-    showToast('Article ajouté au stock.', 'success');
+    if (savingItem) return;
+    const safeSku = form.sku.trim().toUpperCase().slice(0, 40);
+    const safeName = form.name.trim().slice(0, 150);
+    const safeUnit = form.unit.trim().slice(0, 30) || 'Boîtes';
+    if (!safeSku || !safeName) {
+      showToast('Veuillez renseigner le code SKU et la désignation.', 'error');
+      return;
+    }
+    setSavingItem(true);
+    try {
+      await saveRecord(
+        'inventory',
+        generateSafeId('inv'),
+        {
+          sku: safeSku,
+          name: safeName,
+          category: form.category,
+          unit: safeUnit,
+          quantity: Math.max(0, Number(form.quantity) || 0),
+          minThreshold: Math.max(0, Number(form.minThreshold) || 0),
+          unitCost: Math.max(0, Number(form.unitCost) || 0),
+          supplier: form.supplier.trim().slice(0, 120),
+          expiryDate: '',
+        },
+        true
+      );
+      setForm({
+        sku: '',
+        name: '',
+        category: 'Consommables',
+        unit: 'Boîtes',
+        quantity: 10,
+        minThreshold: 5,
+        unitCost: 100,
+        supplier: '',
+      });
+      setShowModal(false);
+      showToast('Article ajouté au stock.', 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Erreur lors de l'ajout au stock.", 'error');
+    } finally {
+      setSavingItem(false);
+    }
   };
 
   const adjustStock = async (item: InventoryItem, type: 'Entrée' | 'Sortie', delta: number) => {
-    if (!user) return;
+    if (!user || busyItemId === item.id) return;
     if (type === 'Sortie' && item.quantity <= 0) {
       showToast(`Stock déjà épuisé pour ${item.name}.`, 'info');
       return;
     }
-    const nextQty = Math.max(0, item.quantity + (type === 'Entrée' ? delta : -delta));
-    await saveRecord('inventory', item.id, { quantity: nextQty }, false);
-    await saveRecord(
-      'stockMovements',
-      generateSafeId('mvt'),
-      {
-        itemId: item.id,
-        itemName: item.name,
-        type,
-        quantity: delta,
-        reason: type === 'Entrée' ? 'Réception fournisseur' : 'Consommation fauteuil',
-        date: todayISO(),
-        createdBy: user.uid,
-      },
-      true
-    );
-    showToast(`Stock mis à jour (${type} ${delta} ${item.unit}).`, 'info');
+    setBusyItemId(item.id);
+    try {
+      const nextQty = Math.max(0, item.quantity + (type === 'Entrée' ? delta : -delta));
+      await saveRecord('inventory', item.id, { quantity: nextQty }, false);
+      await saveRecord(
+        'stockMovements',
+        generateSafeId('mvt'),
+        {
+          itemId: item.id,
+          itemName: item.name.slice(0, 150),
+          type,
+          quantity: Math.max(1, delta),
+          reason: type === 'Entrée' ? 'Réception fournisseur' : 'Consommation fauteuil',
+          date: todayISO(),
+          createdBy: user.uid,
+        },
+        true
+      );
+      showToast(`Stock mis à jour (${type} ${delta} ${item.unit}).`, 'info');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors du mouvement de stock.', 'error');
+    } finally {
+      setBusyItemId(null);
+    }
   };
+
+  if (!canAccessSection(activeRole, 'inventory')) {
+    return <AccessDeniedView sectionLabel="Stock & Consommables" />;
+  }
 
   return (
     <div className="space-y-5">
@@ -1237,7 +1898,8 @@ export const InventoryView: React.FC = () => {
       </div>
 
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
-        <table className="w-full text-left text-xs">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[680px] text-left text-xs">
           <thead>
             <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400">
               <th className="px-4 py-3 font-medium">Réf.</th>
@@ -1275,15 +1937,16 @@ export const InventoryView: React.FC = () => {
                   <td className="px-4 py-3 text-right space-x-1.5 whitespace-nowrap">
                     <button
                       type="button"
-                      onClick={() => adjustStock(item, 'Entrée', 1)}
-                      className="rounded border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 text-[11px] font-medium text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60"
+                      disabled={busyItemId === item.id}
+                      onClick={() => void adjustStock(item, 'Entrée', 1)}
+                      className="rounded border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 text-[11px] font-medium text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 disabled:opacity-40"
                     >
                       +1 Entrée
                     </button>
                     <button
                       type="button"
-                      disabled={item.quantity <= 0}
-                      onClick={() => adjustStock(item, 'Sortie', 1)}
+                      disabled={item.quantity <= 0 || busyItemId === item.id}
+                      onClick={() => void adjustStock(item, 'Sortie', 1)}
                       className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 text-[11px] font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       -1 Sortie
@@ -1294,6 +1957,7 @@ export const InventoryView: React.FC = () => {
             })}
           </tbody>
         </table>
+        </div>
       </div>
 
       {stockMovements.length > 0 && (
@@ -1316,8 +1980,8 @@ export const InventoryView: React.FC = () => {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 dark:bg-slate-950/75 p-4">
-          <div className="w-full max-w-md rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-slate-900/50 dark:bg-slate-950/75 p-3 sm:p-4 pt-safe pb-safe overflow-y-auto">
+          <div className="my-auto w-full max-w-md rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-xl max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">Nouvel Article de Stock</h3>
               <button type="button" onClick={() => setShowModal(false)} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
@@ -1381,16 +2045,18 @@ export const InventoryView: React.FC = () => {
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
+                  disabled={savingItem}
                   onClick={() => setShowModal(false)}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-60"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700"
+                  disabled={savingItem}
+                  className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700 disabled:opacity-60"
                 >
-                  Enregistrer
+                  {savingItem ? 'Enregistrement...' : 'Enregistrer'}
                 </button>
               </div>
             </form>
@@ -1402,142 +2068,462 @@ export const InventoryView: React.FC = () => {
 };
 
 // ============================================================================
-// ÉQUIPE, RÔLES RBAC & INVITATIONS
+// ============================================================================
+// ÉQUIPE, COMPTES UTILISATEURS (LOGIN / MOT DE PASSE) & RÔLES RBAC
 // ============================================================================
 export const StaffView: React.FC = () => {
-  const { user, actualRole, clinicSettings, staffList, staffInvites, saveRecord, removeRecord, showToast } =
-    useClinic();
+  const {
+    user,
+    staffProfile,
+    activeRole,
+    actualRole,
+    clinicSettings,
+    staffList,
+    createStaffAccount,
+    setOwnPassword,
+    saveRecord,
+    removeRecord,
+    showToast,
+  } = useClinic();
   const chairOptions = useMemo(() => {
     const base = clinicSettings?.chairs?.length ? clinicSettings.chairs : ['Fauteuil 1', 'Fauteuil 2', 'Fauteuil 3'];
     return Array.from(new Set([...base, 'Accueil', 'Multi-fauteuils']));
   }, [clinicSettings]);
 
-  const [inviteForm, setInviteForm] = useState({
-    email: '',
+  const [accountForm, setAccountForm] = useState({
+    login: '',
+    password: '',
     displayName: '',
     role: 'collaborateur' as StaffRole,
     specialty: '',
     chairName: chairOptions[0] || 'Fauteuil 2',
   });
+  const [showCreatePassword, setShowCreatePassword] = useState(false);
+  const [creatingAccount, setCreatingAccount] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
+  const [createdCredentials, setCreatedCredentials] = useState<{
+    displayName: string;
+    login: string;
+    password: string;
+    role: StaffRole;
+  } | null>(null);
+  const [copiedCredentials, setCopiedCredentials] = useState(false);
 
-  const handleInvite = async (e: React.FormEvent) => {
+  const [ownPassword, setOwnPasswordInput] = useState('');
+  const [ownPasswordConfirm, setOwnPasswordConfirm] = useState('');
+  const [showOwnPassword, setShowOwnPassword] = useState(false);
+  const [savingOwnPassword, setSavingOwnPassword] = useState(false);
+  const [ownPasswordError, setOwnPasswordError] = useState<string | null>(null);
+  const [justLinkedPassword, setJustLinkedPassword] = useState(false);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [busyStaffId, setBusyStaffId] = useState<string | null>(null);
+
+  const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
-    await saveRecord(
-      'staffInvites',
-      generateSafeId('inv'),
-      {
-        email: inviteForm.email.trim().toLowerCase(),
-        displayName: inviteForm.displayName.trim(),
-        role: inviteForm.role,
-        specialty: inviteForm.specialty.trim(),
-        chairName: inviteForm.chairName,
-        color: '#0284C7',
-        createdBy: user.uid,
-      },
-      true
-    );
-    setInviteForm({
-      email: '',
-      displayName: '',
-      role: 'collaborateur',
-      specialty: '',
-      chairName: chairOptions[0] || 'Fauteuil 2',
-    });
-    showToast('Invitation RBAC créée. Le collaborateur recevra son rôle dès sa connexion Google.', 'success');
+    setCreateError(null);
+    setCreatedCredentials(null);
+    setCopiedCredentials(false);
+    setCreatingAccount(true);
+    try {
+      const created = await createStaffAccount({
+        login: accountForm.login,
+        password: accountForm.password,
+        displayName: accountForm.displayName,
+        role: accountForm.role,
+        specialty: accountForm.specialty,
+        chairName: accountForm.chairName,
+      });
+      setCreatedCredentials({
+        displayName: accountForm.displayName.trim(),
+        login: created.login,
+        password: accountForm.password,
+        role: accountForm.role,
+      });
+      setAccountForm({
+        login: '',
+        password: '',
+        displayName: '',
+        role: 'collaborateur',
+        specialty: '',
+        chairName: chairOptions[0] || 'Fauteuil 2',
+      });
+      showToast(`Compte créé pour ${created.login}.`, 'success');
+    } catch (err) {
+      setCreateError(
+        err instanceof Error ? err.message : 'Erreur lors de la création du compte.'
+      );
+    } finally {
+      setCreatingAccount(false);
+    }
+  };
+
+  const handleCopyCredentials = async () => {
+    if (!createdCredentials) return;
+    const text = [
+      `Accès — Gestion de cabinet dentaire Dr. Sara Bchi`,
+      `Utilisateur : ${createdCredentials.displayName} (${ROLE_LABELS[createdCredentials.role]})`,
+      `Identifiant (Login) : ${createdCredentials.login}`,
+      `Mot de passe : ${createdCredentials.password}`,
+      `Lien : ${typeof window !== 'undefined' ? window.location.origin : ''}`,
+    ].join('\n');
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedCredentials(true);
+      setTimeout(() => setCopiedCredentials(false), 2500);
+    } catch {
+      // Clipboard fallback unavailable
+    }
+  };
+
+  const handleSaveOwnPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setOwnPasswordError(null);
+    if (ownPassword.length < 6) {
+      setOwnPasswordError('Le mot de passe doit contenir au moins 6 caractères.');
+      return;
+    }
+    if (ownPassword !== ownPasswordConfirm) {
+      setOwnPasswordError('Les deux mots de passe ne correspondent pas.');
+      return;
+    }
+    setSavingOwnPassword(true);
+    try {
+      await setOwnPassword(ownPassword);
+      setJustLinkedPassword(true);
+      setOwnPasswordInput('');
+      setOwnPasswordConfirm('');
+    } catch (err) {
+      setOwnPasswordError(
+        err instanceof Error ? err.message : 'Impossible de mettre à jour votre mot de passe.'
+      );
+    } finally {
+      setSavingOwnPassword(false);
+    }
   };
 
   const handleToggleStaffActive = async (memberId: string, uid: string, currentActive: boolean, displayName: string) => {
-    if (actualRole !== 'titulaire') return;
+    if (actualRole !== 'titulaire' || busyStaffId === memberId) return;
     if (uid === user?.uid) {
       showToast('Vous ne pouvez pas suspendre votre propre compte Titulaire.', 'error');
       return;
     }
-    await saveRecord('staff', memberId, { active: !currentActive }, false);
-    showToast(
-      !currentActive ? `Accès réactivé pour ${displayName}.` : `Accès suspendu pour ${displayName}.`,
-      'success'
-    );
+    setBusyStaffId(memberId);
+    try {
+      await saveRecord('staff', memberId, { active: !currentActive }, false);
+      showToast(
+        !currentActive ? `Accès réactivé pour ${displayName}.` : `Accès suspendu pour ${displayName}.`,
+        'success'
+      );
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la modification du statut.', 'error');
+    } finally {
+      setBusyStaffId(null);
+    }
+  };
+
+  const handleUpdateStaffRole = async (memberId: string, uid: string, nextRole: StaffRole, displayName: string) => {
+    if (actualRole !== 'titulaire' || uid === user?.uid || busyStaffId === memberId) return;
+    setBusyStaffId(memberId);
+    try {
+      await saveRecord('staff', memberId, { role: nextRole }, false);
+      showToast(`Rôle mis à jour pour ${displayName} (${ROLE_LABELS[nextRole]}).`, 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la mise à jour du rôle.', 'error');
+    } finally {
+      setBusyStaffId(null);
+    }
   };
 
   const handleUpdateStaffChair = async (memberId: string, nextChair: string) => {
-    if (actualRole !== 'titulaire') return;
-    await saveRecord('staff', memberId, { chairName: nextChair }, false);
-    showToast(`Fauteuil mis à jour (${nextChair}).`, 'success');
+    if (actualRole !== 'titulaire' || busyStaffId === memberId) return;
+    setBusyStaffId(memberId);
+    try {
+      await saveRecord('staff', memberId, { chairName: nextChair.slice(0, 60) }, false);
+      showToast(`Fauteuil mis à jour (${nextChair}).`, 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la mise à jour du fauteuil.', 'error');
+    } finally {
+      setBusyStaffId(null);
+    }
   };
+
+  const handleDeleteStaffMember = async (memberId: string, uid: string, displayName: string) => {
+    if (actualRole !== 'titulaire' || uid === user?.uid || busyStaffId === memberId) return;
+    setBusyStaffId(memberId);
+    try {
+      await removeRecord('staff', memberId);
+      setConfirmDeleteId(null);
+      showToast(`Accès supprimé pour ${displayName}.`, 'info');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la suppression du membre.', 'error');
+    } finally {
+      setBusyStaffId(null);
+    }
+  };
+
+  const currentLoginLabel = formatStaffDisplayLogin({
+    login: staffProfile?.login,
+    email: user?.email || staffProfile?.email || '',
+  });
+  const hasPasswordLinked =
+    justLinkedPassword ||
+    Boolean(user?.providerData?.some((p) => p.providerId === 'password'));
+
+  if (!canAccessSection(activeRole, 'staff')) {
+    return <AccessDeniedView sectionLabel="Équipe & Accès" />;
+  }
 
   return (
     <div className="space-y-5">
+      {/* Création de compte avec Login et Mot de passe */}
+      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2 font-semibold text-sm text-slate-900 dark:text-slate-100">
+            <UserPlus className="h-4 w-4 text-sky-600 dark:text-sky-400 shrink-0" />
+            <span>Créer un accès utilisateur (Login &amp; Mot de passe)</span>
+          </div>
+        </div>
+
+        <form onSubmit={handleCreateAccount} className="space-y-3">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+              Créez un identifiant personnel (ex : <code className="font-mono">dr.amine</code> ou{' '}
+              <code className="font-mono">amina.accueil</code> ou une adresse email) et un mot de passe pour chaque membre du cabinet.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-3">
+              <input
+                required
+                placeholder="Nom complet (ex : Dr. Amine)"
+                value={accountForm.displayName}
+                onChange={(e) => setAccountForm({ ...accountForm, displayName: e.target.value })}
+                className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2"
+              />
+              <input
+                required
+                type="text"
+                placeholder="Identifiant ou Email (ex : dr.amine)"
+                value={accountForm.login}
+                onChange={(e) => setAccountForm({ ...accountForm, login: e.target.value })}
+                className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2 font-mono"
+              />
+              <div className="relative flex items-center md:col-span-2 gap-1.5">
+                <div className="relative flex-1">
+                  <input
+                    required
+                    minLength={6}
+                    type={showCreatePassword ? 'text' : 'password'}
+                    placeholder="Mot de passe (min. 6 car.)"
+                    value={accountForm.password}
+                    onChange={(e) => setAccountForm({ ...accountForm, password: e.target.value })}
+                    className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 pl-3 pr-8 py-2 font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowCreatePassword((prev) => !prev)}
+                    aria-label={showCreatePassword ? 'Masquer' : 'Afficher'}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                  >
+                    {showCreatePassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAccountForm((prev) => ({
+                      ...prev,
+                      password: generateSecurePassword(10),
+                    }));
+                    setShowCreatePassword(true);
+                  }}
+                  title="Générer un mot de passe aléatoire"
+                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-2.5 py-2 text-[11px] font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 whitespace-nowrap shrink-0"
+                >
+                  <RefreshCw className="h-3 w-3" />
+                  <span>Générer</span>
+                </button>
+              </div>
+              <select
+                value={accountForm.role}
+                onChange={(e) => setAccountForm({ ...accountForm, role: e.target.value as StaffRole })}
+                className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
+              >
+                <option value="titulaire">Praticien Titulaire</option>
+                <option value="collaborateur">Praticien Collaborateur</option>
+                <option value="secretaire">Secrétaire / Accueil</option>
+                <option value="assistant">Assistant(e) Dentaire</option>
+              </select>
+              <select
+                value={accountForm.chairName}
+                onChange={(e) => setAccountForm({ ...accountForm, chairName: e.target.value })}
+                className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
+              >
+                {chairOptions.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <input
+                placeholder="Spécialité (optionnel, ex : Orthodontie, Endodontie)"
+                value={accountForm.specialty}
+                onChange={(e) => setAccountForm({ ...accountForm, specialty: e.target.value })}
+                className="w-full sm:w-80 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2"
+              />
+              <button
+                type="submit"
+                disabled={creatingAccount}
+                className="inline-flex items-center gap-2 rounded-lg bg-[#163B63] dark:bg-sky-600 px-4 py-2 font-semibold text-white hover:bg-[#0F2C4C] dark:hover:bg-sky-500 disabled:opacity-60 transition-colors"
+              >
+                <KeyRound className="h-3.5 w-3.5" />
+                <span>
+                  {creatingAccount ? 'Création en cours...' : 'Créer le compte utilisateur'}
+                </span>
+              </button>
+            </div>
+
+            {createError && (
+              <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/50 px-3.5 py-2.5 text-[11px] text-red-800 dark:text-red-200 leading-relaxed space-y-2">
+                <p>{createError}</p>
+                {createError.includes('console Firebase') && (
+                  <a
+                    href={`https://console.firebase.google.com/project/${firebaseConfig.projectId}/authentication/providers`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-red-700 dark:bg-red-600 px-3 py-1.5 text-[11px] font-semibold text-white hover:bg-red-800 dark:hover:bg-red-500 transition-colors"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    <span>Activer Adresse e-mail/Mot de passe dans Firebase Console</span>
+                  </a>
+                )}
+              </div>
+            )}
+
+            {createdCredentials && (
+              <div className="rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50/90 dark:bg-emerald-950/40 p-4 space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 font-semibold text-emerald-900 dark:text-emerald-200">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <span>
+                      Compte prêt pour {createdCredentials.displayName} ({ROLE_LABELS[createdCredentials.role]})
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleCopyCredentials}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-300 dark:border-emerald-700 bg-white dark:bg-slate-900 px-3 py-1.5 text-[11px] font-semibold text-emerald-800 dark:text-emerald-200 hover:bg-emerald-100 dark:hover:bg-emerald-900/50"
+                    >
+                      {copiedCredentials ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                      <span>{copiedCredentials ? 'Copié !' : 'Copier les identifiants'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCreatedCredentials(null)}
+                      aria-label="Fermer"
+                      className="rounded-lg p-1 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-emerald-900 dark:text-emerald-100">
+                  <div className="rounded-lg bg-white/80 dark:bg-slate-900/70 px-3 py-1.5 border border-emerald-200/80 dark:border-emerald-800/70">
+                    <span className="text-slate-500 dark:text-slate-400">Identifiant : </span>
+                    <strong className="font-mono">{createdCredentials.login}</strong>
+                  </div>
+                  <div className="rounded-lg bg-white/80 dark:bg-slate-900/70 px-3 py-1.5 border border-emerald-200/80 dark:border-emerald-800/70">
+                    <span className="text-slate-500 dark:text-slate-400">Mot de passe : </span>
+                    <strong className="font-mono">{createdCredentials.password}</strong>
+                  </div>
+                </div>
+                <p className="text-[11px] text-emerald-800 dark:text-emerald-300">
+                  Notez ou copiez ce mot de passe maintenant pour le remettre au collaborateur (il n'est jamais stocké en clair dans la base).
+                </p>
+              </div>
+            )}
+            </form>
+      </div>
+
+      {/* Mon accès par mot de passe (permet aussi au Titulaire connecté via Google de définir son mot de passe) */}
       <form
-        onSubmit={handleInvite}
+        onSubmit={handleSaveOwnPassword}
         className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-3 text-xs"
       >
-        <div className="flex items-center gap-2 font-semibold text-sm text-slate-900 dark:text-slate-100">
-          <UserPlus className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-          <span>Inviter un Membre de l'Équipe (Attribution Rôle RBAC)</span>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2 font-semibold text-slate-900 dark:text-slate-100">
+            <KeyRound className="h-4 w-4 text-[#1598C7] dark:text-sky-400 shrink-0" />
+            <span>
+              {hasPasswordLinked
+                ? 'Modifier mon mot de passe de connexion'
+                : 'Définir un mot de passe pour mon compte'}
+            </span>
+          </div>
+          <span className="text-[11px] text-slate-500 dark:text-slate-400">
+            Identifiant : <strong className="font-mono text-slate-800 dark:text-slate-200">{currentLoginLabel}</strong>
+          </span>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+          <div className="relative">
+            <input
+              type={showOwnPassword ? 'text' : 'password'}
+              minLength={6}
+              required
+              placeholder="Nouveau mot de passe (min. 6 car.)"
+              value={ownPassword}
+              onChange={(e) => setOwnPasswordInput(e.target.value)}
+              className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 pl-3 pr-9 py-2"
+            />
+            <button
+              type="button"
+              onClick={() => setShowOwnPassword((prev) => !prev)}
+              aria-label={showOwnPassword ? 'Masquer' : 'Afficher'}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            >
+              {showOwnPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+            </button>
+          </div>
           <input
+            type={showOwnPassword ? 'text' : 'password'}
+            minLength={6}
             required
-            type="email"
-            placeholder="Email Google du membre"
-            value={inviteForm.email}
-            onChange={(e) => setInviteForm({ ...inviteForm, email: e.target.value })}
-            className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2"
-          />
-          <input
-            required
-            placeholder="Nom complet (ex: Dr. Amine)"
-            value={inviteForm.displayName}
-            onChange={(e) => setInviteForm({ ...inviteForm, displayName: e.target.value })}
-            className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2"
-          />
-          <select
-            value={inviteForm.role}
-            onChange={(e) => setInviteForm({ ...inviteForm, role: e.target.value as StaffRole })}
+            placeholder="Confirmer le mot de passe"
+            value={ownPasswordConfirm}
+            onChange={(e) => setOwnPasswordConfirm(e.target.value)}
             className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
-          >
-            <option value="titulaire">Praticien Titulaire</option>
-            <option value="collaborateur">Praticien Collaborateur</option>
-            <option value="secretaire">Secrétaire / Accueil</option>
-            <option value="assistant">Assistant(e) Dentaire</option>
-          </select>
-          <input
-            placeholder="Spécialité (ex: Orthodontie)"
-            value={inviteForm.specialty}
-            onChange={(e) => setInviteForm({ ...inviteForm, specialty: e.target.value })}
-            className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 py-2"
           />
-          <select
-            value={inviteForm.chairName}
-            onChange={(e) => setInviteForm({ ...inviteForm, chairName: e.target.value })}
-            className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 py-2"
-          >
-            {chairOptions.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
           <button
             type="submit"
-            className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700"
+            disabled={savingOwnPassword}
+            className="rounded-lg border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/60 px-4 py-2 font-semibold text-[#163B63] dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/60 disabled:opacity-60 transition-colors"
           >
-            Autoriser l'accès
+            {savingOwnPassword
+              ? 'Enregistrement...'
+              : hasPasswordLinked
+              ? 'Mettre à jour mon mot de passe'
+              : 'Activer mon mot de passe'}
           </button>
         </div>
+        {ownPasswordError && (
+          <p className="text-[11px] text-red-600 dark:text-red-400">{ownPasswordError}</p>
+        )}
       </form>
 
+      {/* Tableau des Membres Actifs */}
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
         <div className="border-b border-slate-200 dark:border-slate-800 px-5 py-3.5">
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Membres Actifs du Cabinet ({staffList.length})</h3>
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            Membres du Cabinet ({staffList.length})
+          </h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400">
                 <th className="px-4 py-3 font-medium">Nom</th>
-                <th className="px-4 py-3 font-medium">Email</th>
+                <th className="px-4 py-3 font-medium">Identifiant / Email</th>
                 <th className="px-4 py-3 font-medium">Rôle RBAC</th>
                 <th className="px-4 py-3 font-medium">Spécialité &amp; Fauteuil</th>
                 <th className="px-4 py-3 font-medium">Statut</th>
@@ -1545,81 +2531,134 @@ export const StaffView: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {staffList.map((s) => (
-                <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                  <td className="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">{s.displayName}</td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{s.email}</td>
-                  <td className="px-4 py-3 font-medium text-sky-800 dark:text-sky-400">{ROLE_LABELS[s.role]}</td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span>{s.specialty || '—'}</span>
-                      {actualRole === 'titulaire' ? (
+              {staffList.map((s) => {
+                const displayLogin = formatStaffDisplayLogin(s);
+                const isSelf = s.uid === user?.uid;
+                return (
+                  <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                    <td className="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100">
+                      {s.displayName}
+                    </td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className="font-mono font-medium text-slate-800 dark:text-slate-200">
+                          {displayLogin}
+                        </span>
+                        <span className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 text-[10px] font-medium text-slate-500 dark:text-slate-400">
+                          {s.inviteId === 'direct' ? 'Login/Mdp' : 'Google'}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 font-medium text-sky-800 dark:text-sky-400">
+                      {actualRole === 'titulaire' && !isSelf ? (
                         <select
-                          value={s.chairName || chairOptions[0]}
-                          onChange={(e) => handleUpdateStaffChair(s.id, e.target.value)}
-                          className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-1 text-[11px] text-slate-700 dark:text-slate-200"
+                          aria-label={`Rôle de ${s.displayName}`}
+                          disabled={busyStaffId === s.id}
+                          value={s.role}
+                          onChange={(e) =>
+                            void handleUpdateStaffRole(
+                              s.id,
+                              s.uid,
+                              e.target.value as StaffRole,
+                              s.displayName
+                            )
+                          }
+                          className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-1 text-[11px] font-medium text-sky-800 dark:text-sky-300 disabled:opacity-60"
                         >
-                          {Array.from(new Set([...chairOptions, ...(s.chairName ? [s.chairName] : [])])).map((c) => (
-                            <option key={c} value={c}>
-                              {c}
-                            </option>
-                          ))}
+                          <option value="titulaire">Praticien Titulaire</option>
+                          <option value="collaborateur">Praticien Collaborateur</option>
+                          <option value="secretaire">Secrétaire / Accueil</option>
+                          <option value="assistant">Assistant(e) Dentaire</option>
                         </select>
                       ) : (
-                        <span>· {s.chairName || '—'}</span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 font-medium">
-                    <span className={s.active ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-700 dark:text-red-400'}>
-                      {s.active ? 'Actif' : 'Suspendu'}
-                    </span>
-                  </td>
-                  {actualRole === 'titulaire' && (
-                    <td className="px-4 py-3 text-right">
-                      {s.uid !== user?.uid ? (
-                        <button
-                          type="button"
-                          onClick={() => handleToggleStaffActive(s.id, s.uid, s.active, s.displayName)}
-                          className={`rounded-lg border px-2.5 py-1 text-[11px] font-medium transition-colors ${
-                            s.active
-                              ? 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 hover:bg-amber-100'
-                              : 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100'
-                          }`}
-                        >
-                          {s.active ? 'Suspendre' : 'Réactiver'}
-                        </button>
-                      ) : (
-                        <span className="text-[11px] text-slate-400">Titulaire principal</span>
+                        ROLE_LABELS[s.role]
                       )}
                     </td>
-                  )}
-                </tr>
-              ))}
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span>{s.specialty || '—'}</span>
+                        {actualRole === 'titulaire' ? (
+                          <select
+                            disabled={busyStaffId === s.id}
+                            value={s.chairName || chairOptions[0]}
+                            onChange={(e) => void handleUpdateStaffChair(s.id, e.target.value)}
+                            className="rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-1 text-[11px] text-slate-700 dark:text-slate-200 disabled:opacity-60"
+                          >
+                            {Array.from(new Set([...chairOptions, ...(s.chairName ? [s.chairName] : [])])).map((c) => (
+                              <option key={c} value={c}>
+                                {c}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <span>· {s.chairName || '—'}</span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 font-medium">
+                      <span className={s.active ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-700 dark:text-red-400'}>
+                        {s.active ? 'Actif' : 'Suspendu'}
+                      </span>
+                    </td>
+                    {actualRole === 'titulaire' && (
+                      <td className="px-4 py-3 text-right">
+                        {!isSelf ? (
+                          <div className="inline-flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              disabled={busyStaffId === s.id}
+                              onClick={() => void handleToggleStaffActive(s.id, s.uid, s.active, s.displayName)}
+                              className={`rounded-lg border px-2.5 py-1 text-[11px] font-medium transition-colors disabled:opacity-60 ${
+                                s.active
+                                  ? 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 hover:bg-amber-100'
+                                  : 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100'
+                              }`}
+                            >
+                              {s.active ? 'Suspendre' : 'Réactiver'}
+                            </button>
+                            {confirmDeleteId === s.id ? (
+                              <div className="inline-flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  disabled={busyStaffId === s.id}
+                                  onClick={() => void handleDeleteStaffMember(s.id, s.uid, s.displayName)}
+                                  className="rounded-lg bg-red-600 px-2 py-1 text-[11px] font-medium text-white hover:bg-red-700 disabled:opacity-60"
+                                >
+                                  Confirmer
+                                </button>
+                                <button
+                                  type="button"
+                                  disabled={busyStaffId === s.id}
+                                  onClick={() => setConfirmDeleteId(null)}
+                                  className="rounded-lg border border-slate-200 dark:border-slate-700 px-2 py-1 text-[11px] text-slate-600 dark:text-slate-300 disabled:opacity-60"
+                                >
+                                  Annuler
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                type="button"
+                                disabled={busyStaffId === s.id}
+                                onClick={() => setConfirmDeleteId(s.id)}
+                                title="Supprimer l'accès"
+                                className="rounded-lg border border-red-200 dark:border-red-900/60 p-1 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 disabled:opacity-60"
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </button>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-[11px] text-slate-400">Titulaire principal</span>
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </div>
-
-      {staffInvites.length > 0 && (
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-2 text-xs">
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Invitations en attente</h3>
-          {staffInvites.map((inv) => (
-            <div key={inv.id} className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300">
-              <span>
-                <strong className="text-slate-900 dark:text-slate-100">{inv.displayName}</strong> ({inv.email}) — {ROLE_LABELS[inv.role]}
-              </span>
-              <button
-                type="button"
-                onClick={() => removeRecord('staffInvites', inv.id)}
-                className="text-red-600 dark:text-red-400 hover:underline"
-              >
-                Révoquer
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
@@ -1634,14 +2673,14 @@ export { ReportsView } from './ReportsView';
 // ============================================================================
 export const SettingsView: React.FC = () => {
   const {
+    activeRole,
     clinicSettings,
     patients,
     appointments,
     recalls,
     saveRecord,
-    runDemoSeed,
-    resetBetaToZero,
     runDueSmsReminders,
+    checkServerConnection,
     logActivity,
     showToast,
   } = useClinic();
@@ -1651,8 +2690,14 @@ export const SettingsView: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'general' | 'sms'>('general');
   const [sendingNow, setSendingNow] = useState(false);
   const [sendingTest, setSendingTest] = useState(false);
-  const [showBetaResetModal, setShowBetaResetModal] = useState(false);
-  const [resettingBeta, setResettingBeta] = useState(false);
+  const [savingSettings, setSavingSettings] = useState(false);
+  const [checkingDiagnostics, setCheckingDiagnostics] = useState(false);
+  const [systemHealth, setSystemHealth] = useState<SystemHealthReport | null>(null);
+  const [firestoreCheck, setFirestoreCheck] = useState<{
+    ok: boolean;
+    latencyMs: number;
+    error?: string;
+  } | null>(null);
   const [testPatientId, setTestPatientId] = useState<string>('');
   const [testPhone, setTestPhone] = useState<string>(
     clinicSettings?.phone || '+212 661 00 00 00'
@@ -1663,6 +2708,10 @@ export const SettingsView: React.FC = () => {
     message: string;
     sentAt: string;
     segments: number;
+    mode: string;
+    delivered: boolean;
+    providerId?: string | null;
+    detail?: string;
   } | null>(null);
   const [form, setForm] = useState({
     clinicName: clinicSettings?.clinicName || 'Cabinet Dentaire Dr. Sara Bchi',
@@ -1710,6 +2759,11 @@ export const SettingsView: React.FC = () => {
       smsHoursBefore: resolvedSms.hoursBefore,
       smsTemplate: resolvedSms.template,
     });
+    if (clinicSettings.phone) {
+      setTestPhone((prev) =>
+        !prev || prev === '+212 661 00 00 00' ? clinicSettings.phone! : prev
+      );
+    }
   }, [clinicSettings]);
 
   const dueSmsAppointments = useMemo(() => {
@@ -1762,6 +2816,34 @@ export const SettingsView: React.FC = () => {
 
   const smsSegmentCount = Math.max(1, Math.ceil(smsPreview.length / 160));
 
+  const runFullDiagnostics = async (silent = false) => {
+    setCheckingDiagnostics(true);
+    try {
+      const [health, fsRes] = await Promise.all([
+        fetchSystemHealth(),
+        checkServerConnection(),
+      ]);
+      setSystemHealth(health);
+      setFirestoreCheck(fsRes);
+      if (!silent) {
+        if (health?.ok && fsRes.ok) {
+          showToast(`Consoles connectées · Firestore ${fsRes.latencyMs} ms`, 'success');
+        } else {
+          showToast(
+            fsRes.error || 'Vérification terminée : consultez les statuts ci-dessous.',
+            'info'
+          );
+        }
+      }
+    } finally {
+      setCheckingDiagnostics(false);
+    }
+  };
+
+  useEffect(() => {
+    void fetchSystemHealth().then(setSystemHealth);
+  }, []);
+
   const handleSelectTestPatient = (patientId: string) => {
     setTestPatientId(patientId);
     const pat = patients.find((p) => p.id === patientId);
@@ -1778,36 +2860,63 @@ export const SettingsView: React.FC = () => {
     }
     setSendingTest(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 250));
       const targetName = selectedTestPatientName || 'Patient Test';
+      const gwRes = await sendSmsViaGateway({
+        to: cleanedPhone,
+        message: smsPreview,
+        patientName: targetName,
+        clinicName: form.clinicName || clinicSettings?.clinicName,
+      });
       const nowTime = new Date().toLocaleTimeString('fr-FR', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
       });
+      if (!gwRes.ok) {
+        showToast(gwRes.error || "Erreur lors du test d'envoi SMS.", 'error');
+        return;
+      }
       setTestResult({
         phone: cleanedPhone,
         patientName: targetName,
         message: smsPreview,
         sentAt: nowTime,
         segments: smsSegmentCount,
+        mode: gwRes.mode,
+        delivered: gwRes.delivered,
+        providerId: gwRes.providerId,
+        detail: gwRes.detail,
       });
       logActivity({
         category: 'administration',
-        title: "Test d'envoi SMS effectué",
+        title: gwRes.delivered
+          ? `Test SMS réel envoyé (${gwRes.mode})`
+          : "Test d'envoi SMS effectué (mode test)",
         detail: `Destinataire : ${cleanedPhone} (${targetName}) · ${smsPreview}`,
         section: 'settings',
       });
-      showToast(`SMS de test simulé et vérifié pour ${cleanedPhone}.`, 'success');
+      showToast(
+        gwRes.delivered
+          ? `SMS réel expédié vers ${cleanedPhone} (${gwRes.mode}).`
+          : `Test vérifié pour ${cleanedPhone} (passerelle en mode simulation).`,
+        'success'
+      );
     } finally {
       setSendingTest(false);
     }
   };
 
   const handleTriggerSmsNow = async () => {
+    if (sendingNow) return;
     setSendingNow(true);
     try {
-      await runDueSmsReminders(true);
+      const count = await runDueSmsReminders(true);
+      showToast(
+        count > 0 ? `${count} rappel(s) SMS envoyé(s).` : 'Aucun rappel SMS en attente dans cette fenêtre.',
+        count > 0 ? 'success' : 'info'
+      );
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Erreur lors de l'envoi des rappels SMS.", 'error');
     } finally {
       setSendingNow(false);
     }
@@ -1815,6 +2924,7 @@ export const SettingsView: React.FC = () => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (savingSettings) return;
     if (!form.clinicName.trim()) {
       setActiveTab('general');
       showToast('Veuillez renseigner le nom du cabinet.', 'error');
@@ -1823,50 +2933,66 @@ export const SettingsView: React.FC = () => {
     const chairs = form.chairsText
       .split(',')
       .map((s) => s.trim())
-      .filter(Boolean);
-    await saveRecord(
-      'settings',
-      'clinic',
-      {
-        clinicName: form.clinicName.trim(),
-        subtitle: form.subtitle.trim(),
-        address: form.address.trim(),
-        phone: form.phone.trim(),
-        email: form.email.trim(),
-        ice: form.ice.trim(),
-        ifNumber: form.ifNumber.trim(),
-        patente: form.patente.trim(),
-        inpe: form.inpe.trim(),
-        currency: 'MAD',
-        chairs: chairs.length > 0 ? chairs : ['Fauteuil 1'],
-        workingHours: {
-          start: form.start || '09:00',
-          end: form.end || '18:00',
-          lunchStart: form.lunchStart || '13:00',
-          lunchEnd: form.lunchEnd || '15:00',
-          saturdayStart: form.saturdayStart || '09:00',
-          saturdayEnd: form.saturdayEnd || '13:00',
+      .filter(Boolean)
+      .slice(0, 10);
+    setSavingSettings(true);
+    try {
+      await saveRecord(
+        'settings',
+        'clinic',
+        {
+          clinicName: form.clinicName.trim().slice(0, 150),
+          subtitle: form.subtitle.trim().slice(0, 150),
+          address: form.address.trim().slice(0, 250),
+          phone: form.phone.trim().slice(0, 40),
+          email: form.email.trim().slice(0, 150),
+          ice: form.ice.trim().slice(0, 40),
+          ifNumber: form.ifNumber.trim().slice(0, 40),
+          patente: form.patente.trim().slice(0, 40),
+          inpe: form.inpe.trim().slice(0, 40),
+          currency: 'MAD',
+          chairs: chairs.length > 0 ? chairs : ['Fauteuil 1'],
+          workingHours: {
+            start: form.start || '09:00',
+            end: form.end || '18:00',
+            lunchStart: form.lunchStart || '13:00',
+            lunchEnd: form.lunchEnd || '15:00',
+            saturdayStart: form.saturdayStart || '09:00',
+            saturdayEnd: form.saturdayEnd || '13:00',
+          },
+          smsReminders: {
+            enabled: form.smsEnabled,
+            hoursBefore: Math.max(1, Math.min(72, Number(form.smsHoursBefore) || 24)),
+            template:
+              form.smsTemplate.trim().slice(0, 260) || DEFAULT_SMS_REMINDER_SETTINGS.template,
+          },
+          ...(!clinicSettings
+            ? {
+                invoiceCounter: 0,
+                quoteCounter: 0,
+                receiptCounter: 0,
+                betaZeroInitialized: true,
+              }
+            : {}),
         },
-        smsReminders: {
-          enabled: form.smsEnabled,
-          hoursBefore: Math.max(1, Math.min(72, Number(form.smsHoursBefore) || 24)),
-          template:
-            form.smsTemplate.trim().slice(0, 260) || DEFAULT_SMS_REMINDER_SETTINGS.template,
-        },
-        invoiceCounter: clinicSettings?.invoiceCounter ?? 0,
-        quoteCounter: clinicSettings?.quoteCounter ?? 0,
-        receiptCounter: clinicSettings?.receiptCounter ?? 0,
-        betaZeroInitialized: clinicSettings?.betaZeroInitialized ?? true,
-      },
-      !clinicSettings
-    );
-    showToast(
-      activeTab === 'sms'
-        ? 'Paramètres SMS enregistrés.'
-        : 'Paramètres du cabinet enregistrés.',
-      'success'
-    );
+        !clinicSettings
+      );
+      showToast(
+        activeTab === 'sms'
+          ? 'Paramètres SMS enregistrés.'
+          : 'Paramètres du cabinet enregistrés.',
+        'success'
+      );
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Erreur lors de l'enregistrement des paramètres.", 'error');
+    } finally {
+      setSavingSettings(false);
+    }
   };
+
+  if (!canAccessSection(activeRole, 'settings')) {
+    return <AccessDeniedView sectionLabel="Paramètres du Cabinet" />;
+  }
 
   return (
     <div className="max-w-3xl space-y-4">
@@ -1912,7 +3038,7 @@ export const SettingsView: React.FC = () => {
 
       <form
         onSubmit={handleSave}
-        className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-5 text-xs"
+        className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-6 space-y-5 text-xs"
       >
         {activeTab === 'general' ? (
           <div className="space-y-4">
@@ -2044,7 +3170,7 @@ export const SettingsView: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <input
                 placeholder="ICE"
                 value={form.ice}
@@ -2256,19 +3382,41 @@ export const SettingsView: React.FC = () => {
               </div>
 
               {testResult && (
-                <div className="rounded-lg border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/70 dark:bg-emerald-950/30 p-3 space-y-1">
+                <div
+                  className={`rounded-lg border p-3 space-y-1 ${
+                    testResult.delivered
+                      ? 'border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/70 dark:bg-emerald-950/30'
+                      : 'border-amber-200 dark:border-amber-900/60 bg-amber-50/70 dark:bg-amber-950/30'
+                  }`}
+                >
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-800 dark:text-emerald-300">
+                    <span
+                      className={`inline-flex items-center gap-1.5 font-semibold ${
+                        testResult.delivered
+                          ? 'text-emerald-800 dark:text-emerald-300'
+                          : 'text-amber-800 dark:text-amber-300'
+                      }`}
+                    >
                       <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-                      <span>Test envoyé vers {testResult.phone}</span>
+                      <span>
+                        {testResult.delivered
+                          ? `SMS réel envoyé (${testResult.mode}) vers ${testResult.phone}`
+                          : `Test vérifié (${testResult.mode}) pour ${testResult.phone}`}
+                      </span>
                     </span>
-                    <span className="font-mono tabular-nums text-[11px] text-emerald-700 dark:text-emerald-400">
+                    <span className="font-mono tabular-nums text-[11px] text-slate-600 dark:text-slate-300">
                       {testResult.sentAt} · {testResult.segments} SMS
+                      {testResult.providerId ? ` · Réf ${testResult.providerId}` : ''}
                     </span>
                   </div>
-                  <p className="text-[11px] text-emerald-900 dark:text-emerald-200 leading-relaxed">
+                  <p className="text-[11px] text-slate-800 dark:text-slate-200 leading-relaxed">
                     {testResult.message}
                   </p>
+                  {testResult.detail && (
+                    <p className="text-[11px] text-amber-800 dark:text-amber-300">
+                      {testResult.detail}
+                    </p>
+                  )}
                 </div>
               )}
             </div>
@@ -2303,34 +3451,17 @@ export const SettingsView: React.FC = () => {
         )}
 
         <div className="flex flex-wrap justify-between gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-          {activeTab === 'general' ? (
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setShowBetaResetModal(true)}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 dark:border-red-900/70 bg-red-50/80 dark:bg-red-950/40 px-4 py-2 font-medium text-red-700 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-950/70 whitespace-nowrap"
-              >
-                <RotateCcw className="h-3.5 w-3.5" />
-                <span>Tout remettre à zéro (Test Bêta)</span>
-              </button>
-              <button
-                type="button"
-                onClick={runDemoSeed}
-                className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 whitespace-nowrap"
-              >
-                Charger données démo
-              </button>
-            </div>
-          ) : (
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 self-center">
-              Les modifications du modèle s'appliquent aux prochains rappels automatiques.
-            </span>
-          )}
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 self-center">
+            {activeTab === 'general'
+              ? "Les paramètres fiscaux et horaires s'appliquent à l'ensemble du cabinet."
+              : "Les modifications du modèle s'appliquent aux prochains rappels automatiques."}
+          </span>
           <button
             type="submit"
-            className="rounded-lg bg-sky-600 px-5 py-2 font-medium text-white hover:bg-sky-700 whitespace-nowrap"
+            disabled={savingSettings}
+            className="rounded-lg bg-sky-600 px-5 py-2 font-medium text-white hover:bg-sky-700 disabled:opacity-60 whitespace-nowrap"
           >
-            Enregistrer les paramètres
+            {savingSettings ? 'Enregistrement...' : 'Enregistrer les paramètres'}
           </button>
         </div>
       </form>
@@ -2405,90 +3536,95 @@ export const SettingsView: React.FC = () => {
         </div>
       </div>
 
-      {/* Application multi-appareils (PC, Tablette, Android & iOS) */}
-      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 flex flex-wrap items-center justify-between gap-4 text-xs">
-        <div className="flex items-start gap-3">
-          <div className="rounded-lg bg-sky-50 dark:bg-sky-950/60 p-2 text-[#1598C7] dark:text-sky-400 shrink-0">
-            <Smartphone className="h-4 w-4" />
+      {/* Console de Connectivité & Diagnostic des Consoles */}
+      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/60 p-2 text-emerald-700 dark:text-emerald-400 shrink-0">
+              <Activity className="h-4 w-4" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100">
+                Console de Connectivité &amp; Passerelles Serveur
+              </h3>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+                État en direct de votre base Firestore, du serveur API backend et de la passerelle d'envoi SMS.
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-slate-900 dark:text-slate-100">
-              Installation multi-appareils (Mac, PC, Tablette, Android &amp; iOS)
-            </h3>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
-              Téléchargez directement l'application Mac (.zip), l'extension Chrome/Edge ou installez la version PWA sur mobile et tablette.
+
+          <button
+            type="button"
+            disabled={checkingDiagnostics}
+            onClick={() => void runFullDiagnostics(false)}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-60 whitespace-nowrap"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${checkingDiagnostics ? 'animate-spin' : ''}`} />
+            <span>{checkingDiagnostics ? 'Test en cours...' : 'Tester les consoles'}</span>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-3 space-y-1">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">Base Firestore Cloud</p>
+            <p className="font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span>
+                {firestoreCheck
+                  ? firestoreCheck.ok
+                    ? `Connectée (${firestoreCheck.latencyMs} ms)`
+                    : 'Hors ligne / Erreur'
+                  : systemHealth?.firebase.configured
+                  ? 'Configurée & active'
+                  : 'Vérification requise'}
+              </span>
+            </p>
+            {systemHealth?.firebase.projectId && (
+              <p className="font-mono text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                {systemHealth.firebase.projectId}
+              </p>
+            )}
+          </div>
+
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-3 space-y-1">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">API WhatsApp Business</p>
+            <p className="font-semibold text-slate-900 dark:text-slate-100">
+              {systemHealth?.whatsappGateway?.configured
+                ? `Connectée (${systemHealth.whatsappGateway.provider === 'whatsapp_cloud_api' ? 'Meta Cloud' : 'Webhook'})`
+                : 'Prête · Lien direct'}
+            </p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+              {systemHealth?.whatsappGateway?.senderLabel ||
+                'Ajoutez WHATSAPP_BUSINESS_TOKEN et WHATSAPP_PHONE_NUMBER_ID dans Secrets.'}
             </p>
           </div>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => void downloadMacAppPackage(window.location.origin)}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#163B63] dark:bg-sky-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-[#0F2C4C] dark:hover:bg-sky-500 transition-colors whitespace-nowrap shrink-0"
-          >
-            <FolderArchive className="h-3.5 w-3.5 shrink-0" />
-            <span>App Mac (.zip)</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => void downloadBrowserExtensionPackage(window.location.origin)}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap shrink-0"
-          >
-            <Puzzle className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
-            <span>Extension Chrome (.zip)</span>
-          </button>
-          <PWAInstallButton variant="header" alwaysShow />
+
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-3 space-y-1">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">Passerelle SMS Opérateur</p>
+            <p className="font-semibold text-slate-900 dark:text-slate-100">
+              {systemHealth?.smsGateway.configured
+                ? `Connectée (${systemHealth.smsGateway.provider})`
+                : 'Prête · Mode Test'}
+            </p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+              {systemHealth?.smsGateway.senderLabel ||
+                'Ajoutez TWILIO_* ou SMS_WEBHOOK_URL dans Secrets pour expédier en réel.'}
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-3 space-y-1">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">Hors-ligne &amp; Mobile (PWA)</p>
+            <p className="font-semibold text-slate-900 dark:text-slate-100">
+              {typeof navigator !== 'undefined' && 'serviceWorker' in navigator
+                ? 'Service Worker actif'
+                : 'Navigateur standard'}
+            </p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400">
+              Compatible Windows, Mac, iOS &amp; Android
+            </p>
+          </div>
         </div>
       </div>
-
-      {showBetaResetModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 dark:bg-slate-950/75 p-4">
-          <div className="w-full max-w-md rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xl space-y-4 text-xs">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <div className="flex items-center gap-2 text-red-700 dark:text-red-400">
-                <AlertTriangle className="h-4 w-4 shrink-0" />
-                <h3 className="text-sm font-semibold">Remise à zéro complète (Test Bêta)</h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowBetaResetModal(false)}
-                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-              Cette action supprime tous les patients, rendez-vous, devis, factures, encaissements, dépenses, stocks, commandes laboratoire, documents et remet tous les compteurs séquentiels (factures, devis, reçus) à <strong>0</strong>. Votre compte praticien et le catalogue des actes restent conservés.
-            </p>
-            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-              <button
-                type="button"
-                disabled={resettingBeta}
-                onClick={() => setShowBetaResetModal(false)}
-                className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
-              >
-                Annuler
-              </button>
-              <button
-                type="button"
-                disabled={resettingBeta}
-                onClick={async () => {
-                  setResettingBeta(true);
-                  try {
-                    await resetBetaToZero();
-                    setShowBetaResetModal(false);
-                  } finally {
-                    setResettingBeta(false);
-                  }
-                }}
-                className="rounded-lg bg-red-600 px-4 py-2 font-medium text-white hover:bg-red-700 disabled:opacity-60"
-              >
-                {resettingBeta ? 'Réinitialisation...' : 'Confirmer la remise à zéro'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

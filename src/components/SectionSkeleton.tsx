@@ -60,8 +60,8 @@ const TableSkeleton: React.FC<{ rows?: number; columns?: number }> = ({
 
 const ToolbarSkeleton: React.FC = () => (
   <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
-    <div className="flex flex-wrap items-center gap-2.5">
-      <SkeletonBlock className="h-9 w-64" />
+    <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+      <SkeletonBlock className="h-9 w-full sm:w-64" />
       <SkeletonBlock className="h-9 w-36" />
       <SkeletonBlock className="h-9 w-32" />
     </div>

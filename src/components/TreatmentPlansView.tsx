@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Check, FileText, Lock, Plus, Printer, Trash2, X } from 'lucide-react';
+import { Check, FileText, Lock, Plus, Printer, Search, Trash2, X } from 'lucide-react';
 import { useClinic } from '../context/ClinicContext';
-import { addDaysISO, formatMAD, generateSafeId, todayISO } from '../lib/formatters';
-import { ActCategory, PlanItemStatus, TreatmentPlan, TreatmentPlanItem } from '../types/dental';
+import { addDaysISO, formatDateFR, formatMAD, generateSafeId, todayISO } from '../lib/formatters';
+import { ActCategory, canAccessSection, PlanItemStatus, TreatmentPlan, TreatmentPlanItem } from '../types/dental';
+import { AccessDeniedView } from './AccessDeniedView';
 
 type PlanStatus = TreatmentPlan['status'];
 
@@ -13,11 +14,21 @@ const PHASES: TreatmentPlanItem['phase'][] = [
 ];
 
 const ITEM_STATUSES: PlanItemStatus[] = ['Prévu', 'En cours', 'Réalisé', 'Facturé', 'Payé'];
-const PLAN_STATUSES: PlanStatus[] = ['Brouillon', 'Devis envoyé', 'Accepté', 'En cours', 'Terminé', 'Refusé'];
+const PLAN_STATUSES: PlanStatus[] = [
+  'Brouillon',
+  'Noveaux',
+  'Imprimé',
+  'Devis envoyé',
+  'Accepté',
+  'En cours',
+  'Terminé',
+  'Refusé',
+];
 
 export const TreatmentPlansView: React.FC = () => {
   const {
     user,
+    activeRole,
     staffProfile,
     staffList,
     patients,
@@ -35,9 +46,14 @@ export const TreatmentPlansView: React.FC = () => {
 
   const [tab, setTab] = useState<'plans' | 'catalog'>('plans');
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
+  const [planSearch, setPlanSearch] = useState('');
+  const [planStatusFilter, setPlanStatusFilter] = useState<string>('all');
   const [showNewPlanModal, setShowNewPlanModal] = useState(false);
   const [showNewActModal, setShowNewActModal] = useState(false);
   const [catalogCategory, setCatalogCategory] = useState<string>('all');
+  const [savingPlan, setSavingPlan] = useState(false);
+  const [savingAct, setSavingAct] = useState(false);
+  const [busyPlanAction, setBusyPlanAction] = useState(false);
 
   const [planForm, setPlanForm] = useState({
     patientId: '',
@@ -76,9 +92,34 @@ export const TreatmentPlansView: React.FC = () => {
     }
   }, [actsCatalog, newItemForm.actName]);
 
+  const filteredPlans = useMemo(() => {
+    const q = planSearch.trim().toLowerCase();
+    return treatmentPlans.filter((pl) => {
+      if (planStatusFilter !== 'all' && pl.status !== planStatusFilter) return false;
+      if (!q) return true;
+      const haystack = [
+        pl.quoteNumber,
+        pl.patientName,
+        pl.patientFileNumber,
+        pl.practitionerName,
+        pl.title,
+        pl.rawActsText,
+        pl.status,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [treatmentPlans, planSearch, planStatusFilter]);
+
   const selectedPlan = useMemo(
-    () => treatmentPlans.find((p) => p.id === selectedPlanId) || treatmentPlans[0] || null,
-    [treatmentPlans, selectedPlanId]
+    () =>
+      filteredPlans.find((p) => p.id === selectedPlanId) ||
+      filteredPlans[0] ||
+      treatmentPlans.find((p) => p.id === selectedPlanId) ||
+      null,
+    [filteredPlans, treatmentPlans, selectedPlanId]
   );
 
   const existingPlanInvoice = useMemo(
@@ -91,50 +132,62 @@ export const TreatmentPlansView: React.FC = () => {
 
   const handleCreatePlan = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || savingPlan) return;
     const pat = patients.find((p) => p.id === planForm.patientId) || patients[0];
     if (!pat) {
       showToast('Créez d\'abord un patient.', 'error');
       return;
     }
-    const qNum = await incrementCounter('quoteCounter');
-    const id = generateSafeId('plan');
-    const assignedPrac = staffList.find(
-      (s) => s.uid === pat.assignedPractitionerId || s.id === pat.assignedPractitionerId
-    );
-    const practitionerId = pat.assignedPractitionerId || user.uid;
-    const practitionerName = assignedPrac?.displayName || staffProfile?.displayName || 'Praticien';
-    await saveRecord(
-      'treatmentPlans',
-      id,
-      {
-        quoteNumber: `DEV-${new Date().getFullYear()}-${String(qNum).padStart(3, '0')}`,
-        patientId: pat.id,
-        patientName: `${pat.firstName} ${pat.lastName}`,
-        practitionerId,
-        practitionerName,
-        title: planForm.title.trim(),
-        isAlternative: planForm.isAlternative,
-        status: 'Brouillon',
-        items: [],
-        totalAmount: 0,
-        insuranceEstimated: 0,
-        consentSigned: false,
-        lockedVersion: false,
-        createdBy: user.uid,
-      },
-      true
-    );
-    setSelectedPlanId(id);
-    setShowNewPlanModal(false);
-    showToast('Nouveau devis & plan de traitement créé.', 'success');
+    setSavingPlan(true);
+    try {
+      const qNum = await incrementCounter('quoteCounter');
+      const id = generateSafeId('plan');
+      const assignedPrac = staffList.find(
+        (s) => s.uid === pat.assignedPractitionerId || s.id === pat.assignedPractitionerId
+      );
+      const practitionerId = pat.assignedPractitionerId || user.uid;
+      const practitionerName = (assignedPrac?.displayName || staffProfile?.displayName || 'Praticien').slice(0, 120);
+      await saveRecord(
+        'treatmentPlans',
+        id,
+        {
+          quoteNumber: `DEV-${new Date().getFullYear()}-${String(qNum).padStart(3, '0')}`,
+          patientId: pat.id,
+          patientName: `${pat.firstName} ${pat.lastName}`.slice(0, 150),
+          practitionerId,
+          practitionerName,
+          title: (planForm.title.trim() || 'Plan de traitement dentaire').slice(0, 180),
+          isAlternative: planForm.isAlternative,
+          status: 'Brouillon',
+          items: [],
+          totalAmount: 0,
+          insuranceEstimated: 0,
+          consentSigned: false,
+          lockedVersion: false,
+          createdBy: user.uid,
+        },
+        true
+      );
+      setSelectedPlanId(id);
+      setShowNewPlanModal(false);
+      showToast('Nouveau devis & plan de traitement créé.', 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Erreur lors de la création du devis.', 'error');
+    } finally {
+      setSavingPlan(false);
+    }
   };
 
   const handleAddItemToPlan = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedPlan || selectedPlan.lockedVersion) return;
+    if (!selectedPlan || selectedPlan.lockedVersion || busyPlanAction) return;
+    if ((selectedPlan.items || []).length >= 40) {
+      showToast('Limite maximale de 40 actes atteinte pour ce devis.', 'info');
+      return;
+    }
     const qty = Number(newItemForm.quantity);
     const price = Number(newItemForm.unitPrice);
+    const discount = Math.max(0, Number(newItemForm.discount) || 0);
     if (!Number.isFinite(qty) || qty < 1 || !Number.isFinite(price) || price < 0) {
       showToast('Veuillez saisir une quantité (>= 1) et un tarif valide.', 'error');
       return;
@@ -145,12 +198,12 @@ export const TreatmentPlansView: React.FC = () => {
     const item: TreatmentPlanItem = {
       id: generateSafeId('it'),
       phase: newItemForm.phase,
-      tooth: newItemForm.tooth,
-      actCode: newItemForm.actCode,
-      actName: newItemForm.actName,
-      unitPrice: Number(newItemForm.unitPrice),
-      quantity: Number(newItemForm.quantity),
-      discount: Number(newItemForm.discount),
+      tooth: newItemForm.tooth.trim().slice(0, 40),
+      actCode: newItemForm.actCode.trim().slice(0, 30),
+      actName: newItemForm.actName.trim().slice(0, 160),
+      unitPrice: price,
+      quantity: qty,
+      discount,
       status: 'Prévu',
     };
     const nextItems = [...(selectedPlan.items || []), item];
@@ -160,29 +213,43 @@ export const TreatmentPlansView: React.FC = () => {
     );
     const insuranceEstimated = Math.round((totalAmount * rate) / 100);
 
-    await saveRecord(
-      'treatmentPlans',
-      selectedPlan.id,
-      {
-        items: nextItems,
-        totalAmount,
-        insuranceEstimated,
-      },
-      false
-    );
-    showToast('Acte ajouté au plan de traitement.', 'success');
+    setBusyPlanAction(true);
+    try {
+      await saveRecord(
+        'treatmentPlans',
+        selectedPlan.id,
+        {
+          items: nextItems,
+          totalAmount,
+          insuranceEstimated,
+        },
+        false
+      );
+      showToast('Acte ajouté au plan de traitement.', 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Impossible d'ajouter l'acte au plan.", 'error');
+    } finally {
+      setBusyPlanAction(false);
+    }
   };
 
   const handleUpdateItemStatus = async (itemId: string, nextStatus: PlanItemStatus) => {
-    if (!selectedPlan) return;
+    if (!selectedPlan || !permissions.canCreatePlansAndQuotes || busyPlanAction) return;
     const nextItems = selectedPlan.items.map((it) =>
       it.id === itemId ? { ...it, status: nextStatus } : it
     );
-    await saveRecord('treatmentPlans', selectedPlan.id, { items: nextItems }, false);
+    setBusyPlanAction(true);
+    try {
+      await saveRecord('treatmentPlans', selectedPlan.id, { items: nextItems }, false);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Impossible de mettre à jour le statut de l'acte.", 'error');
+    } finally {
+      setBusyPlanAction(false);
+    }
   };
 
   const handleRemoveItem = async (itemId: string) => {
-    if (!selectedPlan || selectedPlan.lockedVersion) return;
+    if (!selectedPlan || selectedPlan.lockedVersion || !permissions.canCreatePlansAndQuotes || busyPlanAction) return;
     const pat = patients.find((p) => p.id === selectedPlan.patientId);
     const rate = pat ? pat.coverageRate : 0;
     const nextItems = selectedPlan.items.filter((it) => it.id !== itemId);
@@ -191,35 +258,58 @@ export const TreatmentPlansView: React.FC = () => {
       0
     );
     const insuranceEstimated = Math.round((totalAmount * rate) / 100);
-    await saveRecord(
-      'treatmentPlans',
-      selectedPlan.id,
-      { items: nextItems, totalAmount, insuranceEstimated },
-      false
-    );
+    setBusyPlanAction(true);
+    try {
+      await saveRecord(
+        'treatmentPlans',
+        selectedPlan.id,
+        { items: nextItems, totalAmount, insuranceEstimated },
+        false
+      );
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Impossible de retirer l'acte du devis.", 'error');
+    } finally {
+      setBusyPlanAction(false);
+    }
   };
 
   const handleUpdatePlanStatus = async (planId: string, nextStatus: PlanStatus) => {
-    await saveRecord('treatmentPlans', planId, { status: nextStatus }, false);
-    showToast(`Statut du devis mis à jour : ${nextStatus}`, 'success');
+    if (busyPlanAction) return;
+    setBusyPlanAction(true);
+    try {
+      await saveRecord('treatmentPlans', planId, { status: nextStatus }, false);
+      showToast(`Statut du devis mis à jour : ${nextStatus}`, 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Impossible de mettre à jour le statut du devis.', 'error');
+    } finally {
+      setBusyPlanAction(false);
+    }
   };
 
   const handleLockAndConsent = async (plan: TreatmentPlan) => {
-    await saveRecord(
-      'treatmentPlans',
-      plan.id,
-      {
-        consentSigned: true,
-        lockedVersion: true,
-        status: 'Accepté',
-      },
-      false
-    );
-    showToast('Devis archivé, verrouillé et consentement patient validé.', 'success');
+    if (busyPlanAction) return;
+    setBusyPlanAction(true);
+    try {
+      await saveRecord(
+        'treatmentPlans',
+        plan.id,
+        {
+          consentSigned: true,
+          lockedVersion: true,
+          status: 'Accepté',
+        },
+        false
+      );
+      showToast('Devis archivé, verrouillé et consentement patient validé.', 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Impossible de verrouiller ce devis.', 'error');
+    } finally {
+      setBusyPlanAction(false);
+    }
   };
 
   const handleConvertPlanToInvoice = async (plan: TreatmentPlan) => {
-    if (!user || plan.items.length === 0) return;
+    if (!user || plan.items.length === 0 || busyPlanAction) return;
     const existingInv = invoices.find((inv) => inv.planId === plan.id && inv.status !== 'Annulée');
     if (existingInv) {
       showToast(`Ce devis a déjà été converti en facture (${existingInv.invoiceNumber}).`, 'info');
@@ -227,60 +317,67 @@ export const TreatmentPlansView: React.FC = () => {
       return;
     }
 
-    const pat = patients.find((p) => p.id === plan.patientId);
-    const invNum = await incrementCounter('invoiceCounter');
-    const total = plan.totalAmount;
-    const insuranceShare = pat ? Math.round((total * pat.coverageRate) / 100) : 0;
-    const patientShare = Math.max(0, total - insuranceShare);
+    setBusyPlanAction(true);
+    try {
+      const pat = patients.find((p) => p.id === plan.patientId);
+      const invNum = await incrementCounter('invoiceCounter');
+      const total = plan.totalAmount;
+      const insuranceShare = pat ? Math.round((total * pat.coverageRate) / 100) : 0;
+      const patientShare = Math.max(0, total - insuranceShare);
 
-    await saveRecord(
-      'invoices',
-      generateSafeId('inv'),
-      {
-        invoiceNumber: `FAC-${new Date().getFullYear()}-${String(invNum).padStart(3, '0')}`,
-        patientId: plan.patientId,
-        patientName: plan.patientName,
-        practitionerId: plan.practitionerId,
-        practitionerName: plan.practitionerName,
-        planId: plan.id,
-        issueDate: todayISO(),
-        dueDate: addDaysISO(todayISO(), 15),
-        items: plan.items.map((it) => ({
-          actCode: it.actCode,
-          actName: it.actName,
-          tooth: it.tooth,
-          quantity: it.quantity,
-          unitPrice: it.unitPrice,
-          total: Math.max(0, it.unitPrice * it.quantity - it.discount),
-        })),
-        totalAmount: total,
-        insuranceType: pat?.insuranceType || 'Aucune',
-        insuranceShare,
-        patientShare,
-        paidAmount: 0,
-        insurancePaidAmount: 0,
-        status: 'Émise',
-        insuranceClaimStatus: pat?.insuranceType && pat.insuranceType !== 'Aucune' ? 'Dossier déposé' : 'Aucune',
-        createdBy: user.uid,
-      },
-      true
-    );
+      await saveRecord(
+        'invoices',
+        generateSafeId('inv'),
+        {
+          invoiceNumber: `FAC-${new Date().getFullYear()}-${String(invNum).padStart(3, '0')}`,
+          patientId: plan.patientId,
+          patientName: plan.patientName,
+          practitionerId: plan.practitionerId,
+          practitionerName: plan.practitionerName,
+          planId: plan.id,
+          issueDate: todayISO(),
+          dueDate: addDaysISO(todayISO(), 15),
+          items: plan.items.map((it) => ({
+            actCode: it.actCode,
+            actName: it.actName,
+            tooth: it.tooth,
+            quantity: it.quantity,
+            unitPrice: it.unitPrice,
+            total: Math.max(0, it.unitPrice * it.quantity - it.discount),
+          })),
+          totalAmount: total,
+          insuranceType: pat?.insuranceType || 'Aucune',
+          insuranceShare,
+          patientShare,
+          paidAmount: 0,
+          insurancePaidAmount: 0,
+          status: 'Émise',
+          insuranceClaimStatus: pat?.insuranceType && pat.insuranceType !== 'Aucune' ? 'Dossier déposé' : 'Aucune',
+          createdBy: user.uid,
+        },
+        true
+      );
 
-    const updatedItems = plan.items.map((it) =>
-      it.status === 'Payé' ? it : { ...it, status: 'Facturé' as PlanItemStatus }
-    );
-    await saveRecord(
-      'treatmentPlans',
-      plan.id,
-      {
-        status: plan.status === 'Terminé' ? 'Terminé' : 'En cours',
-        items: updatedItems,
-      },
-      false
-    );
+      const updatedItems = plan.items.map((it) =>
+        it.status === 'Payé' ? it : { ...it, status: 'Facturé' as PlanItemStatus }
+      );
+      await saveRecord(
+        'treatmentPlans',
+        plan.id,
+        {
+          status: plan.status === 'Terminé' ? 'Terminé' : 'En cours',
+          items: updatedItems,
+        },
+        false
+      );
 
-    showToast('Facture générée depuis le plan de traitement.', 'success');
-    setActiveSection('invoices');
+      showToast('Facture générée depuis le plan de traitement.', 'success');
+      setActiveSection('invoices');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Impossible de convertir le devis en facture.', 'error');
+    } finally {
+      setBusyPlanAction(false);
+    }
   };
 
   const handlePrintQuote = (plan: TreatmentPlan) => {
@@ -290,7 +387,7 @@ export const TreatmentPlansView: React.FC = () => {
       title: `Devis & Plan de Traitement ${plan.isAlternative ? '(Option Alternative)' : ''}`,
       subtitle: plan.title,
       reference: plan.quoteNumber,
-      date: todayISO(),
+      date: plan.quoteDate || todayISO(),
       patientName: plan.patientName,
       patientCin: pat?.cin,
       patientPhone: pat?.phone,
@@ -314,23 +411,37 @@ export const TreatmentPlansView: React.FC = () => {
 
   const handleCreateCatalogAct = async (e: React.FormEvent) => {
     e.preventDefault();
-    await saveRecord(
-      'actsCatalog',
-      generateSafeId('act'),
-      {
-        code: actForm.code.trim().toUpperCase(),
-        category: actForm.category,
-        name: actForm.name.trim(),
-        defaultDuration: Number(actForm.defaultDuration),
-        minPrice: Number(actForm.minPrice),
-        maxPrice: Number(actForm.maxPrice),
-        defaultPrice: Number(actForm.defaultPrice),
-        color: '#0284C7',
-      },
-      true
-    );
-    setShowNewActModal(false);
-    showToast('Acte ajouté au catalogue du cabinet.', 'success');
+    if (savingAct) return;
+    const code = actForm.code.trim().toUpperCase().slice(0, 30);
+    const name = actForm.name.trim().slice(0, 160);
+    if (!code || !name) {
+      showToast("Veuillez saisir le code et le libellé de l'acte.", 'error');
+      return;
+    }
+    setSavingAct(true);
+    try {
+      await saveRecord(
+        'actsCatalog',
+        generateSafeId('act'),
+        {
+          code,
+          category: actForm.category,
+          name,
+          defaultDuration: Math.max(5, Math.min(480, Number(actForm.defaultDuration) || 30)),
+          minPrice: Math.max(0, Number(actForm.minPrice) || 0),
+          maxPrice: Math.max(0, Number(actForm.maxPrice) || 0),
+          defaultPrice: Math.max(0, Number(actForm.defaultPrice) || 0),
+          color: '#0284C7',
+        },
+        true
+      );
+      setShowNewActModal(false);
+      showToast('Acte ajouté au catalogue du cabinet.', 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Impossible d'ajouter l'acte au catalogue.", 'error');
+    } finally {
+      setSavingAct(false);
+    }
   };
 
   const filteredCatalog = useMemo(
@@ -340,6 +451,10 @@ export const TreatmentPlansView: React.FC = () => {
         : actsCatalog.filter((a) => a.category === catalogCategory),
     [actsCatalog, catalogCategory]
   );
+
+  if (!canAccessSection(activeRole, 'treatment-plans')) {
+    return <AccessDeniedView sectionLabel="Plans & Devis" />;
+  }
 
   return (
     <div className="space-y-5">
@@ -403,55 +518,112 @@ export const TreatmentPlansView: React.FC = () => {
       {tab === 'plans' ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           {/* Left list */}
-          <div className="lg:col-span-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden">
-            {treatmentPlans.length === 0 ? (
-              <p className="p-6 text-center text-xs text-slate-500 dark:text-slate-400">Aucun plan de traitement.</p>
-            ) : (
-              treatmentPlans.map((pl) => (
-                <button
-                  key={pl.id}
-                  type="button"
-                  onClick={() => setSelectedPlanId(pl.id)}
-                  className={`w-full p-4 text-left transition-colors ${
-                    selectedPlan?.id === pl.id ? 'bg-sky-50/70 dark:bg-sky-950/50' : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
-                  }`}
+          <div className="lg:col-span-4 min-w-0 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+            <div className="p-3 border-b border-slate-100 dark:border-slate-800 space-y-2 bg-slate-50/70 dark:bg-slate-800/40">
+              <div className="relative">
+                <Search className="h-3.5 w-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <input
+                  value={planSearch}
+                  onChange={(e) => setPlanSearch(e.target.value)}
+                  placeholder="N° devis, patient, N° P, actes..."
+                  className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 pl-8 pr-3 py-1.5 text-xs"
+                />
+              </div>
+              <div className="flex items-center justify-between gap-2">
+                <select
+                  value={planStatusFilter}
+                  onChange={(e) => setPlanStatusFilter(e.target.value)}
+                  className="flex-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 px-2.5 py-1.5 text-xs"
                 >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-mono font-semibold text-sky-700 dark:text-sky-400">{pl.quoteNumber}</span>
-                    <span className="font-medium text-slate-600 dark:text-slate-300">{pl.status}</span>
-                  </div>
-                  <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-100">{pl.patientName}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{pl.title}</p>
-                  <div className="mt-2 flex items-center justify-between text-xs">
-                    <span className="text-slate-500 dark:text-slate-400">
-                      {pl.lockedVersion ? 'Verrouillé · Consentement OK' : 'Édition ouverte'}
-                    </span>
-                    <span className="font-mono font-semibold text-slate-900 dark:text-slate-100 tabular-nums">
-                      {formatMAD(pl.totalAmount)}
-                    </span>
-                  </div>
-                </button>
-              ))
-            )}
+                  <option value="all">Tous statuts ({treatmentPlans.length})</option>
+                  {PLAN_STATUSES.map((st) => (
+                    <option key={st} value={st}>
+                      {st}
+                    </option>
+                  ))}
+                </select>
+                <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 tabular-nums whitespace-nowrap">
+                  {filteredPlans.length} devis
+                </span>
+              </div>
+            </div>
+            <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-[680px] overflow-y-auto">
+              {filteredPlans.length === 0 ? (
+                <p className="p-6 text-center text-xs text-slate-500 dark:text-slate-400">
+                  Aucun devis ou plan de traitement correspondant.
+                </p>
+              ) : (
+                filteredPlans.map((pl) => (
+                  <button
+                    key={pl.id}
+                    type="button"
+                    onClick={() => setSelectedPlanId(pl.id)}
+                    className={`w-full p-3.5 text-left transition-colors ${
+                      selectedPlan?.id === pl.id
+                        ? 'bg-sky-50/70 dark:bg-sky-950/50'
+                        : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between text-xs gap-2">
+                      <span className="font-mono font-semibold text-sky-700 dark:text-sky-400">
+                        N° {pl.quoteNumber}
+                        {pl.patientFileNumber ? ` · P.${pl.patientFileNumber}` : ''}
+                      </span>
+                      <span
+                        className={`font-medium ${
+                          pl.status === 'Accepté' || pl.status === 'Terminé'
+                            ? 'text-emerald-700 dark:text-emerald-400'
+                            : pl.status === 'Imprimé'
+                            ? 'text-sky-700 dark:text-sky-400'
+                            : 'text-amber-700 dark:text-amber-400'
+                        }`}
+                      >
+                        {pl.status}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      {pl.patientName}
+                    </p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                      {pl.title}
+                    </p>
+                    <div className="mt-2 flex items-center justify-between text-[11px] gap-2">
+                      <span className="font-mono text-slate-500 dark:text-slate-400 tabular-nums">
+                        {pl.quoteDate ? `Du ${formatDateFR(pl.quoteDate)}` : pl.lockedVersion ? 'Verrouillé' : 'Édition ouverte'}
+                        {pl.validityDate ? ` → ${formatDateFR(pl.validityDate)}` : ''}
+                      </span>
+                      <span className="font-mono font-semibold text-slate-900 dark:text-slate-100 tabular-nums">
+                        {formatMAD(pl.totalAmount)}
+                      </span>
+                    </div>
+                  </button>
+                ))
+              )}
+            </div>
           </div>
 
           {/* Right detail */}
-          <div className="lg:col-span-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-5">
+          <div className="lg:col-span-8 min-w-0 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 sm:p-5 space-y-5">
             {selectedPlan ? (
               <>
                 <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-                  <div>
-                    <div className="flex items-center gap-2">
+                  <div className="space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="font-mono text-xs font-semibold text-sky-700 dark:text-sky-400">
-                        {selectedPlan.quoteNumber}
+                        Devis N° {selectedPlan.quoteNumber}
                       </span>
+                      {selectedPlan.patientFileNumber && (
+                        <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                          · N° Patient : {selectedPlan.patientFileNumber}
+                        </span>
+                      )}
                       {selectedPlan.lockedVersion && (
                         <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
                           <Lock className="h-3 w-3" /> Version immuable
                         </span>
                       )}
                     </div>
-                    <h2 className="text-base font-bold text-slate-900 dark:text-slate-100 mt-0.5">
+                    <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
                       <button
                         type="button"
                         onClick={() => openPatientFile(selectedPlan.patientId)}
@@ -462,15 +634,24 @@ export const TreatmentPlansView: React.FC = () => {
                       </button>{' '}
                       — {selectedPlan.title}
                     </h2>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Praticien : {selectedPlan.practitionerName}</p>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
+                      <span>Praticien : <strong className="text-slate-700 dark:text-slate-200">{selectedPlan.practitionerName}</strong></span>
+                      {selectedPlan.quoteDate && (
+                        <span className="font-mono tabular-nums">Date : {formatDateFR(selectedPlan.quoteDate)}</span>
+                      )}
+                      {selectedPlan.validityDate && (
+                        <span className="font-mono tabular-nums">Date de validité : {formatDateFR(selectedPlan.validityDate)}</span>
+                      )}
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">
                     {permissions.canCreatePlansAndQuotes && (
                       <select
+                        disabled={busyPlanAction}
                         value={selectedPlan.status}
                         onChange={(e) => handleUpdatePlanStatus(selectedPlan.id, e.target.value as PlanStatus)}
-                        className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-2 text-xs font-medium text-slate-800 dark:text-slate-100"
+                        className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-2 text-xs font-medium text-slate-800 dark:text-slate-100 disabled:opacity-60"
                       >
                         {PLAN_STATUSES.map((st) => (
                           <option key={st} value={st}>
@@ -492,8 +673,9 @@ export const TreatmentPlansView: React.FC = () => {
                     {!selectedPlan.lockedVersion && permissions.canCreatePlansAndQuotes && (
                       <button
                         type="button"
+                        disabled={busyPlanAction}
                         onClick={() => handleLockAndConsent(selectedPlan)}
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-2 text-xs font-medium text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-2 text-xs font-medium text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 disabled:opacity-60"
                       >
                         <Check className="h-3.5 w-3.5" />
                         <span>Valider & Verrouiller</span>
@@ -503,13 +685,16 @@ export const TreatmentPlansView: React.FC = () => {
                     {permissions.canCreateInvoicesAndPayments && selectedPlan.items.length > 0 && (
                       <button
                         type="button"
+                        disabled={busyPlanAction}
                         onClick={() => handleConvertPlanToInvoice(selectedPlan)}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-sky-600 px-3 py-2 text-xs font-medium text-white hover:bg-sky-700"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-sky-600 px-3 py-2 text-xs font-medium text-white hover:bg-sky-700 disabled:opacity-60"
                       >
                         <FileText className="h-3.5 w-3.5" />
                         <span>
                           {existingPlanInvoice
                             ? `Voir Facture (${existingPlanInvoice.invoiceNumber})`
+                            : busyPlanAction
+                            ? 'Conversion...'
                             : 'Convertir en Facture'}
                         </span>
                       </button>
@@ -584,11 +769,24 @@ export const TreatmentPlansView: React.FC = () => {
                     />
                     <button
                       type="submit"
-                      className="col-span-1 md:col-span-1 rounded-lg bg-slate-900 dark:bg-sky-600 px-3 py-2 font-medium text-white hover:bg-slate-800 dark:hover:bg-sky-500"
+                      disabled={busyPlanAction}
+                      className="col-span-1 md:col-span-1 rounded-lg bg-slate-900 dark:bg-sky-600 px-3 py-2 font-medium text-white hover:bg-slate-800 dark:hover:bg-sky-500 disabled:opacity-60"
                     >
                       +
                     </button>
                   </form>
+                )}
+
+                {/* Texte intégral des actes (devis CSV) */}
+                {selectedPlan.rawActsText && (
+                  <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/50 p-3.5 text-xs space-y-1">
+                    <p className="font-semibold text-slate-700 dark:text-slate-200">
+                      Actes figurant sur le devis
+                    </p>
+                    <p className="whitespace-pre-line text-slate-700 dark:text-slate-300 leading-relaxed">
+                      {selectedPlan.rawActsText}
+                    </p>
+                  </div>
                 )}
 
                 {/* Items grouped by phase */}
@@ -618,11 +816,12 @@ export const TreatmentPlansView: React.FC = () => {
                               </div>
                               <div className="flex items-center gap-2">
                                 <select
+                                  disabled={!permissions.canCreatePlansAndQuotes || busyPlanAction}
                                   value={it.status}
                                   onChange={(e) =>
                                     handleUpdateItemStatus(it.id, e.target.value as PlanItemStatus)
                                   }
-                                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-2 py-1 text-[11px]"
+                                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-2 py-1 text-[11px] disabled:opacity-60"
                                 >
                                   {ITEM_STATUSES.map((st) => (
                                     <option key={st} value={st}>
@@ -633,11 +832,12 @@ export const TreatmentPlansView: React.FC = () => {
                                 <span className="font-mono font-semibold text-slate-900 dark:text-slate-100 tabular-nums w-28 text-right">
                                   {formatMAD(it.unitPrice * it.quantity - it.discount)}
                                 </span>
-                                {!selectedPlan.lockedVersion && (
+                                {!selectedPlan.lockedVersion && permissions.canCreatePlansAndQuotes && (
                                   <button
                                     type="button"
+                                    disabled={busyPlanAction}
                                     onClick={() => handleRemoveItem(it.id)}
-                                    className="p-1 text-slate-400 hover:text-red-600 dark:hover:text-red-400"
+                                    className="p-1 text-slate-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-50"
                                   >
                                     <Trash2 className="h-3.5 w-3.5" />
                                   </button>
@@ -739,8 +939,8 @@ export const TreatmentPlansView: React.FC = () => {
 
       {/* New Plan Modal */}
       {showNewPlanModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 dark:bg-black/70 p-4">
-          <div className="w-full max-w-md rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-slate-900/50 dark:bg-black/70 p-3 sm:p-4 pt-safe pb-safe overflow-y-auto">
+          <div className="my-auto w-full max-w-md rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-xl max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">Nouveau Plan de Traitement / Devis</h3>
               <button type="button" onClick={() => setShowNewPlanModal(false)}>
@@ -783,16 +983,18 @@ export const TreatmentPlansView: React.FC = () => {
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
+                  disabled={savingPlan}
                   onClick={() => setShowNewPlanModal(false)}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-60"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700"
+                  disabled={savingPlan}
+                  className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700 disabled:opacity-60"
                 >
-                  Créer le devis
+                  {savingPlan ? 'Création...' : 'Créer le devis'}
                 </button>
               </div>
             </form>
@@ -802,8 +1004,8 @@ export const TreatmentPlansView: React.FC = () => {
 
       {/* New Catalog Act Modal */}
       {showNewActModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 dark:bg-black/70 p-4">
-          <div className="w-full max-w-md rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-slate-900/50 dark:bg-black/70 p-3 sm:p-4 pt-safe pb-safe overflow-y-auto">
+          <div className="my-auto w-full max-w-md rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-xl max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">Nouvel Acte au Catalogue</h3>
               <button type="button" onClick={() => setShowNewActModal(false)}>
@@ -874,16 +1076,18 @@ export const TreatmentPlansView: React.FC = () => {
               <div className="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
+                  disabled={savingAct}
                   onClick={() => setShowNewActModal(false)}
-                  className="rounded-lg border border-slate-200 dark:border-slate-700 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700 px-4 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-60"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700"
+                  disabled={savingAct}
+                  className="rounded-lg bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-700 disabled:opacity-60"
                 >
-                  Enregistrer
+                  {savingAct ? 'Enregistrement...' : 'Enregistrer'}
                 </button>
               </div>
             </form>

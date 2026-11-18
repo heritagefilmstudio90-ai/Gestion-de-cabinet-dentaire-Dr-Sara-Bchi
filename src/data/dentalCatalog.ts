@@ -9,6 +9,7 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
+  where,
   writeBatch,
 } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
@@ -208,8 +209,18 @@ export async function resetClinicDataToZero(currentUid: string, _currentName: st
     const subDocRefs: DocumentReference[] = [];
     for (const patDoc of patientsSnap.docs) {
       const [imgSnap, notesSnap] = await Promise.all([
-        getDocs(collection(db, 'patients', patDoc.id, 'imaging')),
-        getDocs(collection(db, 'patients', patDoc.id, 'clinicalNotes')),
+        getDocs(
+          query(
+            collection(db, 'patients', patDoc.id, 'imaging'),
+            where('patientId', '==', patDoc.id)
+          )
+        ),
+        getDocs(
+          query(
+            collection(db, 'patients', patDoc.id, 'clinicalNotes'),
+            where('patientId', '==', patDoc.id)
+          )
+        ),
       ]);
       imgSnap.docs.forEach((d) => subDocRefs.push(d.ref));
       notesSnap.docs.forEach((d) => subDocRefs.push(d.ref));

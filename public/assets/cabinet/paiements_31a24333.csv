@@ -1,0 +1,1101 @@
+﻿Date,"Num P",Patient,"Code Acte",Acte,Honoraires,"Ancien Paiement","Montant encaissé",Type,Reste,"Chéque date","Chéque référence","Chéque montant","Chéque statut","Chéque date de depot","Chéque date d'encaissement","Chéque de garantie",Praticien,Note,"Saisi par","Créé à","ID Acte"
+02/10/2025,2,"MASSAUDI Aya",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/10/2025,905230
+02/10/2025,2,"MASSAUDI Aya",D705,"Traitement endodontique du groupe prémolaires",2000,1700,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/10/2025,905852
+03/10/2025,7,"EL FATIHI Ghita",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906481
+03/10/2025,7,"EL FATIHI Ghita",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906482
+03/10/2025,7,"EL FATIHI Ghita",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,0,300,Espèce,200,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906484
+03/10/2025,7,"EL FATIHI Ghita",D704,"Traitement endodontique du groupe inciso-canin",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906491
+03/10/2025,5,"ELJABBARI Fatima Zahra",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906498
+03/10/2025,5,"ELJABBARI Fatima Zahra",D713,"Extraction d'une dent permanente",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906500
+03/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,100,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906513
+03/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,100,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906519
+03/10/2025,15,"EL MIMOUNI Fatimazahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906523
+03/10/2025,15,"EL MIMOUNI Fatimazahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906525
+03/10/2025,15,"EL MIMOUNI Fatimazahra",D754,"CCM Couronnes céramo-métal",2600,2100,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906529
+03/10/2025,14,"AABARI Mouhssine",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906541
+03/10/2025,14,"AABARI Mouhssine",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906543
+03/10/2025,14,"AABARI Mouhssine",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906544
+03/10/2025,14,"AABARI Mouhssine",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",20000,15000,5000,"Virement bancaire",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906555
+03/10/2025,20,"FATHI Meryem",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906587
+03/10/2025,20,"FATHI Meryem",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906588
+03/10/2025,20,"FATHI Meryem",D754,"CCM Couronnes céramo-métal",3000,0,3000,"Virement bancaire",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906591
+03/10/2025,18,"JADDADE Kholoud",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906620
+21/08/2025,18,"JADDADE Kholoud",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,6000,2000,Espèce,4000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906629
+03/10/2025,18,"JADDADE Kholoud",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906626
+03/10/2025,10,"ALOUIZ Hassnae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,150,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906649
+03/10/2025,10,"ALOUIZ Hassnae",D713,"Extraction d'une dent permanente",300,150,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906657
+03/10/2025,16,"LOUBANE Mounia",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906658
+03/10/2025,16,"LOUBANE Mounia",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,100,250,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906665
+03/10/2025,12,"BOUTARBOUCHE Kenza",D704,"Traitement endodontique du groupe inciso-canin",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/10/2025,906676
+03/10/2025,21,"YOUBI Guisse",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,200,200,Espèce,200,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/10/2025,906849
+06/10/2025,21,"YOUBI Guisse",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,200,200,Espèce,200,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2025,906849
+06/10/2025,22,"BARGUI Brahim",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910827
+06/10/2025,22,"BARGUI Brahim",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910829
+06/10/2025,22,"BARGUI Brahim",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910834
+06/10/2025,31,"EL ALAOUI Soukaina",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910839
+06/10/2025,31,"EL ALAOUI Soukaina",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910840
+06/10/2025,46,"BELGHITI Camèlia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910844
+06/10/2025,46,"BELGHITI Camèlia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910842
+06/10/2025,45,"ALIGOD Adil",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910851
+06/10/2025,45,"ALIGOD Adil",D641,"Traitement d'orthopédie dento-faciale au delà du seizième anniversaire, préalable à une intervention chirurgicale portant sur les maxillaires, pour une période de six mois non renouvelable",24000,15000,9000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910855
+27/05/2025,45,"ALIGOD Adil",D641,"Traitement d'orthopédie dento-faciale au delà du seizième anniversaire, préalable à une intervention chirurgicale portant sur les maxillaires, pour une période de six mois non renouvelable",24000,19000,5000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910855
+15/09/2025,45,"ALIGOD Adil",D641,"Traitement d'orthopédie dento-faciale au delà du seizième anniversaire, préalable à une intervention chirurgicale portant sur les maxillaires, pour une période de six mois non renouvelable",24000,22000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910855
+25/01/2025,45,"ALIGOD Adil",D641,"Traitement d'orthopédie dento-faciale au delà du seizième anniversaire, préalable à une intervention chirurgicale portant sur les maxillaires, pour une période de six mois non renouvelable",24000,19000,5000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,910855
+06/10/2025,15,"EL MIMOUNI Fatimazahra",D754,"CCM Couronnes céramo-métal",2600,1900,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2025,906529
+06/10/2025,44,"RHRICH Ibtissam",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2025,911365
+06/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2025,911518
+06/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2025,906518
+06/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2025,906515
+06/10/2025,5,"ELJABBARI Fatima Zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2025,906502
+06/10/2025,5,"ELJABBARI Fatima Zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2025,911619
+06/10/2025,5,"ELJABBARI Fatima Zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2025,906507
+07/10/2025,23,"GUENNOUN Naoual",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,911842
+07/10/2025,13,"BOUTARBOUCHE Oum Kaltoum",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,911845
+11/09/2025,13,"BOUTARBOUCHE Oum Kaltoum",D754,"CCM Couronnes céramo-métal",2500,2100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,911847
+07/10/2025,34,"IBRAHIMI Ghizlan",D704,"Traitement endodontique du groupe inciso-canin",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,911849
+07/10/2025,11,"TEMOUCH Halima",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,911851
+07/10/2025,11,"TEMOUCH Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,911853
+07/10/2025,53,"DIALLO Ibrahima",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,911870
+07/10/2025,14,"AABARI Mouhssine",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",20000,15000,5000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,906555
+07/10/2025,16,"LOUBANE Mounia",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,912204
+07/10/2025,16,"LOUBANE Mounia",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,250,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,906665
+07/10/2025,17,"EL BAKKAL Imane",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913134
+07/10/2025,17,"EL BAKKAL Imane",D705,"Traitement endodontique du groupe prémolaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913137
+07/10/2025,17,"EL BAKKAL Imane",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913141
+07/10/2025,17,"EL BAKKAL Imane",D700,"Composite - Curetage et obturation coronaire de cavité simple",1200,400,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913142
+30/01/2025,17,"EL BAKKAL Imane",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",8400,4000,2400,Espèce,2000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913147
+01/04/2025,17,"EL BAKKAL Imane",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",8400,5400,1000,Espèce,2000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913147
+24/04/2025,17,"EL BAKKAL Imane",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",8400,5400,1000,Espèce,2000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913147
+11/09/2025,17,"EL BAKKAL Imane",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",8400,5900,500,Espèce,2000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913147
+07/10/2025,11,"TEMOUCH Halima",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913232
+07/10/2025,47,"Chahboune Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913390
+07/10/2025,47,"Chahboune Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,100,200,Espèce,100,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2025,913395
+07/10/2025,23,"GUENNOUN Naoual",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/10/2025,913909
+07/10/2025,56,"Yasmine Qandoussi",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/10/2025,913905
+08/10/2025,22,"BARGUI Brahim",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/10/2025,914221
+04/09/2025,58,"AHLAL Bouchra",D754,"CCM Couronnes céramo-métal",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,914230
+09/09/2025,58,"AHLAL Bouchra",D754,"CCM Couronnes céramo-métal",2000,1800,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,914230
+16/09/2025,58,"AHLAL Bouchra",D754,"CCM Couronnes céramo-métal",2000,1600,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,914230
+08/10/2025,58,"AHLAL Bouchra",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,914239
+08/10/2025,25,"SBAI Lala Oumnia",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,914246
+08/10/2025,25,"SBAI Lala Oumnia",D700,"Composite - Curetage et obturation coronaire de cavité simple",1200,0,1200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,914248
+08/10/2025,39,"BTITI Soukaina",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,914253
+08/10/2025,39,"BTITI Soukaina",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,914252
+08/10/2025,51,"Bakkari Yassmine",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/10/2025,915449
+08/10/2025,15,"EL MIMOUNI Fatimazahra",D754,"CCM Couronnes céramo-métal",2600,1600,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/10/2025,906529
+08/10/2025,4,"AZAIR Yacine",D754,"CCM Couronnes céramo-métal",5600,0,800,Espèce,4800,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2025,915829
+09/10/2025,2,"MASSAUDI Aya",D705,"Traitement endodontique du groupe prémolaires",2000,1300,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/10/2025,905852
+09/10/2025,20,"FATHI Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/10/2025,918034
+10/10/2025,55,"BOUABDELLAH Mouhcine",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/10/2025,918886
+10/10/2025,11,"TEMOUCH Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/10/2025,919567
+11/10/2025,34,"IBRAHIMI Ghizlan",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/10/2025,920409
+11/10/2025,34,"IBRAHIMI Ghizlan",D705,"Traitement endodontique du groupe prémolaires",400,300,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/10/2025,920408
+11/10/2025,15,"EL MIMOUNI Fatimazahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/10/2025,915825
+11/10/2025,15,"EL MIMOUNI Fatimazahra",D706,"Traitement endodontique du groupe molaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/10/2025,920764
+11/10/2025,15,"EL MIMOUNI Fatimazahra",D754,"CCM Couronnes céramo-métal",2600,2400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/10/2025,906529
+11/10/2025,61,"KASSAL Zayid",C,Consultation,150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/10/2025,921111
+13/10/2025,17,"EL BAKKAL Imane",D700,"Composite - Curetage et obturation coronaire de cavité simple",1200,800,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/10/2025,913142
+13/10/2025,17,"EL BAKKAL Imane",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",8400,6300,100,Espèce,2000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/10/2025,913147
+13/10/2025,18,"JADDADE Kholoud",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,7000,1000,Espèce,4000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/10/2025,906629
+13/10/2025,9,"MERNISSI ARIFI Zineb",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,6000,3000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/10/2025,906669
+14/10/2025,62,"BOULAHYA Lamiae",D704,"Traitement endodontique du groupe inciso-canin",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/10/2025,923907
+14/10/2025,65,"ALAMI Abdeljalil",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/10/2025,924228
+14/10/2025,13,"BOUTARBOUCHE Oum Kaltoum",D754,"CCM Couronnes céramo-métal",2500,1000,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2025,911847
+14/10/2025,12,"BOUTARBOUCHE Kenza",D764,"Appareil sur plaque base en matière plastique d'un édentement de six dents",1800,800,700,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2025,906692
+14/10/2025,12,"BOUTARBOUCHE Kenza",D764,"Appareil sur plaque base en matière plastique d'un édentement de six dents",1800,1200,300,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/10/2025,906692
+14/10/2025,64,"BICHOU Souhayla",C,Consultation,150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/10/2025,924049
+14/10/2025,62,"BOULAHYA Lamiae",D708,"Séance de détartrage complet sus et sous-gingival",400,250,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2025,925290
+14/10/2025,55,"BOUABDELLAH Mouhcine",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2025,918886
+14/10/2025,6,"EL GUADDARI Omayma",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/10/2025,925712
+14/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,500,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/10/2025,906515
+15/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2025,906515
+15/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,500,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2025,906519
+15/10/2025,6,"EL GUADDARI Omayma",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,500,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2025,906513
+15/10/2025,44,"RHRICH Ibtissam",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/10/2025,917233
+15/10/2025,44,"RHRICH Ibtissam",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,1400,-700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/10/2025,917233
+15/10/2025,10,"ALOUIZ Hassnae",D706,"Traitement endodontique du groupe molaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2025,926585
+15/10/2025,15,"EL MIMOUNI Fatimazahra",D754,"CCM Couronnes céramo-métal",2600,2400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2025,906529
+15/10/2025,33,"BOUSTAR Nabila",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2025,927865
+15/10/2025,44,"RHRICH Ibtissam",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2025,917233
+15/10/2025,44,"RHRICH Ibtissam",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2025,928070
+16/10/2025,62,"BOULAHYA Lamiae",D708,"Séance de détartrage complet sus et sous-gingival",400,150,250,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/10/2025,925290
+16/10/2025,62,"BOULAHYA Lamiae",D705,"Traitement endodontique du groupe prémolaires",500,250,250,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/10/2025,929709
+16/10/2025,23,"GUENNOUN Naoual",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/10/2025,929778
+17/10/2025,47,"Chahboune Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,100,Espèce,100,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/10/2025,931854
+17/10/2025,11,"TEMOUCH Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/10/2025,931987
+17/10/2025,11,"TEMOUCH Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/10/2025,931987
+17/10/2025,68,"BOUA Soukaina",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/10/2025,932057
+17/10/2025,72,"Aziz Ziani",C,Consultation,150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/10/2025,931858
+17/10/2025,71,"ROBAY Imane",C,Consultation,100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/10/2025,931982
+18/10/2025,55,"BOUABDELLAH Mouhcine",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/10/2025,918886
+18/10/2025,67,"BOUABDELAH Rawan",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/10/2025,932854
+18/10/2025,33,"BOUSTAR Nabila",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/10/2025,933054
+18/10/2025,26,"BTITI Mohammed",D713,"Extraction d'une dent permanente",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/10/2025,933184
+18/10/2025,54,"ZAHID Kamal",D754,"CCM Couronnes céramo-métal",2500,500,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/10/2025,933182
+18/10/2025,54,"ZAHID Kamal",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/10/2025,933182
+20/10/2025,62,"BOULAHYA Lamiae",D705,"Traitement endodontique du groupe prémolaires",500,250,250,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/10/2025,929709
+20/10/2025,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,7500,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/10/2025,933973
+20/10/2025,27,"AMARI Fatima-zahra",D754,"CCM Couronnes céramo-métal",5000,0,5000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/10/2025,935230
+20/10/2025,27,"AMARI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/10/2025,935233
+21/10/2025,51,"Bakkari Yassmine",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/10/2025,915449
+21/10/2025,73,"Amine Rhrich mohamed",D715,"Extraction d'une dent lactéale, quelle que soit la technique",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/10/2025,937425
+22/10/2025,74,"Bosis Tarik",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/10/2025,938438
+22/10/2025,20,"FATHI Meryem",D754,"CCM Couronnes céramo-métal",8000,0,8000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",22/10/2025,935152
+23/10/2025,55,"BOUABDELLAH Mouhcine",D754,"CCM Couronnes céramo-métal",2500,1600,900,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/10/2025,918886
+23/10/2025,11,"TEMOUCH Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/10/2025,942286
+23/10/2025,79,"MOUTAOUAKIL Nouhayla",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/10/2025,940350
+24/10/2025,68,"BOUA Soukaina",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,100,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/10/2025,940255
+24/10/2025,68,"BOUA Soukaina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",24/10/2025,942958
+27/10/2025,82,"ALOUANE Youssef",C,Consultation,150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/10/2025,947622
+27/10/2025,22,"BARGUI Brahim",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/10/2025,947723
+28/10/2025,10,"ALOUIZ Hassnae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/10/2025,948277
+28/10/2025,10,"ALOUIZ Hassnae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,150,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/10/2025,906649
+28/10/2025,10,"ALOUIZ Hassnae",D713,"Extraction d'une dent permanente",300,150,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/10/2025,906657
+29/10/2025,65,"ALAMI Abdeljalil",D700,"Composite - Curetage et obturation coronaire de cavité simple",900,200,700,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/10/2025,950579
+29/10/2025,65,"ALAMI Abdeljalil",D700,"Composite - Curetage et obturation coronaire de cavité simple",900,700,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/10/2025,950579
+29/10/2025,58,"AHLAL Bouchra",D754,"CCM Couronnes céramo-métal",2000,1900,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/10/2025,914230
+29/10/2025,58,"AHLAL Bouchra",D754,"CCM Couronnes céramo-métal",2000,1700,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/10/2025,914230
+29/10/2025,46,"BELGHITI Camèlia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/10/2025,912553
+30/10/2025,83,"EL QABLY Doha",D706,"Traitement endodontique du groupe molaires",600,100,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/10/2025,952979
+31/10/2025,84,"Hnini Taha",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/10/2025,954390
+31/10/2025,85,"ED DERYOUCH INTISSAR",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/10/2025,955286
+31/10/2025,47,"Chahboune Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",31/10/2025,955672
+31/10/2025,81,"EZ-ZOHRY Rachida",D773,"Prothèse adjointe totale du maxillaire supérieur",1500,1000,500,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",31/10/2025,955870
+31/10/2025,20,"FATHI Meryem",D701,"Composite - Curetage et obturation coronaire de cavité composée de 2 faces",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/10/2025,956005
+01/11/2025,82,"ALOUANE Youssef",D706,"Traitement endodontique du groupe molaires",600,400,200,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/11/2025,956341
+01/11/2025,82,"ALOUANE Youssef",D706,"Traitement endodontique du groupe molaires",600,200,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/11/2025,956341
+01/11/2025,55,"BOUABDELLAH Mouhcine",D754,"CCM Couronnes céramo-métal",2500,2400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/11/2025,918886
+01/11/2025,58,"AHLAL Bouchra",D705,"Traitement endodontique du groupe prémolaires",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/11/2025,950825
+01/11/2025,58,"AHLAL Bouchra",D705,"Traitement endodontique du groupe prémolaires",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/11/2025,950825
+03/11/2025,34,"IBRAHIMI Ghizlan",D705,"Traitement endodontique du groupe prémolaires",400,100,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/11/2025,920408
+03/11/2025,11,"TEMOUCH Halima",D762,"Appareil sur plaque base en matière plastique d'un édentement de quatre dents",1100,400,700,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/11/2025,959222
+03/11/2025,86,"TEMOUCH El Mehdi",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/11/2025,959336
+03/11/2025,86,"TEMOUCH El Mehdi",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",1300,300,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/11/2025,959364
+04/11/2025,88,"MOUTAOUAKIL Meryeme",D754,"CCM Couronnes céramo-métal",2600,2300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/11/2025,960407
+04/11/2025,90,"Mbrouki Nadia",C,Consultation,150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/11/2025,960685
+04/11/2025,65,"ALAMI Abdeljalil",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",1800,1300,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/11/2025,961430
+04/11/2025,65,"ALAMI Abdeljalil",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",1800,1300,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/11/2025,961430
+04/11/2025,83,"EL QABLY Doha",D706,"Traitement endodontique du groupe molaires",600,900,-300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/11/2025,952979
+04/11/2025,83,"EL QABLY Doha",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/11/2025,961956
+04/11/2025,83,"EL QABLY Doha",D706,"Traitement endodontique du groupe molaires",600,200,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/11/2025,952979
+05/11/2025,91,"OMARI Abdelmajid",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2025,962940
+05/11/2025,92,"SAHAL Aicha",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2025,963893
+05/11/2025,68,"BOUA Soukaina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2025,959018
+05/11/2025,68,"BOUA Soukaina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2025,942958
+05/11/2025,68,"BOUA Soukaina",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,500,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2025,940255
+11/11/2025,98,"AMGHAR Abderrahim",D762,"Appareil sur plaque base en matière plastique d'un édentement de quatre dents",800,400,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/11/2025,972359
+11/11/2025,88,"MOUTAOUAKIL Meryeme",D754,"CCM Couronnes céramo-métal",2600,1600,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/11/2025,960407
+11/11/2025,65,"ALAMI Abdeljalil",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",1800,1000,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/11/2025,961430
+11/11/2025,2,"MASSAUDI Aya",D705,"Traitement endodontique du groupe prémolaires",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/11/2025,905852
+11/11/2025,11,"TEMOUCH Halima",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/11/2025,959229
+11/11/2025,11,"TEMOUCH Halima",D762,"Appareil sur plaque base en matière plastique d'un édentement de quatre dents",1100,700,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/11/2025,959222
+11/11/2025,13,"BOUTARBOUCHE Oum Kaltoum",D754,"CCM Couronnes céramo-métal",2500,1900,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/11/2025,911847
+11/11/2025,12,"BOUTARBOUCHE Kenza",D764,"Appareil sur plaque base en matière plastique d'un édentement de six dents",1800,1000,500,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/11/2025,906692
+12/11/2025,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/11/2025,933973
+12/11/2025,96,"TADA Hiba",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/11/2025,975289
+12/11/2025,102,"GARMOUE Aya",D715,"Extraction d'une dent lactéale, quelle que soit la technique",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/11/2025,975551
+12/11/2025,100,"MOUJAHID Meryem",C,"Consultation chez un médecin généraliste ou médecin dentiste.",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/11/2025,976269
+13/11/2025,104,"ERROUZI Nouhayla",D705,"Traitement endodontique du groupe prémolaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/11/2025,978478
+13/11/2025,104,"ERROUZI Nouhayla",D705,"Traitement endodontique du groupe prémolaires",600,700,-100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/11/2025,978478
+13/11/2025,73,"Amine Rhrich mohamed",D706,"Traitement endodontique du groupe molaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/11/2025,978708
+13/11/2025,73,"Amine Rhrich mohamed",D706,"Traitement endodontique du groupe molaires",500,700,-200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/11/2025,978708
+15/11/2025,88,"MOUTAOUAKIL Meryeme",D754,"CCM Couronnes céramo-métal",2600,1300,1300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/11/2025,960407
+15/11/2025,104,"ERROUZI Nouhayla",D705,"Traitement endodontique du groupe prémolaires",600,500,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/11/2025,978478
+17/11/2025,105,"FERGAG Kawtar",D754,"CCM Couronnes céramo-métal",2000,1600,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/11/2025,979280
+17/11/2025,108,"MHARZI Zineb",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/11/2025,983799
+17/11/2025,86,"TEMOUCH El Mehdi",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",1300,1000,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/11/2025,959364
+17/11/2025,39,"BTITI Soukaina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/11/2025,983999
+18/11/2025,104,"ERROUZI Nouhayla",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/11/2025,984655
+19/11/2025,95,"Ababou Chada",,"blanchiment dentaire",3000,0,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",19/11/2025,986446
+19/11/2025,109,"BENDAOUD Chaimae",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/11/2025,987582
+20/11/2025,112,"IDRISSI Hemza",D713,"Extraction d'une dent permanente",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/11/2025,989773
+21/11/2025,104,"ERROUZI Nouhayla",D754,"CCM Couronnes céramo-métal",2500,2100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/11/2025,984655
+21/11/2025,109,"BENDAOUD Chaimae",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/11/2025,991402
+21/11/2025,81,"EZ-ZOHRY Rachida",D773,"Prothèse adjointe totale du maxillaire supérieur",1500,1000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/11/2025,955870
+21/11/2025,51,"Bakkari Yassmine",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/11/2025,991679
+22/11/2025,110,"CHMIAL Amal",D704,"Traitement endodontique du groupe inciso-canin",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/11/2025,992554
+24/11/2025,23,"GUENNOUN Naoual",D754,"CCM Couronnes céramo-métal",12500,11500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",24/11/2025,993718
+24/11/2025,104,"ERROUZI Nouhayla",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/11/2025,984655
+24/11/2025,113,"EL KHOUNGUI Meryeme",C,"Consultation chez un médecin généraliste ou médecin dentiste.",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",24/11/2025,990525
+25/11/2025,120,"RAJI Meryem",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/11/2025,997637
+25/11/2025,121,"FARTOUT Saadia",D704,"Traitement endodontique du groupe inciso-canin",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/11/2025,997944
+26/11/2025,110,"CHMIAL Amal",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/11/2025,998360
+26/11/2025,110,"CHMIAL Amal",D704,"Traitement endodontique du groupe inciso-canin",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/11/2025,992554
+26/11/2025,107,"Fatima Ahlafi",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/11/2025,999860
+26/11/2025,107,"Fatima Ahlafi",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/11/2025,984946
+29/11/2025,23,"GUENNOUN Naoual",D754,"CCM Couronnes céramo-métal",12500,11500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/11/2025,993718
+29/11/2025,121,"FARTOUT Saadia",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/11/2025,1004274
+29/11/2025,104,"ERROUZI Nouhayla",D754,"CCM Couronnes céramo-métal",2500,1400,1100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/11/2025,984655
+01/12/2025,115,"Naji Chaimaa",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/12/2025,1005367
+01/12/2025,122,"Aatfaoui Loubna",D754,"CCM Couronnes céramo-métal",4000,3600,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/12/2025,1005661
+03/12/2025,23,"GUENNOUN Naoual",D754,"CCM Couronnes céramo-métal",12500,12000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/12/2025,993718
+03/12/2025,123,"YASSER Ait",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/12/2025,1011198
+03/12/2025,124,"Ouail Mernissi arifi",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/12/2025,1011595
+04/12/2025,122,"Aatfaoui Loubna",D754,"CCM Couronnes céramo-métal",4000,3400,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/12/2025,1005661
+04/12/2025,131,"ALAMI LYNA CHERIF",D701,"Composite - Curetage et obturation coronaire de cavité composée de 2 faces",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/12/2025,1013671
+04/12/2025,132,"BELKHATIR Razane",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/12/2025,1013559
+04/12/2025,120,"RAJI Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/12/2025,1013754
+05/12/2025,105,"FERGAG Kawtar",D754,"CCM Couronnes céramo-métal",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/12/2025,979280
+05/12/2025,133,"AMGHAR Ziyad",D703,"Pulpotomie ou pulpectomie coronaire avec obturation de la chambre pulpaire",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",05/12/2025,1015329
+05/12/2025,98,"AMGHAR Abderrahim",D762,"Appareil sur plaque base en matière plastique d'un édentement de quatre dents",800,400,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",05/12/2025,972359
+05/12/2025,81,"EZ-ZOHRY Rachida",D773,"Prothèse adjointe totale du maxillaire supérieur",1500,1000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/12/2025,955870
+08/12/2025,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/12/2025,933973
+08/12/2025,122,"Aatfaoui Loubna",D754,"CCM Couronnes céramo-métal",4000,3500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/12/2025,1005661
+08/12/2025,123,"YASSER Ait",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/12/2025,1019107
+08/12/2025,123,"YASSER Ait",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/12/2025,1011198
+09/12/2025,11,"TEMOUCH Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/12/2025,959225
+09/12/2025,89,"TEMOUCH Khadija",D754,"CCM Couronnes céramo-métal",15000,14000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/12/2025,1021465
+09/12/2025,28,"MRIKA Khalid",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/12/2025,1021933
+09/12/2025,28,"MRIKA Khalid",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/12/2025,1021930
+09/12/2025,28,"MRIKA Khalid",D706,"Traitement endodontique du groupe molaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/12/2025,1021928
+09/12/2025,28,"MRIKA Khalid",D704,"Traitement endodontique du groupe inciso-canin",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/12/2025,1021925
+09/12/2025,28,"MRIKA Khalid",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/12/2025,1021916
+10/12/2025,23,"GUENNOUN Naoual",D754,"CCM Couronnes céramo-métal",12500,10000,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/12/2025,993718
+10/12/2025,143,"An Mohamadou",D700,"Composite - Curetage et obturation coronaire de cavité simple",1500,700,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/12/2025,1023690
+10/12/2025,124,"Ouail Mernissi arifi",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/12/2025,1024229
+11/12/2025,143,"An Mohamadou",D700,"Composite - Curetage et obturation coronaire de cavité simple",1500,800,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/12/2025,1023690
+11/12/2025,143,"An Mohamadou",D700,"Composite - Curetage et obturation coronaire de cavité simple",2400,0,2400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/12/2025,1024898
+11/12/2025,143,"An Mohamadou",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/12/2025,1024916
+11/12/2025,140,"Touili Sabah",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",1300,300,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/12/2025,1026064
+12/12/2025,138,"Hassani Khadija tahri jouti",D715,"Extraction d'une dent lactéale, quelle que soit la technique",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/12/2025,1027029
+12/12/2025,141,"ABOUYAALA Habiba",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,-200,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/12/2025,1027170
+12/12/2025,141,"ABOUYAALA Habiba",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/12/2025,1025675
+12/12/2025,146,"EL MAKBOUL Nour El Houda",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/12/2025,1027293
+12/12/2025,111,"ADMEUR Fouziya",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",1800,0,1800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/12/2025,1028129
+12/12/2025,111,"ADMEUR Fouziya",D754,"CCM Couronnes céramo-métal",12500,0,12500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/12/2025,993802
+12/12/2025,111,"ADMEUR Fouziya",D754,"CCM Couronnes céramo-métal",2500,0,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/12/2025,1005521
+15/12/2025,141,"ABOUYAALA Habiba",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/12/2025,1031220
+15/12/2025,141,"ABOUYAALA Habiba",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,600,-200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/12/2025,1027170
+16/12/2025,24,"GUENNOUN Safae",D754,"CCM Couronnes céramo-métal",10000,0,10000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",16/12/2025,1033352
+16/12/2025,89,"TEMOUCH Khadija",D754,"CCM Couronnes céramo-métal",15000,14100,900,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/12/2025,1021465
+16/12/2025,148,"BOULKROUCH Fatima",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/12/2025,1033603
+17/12/2025,123,"YASSER Ait",D706,"Traitement endodontique du groupe molaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/12/2025,1035471
+17/12/2025,17,"EL BAKKAL Imane",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",8400,5900,500,Espèce,2000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/12/2025,913147
+17/12/2025,18,"JADDADE Kholoud",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,7000,1000,Espèce,4000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/12/2025,906629
+18/12/2025,122,"Aatfaoui Loubna",D754,"CCM Couronnes céramo-métal",4000,1500,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/12/2025,1005661
+18/12/2025,88,"MOUTAOUAKIL Meryeme",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/12/2025,1036663
+18/12/2025,142,"Snoussi Sara",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/12/2025,1023205
+18/12/2025,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",2000,1500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/12/2025,1037727
+18/12/2025,89,"TEMOUCH Khadija",D754,"CCM Couronnes céramo-métal",15000,14000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/12/2025,1021465
+18/12/2025,146,"EL MAKBOUL Nour El Houda",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/12/2025,1037991
+19/12/2025,72,"Aziz Ziani",D754,"CCM Couronnes céramo-métal",7500,5500,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/12/2025,1038341
+20/12/2025,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",2000,1500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/12/2025,1037727
+20/12/2025,123,"YASSER Ait",D706,"Traitement endodontique du groupe molaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/12/2025,1035471
+20/12/2025,16,"LOUBANE Mounia",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/12/2025,1040518
+23/12/2025,23,"GUENNOUN Naoual",D754,"CCM Couronnes céramo-métal",12500,10500,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/12/2025,993718
+23/12/2025,23,"GUENNOUN Naoual",D754,"CCM Couronnes céramo-métal",12500,12000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/12/2025,993718
+23/12/2025,89,"TEMOUCH Khadija",D754,"CCM Couronnes céramo-métal",15000,14500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/12/2025,1021465
+23/12/2025,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",2000,1700,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/12/2025,1037727
+24/12/2025,123,"YASSER Ait",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,200,Espèce,100,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/12/2025,1046537
+25/12/2025,44,"RHRICH Ibtissam",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/12/2025,928070
+25/12/2025,73,"Amine Rhrich mohamed",D706,"Traitement endodontique du groupe molaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/12/2025,978708
+25/12/2025,23,"GUENNOUN Naoual",D754,"CCM Couronnes céramo-métal",12500,7500,5000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/12/2025,993718
+25/12/2025,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",2000,1700,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/12/2025,1037727
+26/12/2025,72,"Aziz Ziani",D754,"CCM Couronnes céramo-métal",7500,5500,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/12/2025,1038341
+26/12/2025,88,"MOUTAOUAKIL Meryeme",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/12/2025,1049959
+26/12/2025,81,"EZ-ZOHRY Rachida",D765,"Appareil sur plaque base en matière plastique d'un édentement de sept dents",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/12/2025,1039194
+26/12/2025,141,"ABOUYAALA Habiba",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/12/2025,1041407
+27/12/2025,137,"Allouch Meriem",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/12/2025,1024244
+27/12/2025,150,"KHATORI Loubna",D754,"CCM Couronnes céramo-métal",2500,2300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/12/2025,1051608
+27/12/2025,155,"KOURIT Younes",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/12/2025,1051789
+29/12/2025,149,"Zakari Hatim",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",3500,3000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/12/2025,1049543
+29/12/2025,104,"ERROUZI Nouhayla",D754,"CCM Couronnes céramo-métal",2000,200,1800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/12/2025,1053092
+29/12/2025,88,"MOUTAOUAKIL Meryeme",D706,"Traitement endodontique du groupe molaires",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/12/2025,1053344
+30/12/2025,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",2000,1600,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/12/2025,1037727
+30/12/2025,116,"BOULBARSS Nourddin",D754,"CCM Couronnes céramo-métal",10000,0,10000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/12/2025,1056621
+30/12/2025,116,"BOULBARSS Nourddin",D754,"CCM Couronnes céramo-métal",10000,0,10000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/12/2025,996178
+31/12/2025,72,"Aziz Ziani",D754,"CCM Couronnes céramo-métal",7500,6500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/12/2025,1038341
+31/12/2025,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/12/2025,933973
+31/12/2025,156,"EL BAKKAL Mohammed",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/12/2025,1057639
+31/12/2025,160,"TADILI  FARISS Sabrina",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/12/2025,1058333
+31/12/2025,157,"EL HASSANI Nisrine",D754,"CCM Couronnes céramo-métal",2500,2100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/12/2025,1058656
+02/01/2026,156,"EL BAKKAL Mohammed",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/01/2026,1059769
+02/01/2026,156,"EL BAKKAL Mohammed",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/01/2026,1059765
+02/01/2026,158,"MANNI Alae",D763,"Appareil sur plaque base en matière plastique d'un édentement de cinq dents",1300,1000,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/01/2026,1059931
+02/01/2026,93,"QEROUCH Rachida",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/01/2026,1060797
+02/01/2026,93,"QEROUCH Rachida",D706,"Traitement endodontique du groupe molaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/01/2026,1060795
+02/01/2026,160,"TADILI  FARISS Sabrina",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/01/2026,1060847
+02/01/2026,81,"EZ-ZOHRY Rachida",D765,"Appareil sur plaque base en matière plastique d'un édentement de sept dents",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/01/2026,1039194
+03/01/2026,14,"AABARI Mouhssine",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",20000,14000,6000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/01/2026,906555
+03/01/2026,149,"Zakari Hatim",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",3500,3000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/01/2026,1049543
+03/01/2026,89,"TEMOUCH Khadija",D754,"CCM Couronnes céramo-métal",15000,14000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/01/2026,1021465
+06/01/2026,88,"MOUTAOUAKIL Meryeme",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/01/2026,1066039
+06/01/2026,105,"FERGAG Kawtar",D754,"CCM Couronnes céramo-métal",2000,1500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/01/2026,979280
+06/01/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",6000,5500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/01/2026,1066771
+06/01/2026,72,"Aziz Ziani",D754,"CCM Couronnes céramo-métal",7500,6500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/01/2026,1038341
+07/01/2026,163,"KADDARI Mohammed",D754,"CCM Couronnes céramo-métal",10000,7000,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/01/2026,1066939
+07/01/2026,158,"MANNI Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/01/2026,1059929
+07/01/2026,164,"MOUHCINE Abbou",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/01/2026,1068454
+07/01/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",6000,5900,100,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/01/2026,1066771
+07/01/2026,157,"EL HASSANI Nisrine",D754,"CCM Couronnes céramo-métal",2500,2150,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/01/2026,1058656
+07/01/2026,44,"RHRICH Ibtissam",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,100,200,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/01/2026,1069929
+08/01/2026,129,"ELHABIB Yahya",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1007707
+08/01/2026,129,"ELHABIB Yahya",D706,"Traitement endodontique du groupe molaires",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1007125
+08/01/2026,126,"MIMOUN Abdelwahab",D706,"Traitement endodontique du groupe molaires",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1005192
+08/01/2026,126,"MIMOUN Abdelwahab",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1007686
+08/01/2026,128,"YASSINE Assem",D706,"Traitement endodontique du groupe molaires",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1007045
+08/01/2026,125,"SABER Aymane",D708,"Séance de détartrage complet sus et sous-gingival",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1005190
+08/01/2026,125,"SABER Aymane",D706,"Traitement endodontique du groupe molaires",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1006658
+08/01/2026,140,"Touili Sabah",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",1300,1000,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1026064
+08/01/2026,127,"EL MALIH Reda",D706,"Traitement endodontique du groupe molaires",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1005193
+08/01/2026,127,"EL MALIH Reda",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/01/2026,1007696
+08/01/2026,162,"Ramli Latifa",D754,"CCM Couronnes céramo-métal",2000,1500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/01/2026,1071788
+08/01/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",6000,5500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/01/2026,1066771
+08/01/2026,88,"MOUTAOUAKIL Meryeme",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/01/2026,1072158
+09/01/2026,104,"ERROUZI Nouhayla",D754,"CCM Couronnes céramo-métal",2000,1800,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/01/2026,1053092
+09/01/2026,157,"EL HASSANI Nisrine",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/01/2026,1058656
+09/01/2026,157,"EL HASSANI Nisrine",D754,"CCM Couronnes céramo-métal",2500,2250,250,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/01/2026,1058656
+09/01/2026,158,"MANNI Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/01/2026,1059929
+09/01/2026,166,"SAKHIR Houssam",D754,"CCM Couronnes céramo-métal",3000,2000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/01/2026,1073887
+09/01/2026,158,"MANNI Alae",D763,"Appareil sur plaque base en matière plastique d'un édentement de cinq dents",1300,1600,-300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/01/2026,1059931
+09/01/2026,158,"MANNI Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/01/2026,1059929
+09/01/2026,163,"KADDARI Mohammed",D754,"CCM Couronnes céramo-métal",10000,8000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/01/2026,1066939
+10/01/2026,9,"MERNISSI ARIFI Zineb",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,8000,1000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/01/2026,906669
+10/01/2026,89,"TEMOUCH Khadija",D754,"CCM Couronnes céramo-métal",15000,14400,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/01/2026,1021465
+12/01/2026,167,"Sanae Belaabid",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/01/2026,1076309
+12/01/2026,168,"Badr Berrada",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/01/2026,1077449
+15/04/2025,169,"ALLOUCH Fatima Zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",950,0,950,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/01/2026,1078617
+13/01/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",6000,5500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/01/2026,1066771
+13/01/2026,141,"ABOUYAALA Habiba",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/01/2026,1041407
+14/01/2026,158,"MANNI Alae",D763,"Appareil sur plaque base en matière plastique d'un édentement de cinq dents",1300,800,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/01/2026,1059931
+14/01/2026,32,"SALAH EDDINE Hasnaa",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/01/2026,1075994
+14/01/2026,163,"KADDARI Mohammed",D754,"CCM Couronnes céramo-métal",10000,7000,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/01/2026,1066939
+14/01/2026,170,"Hamdi Taha",D715,"Extraction d'une dent lactéale, quelle que soit la technique",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/01/2026,1081363
+15/01/2026,163,"KADDARI Mohammed",D754,"CCM Couronnes céramo-métal",10000,8000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/01/2026,1066939
+15/12/2025,32,"SALAH EDDINE Hasnaa",D754,"CCM Couronnes céramo-métal",2500,0,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/01/2026,1082962
+15/12/2025,32,"SALAH EDDINE Hasnaa",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/01/2026,1082961
+15/12/2025,32,"SALAH EDDINE Hasnaa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/01/2026,1082964
+15/12/2025,32,"SALAH EDDINE Hasnaa",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/01/2026,1082954
+15/01/2026,166,"SAKHIR Houssam",D754,"CCM Couronnes céramo-métal",3000,1000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/01/2026,1073887
+16/01/2026,72,"Aziz Ziani",D754,"CCM Couronnes céramo-métal",7500,6500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/01/2026,1038341
+17/01/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",6000,3500,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/01/2026,1066771
+17/01/2026,10,"ALOUIZ Hassnae",D713,"Extraction d'une dent permanente",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/01/2026,1087583
+19/01/2026,163,"KADDARI Mohammed",D757,"Chaque élément du bridge sera compté comme couronne unitaire de même nature",12500,10500,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/01/2026,1066940
+19/01/2026,157,"EL HASSANI Nisrine",D754,"CCM Couronnes céramo-métal",2500,1500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/01/2026,1058656
+20/01/2026,10,"ALOUIZ Hassnae",D713,"Extraction d'une dent permanente",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/01/2026,1090628
+20/01/2026,95,"Ababou Chada",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/01/2026,1087435
+20/01/2026,72,"Aziz Ziani",D754,"CCM Couronnes céramo-métal",7500,7000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/01/2026,1038341
+20/01/2026,140,"Touili Sabah",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/01/2026,1026065
+20/01/2026,158,"MANNI Alae",D762,"Appareil sur plaque base en matière plastique d'un édentement de quatre dents",1300,300,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/01/2026,1059932
+20/01/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",2000,1600,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/01/2026,1071953
+23/01/2026,158,"MANNI Alae",D763,"Appareil sur plaque base en matière plastique d'un édentement de cinq dents",1300,500,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",23/01/2026,1059931
+23/01/2026,158,"MANNI Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,800,-200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",23/01/2026,1059929
+23/01/2026,172,"EL KHABCH Rayhane",D715,"Extraction d'une dent lactéale, quelle que soit la technique",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/01/2026,1098768
+23/01/2026,158,"MANNI Alae",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",23/01/2026,1059930
+23/01/2026,158,"MANNI Alae",D762,"Appareil sur plaque base en matière plastique d'un édentement de quatre dents",1300,1000,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",23/01/2026,1059932
+26/01/2026,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/01/2026,933973
+27/01/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",6000,4500,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/01/2026,1066771
+28/01/2026,163,"KADDARI Mohammed",D757,"Chaque élément du bridge sera compté comme couronne unitaire de même nature",12500,8500,4000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/01/2026,1066940
+29/01/2026,150,"KHATORI Loubna",D754,"CCM Couronnes céramo-métal",2500,1900,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/01/2026,1051608
+29/01/2026,177,"MOUTAOUAKKIL Rkia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/01/2026,1109325
+30/01/2026,158,"MANNI Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/01/2026,1112229
+02/02/2026,177,"MOUTAOUAKKIL Rkia",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",900,400,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/02/2026,1115741
+03/02/2026,158,"MANNI Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/02/2026,1112229
+04/02/2026,183,"EL OUARTI Amal",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/02/2026,1119447
+04/02/2026,177,"MOUTAOUAKKIL Rkia",D704,"Traitement endodontique du groupe inciso-canin",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/02/2026,1115740
+05/02/2026,183,"EL OUARTI Amal",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/02/2026,1124687
+05/02/2026,177,"MOUTAOUAKKIL Rkia",D704,"Traitement endodontique du groupe inciso-canin",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/02/2026,1115740
+05/02/2026,177,"MOUTAOUAKKIL Rkia",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/02/2026,1115739
+05/02/2026,177,"MOUTAOUAKKIL Rkia",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",900,500,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/02/2026,1115741
+05/02/2026,163,"KADDARI Mohammed",D757,"Chaque élément du bridge sera compté comme couronne unitaire de même nature",12500,9000,3500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/02/2026,1066940
+10/02/2026,189,"MOUSTAID Meryem",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/02/2026,1133877
+10/02/2026,172,"EL KHABCH Rayhane",D715,"Extraction d'une dent lactéale, quelle que soit la technique",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/02/2026,1120963
+10/02/2026,182,"EL ALGUI Abdenbi",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/02/2026,1134222
+10/02/2026,182,"EL ALGUI Abdenbi",D706,"Traitement endodontique du groupe molaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/02/2026,1115648
+10/02/2026,186,"Zamrani Hind",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/02/2026,1134824
+10/02/2026,185,"ESSIOUR Hassan",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",3500,2700,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/02/2026,1134200
+10/02/2026,67,"BOUABDELAH Rawan",,"couronne provisoire",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/02/2026,1087773
+11/02/2026,184,"EL MIMOUNI Mohammed",D704,"Traitement endodontique du groupe inciso-canin",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/02/2026,1120908
+11/02/2026,193,"ESSEKSIKI Hayat",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/02/2026,1137369
+11/02/2026,194,"KAROUMI Khalid",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,150,Espèce,150,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/02/2026,1137512
+12/02/2026,150,"KHATORI Loubna",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/02/2026,1051608
+12/02/2026,184,"EL MIMOUNI Mohammed",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/02/2026,1138923
+13/02/2026,190,"ESSEKSIKI Imane",D708,"Séance de détartrage complet sus et sous-gingival",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/02/2026,1141385
+14/02/2026,177,"MOUTAOUAKKIL Rkia",D713,"Extraction d'une dent permanente",400,200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/02/2026,1142826
+14/02/2026,14,"AABARI Mouhssine",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",20000,16000,4000,"Virement bancaire",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/02/2026,906555
+14/02/2026,176,"Fathi Badr",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/02/2026,1144170
+16/02/2026,186,"Zamrani Hind",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,150,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/02/2026,1134826
+16/02/2026,177,"MOUTAOUAKKIL Rkia",D713,"Extraction d'une dent permanente",400,200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",16/02/2026,1142826
+16/02/2026,17,"EL BAKKAL Imane",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",8400,5900,500,Espèce,2000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/02/2026,913147
+16/02/2026,163,"KADDARI Mohammed",D757,"Chaque élément du bridge sera compté comme couronne unitaire de même nature",12500,9500,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/02/2026,1066940
+16/02/2026,163,"KADDARI Mohammed",D764,"Appareil sur plaque base en matière plastique d'un édentement de six dents",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/02/2026,1066941
+17/02/2026,180,"LEBIED Fatiha",D754,"CCM Couronnes céramo-métal",2500,0,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/02/2026,1146738
+17/02/2026,198,"EL MOUKAFIH Azeddine",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/02/2026,1149508
+17/02/2026,198,"EL MOUKAFIH Azeddine",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/02/2026,1149511
+17/02/2026,162,"Ramli Latifa",D754,"CCM Couronnes céramo-métal",2000,500,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/02/2026,1071788
+17/02/2026,44,"RHRICH Ibtissam",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/02/2026,1074283
+17/02/2026,44,"RHRICH Ibtissam",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/02/2026,1069940
+17/02/2026,44,"RHRICH Ibtissam",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,200,100,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/02/2026,1069929
+17/02/2026,42,"BOUTARBOUCHE Safae",D708,"Séance de détartrage complet sus et sous-gingival",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/02/2026,1149829
+17/02/2026,200,"HAMMANI Salma",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/02/2026,1149951
+18/02/2026,189,"MOUSTAID Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/02/2026,1150935
+18/02/2026,189,"MOUSTAID Meryem",D703,"Pulpotomie ou pulpectomie coronaire avec obturation de la chambre pulpaire",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/02/2026,1150939
+18/02/2026,9,"MERNISSI ARIFI Zineb",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,8000,1000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/02/2026,906669
+18/02/2026,201,"SKALLI HOUSSAINI Lamiae",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/02/2026,1152827
+19/02/2026,202,"ZAHER Yassine",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/02/2026,1153278
+19/02/2026,202,"ZAHER Yassine",D705,"Traitement endodontique du groupe prémolaires",400,300,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/02/2026,1151443
+19/02/2026,202,"ZAHER Yassine",D705,"Traitement endodontique du groupe prémolaires",400,100,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",19/02/2026,1151443
+19/02/2026,202,"ZAHER Yassine",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",19/02/2026,1153279
+19/02/2026,178,"TABZIOUI Naima",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",19/02/2026,1112044
+20/02/2026,207,"SLIGHOUA Souhail",D754,"CCM Couronnes céramo-métal",2500,1500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/02/2026,1154322
+21/02/2026,180,"LEBIED Fatiha",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",3500,3300,200,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/02/2026,1156672
+23/02/2026,163,"KADDARI Mohammed",D754,"CCM Couronnes céramo-métal",10000,7000,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/02/2026,1152651
+24/02/2026,33,"BOUSTAR Nabila",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/02/2026,1160256
+27/02/2026,207,"SLIGHOUA Souhail",D702,"Composite - Curetage et obturation coronaire de cavité composée de 3 faces et plus",800,0,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/02/2026,1154325
+27/02/2026,207,"SLIGHOUA Souhail",D754,"CCM Couronnes céramo-métal",2500,1000,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/02/2026,1154322
+28/02/2026,161,"EL HASSANI Janat",D700,"Composite - Curetage et obturation coronaire de cavité simple",800,0,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/02/2026,1069486
+28/02/2026,161,"EL HASSANI Janat",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/02/2026,1098581
+28/02/2026,211,"AMMOUR Abdellatif",C,"Consultation chez un médecin généraliste ou médecin dentiste.",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/02/2026,1165077
+02/03/2026,115,"Naji Chaimaa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/03/2026,1168334
+03/03/2026,180,"LEBIED Fatiha",D754,"CCM Couronnes céramo-métal",7500,5500,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/03/2026,1156676
+03/03/2026,212,"ABABOU Aya",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/03/2026,1169787
+03/03/2026,150,"KHATORI Loubna",D754,"CCM Couronnes céramo-métal",2500,1500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/03/2026,1051608
+03/03/2026,185,"ESSIOUR Hassan",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",3500,1300,2200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/03/2026,1134200
+03/03/2026,149,"Zakari Hatim",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",3500,2500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/03/2026,1049543
+03/03/2026,213,"ESSIOUR Walid",D708,"Séance de détartrage complet sus et sous-gingival",500,100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/03/2026,1170817
+04/03/2026,163,"KADDARI Mohammed",D754,"CCM Couronnes céramo-métal",10000,6000,4000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/03/2026,1152651
+04/03/2026,175,"ALAMI Fatimazohra",D754,"CCM Couronnes céramo-métal",10000,9700,300,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/03/2026,1172657
+04/03/2026,175,"ALAMI Fatimazohra",D754,"CCM Couronnes céramo-métal",10000,9000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/03/2026,1172657
+05/03/2026,53,"DIALLO Ibrahima",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",05/03/2026,1174024
+06/03/2026,213,"ESSIOUR Walid",D708,"Séance de détartrage complet sus et sous-gingival",500,400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/03/2026,1170817
+06/03/2026,180,"LEBIED Fatiha",D754,"CCM Couronnes céramo-métal",7500,6500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/03/2026,1156676
+07/03/2026,217,"EL GARTI Mohamed",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/03/2026,1177089
+07/03/2026,214,"Mohamed Charkaoui",,"reprise de traitement canalaire",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/03/2026,1176956
+09/03/2026,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/03/2026,933973
+09/03/2026,106,"JOUIDI Walid",D704,"Traitement endodontique du groupe inciso-canin",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/03/2026,980066
+09/03/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/03/2026,1143838
+09/03/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/03/2026,984482
+09/03/2026,106,"JOUIDI Walid",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/03/2026,1177306
+09/03/2026,106,"JOUIDI Walid",D706,"Traitement endodontique du groupe molaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/03/2026,1137659
+09/03/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/03/2026,1152126
+09/03/2026,106,"JOUIDI Walid",D706,"Traitement endodontique du groupe molaires",600,1200,-600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/03/2026,1177306
+09/03/2026,151,"Temouch Yahya",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/03/2026,1081893
+09/03/2026,151,"Temouch Yahya",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/03/2026,1088827
+09/03/2026,151,"Temouch Yahya",D705,"Traitement endodontique du groupe prémolaires",1000,0,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/03/2026,1159751
+09/03/2026,37,"JOUICHI Amira",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/03/2026,1179787
+10/03/2026,220,"AFKIR Said",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/03/2026,1180647
+11/03/2026,163,"KADDARI Mohammed",D754,"CCM Couronnes céramo-métal",10000,7000,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/03/2026,1152651
+12/03/2026,221,"BEN DAHMAN Ayoub",C,"Consultation chez un médecin généraliste ou médecin dentiste.",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/03/2026,1184172
+12/03/2026,185,"ESSIOUR Hassan",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",3500,3000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/03/2026,1134200
+13/03/2026,222,"RHRICH Yahya",D706,"Traitement endodontique du groupe molaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/03/2026,1186842
+13/03/2026,108,"MHARZI Zineb",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/03/2026,983799
+13/03/2026,108,"MHARZI Zineb",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/03/2026,999547
+14/03/2026,106,"JOUIDI Walid",D706,"Traitement endodontique du groupe molaires",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/03/2026,1177306
+16/03/2026,152,"ROUGUI Soufiane",D706,"Traitement endodontique du groupe molaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/03/2026,1184653
+16/03/2026,223,"BOUALAM Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/03/2026,1190216
+17/03/2026,163,"KADDARI Mohammed",D764,"Appareil sur plaque base en matière plastique d'un édentement de six dents",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/03/2026,1066941
+17/03/2026,210,"BTITI Ali",D754,"CCM Couronnes céramo-métal",10000,0,10000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/03/2026,1167827
+17/03/2026,222,"RHRICH Yahya",D706,"Traitement endodontique du groupe molaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/03/2026,1186842
+18/03/2026,152,"ROUGUI Soufiane",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/03/2026,1189839
+19/03/2026,106,"JOUIDI Walid",D706,"Traitement endodontique du groupe molaires",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/03/2026,1177306
+21/03/2026,105,"FERGAG Kawtar",D705,"Traitement endodontique du groupe prémolaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/03/2026,987305
+21/03/2026,105,"FERGAG Kawtar",D754,"CCM Couronnes céramo-métal",2000,1900,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/03/2026,979280
+21/03/2026,205,"Diani Salma",D754,"CCM Couronnes céramo-métal",3000,0,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/03/2026,1154426
+21/03/2026,204,"ABDALI Mohamed",D754,"CCM Couronnes céramo-métal",3000,0,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/03/2026,1152294
+23/03/2026,33,"BOUSTAR Nabila",D754,"CCM Couronnes céramo-métal",10000,9700,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/03/2026,1168619
+25/03/2026,225,"Aatfaoui Zineb",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/03/2026,1200503
+25/03/2026,18,"JADDADE Kholoud",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,7500,500,Espèce,4000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/03/2026,906629
+27/03/2026,228,"FENINE Said",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/03/2026,1205897
+27/03/2026,33,"BOUSTAR Nabila",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/03/2026,1195459
+27/03/2026,33,"BOUSTAR Nabila",D754,"CCM Couronnes céramo-métal",10000,7500,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/03/2026,1168619
+27/03/2026,136,"MERIEM Touili",D700,"Composite - Curetage et obturation coronaire de cavité simple",900,0,900,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/03/2026,1016356
+27/03/2026,136,"MERIEM Touili",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/03/2026,1020261
+27/03/2026,136,"MERIEM Touili",D705,"Traitement endodontique du groupe prémolaires",500,0,100,Espèce,400,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/03/2026,1108749
+27/03/2026,175,"ALAMI Fatimazohra",D754,"CCM Couronnes céramo-métal",10000,1300,8700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/03/2026,1172657
+27/03/2026,97,"DAKKOUNE Ikram",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/03/2026,1190404
+28/03/2026,146,"EL MAKBOUL Nour El Houda",C,"Consultation chez un médecin généraliste ou médecin dentiste.",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/03/2026,1208623
+31/03/2026,180,"LEBIED Fatiha",D754,"CCM Couronnes céramo-métal",7500,6500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/03/2026,1156676
+31/03/2026,88,"MOUTAOUAKIL Meryeme",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/03/2026,1214599
+31/03/2026,230,"Tafought Zineb",D706,"Traitement endodontique du groupe molaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/03/2026,1215915
+02/04/2026,62,"BOULAHYA Lamiae",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/04/2026,1219893
+03/04/2026,228,"FENINE Said",D754,"CCM Couronnes céramo-métal",5000,4800,200,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/04/2026,1210674
+03/04/2026,228,"FENINE Said",D754,"CCM Couronnes céramo-métal",5000,4000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/04/2026,1210674
+03/04/2026,229,"MEZOURI Oussama",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/04/2026,1203705
+03/04/2026,234,"BOUNAR Fatima",D713,"Extraction d'une dent permanente",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/04/2026,1223631
+03/04/2026,237,"CHAIOURA Zoubida",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/04/2026,1224151
+03/04/2026,238,"BEN CHEIKH Fadwa",D706,"Traitement endodontique du groupe molaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/04/2026,1224662
+04/04/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/04/2026,1225665
+06/04/2026,229,"MEZOURI Oussama",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/04/2026,1226916
+06/04/2026,244,"CHAHIN Kordo",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/04/2026,1227663
+06/04/2026,162,"Ramli Latifa",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/04/2026,1155132
+06/04/2026,162,"Ramli Latifa",D705,"Traitement endodontique du groupe prémolaires",450,0,450,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/04/2026,1104865
+06/04/2026,162,"Ramli Latifa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/04/2026,1228814
+06/04/2026,162,"Ramli Latifa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,150,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/04/2026,1149726
+07/04/2026,242,"Regragui Ghita",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/04/2026,1229941
+07/04/2026,186,"Zamrani Hind",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/04/2026,1134824
+07/04/2026,186,"Zamrani Hind",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,200,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/04/2026,1134826
+07/04/2026,43,"BENDAHMAN Siham",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/04/2026,1225901
+07/04/2026,238,"BEN CHEIKH Fadwa",D706,"Traitement endodontique du groupe molaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/04/2026,1224662
+08/04/2026,33,"BOUSTAR Nabila",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",1800,1200,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/04/2026,1220409
+08/04/2026,33,"BOUSTAR Nabila",D754,"CCM Couronnes céramo-métal",10000,6300,3700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/04/2026,1168619
+09/04/2026,32,"SALAH EDDINE Hasnaa",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/04/2026,1236494
+09/04/2026,20,"FATHI Meryem",D754,"CCM Couronnes céramo-métal",3000,2000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/04/2026,1232918
+09/04/2026,146,"EL MAKBOUL Nour El Houda",D754,"CCM Couronnes céramo-métal",2000,1500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/04/2026,1236992
+09/04/2026,245,"JHILAL Hiba",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/04/2026,1237126
+09/04/2026,190,"ESSEKSIKI Imane",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/04/2026,1238085
+10/04/2026,229,"MEZOURI Oussama",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/04/2026,1239771
+10/04/2026,229,"MEZOURI Oussama",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/04/2026,1239771
+10/04/2026,234,"BOUNAR Fatima",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/04/2026,1240496
+11/04/2026,242,"Regragui Ghita",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,200,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/04/2026,1229947
+11/04/2026,62,"BOULAHYA Lamiae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/04/2026,1219896
+11/04/2026,97,"DAKKOUNE Ikram",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",1000,0,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/04/2026,1190406
+13/04/2026,145,"MSSASSI Niema",,"orthodontie par autoligaturants",10000,2000,5000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/04/2026,1244874
+13/04/2026,43,"BENDAHMAN Siham",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/04/2026,1225901
+13/04/2026,238,"BEN CHEIKH Fadwa",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/04/2026,1246602
+14/04/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/04/2026,1248235
+14/04/2026,162,"Ramli Latifa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,150,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/04/2026,1235572
+14/04/2026,196,"MOULKELLAH BOUCHRA",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/04/2026,1151289
+14/04/2026,196,"MOULKELLAH BOUCHRA",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/04/2026,1145639
+14/04/2026,196,"MOULKELLAH BOUCHRA",D754,"CCM Couronnes céramo-métal",2000,0,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/04/2026,1196713
+14/04/2026,196,"MOULKELLAH BOUCHRA",D700,"Composite - Curetage et obturation coronaire de cavité simple",800,0,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/04/2026,1224806
+14/04/2026,196,"MOULKELLAH BOUCHRA",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/04/2026,1224804
+14/04/2026,195,"AHMED BOULOUIZAT",D773,"Prothèse adjointe totale du maxillaire supérieur",1800,0,1800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/04/2026,1145536
+14/04/2026,27,"AMARI Fatima-zahra",D910,"Eclaircissement d’une dent dépulpée",800,0,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/04/2026,937654
+14/04/2026,27,"AMARI Fatima-zahra",D754,"CCM Couronnes céramo-métal",9000,3800,5200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/04/2026,1162657
+15/04/2026,243,"EL MADANI Fatima-zahra",D708,"Séance de détartrage complet sus et sous-gingival",340,0,340,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/04/2026,1253299
+15/04/2026,149,"Zakari Hatim",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",3500,2000,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/04/2026,1049543
+16/04/2026,180,"LEBIED Fatiha",D754,"CCM Couronnes céramo-métal",7500,7000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/04/2026,1156676
+16/04/2026,234,"BOUNAR Fatima",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/04/2026,1255881
+16/04/2026,190,"ESSEKSIKI Imane",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/04/2026,1256454
+16/04/2026,235,"AKHENOUCH Amina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/04/2026,1256595
+16/04/2026,235,"AKHENOUCH Amina",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/04/2026,1238238
+17/04/2026,249,"AMEZIANE Fatma",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",1200,700,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/04/2026,1255677
+17/04/2026,162,"Ramli Latifa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,150,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/04/2026,1235572
+17/04/2026,162,"Ramli Latifa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,150,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/04/2026,1149726
+17/04/2026,162,"Ramli Latifa",D754,"CCM Couronnes céramo-métal",2000,1800,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/04/2026,1242550
+18/04/2026,250,"Abdelkader Tifrit",D713,"Extraction d'une dent permanente",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/04/2026,1261296
+18/04/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/04/2026,1261761
+18/04/2026,243,"EL MADANI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,150,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/04/2026,1261920
+18/04/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",2000,400,1600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/04/2026,1071953
+18/04/2026,148,"BOULKROUCH Fatima",D754,"CCM Couronnes céramo-métal",6000,5600,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/04/2026,1066771
+18/04/2026,89,"TEMOUCH Khadija",D754,"CCM Couronnes céramo-métal",15000,5000,10000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/04/2026,1021465
+18/04/2026,45,"ALIGOD Adil",D641,"Traitement d'orthopédie dento-faciale au delà du seizième anniversaire, préalable à une intervention chirurgicale portant sur les maxillaires, pour une période de six mois non renouvelable",24000,23000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/04/2026,910855
+18/04/2026,59,"Zakari Salma",D706,"Traitement endodontique du groupe molaires",300,-100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/04/2026,1262169
+20/04/2026,248,"OUAZZANI Rkia",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/04/2026,1263426
+20/04/2026,237,"CHAIOURA Zoubida",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/04/2026,1264806
+20/04/2026,254,"BRAHIMI Ritaj",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/04/2026,1261559
+20/04/2026,247,"BOUHAKI Khadija",,"PAT SUP ET INF",2000,0,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/04/2026,1243370
+20/04/2026,206,"FATHI Mohammed",D713,"Extraction d'une dent permanente",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/04/2026,1265254
+20/04/2026,20,"FATHI Meryem",D754,"CCM Couronnes céramo-métal",3000,1000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/04/2026,1232918
+20/04/2026,9,"MERNISSI ARIFI Zineb",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,8000,1000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/04/2026,906669
+21/04/2026,258,"WUR Liep Gador",D705,"Traitement endodontique du groupe prémolaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/04/2026,1266722
+21/04/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/04/2026,1266882
+21/04/2026,231,"ENNADIFI Imane",D754,"CCM Couronnes céramo-métal",2400,2200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/04/2026,1267129
+21/04/2026,234,"BOUNAR Fatima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/04/2026,1267354
+21/04/2026,255,"Nada El faydy",D708,"Séance de détartrage complet sus et sous-gingival",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/04/2026,1267699
+21/04/2026,235,"AKHENOUCH Amina",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",700,400,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/04/2026,1267892
+22/04/2026,228,"FENINE Said",D754,"CCM Couronnes céramo-métal",5000,3500,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/04/2026,1210674
+22/04/2026,259,"BENKIRANE Rachida",C,"Consultation chez un médecin généraliste ou médecin dentiste.",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",22/04/2026,1272302
+23/04/2026,206,"FATHI Mohammed",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/04/2026,1273292
+23/04/2026,231,"ENNADIFI Imane",D754,"CCM Couronnes céramo-métal",2400,200,2200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/04/2026,1267129
+23/04/2026,261,"HADRI Aya",D706,"Traitement endodontique du groupe molaires",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/04/2026,1273772
+23/04/2026,98,"AMGHAR Abderrahim",D714,"Extraction de chacune des suivantes au cours de la même séance",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/04/2026,1259575
+23/04/2026,98,"AMGHAR Abderrahim",D754,"CCM Couronnes céramo-métal",4000,2500,700,Espèce,800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/04/2026,1267566
+23/04/2026,17,"EL BAKKAL Imane",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",8400,6000,400,Espèce,2000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/04/2026,913147
+23/04/2026,18,"JADDADE Kholoud",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,7500,500,Espèce,4000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/04/2026,906629
+24/04/2026,262,"BOULAJOUL Nada",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/04/2026,1277413
+24/04/2026,59,"Zakari Salma",D706,"Traitement endodontique du groupe molaires",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",24/04/2026,1262169
+25/04/2026,225,"Aatfaoui Zineb",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/04/2026,1278936
+25/04/2026,225,"Aatfaoui Zineb",D706,"Traitement endodontique du groupe molaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/04/2026,1242442
+25/04/2026,206,"FATHI Mohammed",D713,"Extraction d'une dent permanente",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/04/2026,1277550
+25/04/2026,206,"FATHI Mohammed",D713,"Extraction d'une dent permanente",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/04/2026,1279066
+25/04/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/04/2026,1266882
+25/04/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/04/2026,1209036
+25/04/2026,243,"EL MADANI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,200,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/04/2026,1261920
+25/04/2026,243,"EL MADANI Fatima-zahra",D705,"Traitement endodontique du groupe prémolaires",500,450,50,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/04/2026,1279479
+27/04/2026,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/04/2026,933973
+27/04/2026,210,"BTITI Ali",D762,"Appareil sur plaque base en matière plastique d'un édentement de quatre dents",1800,0,1800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/04/2026,1211019
+27/04/2026,265,"CHTAIBA Mariam",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/04/2026,1281664
+28/04/2026,249,"AMEZIANE Fatma",D770,"Appareil sur plaque base en matière plastique d'un édentement de douze dents",1200,500,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/04/2026,1255677
+28/04/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/04/2026,1279222
+28/04/2026,33,"BOUSTAR Nabila",D754,"CCM Couronnes céramo-métal",10000,7800,2200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/04/2026,1168619
+28/04/2026,261,"HADRI Aya",D706,"Traitement endodontique du groupe molaires",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/04/2026,1273772
+28/04/2026,235,"AKHENOUCH Amina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/04/2026,1285804
+28/04/2026,235,"AKHENOUCH Amina",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",700,500,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/04/2026,1267892
+29/04/2026,266,"MELLOUKA Safae",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/04/2026,1288113
+29/04/2026,268,"LAAMIM Rajae",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/04/2026,1289361
+29/04/2026,95,"Ababou Chada",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/04/2026,1289646
+29/04/2026,243,"EL MADANI Fatima-zahra",D705,"Traitement endodontique du groupe prémolaires",500,100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/04/2026,1289809
+01/05/2026,269,"Kharbouch Khadija",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",1200,200,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/05/2026,1293673
+01/05/2026,267,"BAJJI Jamal",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",600,100,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/05/2026,1285994
+02/05/2026,221,"BEN DAHMAN Ayoub",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/05/2026,1294788
+02/05/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/05/2026,1261761
+02/05/2026,243,"EL MADANI Fatima-zahra",D705,"Traitement endodontique du groupe prémolaires",500,400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/05/2026,1289809
+02/05/2026,243,"EL MADANI Fatima-zahra",D705,"Traitement endodontique du groupe prémolaires",500,50,450,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/05/2026,1279479
+02/05/2026,270,"Hajar Boulouizat",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/05/2026,1295300
+03/05/2026,228,"FENINE Said",D754,"CCM Couronnes céramo-métal",5000,2700,2300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/05/2026,1210674
+03/05/2026,228,"FENINE Said",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/05/2026,1269726
+03/05/2026,228,"FENINE Said",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/05/2026,1269728
+04/05/2026,26,"BTITI Mohammed",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/05/2026,1296680
+04/05/2026,26,"BTITI Mohammed",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/05/2026,1281323
+04/05/2026,271,"EL QABLY Abdellali",D704,"Traitement endodontique du groupe inciso-canin",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/05/2026,1298466
+05/05/2026,269,"Kharbouch Khadija",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/05/2026,1300404
+05/05/2026,269,"Kharbouch Khadija",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",1200,1000,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/05/2026,1293673
+05/05/2026,267,"BAJJI Jamal",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/05/2026,1300257
+05/05/2026,267,"BAJJI Jamal",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",600,500,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/05/2026,1285994
+05/05/2026,162,"Ramli Latifa",D754,"CCM Couronnes céramo-métal",2000,500,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/05/2026,1242550
+05/05/2026,180,"LEBIED Fatiha",D754,"CCM Couronnes céramo-métal",7500,6500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/05/2026,1156676
+05/05/2026,274,"MOUBACHIR Yassine",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/05/2026,1301240
+06/05/2026,277,"HACHAME Kenza",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/05/2026,1303494
+06/05/2026,279,"Qandoussi Kamal",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/05/2026,1303846
+06/05/2026,279,"Qandoussi Kamal",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/05/2026,1303853
+06/05/2026,278,"Qandoussi Omar",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/05/2026,1303710
+06/05/2026,271,"EL QABLY Abdellali",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/05/2026,1305614
+07/05/2026,276,"EL FALAKI Ranim",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/05/2026,1307400
+11/05/2026,233,"AMEUR Maha",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/05/2026,1226183
+11/05/2026,233,"AMEUR Maha",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/05/2026,1259600
+11/05/2026,98,"AMGHAR Abderrahim",D754,"CCM Couronnes céramo-métal",4000,1200,2000,Espèce,800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/05/2026,1267566
+12/05/2026,206,"FATHI Mohammed",D754,"CCM Couronnes céramo-métal",4000,3000,1000,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/05/2026,1318416
+12/05/2026,206,"FATHI Mohammed",D754,"CCM Couronnes céramo-métal",4000,3000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/05/2026,1318416
+12/05/2026,281,"ABARKI Samira",D754,"CCM Couronnes céramo-métal",2500,500,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/05/2026,1319335
+12/05/2026,261,"HADRI Aya",D706,"Traitement endodontique du groupe molaires",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/05/2026,1273772
+13/05/2026,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/05/2026,933973
+13/05/2026,223,"BOUALAM Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/05/2026,1322410
+13/05/2026,266,"MELLOUKA Safae",D713,"Extraction d'une dent permanente",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/05/2026,1322676
+13/05/2026,277,"HACHAME Kenza",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/05/2026,1324116
+13/05/2026,274,"MOUBACHIR Yassine",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,200,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/05/2026,1301240
+13/05/2026,274,"MOUBACHIR Yassine",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/05/2026,1324238
+14/05/2026,280,"MAHIR Doaa",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/05/2026,1325402
+14/05/2026,286,"BENBIGA Sara",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/05/2026,1325805
+14/05/2026,243,"EL MADANI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,200,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/05/2026,1326180
+14/05/2026,235,"AKHENOUCH Amina",D713,"Extraction d'une dent permanente",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/05/2026,1291674
+14/05/2026,235,"AKHENOUCH Amina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/05/2026,1285804
+15/05/2026,98,"AMGHAR Abderrahim",D754,"CCM Couronnes céramo-métal",4000,2700,500,Espèce,800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/05/2026,1267566
+16/05/2026,289,"GUENNACH Mohamed",D705,"Traitement endodontique du groupe prémolaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/05/2026,1331006
+16/05/2026,264,"ZAHTI Karim",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,150,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/05/2026,1331734
+16/05/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/05/2026,1279569
+18/05/2026,289,"GUENNACH Mohamed",D705,"Traitement endodontique du groupe prémolaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/05/2026,1331006
+19/05/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/05/2026,1279569
+19/05/2026,264,"ZAHTI Karim",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,200,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/05/2026,1331734
+19/05/2026,88,"MOUTAOUAKIL Meryeme",D706,"Traitement endodontique du groupe molaires",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/05/2026,1053344
+19/05/2026,95,"Ababou Chada",,"couronne provisoire",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/05/2026,1337549
+19/05/2026,274,"MOUBACHIR Yassine",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/05/2026,1338004
+20/05/2026,281,"ABARKI Samira",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/05/2026,1319335
+20/05/2026,286,"BENBIGA Sara",D708,"Séance de détartrage complet sus et sous-gingival",400,350,50,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/05/2026,1340573
+20/05/2026,286,"BENBIGA Sara",D708,"Séance de détartrage complet sus et sous-gingival",400,50,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",20/05/2026,1340573
+21/05/2026,283,"EL MAKBOUL Doha",,"blanchiment dentaire",2500,1900,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/05/2026,1343569
+21/05/2026,255,"Nada El faydy",D636,"Contention après traitement orthodontique : Pemière année",1200,0,1200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/05/2026,1319855
+21/05/2026,283,"EL MAKBOUL Doha",,"blanchiment dentaire",2500,600,1900,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/05/2026,1343569
+21/05/2026,295,"TAGHREUT Abdaziz",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/05/2026,1344036
+25/05/2026,84,"Hnini Taha",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/05/2026,1350128
+25/05/2026,277,"HACHAME Kenza",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/05/2026,1350308
+25/05/2026,285,"Fabrice Biolay",C,"Consultation chez un médecin généraliste ou médecin dentiste.",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/05/2026,1322916
+25/05/2026,293,"CHOUKRI Fatima",C,"Consultation chez un médecin généraliste ou médecin dentiste.",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",25/05/2026,1350847
+25/05/2026,297,"Tadili Fariss Reda",D754,"CCM Couronnes céramo-métal",2600,0,2600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",25/05/2026,1351487
+25/05/2026,122,"Aatfaoui Loubna",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/05/2026,1351856
+26/05/2026,298,"DAYAE Najib",D706,"Traitement endodontique du groupe molaires",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/05/2026,1352452
+26/05/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/05/2026,1336947
+26/05/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/05/2026,1248235
+26/05/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/05/2026,1279569
+26/05/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/05/2026,1209036
+29/05/2026,299,"Rotoba Lamyae",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/05/2026,1353226
+29/05/2026,300,"ELBAGHDADI Abderrahmane",D754,"CCM Couronnes céramo-métal",2700,1700,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/05/2026,1353249
+30/05/2026,300,"ELBAGHDADI Abderrahmane",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/05/2026,1353386
+01/06/2026,299,"Rotoba Lamyae",D708,"Séance de détartrage complet sus et sous-gingival",400,250,150,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/06/2026,1353446
+01/06/2026,299,"Rotoba Lamyae",D708,"Séance de détartrage complet sus et sous-gingival",400,150,250,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/06/2026,1353446
+01/06/2026,27,"AMARI Fatima-zahra",D754,"CCM Couronnes céramo-métal",9000,6500,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/06/2026,1162657
+01/06/2026,293,"CHOUKRI Fatima",D705,"Traitement endodontique du groupe prémolaires",500,300,200,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/06/2026,1354639
+01/06/2026,288,"EL HASSANI Latefa",,"PAT SUP ET INF",4000,3000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/06/2026,1354650
+01/06/2026,293,"CHOUKRI Fatima",D705,"Traitement endodontique du groupe prémolaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/06/2026,1354639
+01/06/2026,206,"FATHI Mohammed",D754,"CCM Couronnes céramo-métal",6000,5000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/06/2026,1354714
+01/06/2026,301,"ANABI Riad",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/06/2026,1355997
+01/06/2026,299,"Rotoba Lamyae",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/06/2026,1356231
+02/06/2026,293,"CHOUKRI Fatima",D705,"Traitement endodontique du groupe prémolaires",500,400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/06/2026,1354639
+02/06/2026,277,"HACHAME Kenza",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/06/2026,1358389
+02/06/2026,303,"CHAHIN Sara",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/06/2026,1358538
+02/06/2026,235,"AKHENOUCH Amina",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",700,900,-200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/06/2026,1267892
+02/06/2026,235,"AKHENOUCH Amina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,800,-500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/06/2026,1285804
+02/06/2026,235,"AKHENOUCH Amina",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",700,300,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/06/2026,1267892
+02/06/2026,235,"AKHENOUCH Amina",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",02/06/2026,1285804
+03/06/2026,302,"HANAFI Sabah",D713,"Extraction d'une dent permanente",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/06/2026,1360261
+03/06/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/06/2026,1279576
+03/06/2026,250,"Abdelkader Tifrit",D754,"CCM Couronnes céramo-métal",4600,4000,600,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/06/2026,1362456
+03/06/2026,262,"BOULAJOUL Nada",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/06/2026,1362673
+04/06/2026,277,"HACHAME Kenza",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/06/2026,1363594
+04/06/2026,293,"CHOUKRI Fatima",D754,"CCM Couronnes céramo-métal",2500,2400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/06/2026,1357895
+04/06/2026,303,"CHAHIN Sara",,"orthodontie par autoligaturants",12000,1000,2000,Espèce,9000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/06/2026,1360739
+04/06/2026,305,"KOZMANE Siham",D754,"CCM Couronnes céramo-métal",1800,1400,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/06/2026,1363896
+04/06/2026,144,"Belmlih Ilham",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/06/2026,1363934
+05/06/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/06/2026,1279562
+06/06/2026,300,"ELBAGHDADI Abderrahmane",D754,"CCM Couronnes céramo-métal",2700,1000,1700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/06/2026,1353249
+08/06/2026,305,"KOZMANE Siham",D754,"CCM Couronnes céramo-métal",1800,1400,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/06/2026,1363896
+08/06/2026,243,"EL MADANI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/06/2026,1371309
+08/06/2026,243,"EL MADANI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,550,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/06/2026,1326180
+08/06/2026,293,"CHOUKRI Fatima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/06/2026,1357892
+08/06/2026,150,"KHATORI Loubna",D754,"CCM Couronnes céramo-métal",2500,2300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/06/2026,1051608
+08/06/2026,150,"KHATORI Loubna",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/06/2026,1144027
+08/06/2026,150,"KHATORI Loubna",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,0,300,Espèce,200,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/06/2026,1144029
+08/06/2026,18,"JADDADE Kholoud",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,7500,500,Espèce,4000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/06/2026,906629
+08/06/2026,257,"JOUIDI Simohemmed",D706,"Traitement endodontique du groupe molaires",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/06/2026,1372733
+08/06/2026,308,"RHERS Samia",C,"Consultation chez un médecin généraliste ou médecin dentiste.",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/06/2026,1372952
+09/06/2026,307,"ZERIOUH Samira",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/06/2026,1374347
+09/06/2026,162,"Ramli Latifa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/06/2026,1284930
+09/06/2026,162,"Ramli Latifa",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/06/2026,1260238
+09/06/2026,162,"Ramli Latifa",D754,"CCM Couronnes céramo-métal",2000,1700,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/06/2026,1242550
+09/06/2026,308,"RHERS Samia",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/06/2026,1375042
+10/06/2026,293,"CHOUKRI Fatima",D754,"CCM Couronnes céramo-métal",2500,2400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/06/2026,1357895
+10/06/2026,277,"HACHAME Kenza",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/06/2026,1379012
+10/06/2026,262,"BOULAJOUL Nada",,"orthodontie par autoligaturants",13000,1000,2000,Espèce,10000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/06/2026,1379465
+11/06/2026,206,"FATHI Mohammed",D754,"CCM Couronnes céramo-métal",6000,5000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/06/2026,1354714
+11/06/2026,282,"MABECHOUR ILHAM",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/06/2026,1351742
+11/06/2026,282,"MABECHOUR ILHAM",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/06/2026,1326745
+11/06/2026,282,"MABECHOUR ILHAM",D706,"Traitement endodontique du groupe molaires",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/06/2026,1375415
+11/06/2026,282,"MABECHOUR ILHAM",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/06/2026,1351743
+11/06/2026,282,"MABECHOUR ILHAM",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/06/2026,1326747
+11/06/2026,282,"MABECHOUR ILHAM",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/06/2026,1375481
+11/06/2026,288,"EL HASSANI Latefa",,"PAT SUP ET INF",4000,2000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/06/2026,1354650
+12/06/2026,180,"LEBIED Fatiha",D754,"CCM Couronnes céramo-métal",7500,6500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/06/2026,1156676
+12/06/2026,266,"MELLOUKA Safae",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/06/2026,1384561
+13/06/2026,243,"EL MADANI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",340,0,340,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/06/2026,1385528
+13/06/2026,243,"EL MADANI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,650,50,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/06/2026,1326180
+13/06/2026,33,"BOUSTAR Nabila",D754,"CCM Couronnes céramo-métal",10000,8700,1300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/06/2026,1168619
+13/06/2026,33,"BOUSTAR Nabila",D766,"Appareil sur plaque base en matière plastique d'un édentement de huit dents",1800,600,1200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/06/2026,1220409
+13/06/2026,233,"AMEUR Maha",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/06/2026,1385742
+13/06/2026,313,"ELKHADIR Anouar",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,100,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/06/2026,1385951
+15/06/2026,313,"ELKHADIR Anouar",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,300,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/06/2026,1385951
+15/06/2026,305,"KOZMANE Siham",D754,"CCM Couronnes céramo-métal",1800,900,900,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/06/2026,1363896
+15/06/2026,176,"Fathi Badr",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/06/2026,1388436
+15/06/2026,299,"Rotoba Lamyae",D754,"CCM Couronnes céramo-métal",6000,0,6000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/06/2026,1388680
+15/06/2026,277,"HACHAME Kenza",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/06/2026,1388970
+16/06/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,200,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/06/2026,1279557
+16/06/2026,206,"FATHI Mohammed",,"Prothèse adjointe partielle du maxillaire",2000,0,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",16/06/2026,1380861
+16/06/2026,206,"FATHI Mohammed",D774,"Prothèse adjointe totale du maxillaire inférieur",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",16/06/2026,1380726
+17/06/2026,243,"EL MADANI Fatima-zahra",D754,"CCM Couronnes céramo-métal",2700,1000,1700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/06/2026,1391613
+17/06/2026,9,"MERNISSI ARIFI Zineb",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,8000,1000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/06/2026,906669
+18/06/2026,242,"Regragui Ghita",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/06/2026,1229952
+18/06/2026,242,"Regragui Ghita",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/06/2026,1229947
+18/06/2026,316,"HACHCHAME Abdelali",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/06/2026,1395843
+22/06/2026,305,"KOZMANE Siham",D754,"CCM Couronnes céramo-métal",1800,1700,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/06/2026,1363896
+22/06/2026,288,"EL HASSANI Latefa",,"PAT SUP ET INF",4000,3000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",22/06/2026,1354650
+23/06/2026,180,"LEBIED Fatiha",D754,"CCM Couronnes céramo-métal",7500,6500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/06/2026,1156676
+23/06/2026,315,"HACHCHAME Hafssa",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/06/2026,1395728
+23/06/2026,47,"Chahboune Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,200,100,Espèce,100,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/06/2026,913395
+24/06/2026,223,"BOUALAM Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/06/2026,1408629
+24/06/2026,223,"BOUALAM Halima",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/06/2026,1408629
+24/06/2026,214,"Mohamed Charkaoui",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",24/06/2026,1410306
+25/06/2026,317,"EL ATLATI Houyam",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/06/2026,1411480
+25/06/2026,321,"MOUTAOUAKIL Yassmine",D708,"Séance de détartrage complet sus et sous-gingival",400,200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/06/2026,1411606
+25/06/2026,313,"ELKHADIR Anouar",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/06/2026,1411861
+25/06/2026,322,"EL-BAHRAOUI Abdeladim",C,"Consultation chez un médecin généraliste ou médecin dentiste.",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/06/2026,1412082
+25/06/2026,275,"GUENNOUNI Meryem",D708,"Séance de détartrage complet sus et sous-gingival",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/06/2026,1412402
+26/06/2026,315,"HACHCHAME Hafssa",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,400,"Solde Portefeuille",200,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",26/06/2026,1415003
+27/06/2026,225,"Aatfaoui Zineb",D706,"Traitement endodontique du groupe molaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/06/2026,1242442
+27/06/2026,225,"Aatfaoui Zineb",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/06/2026,1353360
+27/06/2026,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",27/06/2026,933973
+27/06/2026,321,"MOUTAOUAKIL Yassmine",D708,"Séance de détartrage complet sus et sous-gingival",400,200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/06/2026,1411606
+27/06/2026,323,"ALAOUI Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/06/2026,1416557
+29/06/2026,293,"CHOUKRI Fatima",D754,"CCM Couronnes céramo-métal",2500,200,2300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/06/2026,1357895
+29/06/2026,293,"CHOUKRI Fatima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/06/2026,1406046
+29/06/2026,293,"CHOUKRI Fatima",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/06/2026,1357892
+29/06/2026,293,"CHOUKRI Fatima",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,400,200,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/06/2026,1418238
+29/06/2026,35,"BOULOUIZAT Jamila",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/06/2026,1418597
+30/06/2026,325,"JAWHARA El Hmidi",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/06/2026,1421257
+30/06/2026,323,"ALAOUI Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/06/2026,1421431
+30/06/2026,319,"SAHID Touria",,"blanchiment dentaire",2500,1500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/06/2026,1421561
+30/06/2026,328,"ZIANNI Aicha",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/06/2026,1422193
+01/07/2026,323,"ALAOUI Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/07/2026,1423479
+01/07/2026,327,"NMIRA Saliha",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/07/2026,1424618
+01/07/2026,319,"SAHID Touria",,"blanchiment dentaire",2500,1000,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/07/2026,1421561
+01/07/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,200,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/07/2026,1279576
+01/07/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,350,250,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/07/2026,1279562
+02/07/2026,330,"SABER Noura",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/07/2026,1427130
+02/07/2026,325,"JAWHARA El Hmidi",D754,"CCM Couronnes céramo-métal",2400,0,2400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/07/2026,1427413
+02/07/2026,332,"KAIDI Siham",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/07/2026,1428511
+03/07/2026,323,"ALAOUI Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",900,600,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/07/2026,1429884
+03/07/2026,327,"NMIRA Saliha",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/07/2026,1430305
+03/07/2026,334,"ELMTIOUI Rokaya",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/07/2026,1431104
+04/07/2026,263,"AZFA Latifa",D754,"CCM Couronnes céramo-métal",4600,3600,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/07/2026,1362461
+04/07/2026,272,"Belkadi Iyad",D700,"Composite - Curetage et obturation coronaire de cavité simple",250,0,250,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",04/07/2026,1432471
+04/07/2026,146,"EL MAKBOUL Nour El Houda",D754,"CCM Couronnes céramo-métal",2000,500,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/07/2026,1236992
+06/07/2026,323,"ALAOUI Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",900,300,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/07/2026,1429884
+07/07/2026,18,"JADDADE Kholoud",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,6500,1500,Espèce,4000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/07/2026,906629
+07/07/2026,329,"Nmira Imane",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/07/2026,1438158
+07/07/2026,329,"Nmira Imane",D700,"Composite - Curetage et obturation coronaire de cavité simple",350,0,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/07/2026,1430151
+07/07/2026,327,"NMIRA Saliha",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/07/2026,1438046
+07/07/2026,333,"LMOUM Jamal",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/07/2026,1439121
+09/07/2026,206,"FATHI Mohammed",D754,"CCM Couronnes céramo-métal",6000,3000,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/07/2026,1354714
+09/07/2026,325,"JAWHARA El Hmidi",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/07/2026,1444442
+09/07/2026,87,"Azhari Rachida",,"PAT SUP ET INF",1800,800,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/07/2026,1421807
+09/07/2026,337,"BENZERAH Mouad",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/07/2026,1445756
+09/07/2026,331,"BENZERAH Rayane",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/07/2026,1445644
+09/07/2026,338,"EL QUABLY Ibrahim",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/07/2026,1446101
+10/07/2026,180,"LEBIED Fatiha",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",3500,2500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/07/2026,1156672
+10/07/2026,40,"FATHI Imane",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/07/2026,1448921
+10/07/2026,269,"Kharbouch Khadija",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/07/2026,1449072
+10/07/2026,269,"Kharbouch Khadija",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/07/2026,1449070
+11/07/2026,272,"Belkadi Iyad",D700,"Composite - Curetage et obturation coronaire de cavité simple",250,0,250,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/07/2026,1449980
+11/07/2026,320,"Mazin Abdelrahman Hassan Ibrahim",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/07/2026,1405144
+11/07/2026,320,"Mazin Abdelrahman Hassan Ibrahim",D706,"Traitement endodontique du groupe molaires",450,0,450,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/07/2026,1450214
+11/07/2026,320,"Mazin Abdelrahman Hassan Ibrahim",D706,"Traitement endodontique du groupe molaires",450,300,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",11/07/2026,1421693
+11/07/2026,320,"Mazin Abdelrahman Hassan Ibrahim",D706,"Traitement endodontique du groupe molaires",450,250,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/07/2026,1421693
+11/07/2026,336,"BOULOUIZAT Louay",D754,"CCM Couronnes céramo-métal",2000,0,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/07/2026,1437491
+13/07/2026,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/07/2026,933973
+13/07/2026,339,"CHARBAK Fatimazohra",D713,"Extraction d'une dent permanente",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/07/2026,1452431
+13/07/2026,340,"DAGHOURI Mourad",C,"Consultation chez un médecin généraliste ou médecin dentiste.",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/07/2026,1453786
+13/07/2026,342,"ALAOUI Omar",D706,"Traitement endodontique du groupe molaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/07/2026,1454053
+14/07/2026,228,"FENINE Said",D754,"CCM Couronnes céramo-métal",7000,6000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/07/2026,1433912
+14/07/2026,343,"ES SAMRY Abderrahmane",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/07/2026,1457671
+14/07/2026,243,"EL MADANI Fatima-zahra",D754,"CCM Couronnes céramo-métal",2700,2100,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/07/2026,1391613
+15/07/2026,330,"SABER Noura",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/07/2026,1459564
+15/07/2026,346,"JEDDIDI Fakhita",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/07/2026,1459672
+15/07/2026,303,"CHAHIN Sara",,"orthodontie par autoligaturants",12000,2500,500,Espèce,9000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/07/2026,1360739
+15/07/2026,27,"AMARI Fatima-zahra",D754,"CCM Couronnes céramo-métal",2000,0,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/07/2026,1354121
+15/07/2026,27,"AMARI Fatima-zahra",D754,"CCM Couronnes céramo-métal",3000,2000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/07/2026,1181003
+15/07/2026,257,"JOUIDI Simohemmed",D706,"Traitement endodontique du groupe molaires",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/07/2026,1372733
+15/07/2026,275,"GUENNOUNI Meryem",,Contrôle,200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/07/2026,1461718
+15/07/2026,40,"FATHI Imane",D636,"Contention après traitement orthodontique : Pemière année",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/07/2026,1461716
+16/07/2026,346,"JEDDIDI Fakhita",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/07/2026,1462525
+17/07/2026,330,"SABER Noura",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/07/2026,1466426
+17/07/2026,269,"Kharbouch Khadija",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/07/2026,1467069
+18/07/2026,45,"ALIGOD Adil",D641,"Traitement d'orthopédie dento-faciale au delà du seizième anniversaire, préalable à une intervention chirurgicale portant sur les maxillaires, pour une période de six mois non renouvelable",24000,22000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/07/2026,910855
+20/07/2026,330,"SABER Noura",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/07/2026,1471739
+20/07/2026,320,"Mazin Abdelrahman Hassan Ibrahim",D706,"Traitement endodontique du groupe molaires",450,350,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/07/2026,1421693
+20/07/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/07/2026,1143838
+20/07/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/07/2026,1279557
+21/07/2026,330,"SABER Noura",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/07/2026,1489130
+21/07/2026,246,"ALIGOD Salwa",D754,"CCM Couronnes céramo-métal",5400,3400,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/07/2026,1489552
+22/07/2026,353,"SISSEN Zakia",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/07/2026,1494050
+27/07/2026,348,"RAMI Zineb",D706,"Traitement endodontique du groupe molaires",600,200,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/07/2026,1503433
+27/07/2026,355,"TNIFESSE Mohammed",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/07/2026,1503605
+27/07/2026,330,"SABER Noura",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/07/2026,1503855
+27/07/2026,243,"EL MADANI Fatima-zahra",D754,"CCM Couronnes céramo-métal",2700,2300,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/07/2026,1391613
+27/07/2026,9,"MERNISSI ARIFI Zineb",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,8000,1000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/07/2026,906669
+28/07/2026,348,"RAMI Zineb",D754,"CCM Couronnes céramo-métal",2000,1800,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/07/2026,1508239
+28/07/2026,348,"RAMI Zineb",D754,"CCM Couronnes céramo-métal",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/07/2026,1508239
+28/07/2026,353,"SISSEN Zakia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/07/2026,1508597
+29/07/2026,122,"Aatfaoui Loubna",D705,"Traitement endodontique du groupe prémolaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/07/2026,1510868
+29/07/2026,278,"Qandoussi Omar",,"orthodontie par autoligaturants",12000,0,3000,Espèce,9000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/07/2026,1511120
+29/07/2026,87,"Azhari Rachida",,"PAT SUP ET INF",1800,1600,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/07/2026,1421807
+29/07/2026,215,"Yasmine Manni",D715,"Extraction d'une dent lactéale, quelle que soit la technique",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/07/2026,1513306
+30/07/2026,228,"FENINE Said",D754,"CCM Couronnes céramo-métal",7000,5000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/07/2026,1433912
+30/07/2026,228,"FENINE Said",D754,"CCM Couronnes céramo-métal",7000,5000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/07/2026,1433912
+31/07/2026,122,"Aatfaoui Loubna",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/07/2026,1516988
+31/07/2026,180,"LEBIED Fatiha",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",3500,1500,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/07/2026,1156672
+31/07/2026,348,"RAMI Zineb",D754,"CCM Couronnes céramo-métal",2000,1200,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/07/2026,1508239
+31/07/2026,348,"RAMI Zineb",D706,"Traitement endodontique du groupe molaires",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/07/2026,1503433
+01/08/2026,106,"JOUIDI Walid",D706,"Traitement endodontique du groupe molaires",600,400,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/08/2026,1177306
+01/08/2026,106,"JOUIDI Walid",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",600,450,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/08/2026,1279562
+01/08/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/08/2026,1261761
+01/08/2026,106,"JOUIDI Walid",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/08/2026,1279222
+01/08/2026,106,"JOUIDI Walid",D705,"Traitement endodontique du groupe prémolaires",500,400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/08/2026,1225665
+03/08/2026,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/08/2026,933973
+03/08/2026,365,"FAIZA Jamali",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",03/08/2026,1523038
+04/08/2026,362,"ELGUERZYFY Fatimazohra",D754,"CCM Couronnes céramo-métal",15000,13200,1800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/08/2026,1524455
+04/08/2026,272,"Belkadi Iyad",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/08/2026,1524660
+04/08/2026,272,"Belkadi Iyad",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/08/2026,1519147
+04/08/2026,122,"Aatfaoui Loubna",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/08/2026,1524895
+04/08/2026,122,"Aatfaoui Loubna",D705,"Traitement endodontique du groupe prémolaires",500,400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/08/2026,1510868
+04/08/2026,330,"SABER Noura",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/08/2026,1525304
+04/08/2026,330,"SABER Noura",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/08/2026,1525306
+04/08/2026,366,"RANIA Rahmouni",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/08/2026,1526155
+05/08/2026,198,"EL MOUKAFIH Azeddine",D706,"Traitement endodontique du groupe molaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",05/08/2026,1529867
+05/08/2026,243,"EL MADANI Fatima-zahra",D754,"CCM Couronnes céramo-métal",8100,5100,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/08/2026,1505746
+06/08/2026,359,"ELOUAFI Mounia",D754,"CCM Couronnes céramo-métal",4000,3000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/08/2026,1525846
+06/08/2026,87,"Azhari Rachida",,"PAT SUP ET INF",1800,1200,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/08/2026,1421807
+06/08/2026,293,"CHOUKRI Fatima",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,200,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/08/2026,1418238
+06/08/2026,293,"CHOUKRI Fatima",D754,"CCM Couronnes céramo-métal",2500,0,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/08/2026,1433292
+06/08/2026,293,"CHOUKRI Fatima",D754,"CCM Couronnes céramo-métal",2500,0,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/08/2026,1427810
+06/08/2026,206,"FATHI Mohammed",D754,"CCM Couronnes céramo-métal",4000,2000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/08/2026,1318416
+07/08/2026,353,"SISSEN Zakia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/08/2026,1538730
+10/08/2026,353,"SISSEN Zakia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/08/2026,1544141
+10/08/2026,124,"Ouail Mernissi arifi",D706,"Traitement endodontique du groupe molaires",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,10/08/2026,1544440
+11/08/2026,122,"Aatfaoui Loubna",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/08/2026,1545572
+11/08/2026,122,"Aatfaoui Loubna",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/08/2026,1516988
+11/08/2026,122,"Aatfaoui Loubna",D705,"Traitement endodontique du groupe prémolaires",500,400,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/08/2026,1510868
+11/08/2026,362,"ELGUERZYFY Fatimazohra",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/08/2026,1533832
+11/08/2026,362,"ELGUERZYFY Fatimazohra",D754,"CCM Couronnes céramo-métal",15000,13500,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/08/2026,1524455
+11/08/2026,368,"TOURIA Alami",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/08/2026,1547211
+11/08/2026,246,"ALIGOD Salwa",D754,"CCM Couronnes céramo-métal",5400,4700,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/08/2026,1489552
+12/08/2026,362,"ELGUERZYFY Fatimazohra",D754,"CCM Couronnes céramo-métal",15000,13800,1200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/08/2026,1524455
+12/08/2026,362,"ELGUERZYFY Fatimazohra",D754,"CCM Couronnes céramo-métal",15000,5000,10000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/08/2026,1524455
+12/08/2026,370,"CHAAIBI Malika",D754,"CCM Couronnes céramo-métal",2500,1000,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/08/2026,1545844
+12/08/2026,373,"LABLALI Kawtar",D706,"Traitement endodontique du groupe molaires",450,0,200,Espèce,250,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/08/2026,1551418
+12/08/2026,124,"Ouail Mernissi arifi",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/08/2026,1551639
+12/08/2026,371,"HAMMAD Rahma",C,"Consultation chez un médecin généraliste ou médecin dentiste.",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/08/2026,1551697
+13/08/2026,371,"HAMMAD Rahma",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",13/08/2026,1552491
+13/08/2026,18,"JADDADE Kholoud",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,7000,1000,Espèce,4000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/08/2026,906629
+13/08/2026,272,"Belkadi Iyad",D715,"Extraction d'une dent lactéale, quelle que soit la technique",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/08/2026,1553672
+14/08/2026,373,"LABLALI Kawtar",D706,"Traitement endodontique du groupe molaires",450,0,150,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1556215
+14/08/2026,359,"ELOUAFI Mounia",D754,"CCM Couronnes céramo-métal",4000,1000,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1525846
+14/08/2026,362,"ELGUERZYFY Fatimazohra",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1549342
+14/08/2026,362,"ELGUERZYFY Fatimazohra",D754,"CCM Couronnes céramo-métal",15000,14500,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1524455
+14/08/2026,362,"ELGUERZYFY Fatimazohra",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1552777
+14/08/2026,370,"CHAAIBI Malika",D754,"CCM Couronnes céramo-métal",2500,0,2500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1545850
+14/08/2026,370,"CHAAIBI Malika",D754,"CCM Couronnes céramo-métal",1500,0,1500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1545853
+14/08/2026,370,"CHAAIBI Malika",D754,"CCM Couronnes céramo-métal",2500,1500,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1545844
+14/08/2026,243,"EL MADANI Fatima-zahra",D754,"CCM Couronnes céramo-métal",8100,3000,5100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1505746
+14/08/2026,124,"Ouail Mernissi arifi",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/08/2026,1557485
+15/08/2026,118,"Aissaoui Karima",D754,"CCM Couronnes céramo-métal",2600,0,2600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/08/2026,1551880
+02/09/2026,379,"EL BOUJANNANI Siham",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/09/2026,1602078
+02/09/2026,356,"ABID Meryem",D713,"Extraction d'une dent permanente",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/09/2026,1602532
+03/09/2026,376,"ITRIMI Ghali",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/09/2026,1604340
+03/09/2026,246,"ALIGOD Salwa",D754,"CCM Couronnes céramo-métal",5400,4400,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/09/2026,1489552
+07/09/2026,380,"HAMIOUI Ali",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/09/2026,1602355
+07/09/2026,379,"EL BOUJANNANI Siham",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/09/2026,1612970
+08/09/2026,303,"CHAHIN Sara",D706,"Traitement endodontique du groupe molaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/09/2026,1615687
+08/09/2026,375,"EL HAYOUNI Boujemaa",,"PAT SUP ET INF",5000,3000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/09/2026,1615703
+09/09/2026,378,"MOUSTAINE Zaki",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/09/2026,1600560
+10/09/2026,263,"AZFA Latifa",D754,"CCM Couronnes céramo-métal",4600,1000,3600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/09/2026,1362461
+10/09/2026,250,"Abdelkader Tifrit",D754,"CCM Couronnes céramo-métal",4600,600,4000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",10/09/2026,1362456
+11/09/2026,75,"AATFAOUI Latifa",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",9000,8000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/09/2026,933973
+11/09/2026,157,"EL HASSANI Nisrine",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/09/2026,1625382
+11/09/2026,356,"ABID Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/09/2026,1615341
+11/09/2026,124,"Ouail Mernissi arifi",D706,"Traitement endodontique du groupe molaires",600,300,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,11/09/2026,1544440
+12/09/2026,381,"HAMIOUI Wafae",D706,"Traitement endodontique du groupe molaires",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/09/2026,1602241
+12/09/2026,381,"HAMIOUI Wafae",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/09/2026,1626505
+14/09/2026,27,"AMARI Fatima-zahra",D754,"CCM Couronnes céramo-métal",3000,1000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/09/2026,1181003
+14/09/2026,27,"AMARI Fatima-zahra",D754,"CCM Couronnes céramo-métal",9000,7700,1300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/09/2026,1162657
+14/09/2026,27,"AMARI Fatima-zahra",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/09/2026,1188625
+14/09/2026,202,"ZAHER Yassine",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",14/09/2026,1628843
+15/09/2026,356,"ABID Meryem",D706,"Traitement endodontique du groupe molaires",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/09/2026,1535147
+15/09/2026,356,"ABID Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/09/2026,1632402
+15/09/2026,356,"ABID Meryem",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/09/2026,1505564
+15/09/2026,356,"ABID Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,600,-300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/09/2026,1632402
+15/09/2026,59,"Zakari Salma",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/09/2026,1632938
+17/09/2026,202,"ZAHER Yassine",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/09/2026,1632152
+17/09/2026,202,"ZAHER Yassine",D754,"CCM Couronnes céramo-métal",2500,700,1800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/09/2026,1628843
+17/09/2026,246,"ALIGOD Salwa",D754,"CCM Couronnes céramo-métal",5400,3700,1700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/09/2026,1489552
+17/09/2026,202,"ZAHER Yassine",D754,"CCM Couronnes céramo-métal",2500,2300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",17/09/2026,1628843
+17/09/2026,97,"DAKKOUNE Ikram",D707,"FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",400,0,200,Espèce,200,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/09/2026,1639344
+17/09/2026,382,"TOUATI Khadija",D700,"Composite - Curetage et obturation coronaire de cavité simple",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/09/2026,1639511
+17/09/2026,384,"Salmi Hiba",D706,"Traitement endodontique du groupe molaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/09/2026,1635546
+18/09/2026,387,"Bchi Bouchra",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/09/2026,1641895
+18/09/2026,353,"SISSEN Zakia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,18/09/2026,1643028
+18/09/2026,353,"SISSEN Zakia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",18/09/2026,1643028
+19/09/2026,389,"AMARHIOUZ Asmae",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/09/2026,1644976
+21/09/2026,59,"Zakari Salma",D706,"Traitement endodontique du groupe molaires",300,500,-200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/09/2026,1262169
+21/09/2026,59,"Zakari Salma",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",21/09/2026,1646348
+21/09/2026,379,"EL BOUJANNANI Siham",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/09/2026,1648251
+21/09/2026,356,"ABID Meryem",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/09/2026,1632402
+21/09/2026,20,"FATHI Meryem",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/09/2026,1649135
+21/09/2026,124,"Ouail Mernissi arifi",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/09/2026,1649134
+22/09/2026,94,"DRIA Mounia",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",22/09/2026,1631654
+23/09/2026,393,"JABBARI Neima",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/09/2026,1655417
+24/09/2026,356,"ABID Meryem",D713,"Extraction d'une dent permanente",800,450,350,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/09/2026,1656542
+24/09/2026,394,"Souissi Abdessamad",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/09/2026,1658098
+25/09/2026,395,"Alaoui Mamoun",D708,"Séance de détartrage complet sus et sous-gingival",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,25/09/2026,1661733
+26/09/2026,303,"CHAHIN Sara",,"orthodontie par autoligaturants",12000,2500,500,Espèce,9000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/09/2026,1360739
+26/09/2026,389,"AMARHIOUZ Asmae",D754,"CCM Couronnes céramo-métal",3000,2000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/09/2026,1662724
+26/09/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,21600,600,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/09/2026,1662846
+26/09/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,21600,600,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",26/09/2026,1662846
+26/09/2026,399,"KETTANI Rabiaa",D713,"Extraction d'une dent permanente",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,26/09/2026,1663176
+28/09/2026,398,"RAJI Adil",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/09/2026,1665130
+28/09/2026,382,"TOUATI Khadija",D700,"Composite - Curetage et obturation coronaire de cavité simple",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/09/2026,1666767
+29/09/2026,94,"DRIA Mounia",D754,"CCM Couronnes céramo-métal",5000,1500,2000,Espèce,1500,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/09/2026,1641898
+29/09/2026,402,"TNIFASSE Lahcen",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/09/2026,1668781
+29/09/2026,398,"RAJI Adil","D905 ","Dépose d’un ancrage radiculaire, coronaire, unitaire ou plural",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/09/2026,1669284
+29/09/2026,353,"SISSEN Zakia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",29/09/2026,1669708
+29/09/2026,353,"SISSEN Zakia",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/09/2026,1669708
+30/09/2026,257,"JOUIDI Simohemmed",D700,"Composite - Curetage et obturation coronaire de cavité simple",400,0,200,Espèce,200,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/09/2026,1494504
+30/09/2026,403,"LKHOMSSI Wiam",D754,"CCM Couronnes céramo-métal",2500,2000,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/09/2026,1671585
+30/09/2026,389,"AMARHIOUZ Asmae",D754,"CCM Couronnes céramo-métal",3000,2000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/09/2026,1662724
+30/09/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,21200,1000,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/09/2026,1662846
+30/09/2026,124,"Ouail Mernissi arifi",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/09/2026,1674081
+30/09/2026,9,"MERNISSI ARIFI Zineb",D626,"Examen de diagnostic d'ODF (hors examens complémentaires)",12000,8000,1000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/09/2026,906669
+30/09/2026,206,"FATHI Mohammed",D754,"CCM Couronnes céramo-métal",6000,5000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/09/2026,1354714
+01/10/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,21200,1000,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/10/2026,1662846
+01/10/2026,403,"LKHOMSSI Wiam",D754,"CCM Couronnes céramo-métal",2500,1600,900,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/10/2026,1671585
+01/10/2026,401,"ESSAKI Ghalia",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/10/2026,1668954
+01/10/2026,375,"EL HAYOUNI Boujemaa",,"PAT SUP ET INF",5000,2000,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",01/10/2026,1615703
+01/10/2026,367,"ALAMI Majdouline",D754,"CCM Couronnes céramo-métal",2700,500,400,Espèce,1800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/10/2026,1676219
+01/10/2026,408,"HILALI Kaoutar",D708,"Séance de détartrage complet sus et sous-gingival",400,200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,01/10/2026,1676547
+02/10/2026,271,"EL QABLY Abdellali",D705,"Traitement endodontique du groupe prémolaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/10/2026,1651374
+03/10/2026,389,"AMARHIOUZ Asmae",D754,"CCM Couronnes céramo-métal",3000,2000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/10/2026,1662724
+03/10/2026,389,"AMARHIOUZ Asmae",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/10/2026,1680860
+03/10/2026,262,"BOULAJOUL Nada",,"orthodontie par autoligaturants",13000,2000,1000,Espèce,10000,,,,,,,Non,"Dr.Sara BCHI",,Meryem,03/10/2026,1379465
+05/10/2026,228,"FENINE Said",D754,"CCM Couronnes céramo-métal",7000,5000,2000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",05/10/2026,1433912
+05/10/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,17200,5000,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/10/2026,1662846
+05/10/2026,356,"ABID Meryem",D713,"Extraction d'une dent permanente",800,350,450,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/10/2026,1656542
+05/10/2026,405,"Yassir Jaddade",D708,"Séance de détartrage complet sus et sous-gingival",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",05/10/2026,1676086
+05/10/2026,391,"MAMNOUN Fatima",,"PAT SUP ET INF",1800,1300,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/10/2026,1663537
+06/10/2026,401,"ESSAKI Ghalia",D700,"Composite - Curetage et obturation coronaire de cavité simple",750,0,750,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2026,1687960
+06/10/2026,401,"ESSAKI Ghalia",D700,"Composite - Curetage et obturation coronaire de cavité simple",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2026,1687964
+06/10/2026,406,"BOUZLAFA Bouchra",D754,"CCM Couronnes céramo-métal",10000,3200,1500,Espèce,5300,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/10/2026,1688235
+06/10/2026,408,"HILALI Kaoutar",D708,"Séance de détartrage complet sus et sous-gingival",400,200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2026,1676547
+06/10/2026,408,"HILALI Kaoutar",D754,"CCM Couronnes céramo-métal",2500,600,700,Espèce,1200,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/10/2026,1688997
+07/10/2026,379,"EL BOUJANNANI Siham",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/10/2026,1692640
+07/10/2026,412,"LAAROUSI Meryem",C,"Consultation chez un médecin généraliste ou médecin dentiste.",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",07/10/2026,1693397
+08/10/2026,411,"EL HALOUI Khalid",D754,"CCM Couronnes céramo-métal",5400,2400,3000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,08/10/2026,1693389
+08/10/2026,403,"LKHOMSSI Wiam",D754,"CCM Couronnes céramo-métal",2500,1400,1100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",08/10/2026,1671585
+12/10/2026,28,"MRIKA Khalid",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/10/2026,1703579
+12/10/2026,417,"Alami Samy cherif",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",12/10/2026,1703339
+12/10/2026,419,"DRIGHIL Fatima Zahrae",C,"Consultation chez un médecin généraliste ou médecin dentiste.",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,12/10/2026,1705211
+13/10/2026,418,"KAIS Dib",C,"Consultation chez un médecin généraliste ou médecin dentiste.",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/10/2026,1707383
+13/10/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,19200,3000,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/10/2026,1662846
+13/10/2026,391,"MAMNOUN Fatima",,"PAT SUP ET INF",1800,1300,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,13/10/2026,1663537
+14/10/2026,417,"Alami Samy cherif",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2026,1710506
+14/10/2026,425,"ES SOUISSI Bouchta",D706,"Traitement endodontique du groupe molaires",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2026,1711079
+14/10/2026,379,"EL BOUJANNANI Siham",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2026,1712032
+14/10/2026,379,"EL BOUJANNANI Siham",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2026,1712041
+14/10/2026,380,"HAMIOUI Ali",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,14/10/2026,1712187
+15/10/2026,413,"EL HALOUI Youssra",D706,"Traitement endodontique du groupe molaires",600,0,200,Espèce,400,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2026,1703813
+15/10/2026,411,"EL HALOUI Khalid",D754,"CCM Couronnes céramo-métal",5400,3000,2400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/10/2026,1693389
+15/10/2026,411,"EL HALOUI Khalid",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,0,700,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",15/10/2026,1693391
+15/10/2026,427,"LHARMAZI Zouhir",D708,"Séance de détartrage complet sus et sous-gingival",300,0,200,Espèce,100,,,,,,,Non,"Dr.Sara BCHI",,Meryem,15/10/2026,1715230
+16/10/2026,271,"EL QABLY Abdellali",D705,"Traitement endodontique du groupe prémolaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,16/10/2026,1651374
+17/10/2026,391,"MAMNOUN Fatima",,"PAT SUP ET INF",1800,1000,800,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/10/2026,1663537
+17/10/2026,431,"MENKAD Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,17/10/2026,1720148
+19/10/2026,180,"LEBIED Fatiha",D761,"Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",3500,3200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/10/2026,1156672
+19/10/2026,435,"LAMBRABTI Amir",D715,"Extraction d'une dent lactéale, quelle que soit la technique",150,0,100,Espèce,50,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/10/2026,1724414
+19/10/2026,419,"DRIGHIL Fatima Zahrae",D754,"CCM Couronnes céramo-métal",2200,0,2200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,19/10/2026,1724552
+20/10/2026,427,"LHARMAZI Zouhir",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,100,300,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,Meryem,20/10/2026,1726919
+21/10/2026,432,"Amine Darià",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/10/2026,1729261
+21/10/2026,434,"LAQBAQBI Yousra",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/10/2026,1729860
+21/10/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,19200,3000,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/10/2026,1662846
+21/10/2026,243,"EL MADANI Fatima-zahra",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,21/10/2026,1720251
+22/10/2026,424,"ABOU EL GHAZI Ahmed",D754,"CCM Couronnes céramo-métal",2500,2100,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/10/2026,1732488
+22/10/2026,199,"LAMRABTI Amine",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/10/2026,1733210
+22/10/2026,441,"BEROUYALAD Hanae",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/10/2026,1733778
+22/10/2026,431,"MENKAD Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,200,100,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",22/10/2026,1733872
+22/10/2026,431,"MENKAD Alae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,100,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",22/10/2026,1733872
+22/10/2026,437,"KOUADIR Chaimae",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,22/10/2026,1733951
+23/10/2026,436,"CHRIF ALAMI Naser",D708,"Séance de détartrage complet sus et sous-gingival",400,0,400,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/10/2026,1736133
+23/10/2026,432,"Amine Darià",D706,"Traitement endodontique du groupe molaires",600,500,100,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",23/10/2026,1732730
+23/10/2026,432,"Amine Darià",D706,"Traitement endodontique du groupe molaires",600,100,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/10/2026,1732730
+23/10/2026,432,"Amine Darià",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/10/2026,1737063
+23/10/2026,271,"EL QABLY Abdellali",D708,"Séance de détartrage complet sus et sous-gingival",400,200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,23/10/2026,1737217
+23/10/2026,406,"BOUZLAFA Bouchra",D754,"CCM Couronnes céramo-métal",10000,2700,2000,Espèce,5300,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",23/10/2026,1688235
+24/10/2026,417,"Alami Samy cherif",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,24/10/2026,1727119
+26/10/2026,428,"KAABI Safae",,"orthodontie par autoligaturants",11000,0,1500,Espèce,9500,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",26/10/2026,1743496
+27/10/2026,30,"FARHTI Niema",D706,"Traitement endodontique du groupe molaires",600,0,500,Espèce,100,,,,,,,Non,"Dr.Sara BCHI",,Meryem,27/10/2026,1745935
+28/10/2026,398,"RAJI Adil",D754,"CCM Couronnes céramo-métal",2200,0,500,Espèce,1700,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/10/2026,1728676
+28/10/2026,323,"ALAOUI Meryem",D754,"CCM Couronnes céramo-métal",2000,900,600,Espèce,500,,,,,,,Non,"Dr.Sara BCHI",,Meryem,28/10/2026,1748501
+28/10/2026,405,"Yassir Jaddade",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/10/2026,1685327
+28/10/2026,405,"Yassir Jaddade",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/10/2026,1678706
+28/10/2026,405,"Yassir Jaddade",D708,"Séance de détartrage complet sus et sous-gingival",300,200,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/10/2026,1676086
+28/10/2026,206,"FATHI Mohammed",D774,"Prothèse adjointe totale du maxillaire inférieur",2000,1000,1000,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",28/10/2026,1380726
+29/10/2026,439,"BENNIS Houda",D705,"Traitement endodontique du groupe prémolaires",500,0,500,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/10/2026,1738390
+29/10/2026,30,"FARHTI Niema",D705,"Traitement endodontique du groupe prémolaires",500,0,100,Espèce,400,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/10/2026,1751688
+29/10/2026,367,"ALAMI Majdouline",D754,"CCM Couronnes céramo-métal",2700,400,500,Espèce,1800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,29/10/2026,1676219
+30/10/2026,323,"ALAOUI Meryem",D754,"CCM Couronnes céramo-métal",2000,1100,400,Espèce,500,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/10/2026,1748501
+30/10/2026,436,"CHRIF ALAMI Naser",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/10/2026,1755112
+30/10/2026,408,"HILALI Kaoutar",D754,"CCM Couronnes céramo-métal",2500,700,600,Espèce,1200,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/10/2026,1688997
+30/10/2026,314,"HARCHAOUI Mehdi",,"orthodontie par autoligaturants",13000,0,2600,Espèce,10400,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/10/2026,1488365
+30/10/2026,451,"ES-SOUKI Khadija",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/10/2026,1755931
+30/10/2026,446,"KOUDADE Meryem",D706,"Traitement endodontique du groupe molaires",600,0,300,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/10/2026,1756076
+30/10/2026,424,"ABOU EL GHAZI Ahmed",D754,"CCM Couronnes céramo-métal",2500,1900,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/10/2026,1732488
+30/10/2026,124,"Ouail Mernissi arifi",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,30/10/2026,1756767
+30/10/2026,417,"Alami Samy cherif",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",30/10/2026,1748200
+31/10/2026,94,"DRIA Mounia",D754,"CCM Couronnes céramo-métal",5000,2000,1500,Espèce,1500,,,,,,,Non,"Dr.Sara BCHI",,Meryem,31/10/2026,1641898
+31/10/2026,145,"MSSASSI Niema",,"orthodontie par autoligaturants",10000,5000,2000,Espèce,3000,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",31/10/2026,1244874
+02/11/2026,427,"LHARMAZI Zouhir",D700,"Composite - Curetage et obturation coronaire de cavité simple",600,0,600,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/11/2026,1761669
+02/11/2026,427,"LHARMAZI Zouhir",D700,"Composite - Curetage et obturation coronaire de cavité simple",700,300,100,Espèce,300,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/11/2026,1726919
+02/11/2026,449,"ALALI Hajar",D706,"Traitement endodontique du groupe molaires",500,300,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,02/11/2026,1761967
+04/11/2026,323,"ALAOUI Meryem",D754,"CCM Couronnes céramo-métal",2000,1000,500,Espèce,500,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/11/2026,1748501
+04/11/2026,455,"LOUANI Mina",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,100,Espèce,50,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/11/2026,1768112
+04/11/2026,449,"ALALI Hajar",D706,"Traitement endodontique du groupe molaires",500,200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,04/11/2026,1761967
+05/11/2026,460,"ALAMI Hemza",C,"Consultation chez un médecin généraliste ou médecin dentiste.",100,0,100,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",05/11/2026,1772671
+05/11/2026,357,"BAKKALI Sara",D708,"Séance de détartrage complet sus et sous-gingival",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2026,1773411
+05/11/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,19200,3000,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2026,1662846
+05/11/2026,271,"EL QABLY Abdellali",D708,"Séance de détartrage complet sus et sous-gingival",400,200,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2026,1737217
+05/11/2026,406,"BOUZLAFA Bouchra",D754,"CCM Couronnes céramo-métal",10000,3500,1200,Espèce,5300,,,,,,,Non,"Dr.Sara BCHI",,Meryem,05/11/2026,1688235
+05/11/2026,436,"CHRIF ALAMI Naser",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,"Solde Portefeuille",0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",05/11/2026,1774662
+06/11/2026,459,"AMINO Ismahan",C,"Consultation chez un médecin généraliste ou médecin dentiste.",150,0,150,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",06/11/2026,1776119
+06/11/2026,199,"LAMRABTI Amine",D700,"Composite - Curetage et obturation coronaire de cavité simple",200,0,200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,06/11/2026,1776740
+07/11/2026,419,"DRIGHIL Fatima Zahrae",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/11/2026,1778122
+07/11/2026,456,"LEGHNIDER Kaoutar",D708,"Séance de détartrage complet sus et sous-gingival",400,0,300,Espèce,100,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/11/2026,1778236
+07/11/2026,407,"Zakari Adam",D700,"Composite - Curetage et obturation coronaire de cavité simple",300,0,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,07/11/2026,1755939
+09/11/2026,397,"TAYEB El Mokri",D754,"CCM Couronnes céramo-métal",25000,17200,5000,Espèce,2800,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/11/2026,1662846
+09/11/2026,424,"ABOU EL GHAZI Ahmed",D754,"CCM Couronnes céramo-métal",2500,2200,300,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/11/2026,1732488
+09/11/2026,424,"ABOU EL GHAZI Ahmed",D754,"CCM Couronnes céramo-métal",2500,1300,1200,Espèce,0,,,,,,,Non,"Dr.Sara BCHI",,Meryem,09/11/2026,1732488
+09/11/2026,281,"ABARKI Samira",D754,"CCM Couronnes céramo-métal",4500,0,300,Espèce,4200,,,,,,,Non,"Dr.Sara BCHI",,"Dr.Sara BCHI",09/11/2026,1782591

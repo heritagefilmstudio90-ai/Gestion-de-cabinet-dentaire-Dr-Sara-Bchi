@@ -8,6 +8,11 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // Connectivity health-check document (signed-in staff/users only)
+    match /test/connection {
+      allow get: if isSignedIn();
+    }
+
     // =========================================================================
     // GLOBAL PRIMITIVES & RBAC HELPERS
     // =========================================================================
@@ -23,16 +28,16 @@ service cloud.firestore {
       return resource.data;
     }
 
-    function isSignedIn() {
+    function isEmailVerified() {
       return request.auth != null && request.auth.token.email_verified == true;
     }
 
     function isBootstrapAdmin() {
-      return isSignedIn() && request.auth.token.email == 'heritagefilmstudio90@gmail.com';
+      return isEmailVerified() && request.auth.token.email == 'heritagefilmstudio90@gmail.com';
     }
 
     function hasStaffProfile() {
-      return isSignedIn() && exists(/databases/$(database)/documents/staff/$(request.auth.uid));
+      return request.auth != null && exists(/databases/$(database)/documents/staff/$(request.auth.uid));
     }
 
     function staffData() {
@@ -40,7 +45,13 @@ service cloud.firestore {
     }
 
     function isActiveStaff() {
-      return hasStaffProfile() && staffData().active == true;
+      return hasStaffProfile()
+        && staffData().active == true
+        && (isEmailVerified() || staffData().inviteId == 'direct');
+    }
+
+    function isSignedIn() {
+      return isEmailVerified() || isActiveStaff();
     }
 
     function isTitulaire() {
@@ -76,8 +87,9 @@ service cloud.firestore {
     // =========================================================================
     function isValidStaff(data) {
       return data.keys().hasAll(['uid', 'email', 'displayName', 'role', 'active', 'createdAt', 'updatedAt'])
-        && data.keys().hasOnly(['uid', 'email', 'displayName', 'role', 'specialty', 'chairName', 'color', 'active', 'inviteId', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'login', 'email', 'displayName', 'role', 'specialty', 'chairName', 'color', 'active', 'inviteId', 'createdBy', 'createdAt', 'updatedAt'])
         && isValidId(data.uid)
+        && (!('login' in data) || isValidOptionalString(data.login, 200))
         && isValidNonEmptyString(data.email, 200)
         && isValidNonEmptyString(data.displayName, 120)
         && data.role in ['titulaire', 'collaborateur', 'secretaire', 'assistant']
@@ -85,6 +97,7 @@ service cloud.firestore {
         && (!('chairName' in data) || isValidOptionalString(data.chairName, 60))
         && (!('color' in data) || isValidOptionalString(data.color, 20))
         && (!('inviteId' in data) || isValidOptionalString(data.inviteId, 128))
+        && (!('createdBy' in data) || isValidId(data.createdBy))
         && data.active is bool
         && data.createdAt is timestamp
         && data.updatedAt is timestamp;
@@ -136,7 +149,7 @@ service cloud.firestore {
         && (!('birthDate' in data) || isValidOptionalString(data.birthDate, 20))
         && (!('cin' in data) || isValidOptionalString(data.cin, 30))
         && (!('profession' in data) || isValidOptionalString(data.profession, 100))
-        && isValidNonEmptyString(data.phone, 30)
+        && isValidOptionalString(data.phone, 30)
         && (!('email' in data) || isValidOptionalString(data.email, 150))
         && (!('address' in data) || isValidOptionalString(data.address, 250))
         && (!('referringDoctor' in data) || isValidOptionalString(data.referringDoctor, 120))
@@ -160,7 +173,7 @@ service cloud.firestore {
         && data.keys().hasOnly(['patientId', 'title', 'category', 'toothRef', 'date', 'dataUrl', 'notes', 'uploadedBy', 'createdAt'])
         && isValidId(data.patientId)
         && isValidNonEmptyString(data.title, 150)
-        && data.category in ['Panoramique', 'Rétro-alvéolaire', 'Téléradiographie', 'Photo Avant', 'Photo Après', 'Document']
+        && data.category in ['Photo Clinique', 'Cliché Intra-oral', 'Panoramique', 'Rétro-alvéolaire', 'Téléradiographie', 'Photo Avant', 'Photo Après', 'Document']
         && (!('toothRef' in data) || isValidOptionalString(data.toothRef, 30))
         && isValidNonEmptyString(data.date, 20)
         && isValidNonEmptyString(data.dataUrl, 900000)
@@ -250,7 +263,7 @@ service cloud.firestore {
         && isValidNonEmptyString(data.practitionerName, 120)
         && isValidNonEmptyString(data.title, 180)
         && (!('isAlternative' in data) || data.isAlternative is bool)
-        && data.status in ['Brouillon', 'Devis envoyé', 'Accepté', 'En cours', 'Terminé', 'Refusé']
+        && data.status in ['Brouillon', 'Devis envoyé', 'Accepté', 'En cours', 'Terminé', 'Refusé', 'Noveaux', 'Imprimé']
         && data.items is list && data.items.size() <= 40
         && (data.items.size() == 0 || data.items[0] is map)
         && data.totalAmount is number && data.totalAmount >= 0
@@ -297,8 +310,8 @@ service cloud.firestore {
         && isValidNonEmptyString(data.patientName, 150)
         && isValidOptionalString(data.practitionerId, 128)
         && isValidNonEmptyString(data.date, 20)
-        && data.amount is number && data.amount > 0
-        && data.method in ['Espèces', 'Carte bancaire', 'Virement', 'Chèque']
+        && data.amount is number && data.amount != 0
+        && data.method in ['Espèces', 'Carte bancaire', 'Virement', 'Chèque', 'Solde Portefeuille']
         && data.payerType in ['Patient', 'Mutuelle']
         && data.isAdvance is bool
         && (!('chequeNumber' in data) || isValidOptionalString(data.chequeNumber, 60))
@@ -342,7 +355,7 @@ service cloud.firestore {
         && isValidNonEmptyString(data.patientName, 150)
         && isValidOptionalString(data.practitionerId, 128)
         && (!('practitionerName' in data) || isValidOptionalString(data.practitionerName, 120))
-        && data.docType in ['Ordonnance', 'Certificat de présence', 'Dispense', 'Attestation de soins', 'Consentement éclairé', 'Lettre confrère', 'Feuille de soins']
+        && data.docType in ['Ordonnance', 'Certificat médical', 'Certificat de présence', 'Dispense', 'Attestation de soins', 'Consentement éclairé', 'Lettre confrère', 'Feuille de soins', "Note d'honoraires"]
         && isValidNonEmptyString(data.date, 20)
         && isValidNonEmptyString(data.title, 160)
         && (!('prescriptions' in data) || (data.prescriptions is list && data.prescriptions.size() <= 20 && (data.prescriptions.size() == 0 || data.prescriptions[0] is map)))
@@ -451,20 +464,22 @@ service cloud.firestore {
     // =========================================================================
 
     match /staff/{userId} {
-      allow get: if isValidId(userId) && isSignedIn() && (userId == request.auth.uid || isClinicStaff());
-      allow list: if isSignedIn() && resource.data.active is bool && isClinicStaff();
+      allow get: if isValidId(userId) && request.auth != null && (userId == request.auth.uid || isClinicStaff());
+      allow list: if isClinicStaff();
       allow create: if isValidId(userId)
-        && isSignedIn()
+        && request.auth != null
         && isValidStaff(incoming())
         && incoming().uid == userId
         && incoming().createdAt == request.time
         && incoming().updatedAt == request.time
         && (
-          isTitulaire()
+          (isTitulaire() && (!('createdBy' in incoming()) || incoming().createdBy == request.auth.uid))
           || (isBootstrapAdmin() && userId == request.auth.uid && incoming().role == 'titulaire')
           || (
-            userId == request.auth.uid
+            isEmailVerified()
+            && userId == request.auth.uid
             && 'inviteId' in incoming()
+            && incoming().inviteId != 'direct'
             && isValidId(incoming().inviteId)
             && exists(/databases/$(database)/documents/staffInvites/$(incoming().inviteId))
             && get(/databases/$(database)/documents/staffInvites/$(incoming().inviteId)).data.email == request.auth.token.email
@@ -490,8 +505,8 @@ service cloud.firestore {
     }
 
     match /staffInvites/{inviteId} {
-      allow get: if isValidId(inviteId) && isSignedIn() && (isTitulaire() || existing().email == request.auth.token.email);
-      allow list: if isSignedIn() && (isTitulaire() || resource.data.email == request.auth.token.email);
+      allow get: if isValidId(inviteId) && (isTitulaire() || (isEmailVerified() && existing().email == request.auth.token.email));
+      allow list: if isTitulaire() || (isEmailVerified() && resource.data.email == request.auth.token.email);
       allow create: if isValidId(inviteId)
         && isTitulaire()
         && isValidStaffInvite(incoming())
@@ -508,7 +523,7 @@ service cloud.firestore {
 
     match /settings/{settingId} {
       allow get: if isValidId(settingId) && isClinicStaff();
-      allow list: if isClinicStaff() && resource.data.currency is string;
+      allow list: if isClinicStaff();
       allow create: if isValidId(settingId)
         && isTitulaire()
         && isValidClinicSettings(incoming())
@@ -531,7 +546,7 @@ service cloud.firestore {
         isTitulaire() || isSecretaire() || isAssistant()
         || (isCollaborateur() && existing().assignedPractitionerId == request.auth.uid)
       );
-      allow list: if isSignedIn() && resource.data.active is bool && (
+      allow list: if isSignedIn() && (
         isTitulaire() || isSecretaire() || isAssistant()
         || (isCollaborateur() && resource.data.assignedPractitionerId == request.auth.uid)
       );
@@ -544,6 +559,7 @@ service cloud.firestore {
           isTitulaire()
           || isSecretaire()
           || (isCollaborateur() && incoming().assignedPractitionerId == request.auth.uid)
+          || (isAssistant() && patientId.matches('^csv_pat_.*') && incoming().assignedPractitionerId != request.auth.uid)
         );
       allow update: if isValidId(patientId)
         && isValidPatient(incoming())
@@ -632,7 +648,7 @@ service cloud.firestore {
         isTitulaire() || isSecretaire() || isAssistant()
         || (isCollaborateur() && existing().practitionerId == request.auth.uid)
       );
-      allow list: if isSignedIn() && resource.data.date is string && (
+      allow list: if isSignedIn() && (
         isTitulaire() || isSecretaire() || isAssistant()
         || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
       );
@@ -654,14 +670,14 @@ service cloud.firestore {
         && (
           isTitulaire()
           || (isSecretaire() && incoming().diff(existing()).affectedKeys().hasOnly(['practitionerId', 'practitionerName', 'chair', 'date', 'startTime', 'durationMinutes', 'actType', 'categoryColor', 'status', 'arrivedAt', 'notes', 'isUrgent', 'reminderStatus', 'updatedAt']))
-          || (isCollaborateur() && existing().practitionerId == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['date', 'startTime', 'durationMinutes', 'actType', 'status', 'arrivedAt', 'notes', 'updatedAt']))
+          || (isCollaborateur() && existing().practitionerId == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['date', 'startTime', 'durationMinutes', 'actType', 'status', 'arrivedAt', 'notes', 'reminderStatus', 'updatedAt']))
         );
       allow delete: if isValidId(appointmentId) && isTitulaire();
     }
 
     match /bookingRequests/{requestId} {
       allow get: if isValidId(requestId) && (isTitulaire() || isSecretaire());
-      allow list: if isSignedIn() && resource.data.status is string && (isTitulaire() || isSecretaire());
+      allow list: if isTitulaire() || isSecretaire();
       allow create: if isValidId(requestId)
         && isSignedIn()
         && isValidBookingRequest(incoming())
@@ -679,7 +695,7 @@ service cloud.firestore {
 
     match /actsCatalog/{actId} {
       allow get: if isValidId(actId) && isClinicStaff();
-      allow list: if isSignedIn() && resource.data.code is string && isClinicStaff();
+      allow list: if isClinicStaff();
       allow create: if isValidId(actId) && isTitulaire() && isValidCatalogAct(incoming()) && incoming().createdAt == request.time;
       allow update: if isValidId(actId) && isTitulaire() && isValidCatalogAct(incoming()) && incoming().createdAt == existing().createdAt
         && incoming().diff(existing()).affectedKeys().hasOnly(['code', 'category', 'name', 'defaultDuration', 'minPrice', 'maxPrice', 'defaultPrice', 'color']);
@@ -691,7 +707,7 @@ service cloud.firestore {
         isTitulaire() || isSecretaire()
         || (isCollaborateur() && existing().practitionerId == request.auth.uid)
       );
-      allow list: if isSignedIn() && resource.data.quoteNumber is string && (
+      allow list: if isSignedIn() && (
         isTitulaire() || isSecretaire()
         || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
       );
@@ -728,7 +744,7 @@ service cloud.firestore {
         isTitulaire() || isSecretaire()
         || (isCollaborateur() && existing().practitionerId == request.auth.uid)
       );
-      allow list: if isSignedIn() && resource.data.invoiceNumber is string && (
+      allow list: if isSignedIn() && (
         isTitulaire() || isSecretaire()
         || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
       );
@@ -761,7 +777,7 @@ service cloud.firestore {
         isTitulaire() || isSecretaire()
         || (isCollaborateur() && existing().practitionerId == request.auth.uid)
       );
-      allow list: if isSignedIn() && resource.data.receiptNumber is string && (
+      allow list: if isSignedIn() && (
         isTitulaire() || isSecretaire()
         || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
       );
@@ -785,7 +801,7 @@ service cloud.firestore {
         isTitulaire() || isAssistant() || isSecretaire()
         || (isCollaborateur() && existing().practitionerId == request.auth.uid)
       );
-      allow list: if isSignedIn() && resource.data.orderNumber is string && (
+      allow list: if isSignedIn() && (
         isTitulaire() || isAssistant() || isSecretaire()
         || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
       );
@@ -814,7 +830,7 @@ service cloud.firestore {
         isTitulaire() || isSecretaire()
         || (isCollaborateur() && existing().practitionerId == request.auth.uid)
       );
-      allow list: if isSignedIn() && resource.data.docType is string && (
+      allow list: if isSignedIn() && (
         isTitulaire() || isSecretaire()
         || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
       );
@@ -833,17 +849,33 @@ service cloud.firestore {
     }
 
     match /recalls/{recallId} {
-      allow get: if isValidId(recallId) && (isTitulaire() || isSecretaire() || isCollaborateur());
-      allow list: if isSignedIn() && resource.data.dueDate is string && (isTitulaire() || isSecretaire() || isCollaborateur());
+      allow get: if isValidId(recallId) && (
+        isTitulaire()
+        || isSecretaire()
+        || (isCollaborateur() && existing().practitionerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && (
+        isTitulaire()
+        || isSecretaire()
+        || (isCollaborateur() && resource.data.practitionerId == request.auth.uid)
+      );
       allow create: if isValidId(recallId)
         && isValidRecall(incoming())
         && exists(/databases/$(database)/documents/patients/$(incoming().patientId))
         && incoming().createdBy == request.auth.uid
         && incoming().createdAt == request.time
         && incoming().updatedAt == request.time
-        && (isTitulaire() || isSecretaire() || isCollaborateur());
+        && (
+          isTitulaire()
+          || isSecretaire()
+          || (isCollaborateur() && incoming().practitionerId == request.auth.uid)
+        );
       allow update: if isValidId(recallId)
-        && (isTitulaire() || isSecretaire() || isCollaborateur())
+        && (
+          isTitulaire()
+          || isSecretaire()
+          || (isCollaborateur() && existing().practitionerId == request.auth.uid)
+        )
         && isValidRecall(incoming())
         && incoming().createdBy == existing().createdBy
         && incoming().createdAt == existing().createdAt
@@ -854,7 +886,7 @@ service cloud.firestore {
 
     match /expenses/{expenseId} {
       allow get: if isValidId(expenseId) && isTitulaire();
-      allow list: if isSignedIn() && resource.data.date is string && isTitulaire();
+      allow list: if isTitulaire();
       allow create: if isValidId(expenseId)
         && isTitulaire()
         && isValidExpense(incoming())
@@ -871,7 +903,7 @@ service cloud.firestore {
 
     match /cashClosures/{closureId} {
       allow get: if isValidId(closureId) && (isTitulaire() || isSecretaire());
-      allow list: if isSignedIn() && resource.data.date is string && (isTitulaire() || isSecretaire());
+      allow list: if isTitulaire() || isSecretaire();
       allow create: if isValidId(closureId)
         && (isTitulaire() || isSecretaire())
         && isValidCashClosure(incoming())
@@ -888,7 +920,7 @@ service cloud.firestore {
 
     match /inventory/{itemId} {
       allow get: if isValidId(itemId) && (isTitulaire() || isAssistant());
-      allow list: if isSignedIn() && resource.data.sku is string && (isTitulaire() || isAssistant());
+      allow list: if isTitulaire() || isAssistant();
       allow create: if isValidId(itemId)
         && (isTitulaire() || isAssistant())
         && isValidInventoryItem(incoming())
@@ -903,7 +935,7 @@ service cloud.firestore {
 
     match /stockMovements/{movementId} {
       allow get: if isValidId(movementId) && (isTitulaire() || isAssistant());
-      allow list: if isSignedIn() && resource.data.itemId is string && (isTitulaire() || isAssistant());
+      allow list: if isTitulaire() || isAssistant();
       allow create: if isValidId(movementId)
         && (isTitulaire() || isAssistant())
         && isValidStockMovement(incoming())
@@ -916,7 +948,7 @@ service cloud.firestore {
 
     match /adminDocuments/{docId} {
       allow get: if isValidId(docId) && isClinicStaff();
-      allow list: if isSignedIn() && resource.data.expiryDate is string && isClinicStaff();
+      allow list: if isClinicStaff();
       allow create: if isValidId(docId)
         && (isTitulaire() || isSecretaire())
         && isValidAdminDocument(incoming())

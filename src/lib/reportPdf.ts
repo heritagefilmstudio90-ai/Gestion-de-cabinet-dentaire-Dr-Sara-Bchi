@@ -74,6 +74,14 @@ export interface FinancialReportPdfInput {
   byPaymentMethod: PaymentMethodReportRow[];
   byExpenseCategory: ExpenseCategoryReportRow[];
   invoicesList: FinancialInvoiceRow[];
+  clinicalActivity?: {
+    totalActs: number;
+    finishedActs: number;
+    totalHonoraires: number;
+    totalReceived: number;
+    totalRemaining: number;
+    topActs: Array<{ name: string; count: number; total: number }>;
+  };
 }
 
 type JsPDFWithAutoTable = jsPDF & {
@@ -470,13 +478,69 @@ export function exportFinancialReportPdf(input: FinancialReportPdfInput): string
     cursorY = (doc.lastAutoTable?.finalY ?? cursorY) + 8;
   }
 
-  // 5. Financial Invoices Ledger for the period
+  // 4b. Clinical Activity Summary
+  if (input.clinicalActivity && input.clinicalActivity.totalActs > 0) {
+    if (cursorY > 225) {
+      doc.addPage();
+      cursorY = 18;
+    }
+    cursorY = drawSectionHeading(doc, '5. Activite Clinique & Actes Realises', cursorY);
+
+    doc.setFillColor(248, 250, 252);
+    doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(14, cursorY, 182, 11, 1.5, 1.5, 'FD');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.8);
+    doc.setTextColor(30, 41, 59);
+    doc.text(
+      `Actes realises : ${input.clinicalActivity.totalActs} (Termines : ${input.clinicalActivity.finishedActs})   |   Honoraires actes : ${formatPdfMAD(input.clinicalActivity.totalHonoraires)}   |   Recu : ${formatPdfMAD(input.clinicalActivity.totalReceived)}   |   Reste : ${formatPdfMAD(input.clinicalActivity.totalRemaining)}`,
+      17,
+      cursorY + 6.8
+    );
+    cursorY += 15;
+
+    if (input.clinicalActivity.topActs.length > 0) {
+      autoTable(doc, {
+        startY: cursorY,
+        margin: { left: 14, right: 14, bottom: 18 },
+        head: [['Acte Clinique (Principaux actes)', 'Volume', 'Honoraires Cumules']],
+        body: input.clinicalActivity.topActs.map((act) => [
+          sanitizePdfText(act.name),
+          String(act.count),
+          formatPdfMAD(act.total),
+        ]),
+        theme: 'striped',
+        headStyles: {
+          fillColor: [2, 132, 199],
+          textColor: [255, 255, 255],
+          fontSize: 7.8,
+          fontStyle: 'bold',
+        },
+        bodyStyles: {
+          fontSize: 7.6,
+          textColor: [30, 41, 59],
+        },
+        columnStyles: {
+          1: { halign: 'center' },
+          2: { halign: 'right', fontStyle: 'bold' },
+        },
+      });
+      cursorY = (doc.lastAutoTable?.finalY ?? cursorY) + 8;
+    }
+  }
+
+  // 6. Financial Invoices Ledger for the period
   if (input.invoicesList.length > 0) {
     if (cursorY > 225) {
       doc.addPage();
       cursorY = 18;
     }
-    cursorY = drawSectionHeading(doc, '5. Suivi Detaille des Factures & Recouvrements', cursorY);
+    const ledgerHeading =
+      input.clinicalActivity && input.clinicalActivity.totalActs > 0
+        ? '6. Suivi Detaille des Factures & Recouvrements'
+        : '5. Suivi Detaille des Factures & Recouvrements';
+    cursorY = drawSectionHeading(doc, ledgerHeading, cursorY);
     autoTable(doc, {
       startY: cursorY,
       margin: { left: 14, right: 14, bottom: 18 },

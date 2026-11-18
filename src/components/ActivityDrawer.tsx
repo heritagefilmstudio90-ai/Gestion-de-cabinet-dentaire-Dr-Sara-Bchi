@@ -152,7 +152,7 @@ export const ActivityDrawer: React.FC<ActivityDrawerProps> = ({ isOpen, onClose 
         aria-modal="true"
         aria-labelledby="activity-drawer-title"
         aria-hidden={!isOpen}
-        className={`no-print fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col transition-transform duration-200 motion-reduce:transition-none ${
+        className={`no-print fixed inset-y-0 right-0 z-50 w-full max-w-md pt-safe pb-safe pr-safe bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col transition-transform duration-200 motion-reduce:transition-none ${
           isOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
         }`}
       >

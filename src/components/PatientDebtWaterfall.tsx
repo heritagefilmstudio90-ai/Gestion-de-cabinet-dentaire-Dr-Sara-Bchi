@@ -11,12 +11,13 @@ import {
   Wallet,
 } from 'lucide-react';
 import { formatDateFR, formatMAD } from '../lib/formatters';
-import { Invoice, Patient, Payment } from '../types/dental';
+import { Invoice, Patient, PatientClinicalAct, Payment } from '../types/dental';
 
 interface PatientDebtWaterfallProps {
   patient: Patient;
   invoices: Invoice[];
   payments: Payment[];
+  clinicalActs?: PatientClinicalAct[];
   canNavigateFinance?: boolean;
   onNavigateInvoices?: () => void;
   onNavigatePayments?: () => void;
@@ -81,6 +82,7 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
   patient,
   invoices,
   payments,
+  clinicalActs = [],
   canNavigateFinance = false,
   onNavigateInvoices,
   onNavigatePayments,
@@ -88,6 +90,11 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
   const activeInvoices = useMemo(
     () => invoices.filter((inv) => inv.patientId === patient.id && inv.status !== 'Annulée'),
     [invoices, patient.id]
+  );
+
+  const patientActs = useMemo(
+    () => clinicalActs.filter((a) => a.patientId === patient.id),
+    [clinicalActs, patient.id]
   );
 
   const cancelledInvoiceIds = useMemo(
@@ -120,7 +127,34 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
   const effectiveScope: ScopeMode = hasInsuranceActivity ? scopeMode : 'patient';
 
   const summary = useMemo(() => {
-    const totalBilled = activeInvoices.reduce((s, inv) => s + Number(inv.totalAmount || 0), 0);
+    const actsTotal = patientActs.reduce((s, a) => s + Number(a.price || 0), 0);
+    const paymentsNet = activePayments
+      .filter((p) => p.payerType === 'Patient')
+      .reduce((s, p) => s + Number(p.amount || 0), 0);
+
+    if (activeInvoices.length === 0 && (patientActs.length > 0 || activePayments.length > 0 || patient.isCsvArchive)) {
+      const totalBilled = Number(patient.totalBilled ?? actsTotal) || actsTotal;
+      const totalPatientPaid = paymentsNet || patientActs.reduce((s, a) => s + Number(a.receivedAmount || 0), 0);
+      const patientBalanceDue =
+        patient.remainingDue !== undefined
+          ? Number(patient.remainingDue)
+          : Math.max(0, totalBilled - totalPatientPaid);
+      return {
+        totalBilled,
+        totalPatientShare: totalBilled,
+        totalInsuranceShare: 0,
+        totalPatientPaid,
+        totalInsurancePaid: 0,
+        patientBalanceDue,
+        insuranceBalanceDue: 0,
+        totalRemainingDue: patientBalanceDue,
+      };
+    }
+
+    const totalBilled = Math.max(
+      activeInvoices.reduce((s, inv) => s + Number(inv.totalAmount || 0), 0),
+      Number(patient.totalBilled || 0)
+    );
     const totalPatientShare = activeInvoices.reduce(
       (s, inv) => s + Number(inv.patientShare || 0),
       0
@@ -129,31 +163,31 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
       (s, inv) => s + Number(inv.insuranceShare || 0),
       0
     );
-    const totalPatientPaid = activeInvoices.reduce(
-      (s, inv) => s + Number(inv.paidAmount || 0),
-      0
+    const totalPatientPaid = Math.max(
+      activeInvoices.reduce((s, inv) => s + Number(inv.paidAmount || 0), 0),
+      paymentsNet
     );
     const totalInsurancePaid = activeInvoices.reduce(
       (s, inv) => s + Number(inv.insurancePaidAmount || 0),
       0
     );
-    const patientBalanceDue = activeInvoices.reduce(
+    const invoiceDue = activeInvoices.reduce(
       (s, inv) => s + Math.max(0, Number(inv.patientShare || 0) - Number(inv.paidAmount || 0)),
       0
     );
+    const patientBalanceDue = patient.isCsvArchive && patient.remainingDue !== undefined
+      ? Math.max(invoiceDue, Number(patient.remainingDue))
+      : invoiceDue;
     const insuranceBalanceDue = activeInvoices.reduce(
       (s, inv) =>
         s + Math.max(0, Number(inv.insuranceShare || 0) - Number(inv.insurancePaidAmount || 0)),
       0
     );
-    const totalRemainingDue = Math.max(
-      0,
-      totalBilled - totalPatientPaid - totalInsurancePaid
-    );
+    const totalRemainingDue = Math.max(patientBalanceDue + insuranceBalanceDue, 0);
 
     return {
       totalBilled,
-      totalPatientShare,
+      totalPatientShare: totalPatientShare || totalBilled,
       totalInsuranceShare,
       totalPatientPaid,
       totalInsurancePaid,
@@ -161,38 +195,55 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
       insuranceBalanceDue,
       totalRemainingDue,
     };
-  }, [activeInvoices]);
+  }, [activeInvoices, activePayments, patient, patientActs]);
 
   const { steps, ledgerRows } = useMemo(() => {
     const events: LedgerEvent[] = [];
     const invoiceById = new Map<string, Invoice>(activeInvoices.map((inv) => [inv.id, inv]));
 
-    // 1) Factures émises (+ dette)
-    for (const inv of activeInvoices) {
-      const chargeAmount =
-        effectiveScope === 'patient'
-          ? Number(inv.patientShare ?? inv.totalAmount ?? 0)
-          : Number(inv.totalAmount || 0);
+    // 1) Factures émises (+ dette) ou Actes CSV si aucune facture formalisée
+    if (activeInvoices.length > 0) {
+      for (const inv of activeInvoices) {
+        const chargeAmount =
+          effectiveScope === 'patient'
+            ? Number(inv.patientShare ?? inv.totalAmount ?? 0)
+            : Number(inv.totalAmount || 0);
 
-      const firstAct = inv.items?.[0]?.actName || 'Soins dentaires';
-      const extraCount = (inv.items?.length || 0) > 1 ? ` (+${inv.items.length - 1})` : '';
-      const detail =
-        effectiveScope === 'patient' && Number(inv.insuranceShare || 0) > 0
-          ? `${firstAct}${extraCount} · Total ${formatMAD(inv.totalAmount)} (Mutuelle ${formatMAD(inv.insuranceShare)})`
-          : `${firstAct}${extraCount} · Statut : ${inv.status}`;
+        const firstAct = inv.items?.[0]?.actName || 'Soins dentaires';
+        const extraCount = (inv.items?.length || 0) > 1 ? ` (+${inv.items.length - 1})` : '';
+        const detail =
+          effectiveScope === 'patient' && Number(inv.insuranceShare || 0) > 0
+            ? `${firstAct}${extraCount} · Total ${formatMAD(inv.totalAmount)} (Mutuelle ${formatMAD(inv.insuranceShare)})`
+            : `${firstAct}${extraCount} · Statut : ${inv.status}`;
 
-      events.push({
-        id: `inv-${inv.id}`,
-        date: inv.issueDate || '',
-        orderRank: 0,
-        sortKey: toTimestampKey(inv.createdAt) || inv.invoiceNumber || inv.id,
-        kind: 'charge',
-        reference: inv.invoiceNumber,
-        label: `Facture ${inv.invoiceNumber}`,
-        detail,
-        delta: chargeAmount,
-        invoiceId: inv.id,
-      });
+        events.push({
+          id: `inv-${inv.id}`,
+          date: inv.issueDate || '',
+          orderRank: 0,
+          sortKey: toTimestampKey(inv.createdAt) || inv.invoiceNumber || inv.id,
+          kind: 'charge',
+          reference: inv.invoiceNumber,
+          label: `Facture ${inv.invoiceNumber}`,
+          detail,
+          delta: chargeAmount,
+          invoiceId: inv.id,
+        });
+      }
+    } else {
+      for (const act of patientActs) {
+        if (Number(act.price || 0) <= 0) continue;
+        events.push({
+          id: `act-${act.id}`,
+          date: act.realizationDate || act.date || '',
+          orderRank: 0,
+          sortKey: act.id,
+          kind: 'charge',
+          reference: act.teeth ? `D.${act.teeth}` : 'ACTE',
+          label: act.actName,
+          detail: `${act.practitionerName} · Statut : ${act.status}`,
+          delta: Number(act.price || 0),
+        });
+      }
     }
 
     // 2) Paiements enregistrés (- dette)
@@ -218,7 +269,7 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
 
       const linkedInv = invoiceById.get(pay.invoiceId);
       const isInsurance = pay.payerType === 'Mutuelle';
-      const methodDetail = `${pay.method}${pay.chequeNumber ? ` N° ${pay.chequeNumber}` : ''}${
+      const methodDetail = `${pay.rawMethod || pay.method}${pay.chequeNumber ? ` N° ${pay.chequeNumber}` : ''}${
         pay.isAdvance ? ' · Acompte' : ''
       }`;
 
@@ -231,7 +282,7 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
         reference: pay.receiptNumber,
         label: isInsurance
           ? `Remboursement mutuelle (${pay.receiptNumber})`
-          : `Paiement ${pay.receiptNumber}`,
+          : `Paiement ${pay.receiptNumber}${pay.actName ? ` · ${pay.actName}` : ''}`,
         detail: `${methodDetail}${linkedInv ? ` · Sur ${linkedInv.invoiceNumber}` : ''}`,
         delta: -Number(pay.amount || 0),
         invoiceId: pay.invoiceId,
@@ -242,7 +293,7 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
     for (const inv of activeInvoices) {
       const recordedPat = recordedPatientByInv.get(inv.id) || 0;
       const diffPat = Number(inv.paidAmount || 0) - recordedPat;
-      if (diffPat > 0.01) {
+      if (diffPat > 0.01 && activePayments.length === 0) {
         events.push({
           id: `adj-pat-${inv.id}`,
           date: inv.issueDate || '',
@@ -336,7 +387,7 @@ export const PatientDebtWaterfall: React.FC<PatientDebtWaterfallProps> = ({
     }
 
     return { steps: builtSteps, ledgerRows: builtLedger };
-  }, [activeInvoices, activePayments, effectiveScope]);
+  }, [activeInvoices, activePayments, patientActs, effectiveScope]);
 
   const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
   const activeStep = useMemo(

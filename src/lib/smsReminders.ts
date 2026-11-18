@@ -41,7 +41,14 @@ export function isAppointmentDueForSmsReminder(
   now: Date = new Date()
 ): boolean {
   if (apt.status !== 'En attente' && apt.status !== 'Confirmé') return false;
-  if ((apt.reminderStatus || '').toUpperCase().startsWith('SMS')) return false;
+  const normalizedStatus = (apt.reminderStatus || '').toUpperCase();
+  if (
+    normalizedStatus.startsWith('SMS') ||
+    normalizedStatus.startsWith('WHATSAPP') ||
+    normalizedStatus.startsWith('APPEL')
+  ) {
+    return false;
+  }
   const aptDt = getAppointmentDateTime(apt.date, apt.startTime);
   if (!aptDt) return false;
   const diffMs = aptDt.getTime() - now.getTime();
@@ -92,4 +99,61 @@ export function formatSentDateTimeFR(isoOrDate?: string): string {
     hour: '2-digit',
     minute: '2-digit',
   });
+}
+
+export function normalizePhoneDigitsForWhatsApp(rawPhone: string): string {
+  const trimmed = (rawPhone || '').trim().replace(/[\s().-]/g, '');
+  if (!trimmed) return '';
+  if (trimmed.startsWith('+')) {
+    return trimmed.slice(1).replace(/\D/g, '');
+  }
+  if (trimmed.startsWith('00')) {
+    return trimmed.slice(2).replace(/\D/g, '');
+  }
+  const digits = trimmed.replace(/\D/g, '');
+  if (/^0[567]\d{8}$/.test(digits)) {
+    return `212${digits.slice(1)}`;
+  }
+  return digits;
+}
+
+export function normalizePhoneForTelUri(rawPhone: string): string {
+  const trimmed = (rawPhone || '').trim().replace(/[\s().-]/g, '');
+  if (!trimmed) return '';
+  if (trimmed.startsWith('00')) {
+    return `+${trimmed.slice(2).replace(/\D/g, '')}`;
+  }
+  if (/^0[567]\d{8}$/.test(trimmed)) {
+    return `+212${trimmed.slice(1)}`;
+  }
+  if (trimmed.startsWith('+')) {
+    return `+${trimmed.slice(1).replace(/\D/g, '')}`;
+  }
+  return trimmed.replace(/\D/g, '');
+}
+
+export function buildWhatsAppUrl(rawPhone: string, message: string): string | null {
+  const digits = normalizePhoneDigitsForWhatsApp(rawPhone);
+  if (digits.length < 6) return null;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+}
+
+export function buildTelUri(rawPhone: string): string | null {
+  const normalized = normalizePhoneForTelUri(rawPhone);
+  if (normalized.replace(/\D/g, '').length < 6) return null;
+  return `tel:${normalized}`;
+}
+
+export function triggerExternalActionLink(href: string, openInNewTab = false): void {
+  if (typeof document === 'undefined' || !href) return;
+  const anchor = document.createElement('a');
+  anchor.href = href;
+  if (openInNewTab) {
+    anchor.target = '_blank';
+    anchor.rel = 'noopener noreferrer';
+  }
+  anchor.style.display = 'none';
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
 }

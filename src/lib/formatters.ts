@@ -45,13 +45,31 @@ export function generateSafeId(prefix: string): string {
   return `${prefix}_${Date.now()}_${rand}`;
 }
 
-export function exportToCsv(filename: string, headers: string[], rows: Array<Array<string | number>>): void {
-  const escapeCell = (val: string | number) => {
-    const str = String(val ?? '').replace(/"/g, '""');
-    return `"${str}"`;
-  };
-  const csv = [headers.map(escapeCell).join(';'), ...rows.map((r) => r.map(escapeCell).join(';'))].join('\n');
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+function sanitizeCsvCell(val: string | number | boolean | null | undefined): string {
+  if (val === null || val === undefined) return '""';
+  if (typeof val === 'number') {
+    const numStr = Number.isFinite(val) ? String(val) : '0';
+    return `"${numStr}"`;
+  }
+  let str = String(val)
+    .replace(/\0/g, '')
+    .replace(/\r?\n/g, ' ');
+  // Neutralize CSV / spreadsheet formula injection (=, +, -, @, tab, CR)
+  if (/^[\s]*[=+\-@\t\r]/.test(str)) {
+    str = `'${str}`;
+  }
+  return `"${str.replace(/"/g, '""')}"`;
+}
+
+function buildCsvContent(headers: string[], rows: Array<Array<string | number>>): string {
+  return [
+    headers.map(sanitizeCsvCell).join(';'),
+    ...rows.map((r) => r.map(sanitizeCsvCell).join(';')),
+  ].join('\n');
+}
+
+function triggerCsvDownload(filename: string, csvContent: string): void {
+  const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
@@ -59,7 +77,49 @@ export function exportToCsv(filename: string, headers: string[], rows: Array<Arr
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+async function computeSha256Hex(content: string): Promise<string> {
+  try {
+    if (typeof window !== 'undefined' && window.crypto?.subtle) {
+      const encoded = new TextEncoder().encode('\uFEFF' + content);
+      const digest = await window.crypto.subtle.digest('SHA-256', encoded);
+      return Array.from(new Uint8Array(digest))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+    }
+  } catch {
+    // Fallback below if WebCrypto is unavailable
+  }
+  // Deterministic non-cryptographic fallback fingerprint if SubtleCrypto is unavailable
+  let hash = 2166136261;
+  for (let i = 0; i < content.length; i += 1) {
+    hash ^= content.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `fnv1a-${(hash >>> 0).toString(16).padStart(8, '0')}`;
+}
+
+export function exportToCsv(filename: string, headers: string[], rows: Array<Array<string | number>>): void {
+  const csv = buildCsvContent(headers, rows);
+  triggerCsvDownload(filename, csv);
+}
+
+export async function exportSecureCsv(
+  filename: string,
+  headers: string[],
+  rows: Array<Array<string | number>>
+): Promise<{ sha256: string; rowCount: number; byteSize: number }> {
+  const csv = buildCsvContent(headers, rows);
+  const sha256 = await computeSha256Hex(csv);
+  const byteSize = new TextEncoder().encode('\uFEFF' + csv).length;
+  triggerCsvDownload(filename, csv);
+  return {
+    sha256,
+    rowCount: rows.length,
+    byteSize,
+  };
 }
 
 export async function compressImageToDataUrl(file: File, maxDim = 1280, quality = 0.82): Promise<string> {

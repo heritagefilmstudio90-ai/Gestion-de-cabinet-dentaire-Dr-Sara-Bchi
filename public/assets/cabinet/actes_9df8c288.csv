@@ -1,0 +1,1046 @@
+﻿Date,"Date de réalisation","Numéro de patient",Patient,Acte,Dents,Prix,Reçu,Reste,Praticien,Statut
+23/09/2025,02/10/2025,2,"MASSAUDI Aya","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+02/10/2025,,4,"AZAIR Yacine","Consultation chez un médecin généraliste ou médecin dentiste.",25,0,0,0,"Dr.Sara BCHI",Fini
+01/10/2025,,2,"MASSAUDI Aya","Traitement endodontique du groupe prémolaires",25,2000,2000,0,"Dr.Sara BCHI",Fini
+03/10/2025,,7,"EL FATIHI Ghita","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+03/10/2025,,7,"EL FATIHI Ghita","Extraction d'une dent permanente","46,47",200,200,0,"Dr.Sara BCHI",Fini
+03/10/2025,03/10/2025,7,"EL FATIHI Ghita","Composite - Curetage et obturation coronaire de cavité simple","24,25",500,300,200,"Dr.Sara BCHI",Fini
+03/10/2025,,7,"EL FATIHI Ghita","Composite - Curetage et obturation coronaire de cavité simple",33,250,0,250,"Dr.Sara BCHI",Fini
+03/10/2025,03/10/2025,7,"EL FATIHI Ghita","Traitement endodontique du groupe inciso-canin",43,500,500,0,"Dr.Sara BCHI","En cours"
+03/10/2025,,5,"ELJABBARI Fatima Zahra","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+03/10/2025,,5,"ELJABBARI Fatima Zahra","Extraction d'une dent permanente","36,46",400,400,0,"Dr.Sara BCHI","En cours"
+03/10/2025,03/10/2025,5,"ELJABBARI Fatima Zahra","Composite - Curetage et obturation coronaire de cavité simple","16,26",600,600,0,"Dr.Sara BCHI",Fini
+03/10/2025,03/10/2025,5,"ELJABBARI Fatima Zahra","Composite - Curetage et obturation coronaire de cavité simple",11,300,300,0,"Dr.Sara BCHI",Fini
+09/09/2025,03/10/2025,6,"EL GUADDARI Omayma","Composite - Curetage et obturation coronaire de cavité simple","26,27",600,600,0,"Dr.Sara BCHI",Fini
+16/09/2025,03/10/2025,6,"EL GUADDARI Omayma","Composite - Curetage et obturation coronaire de cavité simple","15,25",600,600,0,"Dr.Sara BCHI",Fini
+01/10/2025,03/10/2025,6,"EL GUADDARI Omayma","Composite - Curetage et obturation coronaire de cavité simple","16,17",600,600,0,"Dr.Sara BCHI",Fini
+03/10/2025,,6,"EL GUADDARI Omayma","Composite - Curetage et obturation coronaire de cavité simple","36,37",600,600,0,"Dr.Sara BCHI",Fini
+22/08/2025,,15,"EL MIMOUNI Fatimazahra","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+25/08/2025,03/10/2025,15,"EL MIMOUNI Fatimazahra","Composite - Curetage et obturation coronaire de cavité simple","24,25",300,300,0,"Dr.Sara BCHI",Fini
+01/10/2025,,15,"EL MIMOUNI Fatimazahra","CCM Couronnes céramo-métal",37,2600,2600,0,"Dr.Sara BCHI","En cours"
+16/06/2025,,14,"AABARI Mouhssine","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+23/06/2025,,14,"AABARI Mouhssine","Composite - Curetage et obturation coronaire de cavité simple","11,21",700,700,0,"Dr.Sara BCHI",Fini
+25/06/2025,,14,"AABARI Mouhssine","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+17/07/2025,,14,"AABARI Mouhssine","Examen de diagnostic d'ODF (hors examens complémentaires)",,20000,20000,0,"Dr.Sara BCHI","En cours"
+02/09/2025,03/10/2025,20,"FATHI Meryem","Traitement endodontique du groupe prémolaires",24,500,500,0,"Dr.Sara BCHI",Fini
+03/09/2025,,20,"FATHI Meryem","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/09/2025,,20,"FATHI Meryem","CCM Couronnes céramo-métal",24,3000,3000,0,"Dr.Sara BCHI",Fini
+14/07/2025,,18,"JADDADE Kholoud","Composite - Curetage et obturation coronaire de cavité simple",46,300,300,0,"Dr.Sara BCHI",Fini
+17/07/2025,03/10/2025,18,"JADDADE Kholoud","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+24/07/2025,,18,"JADDADE Kholoud","Examen de diagnostic d'ODF (hors examens complémentaires)",,12000,8000,4000,"Dr.Sara BCHI","En cours"
+15/10/2025,03/10/2025,10,"ALOUIZ Hassnae","Composite - Curetage et obturation coronaire de cavité simple",14,300,300,0,"Dr.Sara BCHI",Fini
+22/09/2025,03/10/2025,10,"ALOUIZ Hassnae","Extraction d'une dent permanente",26,300,300,0,"Dr.Sara BCHI",Fini
+27/09/2025,03/10/2025,16,"LOUBANE Mounia","Traitement endodontique du groupe molaires",27,600,600,0,"Dr.Sara BCHI",Fini
+02/10/2025,03/10/2025,16,"LOUBANE Mounia","Composite - Curetage et obturation coronaire de cavité simple",46,350,350,0,"Dr.Sara BCHI",Fini
+11/09/2025,,9,"MERNISSI ARIFI Zineb","Examen de diagnostic d'ODF (hors examens complémentaires)",,12000,9000,3000,"Dr.Sara BCHI","En cours"
+10/09/2025,03/10/2025,12,"BOUTARBOUCHE Kenza","Traitement endodontique du groupe inciso-canin",23,500,500,0,"Dr.Sara BCHI",Fini
+15/09/2025,,12,"BOUTARBOUCHE Kenza","Appareil sur plaque base en matière plastique d'un édentement de six dents",,1800,1500,300,"Dr.Sara BCHI","En cours"
+03/10/2025,,21,"YOUBI Guisse","Composite - Curetage et obturation coronaire de cavité simple",46,600,400,200,"Dr.Sara BCHI",Fini
+01/03/2025,,22,"BARGUI Brahim","Composite - Curetage et obturation coronaire de cavité simple",,300,300,0,"Dr.Sara BCHI",Fini
+29/09/2025,,22,"BARGUI Brahim","Composite - Curetage et obturation coronaire de cavité simple",,300,300,0,"Dr.Sara BCHI",Fini
+06/10/2025,,22,"BARGUI Brahim","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+22/08/2025,,31,"EL ALAOUI Soukaina","Composite - Curetage et obturation coronaire de cavité simple",38,350,350,0,"Dr.Sara BCHI",Fini
+13/09/2025,,31,"EL ALAOUI Soukaina","Composite - Curetage et obturation coronaire de cavité simple","24,25",600,600,0,"Dr.Sara BCHI",Fini
+31/07/2025,,46,"BELGHITI Camèlia","Composite - Curetage et obturation coronaire de cavité simple",17,300,300,0,"Dr.Sara BCHI",Fini
+01/09/2025,,46,"BELGHITI Camèlia","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+03/01/2025,,45,"ALIGOD Adil","Examen de diagnostic d'ODF (hors examens complémentaires)",,150,150,0,"Dr.Sara BCHI",Fini
+25/01/2025,18/07/2026,45,"ALIGOD Adil","Traitement d'orthopédie dento-faciale au delà du seizième anniversaire, préalable à une intervention chirurgicale portant sur les maxillaires, pour une période de six mois non renouvelable",,24000,24000,0,"Dr.Sara BCHI",Fini
+15/10/2025,06/10/2025,44,"RHRICH Ibtissam","Traitement endodontique du groupe molaires",46,600,600,0,"Dr.Sara BCHI",Fini
+06/10/2025,,6,"EL GUADDARI Omayma","Composite - Curetage et obturation coronaire de cavité simple","46,47",600,600,0,"Dr.Sara BCHI",Fini
+06/10/2025,,5,"ELJABBARI Fatima Zahra","Composite - Curetage et obturation coronaire de cavité simple",17,300,300,0,"Dr.Sara BCHI",Fini
+01/08/2025,18/07/2026,23,"GUENNOUN Naoual","Traitement endodontique du groupe prémolaires",14,500,500,0,"Dr.Sara BCHI",Fini
+02/09/2025,07/10/2025,13,"BOUTARBOUCHE Oum Kaltoum","Extraction d'une dent permanente",26,200,200,0,"Dr.Sara BCHI",Fini
+10/09/2025,,13,"BOUTARBOUCHE Oum Kaltoum","CCM Couronnes céramo-métal",22,2500,2500,0,"Dr.Sara BCHI",Fini
+01/04/2025,,34,"IBRAHIMI Ghizlan","Traitement endodontique du groupe inciso-canin",43,400,400,0,"Dr.Sara BCHI",Fini
+18/09/2025,,11,"TEMOUCH Halima","Extraction d'une dent permanente",46,200,200,0,"Dr.Sara BCHI",Fini
+30/09/2025,,11,"TEMOUCH Halima","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+07/10/2025,,53,"DIALLO Ibrahima","Extraction d'une dent permanente",21,200,200,0,"Dr.Sara BCHI",Fini
+07/10/2025,07/10/2025,16,"LOUBANE Mounia","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+07/10/2025,,46,"BELGHITI Camèlia","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+10/01/2025,07/10/2025,17,"EL BAKKAL Imane","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+14/01/2025,,17,"EL BAKKAL Imane","Traitement endodontique du groupe prémolaires",45,400,400,0,"Dr.Sara BCHI",Fini
+18/01/2025,,17,"EL BAKKAL Imane","Composite - Curetage et obturation coronaire de cavité simple","46,16",600,600,0,"Dr.Sara BCHI",Fini
+18/01/2025,,17,"EL BAKKAL Imane","Composite - Curetage et obturation coronaire de cavité simple","17,24,25,27",1200,1200,0,"Dr.Sara BCHI",Fini
+30/01/2025,,17,"EL BAKKAL Imane","Examen de diagnostic d'ODF (hors examens complémentaires)",,8400,6400,2000,"Dr.Sara BCHI","En cours"
+07/10/2025,07/10/2025,11,"TEMOUCH Halima","Traitement endodontique du groupe prémolaires",44,500,500,0,"Dr.Sara BCHI",Fini
+07/10/2025,,47,"Chahboune Meryem","Composite - Curetage et obturation coronaire de cavité simple",35,200,200,0,"Dr.Sara BCHI",Fini
+07/10/2025,,47,"Chahboune Meryem","Composite - Curetage et obturation coronaire de cavité simple","24,26",400,300,100,"Dr.Sara BCHI",Fini
+07/10/2025,,56,"Yasmine Qandoussi","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI","En cours"
+07/10/2025,,23,"GUENNOUN Naoual","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI",Fini
+08/10/2025,,22,"BARGUI Brahim","Composite - Curetage et obturation coronaire de cavité simple",24,300,300,0,"Dr.Sara BCHI",Fini
+01/09/2025,,58,"AHLAL Bouchra","CCM Couronnes céramo-métal",46,2000,2000,0,"Dr.Sara BCHI",Fini
+16/09/2025,,58,"AHLAL Bouchra","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+17/09/2025,,25,"SBAI Lala Oumnia","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+08/10/2025,,25,"SBAI Lala Oumnia","Composite - Curetage et obturation coronaire de cavité simple","11,21,22",1200,1200,0,"Dr.Sara BCHI",Fini
+20/08/2025,,39,"BTITI Soukaina","Traitement endodontique du groupe molaires",16,600,600,0,"Dr.Sara BCHI",Fini
+30/08/2025,,39,"BTITI Soukaina","Traitement endodontique du groupe molaires",17,600,600,0,"Dr.Sara BCHI",Fini
+11/11/2025,,51,"Bakkari Yassmine","Composite - Curetage et obturation coronaire de cavité simple",26,500,500,0,"Dr.Sara BCHI",Fini
+08/10/2025,,15,"EL MIMOUNI Fatimazahra","Composite - Curetage et obturation coronaire de cavité simple",38,300,300,0,"Dr.Sara BCHI",Fini
+08/10/2025,,4,"AZAIR Yacine","CCM Couronnes céramo-métal","24,25",5600,800,4800,"Dr.Sara BCHI","En cours"
+07/10/2025,,52,"Jamil Orphelinat","Traitement endodontique du groupe molaires",26,0,0,0,"Dr.Sara BCHI",Fini
+09/10/2025,,52,"Jamil Orphelinat","Composite - Curetage et obturation coronaire de cavité simple","26,15",0,0,0,"Dr.Sara BCHI",Fini
+09/10/2025,,54,"ZAHID Kamal","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+09/10/2025,15/10/2025,44,"RHRICH Ibtissam","Composite - Curetage et obturation coronaire de cavité simple","45,47",700,700,0,"Dr.Sara BCHI",Fini
+09/10/2025,,20,"FATHI Meryem","Composite - Curetage et obturation coronaire de cavité simple",11,300,300,0,"Dr.Sara BCHI",Fini
+10/10/2025,,54,"ZAHID Kamal","Traitement endodontique du groupe inciso-canin","12,22",0,0,0,"Dr.Sara BCHI",Fini
+10/10/2025,,55,"BOUABDELLAH Mouhcine","CCM Couronnes céramo-métal",15,2500,2500,0,"Dr.Sara BCHI","En cours"
+10/10/2025,,11,"TEMOUCH Halima","Composite - Curetage et obturation coronaire de cavité simple",12,300,300,0,"Dr.Sara BCHI",Fini
+11/10/2025,,34,"IBRAHIMI Ghizlan","Traitement endodontique du groupe prémolaires",35,400,400,0,"Dr.Sara BCHI","En cours"
+11/10/2025,,34,"IBRAHIMI Ghizlan","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+11/10/2025,,60,"CHRAIBI Samia","Pulpotomie ou pulpectomie coronaire avec obturation de la chambre pulpaire",54,0,0,0,"Dr.Sara BCHI","En cours"
+11/10/2025,,15,"EL MIMOUNI Fatimazahra","Traitement endodontique du groupe molaires",46,500,500,0,"Dr.Sara BCHI","En cours"
+11/10/2025,,61,"KASSAL Zayid",Consultation,,150,150,0,"Dr.Sara BCHI",Fini
+18/09/2025,,62,"BOULAHYA Lamiae","Traitement endodontique du groupe inciso-canin",33,500,500,0,"Dr.Sara BCHI",Fini
+14/10/2025,,64,"BICHOU Souhayla",Consultation,,150,150,0,"Dr.Sara BCHI",Fini
+14/10/2025,,65,"ALAMI Abdeljalil","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+14/10/2025,,62,"BOULAHYA Lamiae","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+14/10/2025,,6,"EL GUADDARI Omayma","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+27/09/2025,,10,"ALOUIZ Hassnae","Traitement endodontique du groupe molaires",27,400,400,0,"Dr.Sara BCHI",Fini
+15/10/2025,,33,"BOUSTAR Nabila","Composite - Curetage et obturation coronaire de cavité simple","34,42",400,400,0,"Dr.Sara BCHI",Fini
+15/10/2025,,44,"RHRICH Ibtissam","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI","En cours"
+16/10/2025,,62,"BOULAHYA Lamiae","Traitement endodontique du groupe prémolaires",15,500,500,0,"Dr.Sara BCHI","En cours"
+16/10/2025,,23,"GUENNOUN Naoual","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+17/10/2025,,47,"Chahboune Meryem","Composite - Curetage et obturation coronaire de cavité simple",45,200,100,100,"Dr.Sara BCHI",Fini
+17/10/2025,,72,"Aziz Ziani",Consultation,,150,150,0,"Dr.Sara BCHI",Fini
+17/10/2025,,66,"Amine Moustaine",Consultation,,0,0,0,"Dr.Sara BCHI",Fini
+17/10/2025,,71,"ROBAY Imane",Consultation,,100,100,0,"Dr.Sara BCHI",Fini
+17/10/2025,,11,"TEMOUCH Halima","Composite - Curetage et obturation coronaire de cavité simple",24,300,300,0,"Dr.Sara BCHI",Fini
+17/10/2025,,68,"BOUA Soukaina","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+18/10/2025,,67,"BOUABDELAH Rawan","Traitement endodontique du groupe molaires",46,600,600,0,"Dr.Sara BCHI","En cours"
+18/10/2025,,33,"BOUSTAR Nabila","Composite - Curetage et obturation coronaire de cavité simple","35,37",400,400,0,"Dr.Sara BCHI",Fini
+18/10/2025,,54,"ZAHID Kamal","CCM Couronnes céramo-métal","11,12,21,22",2500,2500,0,"Dr.Sara BCHI",Fini
+10/10/2025,,26,"BTITI Mohammed","Extraction d'une dent permanente","16,47",400,400,0,"Dr.Sara BCHI",Fini
+20/10/2025,25/05/2026,75,"AATFAOUI Latifa","Examen de diagnostic d'ODF (hors examens complémentaires)",,9000,9000,0,"Dr.Sara BCHI","En cours"
+20/10/2025,30/03/2026,20,"FATHI Meryem","CCM Couronnes céramo-métal","12,13,14",8000,8000,0,"Dr.Sara BCHI",Fini
+18/10/2025,,27,"AMARI Fatima-zahra","CCM Couronnes céramo-métal","35,36",5000,5000,0,"Dr.Sara BCHI",Fini
+20/10/2025,,27,"AMARI Fatima-zahra","Composite - Curetage et obturation coronaire de cavité simple","46,47",600,600,0,"Dr.Sara BCHI",Fini
+21/10/2025,,73,"Amine Rhrich mohamed","Extraction d'une dent lactéale, quelle que soit la technique",75,150,150,0,"Dr.Sara BCHI",Fini
+21/10/2025,,27,"AMARI Fatima-zahra","Eclaircissement d’une dent dépulpée","11,12",800,800,0,"Dr.Sara BCHI",Fini
+22/10/2025,,74,"Bosis Tarik","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+22/10/2025,,68,"BOUA Soukaina","Composite - Curetage et obturation coronaire de cavité simple","26,27",600,600,0,"Dr.Sara BCHI",Fini
+22/10/2025,,79,"MOUTAOUAKIL Nouhayla","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI","En cours"
+23/10/2025,,17,"EL BAKKAL Imane","Composite - Curetage et obturation coronaire de cavité simple","36,37,47",0,0,0,"Dr.Sara BCHI",Fini
+23/10/2025,,47,"Chahboune Meryem","Traitement endodontique du groupe molaires",38,300,0,300,"Dr.Sara BCHI","En cours"
+23/09/2025,26/06/2026,47,"Chahboune Meryem","Traitement endodontique du groupe molaires",16,300,0,300,"Dr.Sara BCHI",Fini
+23/10/2025,,11,"TEMOUCH Halima","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+24/10/2025,,68,"BOUA Soukaina","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+27/10/2025,,80,"ZBADI Hassan","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+28/10/2025,,80,"ZBADI Hassan","Composite - Curetage et obturation coronaire de cavité simple","16,17,24,26,27",0,0,0,"Dr.Sara BCHI",Fini
+28/10/2025,,80,"ZBADI Hassan","Composite - Curetage et obturation coronaire de cavité composée de 2 faces",45,0,0,0,"Dr.Sara BCHI",Fini
+27/10/2025,,82,"ALOUANE Youssef",Consultation,,150,150,0,"Dr.Sara BCHI",Fini
+27/10/2025,,22,"BARGUI Brahim","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+28/10/2025,,10,"ALOUIZ Hassnae","Composite - Curetage et obturation coronaire de cavité simple",15,300,300,0,"Dr.Sara BCHI",Fini
+28/10/2025,31/10/2025,80,"ZBADI Hassan","Examen de diagnostic d'ODF (hors examens complémentaires)",,0,0,0,"Dr.Sara BCHI",Fini
+28/10/2025,,80,"ZBADI Hassan","Orthodontie par aligneurs",,0,0,0,"Dr.Sara BCHI","En cours"
+31/10/2025,,81,"EZ-ZOHRY Rachida","Extraction d'une dent permanente","31,41",0,0,0,"Dr.Sara BCHI",Fini
+29/10/2025,29/10/2025,65,"ALAMI Abdeljalil","Composite - Curetage et obturation coronaire de cavité simple","11,12,14,16",900,900,0,"Dr.Sara BCHI",Fini
+29/10/2025,,58,"AHLAL Bouchra","Traitement endodontique du groupe prémolaires",35,600,600,0,"Dr.Sara BCHI","En cours"
+30/10/2025,04/11/2025,83,"EL QABLY Doha","Traitement endodontique du groupe molaires",37,600,600,0,"Dr.Sara BCHI",Fini
+26/05/2026,,84,"Hnini Taha","Composite - Curetage et obturation coronaire de cavité simple",85,300,300,0,"Dr.Sara BCHI","En cours"
+31/10/2025,,85,"ED DERYOUCH INTISSAR","Composite - Curetage et obturation coronaire de cavité simple",37,400,400,0,"Dr.Sara BCHI",Fini
+31/10/2025,,47,"Chahboune Meryem","Composite - Curetage et obturation coronaire de cavité simple",37,200,200,0,"Dr.Sara BCHI",Fini
+31/10/2025,,81,"EZ-ZOHRY Rachida","Prothèse adjointe totale du maxillaire supérieur",,1500,1500,0,"Dr.Sara BCHI","En cours"
+31/10/2025,,20,"FATHI Meryem","Composite - Curetage et obturation coronaire de cavité composée de 2 faces",21,400,400,0,"Dr.Sara BCHI",Fini
+01/11/2025,04/11/2025,82,"ALOUANE Youssef","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI",Fini
+03/11/2025,,34,"IBRAHIMI Ghizlan","Composite - Curetage et obturation coronaire de cavité simple",35,0,0,0,"Dr.Sara BCHI",Fini
+03/11/2025,,68,"BOUA Soukaina","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+03/11/2025,11/11/2025,11,"TEMOUCH Halima","Appareil sur plaque base en matière plastique d'un édentement de quatre dents","14,15,16,26,17",1100,1100,0,"Dr.Sara BCHI",Fini
+03/11/2025,,11,"TEMOUCH Halima","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI",Fini
+03/11/2025,03/11/2025,11,"TEMOUCH Halima","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents","34,35,46",600,600,0,"Dr.Sara BCHI",Fini
+09/12/2025,,86,"TEMOUCH El Mehdi","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+15/12/2025,15/12/2025,86,"TEMOUCH El Mehdi","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents","15,25",1300,1300,0,"Dr.Sara BCHI",Fini
+04/11/2025,19/05/2026,88,"MOUTAOUAKIL Meryeme","CCM Couronnes céramo-métal",14,2600,2600,0,"Dr.Sara BCHI",Fini
+04/11/2025,,90,"Mbrouki Nadia",Consultation,,150,150,0,"Dr.Sara BCHI",Fini
+04/11/2025,,65,"ALAMI Abdeljalil","Appareil sur plaque base en matière plastique d'un édentement de huit dents",,1800,1800,0,"Dr.Sara BCHI","En cours"
+04/11/2025,,83,"EL QABLY Doha","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+05/11/2025,,91,"OMARI Abdelmajid","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+05/11/2025,,92,"SAHAL Aicha","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+11/11/2025,,98,"AMGHAR Abderrahim","Appareil sur plaque base en matière plastique d'un édentement de quatre dents",,800,800,0,"Dr.Sara BCHI","En cours"
+11/11/2025,,99,"AIT OUAZZAM Mohammed","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+12/11/2025,,96,"TADA Hiba","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+12/11/2025,,102,"GARMOUE Aya","Extraction d'une dent lactéale, quelle que soit la technique",,150,150,0,"Dr.Sara BCHI",Fini
+12/11/2025,,100,"MOUJAHID Meryem","Consultation chez un médecin généraliste ou médecin dentiste.",,100,100,0,"Dr.Sara BCHI",Fini
+13/11/2025,,104,"ERROUZI Nouhayla","Traitement endodontique du groupe prémolaires",15,600,600,0,"Dr.Sara BCHI","En cours"
+13/11/2025,18/03/2026,73,"Amine Rhrich mohamed","Traitement endodontique du groupe molaires",46,500,500,0,"Dr.Sara BCHI",Fini
+14/11/2025,,105,"FERGAG Kawtar","CCM Couronnes céramo-métal",35,2000,2000,0,"Dr.Sara BCHI","En cours"
+14/11/2025,,81,"EZ-ZOHRY Rachida","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+28/02/2026,,106,"JOUIDI Walid","Traitement endodontique du groupe inciso-canin",21,400,400,0,"Dr.Sara BCHI",Fini
+17/11/2025,,108,"MHARZI Zineb","Composite - Curetage et obturation coronaire de cavité simple","36,37",500,500,0,"Dr.Sara BCHI",Fini
+17/11/2025,,39,"BTITI Soukaina","Composite - Curetage et obturation coronaire de cavité simple",43,300,300,0,"Dr.Sara BCHI",Fini
+02/06/2026,,106,"JOUIDI Walid","Composite - Curetage et obturation coronaire de cavité simple",21,300,300,0,"Dr.Sara BCHI",Fini
+18/11/2025,,104,"ERROUZI Nouhayla","CCM Couronnes céramo-métal",26,2500,2500,0,"Dr.Sara BCHI","En cours"
+18/11/2025,,107,"Fatima Ahlafi","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",16,700,700,0,"Dr.Sara BCHI","En cours"
+18/11/2025,,107,"Fatima Ahlafi","Extraction d'une dent lactéale, quelle que soit la technique",85,0,0,0,"Dr.Sara BCHI",Fini
+19/11/2025,,95,"Ababou Chada","blanchiment dentaire",,3000,3000,0,"Dr.Sara BCHI",Fini
+19/11/2025,,105,"FERGAG Kawtar","Traitement endodontique du groupe prémolaires",34,400,400,0,"Dr.Sara BCHI","En cours"
+30/06/2025,,109,"BENDAOUD Chaimae","Composite - Curetage et obturation coronaire de cavité simple",17,400,400,0,"Dr.Sara BCHI",Fini
+20/11/2025,,112,"IDRISSI Hemza","Extraction d'une dent permanente",14,150,150,0,"Dr.Sara BCHI",Fini
+21/11/2025,,113,"EL KHOUNGUI Meryeme","Consultation chez un médecin généraliste ou médecin dentiste.",,100,100,0,"Dr.Sara BCHI",Fini
+21/11/2025,,109,"BENDAOUD Chaimae","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+21/11/2025,,51,"Bakkari Yassmine","Composite - Curetage et obturation coronaire de cavité simple","36,37",500,500,0,"Dr.Sara BCHI",Fini
+22/11/2025,,110,"CHMIAL Amal","Traitement endodontique du groupe inciso-canin",41,500,500,0,"Dr.Sara BCHI","En cours"
+24/11/2025,18/07/2026,23,"GUENNOUN Naoual","CCM Couronnes céramo-métal","23,24,25,26,27",12500,12500,0,"Dr.Sara BCHI",Fini
+26/02/2026,,111,"ADMEUR Fouziya","CCM Couronnes céramo-métal","13,14,15,16,17",12500,12500,0,"Dr.Sara BCHI","En cours"
+25/11/2025,30/12/2025,116,"BOULBARSS Nourddin","Traitement endodontique du groupe inciso-canin",,0,0,0,"Dr.Sara BCHI",Fini
+11/12/2025,,116,"BOULBARSS Nourddin","CCM Couronnes céramo-métal","12,11,21,22",10000,10000,0,"Dr.Sara BCHI","En cours"
+25/11/2025,25/11/2025,117,"Tlemcani Najwa","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+25/11/2025,,120,"RAJI Meryem","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+25/11/2025,,121,"FARTOUT Saadia","Traitement endodontique du groupe inciso-canin",12,500,500,0,"Dr.Sara BCHI","En cours"
+26/11/2025,,110,"CHMIAL Amal","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+26/11/2025,,108,"MHARZI Zineb","Composite - Curetage et obturation coronaire de cavité simple","25,26,15",500,500,0,"Dr.Sara BCHI","En attente"
+26/11/2025,,107,"Fatima Ahlafi","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+29/11/2025,,121,"FARTOUT Saadia","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+01/12/2025,,125,"SABER Aymane","Séance de détartrage complet sus et sous-gingival",,150,150,0,"Dr.Sara BCHI",Fini
+01/12/2025,,126,"MIMOUN Abdelwahab","Traitement endodontique du groupe molaires",36,300,300,0,"Dr.Sara BCHI","En cours"
+01/12/2025,,127,"EL MALIH Reda","Traitement endodontique du groupe molaires",26,300,300,0,"Dr.Sara BCHI","En cours"
+01/12/2025,,115,"Naji Chaimaa","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+01/12/2025,,111,"ADMEUR Fouziya","CCM Couronnes céramo-métal",,2500,2500,0,"Dr.Sara BCHI","En cours"
+18/12/2025,29/07/2026,122,"Aatfaoui Loubna","CCM Couronnes céramo-métal","44,45",4000,4000,0,"Dr.Sara BCHI",Fini
+01/12/2025,08/01/2026,125,"SABER Aymane","Traitement endodontique du groupe molaires",16,300,300,0,"Dr.Sara BCHI",Fini
+01/12/2025,,128,"YASSINE Assem","Traitement endodontique du groupe molaires",36,300,300,0,"Dr.Sara BCHI","En cours"
+01/12/2025,,129,"ELHABIB Yahya","Traitement endodontique du groupe molaires",16,300,300,0,"Dr.Sara BCHI","En cours"
+02/12/2025,,126,"MIMOUN Abdelwahab","Composite - Curetage et obturation coronaire de cavité simple",37,200,200,0,"Dr.Sara BCHI","En cours"
+02/12/2025,,127,"EL MALIH Reda","Composite - Curetage et obturation coronaire de cavité simple",12,200,200,0,"Dr.Sara BCHI","En cours"
+02/12/2025,,129,"ELHABIB Yahya","Composite - Curetage et obturation coronaire de cavité simple",17,200,200,0,"Dr.Sara BCHI","En cours"
+03/12/2025,,123,"YASSER Ait","Composite - Curetage et obturation coronaire de cavité simple",14,300,300,0,"Dr.Sara BCHI",Fini
+10/12/2025,10/08/2026,124,"Ouail Mernissi arifi","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+04/12/2025,,116,"BOULBARSS Nourddin","Extraction d'une dent permanente","24,25",0,0,0,"Dr.Sara BCHI",Fini
+04/12/2025,05/12/2025,116,"BOULBARSS Nourddin","Traitement endodontique du groupe inciso-canin","21,22,23",0,0,0,"Dr.Sara BCHI",Fini
+04/12/2025,,132,"BELKHATIR Razane","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+04/12/2025,,131,"ALAMI LYNA CHERIF","Composite - Curetage et obturation coronaire de cavité composée de 2 faces",32,300,300,0,"Dr.Sara BCHI",Fini
+04/12/2025,,120,"RAJI Meryem","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+05/12/2025,,116,"BOULBARSS Nourddin","Traitement endodontique du groupe molaires",26,0,0,0,"Dr.Sara BCHI",Fini
+05/12/2025,,133,"AMGHAR Ziyad","Pulpotomie ou pulpectomie coronaire avec obturation de la chambre pulpaire",55,200,200,0,"Dr.Sara BCHI","En cours"
+06/12/2025,06/12/2025,116,"BOULBARSS Nourddin","Composite - Curetage et obturation coronaire de cavité simple",13,0,0,0,"Dr.Sara BCHI",Fini
+06/12/2025,,136,"MERIEM Touili","Composite - Curetage et obturation coronaire de cavité simple","14,15,16",900,900,0,"Dr.Sara BCHI",Fini
+08/12/2025,,111,"ADMEUR Fouziya","Composite - Curetage et obturation coronaire de cavité simple",11,0,0,0,"Dr.Sara BCHI",Fini
+08/12/2025,08/12/2025,111,"ADMEUR Fouziya","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+08/12/2025,,133,"AMGHAR Ziyad","Composite - Curetage et obturation coronaire de cavité simple",55,0,0,0,"Dr.Sara BCHI",Fini
+08/12/2025,,133,"AMGHAR Ziyad","Extraction d'une dent lactéale, quelle que soit la technique",54,0,0,0,"Dr.Sara BCHI","En attente"
+08/12/2025,,123,"YASSER Ait","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+08/12/2025,30/01/2026,136,"MERIEM Touili","Traitement endodontique du groupe molaires",17,600,600,0,"Dr.Sara BCHI",Fini
+17/01/2026,,89,"TEMOUCH Khadija","CCM Couronnes céramo-métal","43,42,41,31,32,33",15000,15000,0,"Dr.Sara BCHI","En cours"
+09/12/2025,,140,"Touili Sabah","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+09/12/2025,09/12/2025,28,"MRIKA Khalid","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+09/12/2025,,28,"MRIKA Khalid","Traitement endodontique du groupe inciso-canin",12,500,500,0,"Dr.Sara BCHI",Fini
+09/12/2025,,28,"MRIKA Khalid","Traitement endodontique du groupe molaires",17,400,400,0,"Dr.Sara BCHI",Fini
+09/12/2025,,28,"MRIKA Khalid","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/12/2025,,28,"MRIKA Khalid","Composite - Curetage et obturation coronaire de cavité simple","36,46",600,600,0,"Dr.Sara BCHI",Fini
+10/12/2025,30/01/2026,136,"MERIEM Touili","Extraction d'une dent permanente",26,200,0,200,"Dr.Sara BCHI",Fini
+02/12/2025,,136,"MERIEM Touili","Composite - Curetage et obturation coronaire de cavité simple",12,300,0,300,"Dr.Sara BCHI",Fini
+10/12/2025,,142,"Snoussi Sara","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",14,400,400,0,"Dr.Sara BCHI","En cours"
+10/12/2025,11/12/2025,143,"An Mohamadou","Composite - Curetage et obturation coronaire de cavité simple","33,34,31,32,45",1500,1500,0,"Dr.Sara BCHI",Fini
+10/12/2025,10/08/2026,124,"Ouail Mernissi arifi","Traitement endodontique du groupe molaires",16,600,600,0,"Dr.Sara BCHI",Fini
+10/12/2025,27/12/2025,137,"Allouch Meriem","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents","12,22",600,600,0,"Dr.Sara BCHI",Fini
+11/12/2025,,143,"An Mohamadou","Composite - Curetage et obturation coronaire de cavité simple","15,13,12,11,21,22,23,24",2400,2400,0,"Dr.Sara BCHI",Fini
+12/12/2025,12/12/2025,143,"An Mohamadou","Traitement endodontique du groupe prémolaires",14,500,500,0,"Dr.Sara BCHI",Fini
+09/12/2025,,141,"ABOUYAALA Habiba","Extraction d'une dent permanente","34,35",200,200,0,"Dr.Sara BCHI",Fini
+11/12/2025,14/03/2026,28,"MRIKA Khalid","Traitement endodontique du groupe molaires",17,0,0,0,"Dr.Sara BCHI",Fini
+11/12/2025,,145,"MSSASSI Niema","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+29/12/2025,,140,"Touili Sabah","Appareil sur plaque base en matière plastique d'un édentement de huit dents","34,35,36,37,44,45,46,47",1300,1300,0,"Dr.Sara BCHI","En cours"
+29/12/2025,20/01/2026,140,"Touili Sabah","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",22,500,500,0,"Dr.Sara BCHI",Fini
+12/12/2025,,144,"Belmlih Ilham","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+12/12/2025,,138,"Hassani Khadija tahri jouti","Extraction d'une dent lactéale, quelle que soit la technique",,200,200,0,"Dr.Sara BCHI",Fini
+12/12/2025,,141,"ABOUYAALA Habiba","Composite - Curetage et obturation coronaire de cavité simple","33,32",400,400,0,"Dr.Sara BCHI",Fini
+12/12/2025,,146,"EL MAKBOUL Nour El Houda","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+12/12/2025,,81,"EZ-ZOHRY Rachida","Composite - Curetage et obturation coronaire de cavité simple","45,46",0,0,0,"Dr.Sara BCHI",Fini
+12/12/2025,,111,"ADMEUR Fouziya","Appareil sur plaque base en matière plastique d'un édentement de huit dents","44,46,47,34,35,36,37",1800,1800,0,"Dr.Sara BCHI",Fini
+15/12/2025,22/12/2025,141,"ABOUYAALA Habiba","Composite - Curetage et obturation coronaire de cavité simple",41,200,200,0,"Dr.Sara BCHI",Fini
+03/12/2025,,24,"GUENNOUN Safae","CCM Couronnes céramo-métal","12,11,21,22",10000,10000,0,"Dr.Sara BCHI",Fini
+16/12/2025,,148,"BOULKROUCH Fatima","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+17/12/2025,20/12/2025,123,"YASSER Ait","Traitement endodontique du groupe molaires",46,500,500,0,"Dr.Sara BCHI",Fini
+17/12/2025,,124,"Ouail Mernissi arifi","Composite - Curetage et obturation coronaire de cavité simple",16,0,0,0,"Dr.Sara BCHI",Fini
+18/12/2025,,122,"Aatfaoui Loubna","Composite - Curetage et obturation coronaire de cavité simple",43,0,0,0,"Dr.Sara BCHI",Fini
+18/12/2025,,88,"MOUTAOUAKIL Meryeme","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+18/12/2025,,148,"BOULKROUCH Fatima","CCM Couronnes céramo-métal",24,2000,2000,0,"Dr.Sara BCHI","En cours"
+18/12/2025,,146,"EL MAKBOUL Nour El Houda","Composite - Curetage et obturation coronaire de cavité simple",12,300,300,0,"Dr.Sara BCHI",Fini
+16/01/2026,20/01/2026,72,"Aziz Ziani","CCM Couronnes céramo-métal","35,36,37",7500,7500,0,"Dr.Sara BCHI",Fini
+19/12/2025,,72,"Aziz Ziani","Extraction d'une dent permanente",36,0,0,0,"Dr.Sara BCHI",Fini
+19/12/2025,19/12/2025,150,"KHATORI Loubna",Consultation,,0,0,0,"Dr.Sara BCHI",Fini
+19/12/2025,,81,"EZ-ZOHRY Rachida","Appareil sur plaque base en matière plastique d'un édentement de sept dents",,600,600,0,"Dr.Sara BCHI","En cours"
+19/12/2025,,81,"EZ-ZOHRY Rachida","Extraction d'une dent permanente",37,0,0,0,"Dr.Sara BCHI",Fini
+19/12/2025,19/12/2025,140,"Touili Sabah","Extraction d'une dent permanente","44,45",0,0,0,"Dr.Sara BCHI",Fini
+20/12/2025,,16,"LOUBANE Mounia","Composite - Curetage et obturation coronaire de cavité simple","24,25",500,500,0,"Dr.Sara BCHI",Fini
+22/12/2025,,141,"ABOUYAALA Habiba","Appareil sur plaque base en matière plastique d'un édentement de douze dents",,2000,2000,0,"Dr.Sara BCHI","En cours"
+23/12/2025,,153,"Ichcher Aicha","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+23/12/2025,23/12/2025,153,"Ichcher Aicha","Appareil sur plaque base en matière plastique d'un édentement de quatre dents","14,15,26",0,0,0,"Dr.Sara BCHI",Fini
+24/12/2025,,123,"YASSER Ait","Composite - Curetage et obturation coronaire de cavité simple",36,300,200,100,"Dr.Sara BCHI",Fini
+26/12/2025,15/09/2026,149,"Zakari Hatim","Appareil sur plaque base en matière plastique d'un édentement de douze dents",,3500,3500,0,"Dr.Sara BCHI",Fini
+26/12/2025,20/02/2026,149,"Zakari Hatim","Extraction d'une dent permanente","41,42,31,32",0,0,0,"Dr.Sara BCHI",Fini
+26/12/2025,,72,"Aziz Ziani","Traitement endodontique du groupe prémolaires",35,0,0,0,"Dr.Sara BCHI",Fini
+26/12/2025,,88,"MOUTAOUAKIL Meryeme","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+26/12/2025,,153,"Ichcher Aicha","Extraction d'une dent permanente",36,0,0,0,"Dr.Sara BCHI",Fini
+27/12/2025,29/01/2026,150,"KHATORI Loubna","Traitement endodontique du groupe prémolaires",24,0,0,0,"Dr.Sara BCHI",Fini
+27/12/2025,14/02/2026,150,"KHATORI Loubna","CCM Couronnes céramo-métal",24,2500,2500,0,"Dr.Sara BCHI",Fini
+27/12/2025,,155,"KOURIT Younes","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+09/01/2026,,104,"ERROUZI Nouhayla","CCM Couronnes céramo-métal",16,2000,2000,0,"Dr.Sara BCHI","En cours"
+29/12/2025,26/05/2026,88,"MOUTAOUAKIL Meryeme","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI",Fini
+30/12/2025,20/02/2026,149,"Zakari Hatim","Extraction d'une dent permanente","44,45",0,0,0,"Dr.Sara BCHI",Fini
+30/12/2025,,116,"BOULBARSS Nourddin","CCM Couronnes céramo-métal","23,24,25,26",10000,10000,0,"Dr.Sara BCHI",Fini
+31/12/2025,20/01/2026,72,"Aziz Ziani","Traitement endodontique du groupe molaires",37,0,0,0,"Dr.Sara BCHI",Fini
+31/12/2025,,156,"EL BAKKAL Mohammed","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+31/12/2025,,160,"TADILI  FARISS Sabrina","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+24/02/2026,11/09/2026,157,"EL HASSANI Nisrine","CCM Couronnes céramo-métal",46,2500,2500,0,"Dr.Sara BCHI",Fini
+02/01/2026,,156,"EL BAKKAL Mohammed","Composite - Curetage et obturation coronaire de cavité simple",17,300,300,0,"Dr.Sara BCHI",Fini
+02/01/2026,,156,"EL BAKKAL Mohammed","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+29/12/2025,09/01/2026,158,"MANNI Alae","Composite - Curetage et obturation coronaire de cavité simple","13,45",600,600,0,"Dr.Sara BCHI",Fini
+02/01/2025,02/01/2026,158,"MANNI Alae","Extraction d'une dent permanente",24,200,200,0,"Dr.Sara BCHI",Fini
+23/01/2026,,158,"MANNI Alae","Appareil sur plaque base en matière plastique d'un édentement de cinq dents","35,36,37,45,46",1300,1300,0,"Dr.Sara BCHI","En cours"
+23/01/2026,,158,"MANNI Alae","Appareil sur plaque base en matière plastique d'un édentement de quatre dents","14,24,25,26",1300,1300,0,"Dr.Sara BCHI","En cours"
+02/01/2026,,93,"QEROUCH Rachida","Traitement endodontique du groupe molaires",36,400,400,0,"Dr.Sara BCHI",Fini
+02/01/2026,,93,"QEROUCH Rachida","Composite - Curetage et obturation coronaire de cavité simple",36,200,200,0,"Dr.Sara BCHI",Fini
+02/01/2026,,160,"TADILI  FARISS Sabrina","Composite - Curetage et obturation coronaire de cavité simple","37,47",600,600,0,"Dr.Sara BCHI",Fini
+02/01/2026,,153,"Ichcher Aicha","Traitement endodontique du groupe molaires",47,0,0,0,"Dr.Sara BCHI",Fini
+03/01/2026,,149,"Zakari Hatim","Extraction d'une dent permanente",28,0,0,0,"Dr.Sara BCHI",Fini
+06/01/2026,,153,"Ichcher Aicha","Composite - Curetage et obturation coronaire de cavité simple",16,0,0,0,"Dr.Sara BCHI",Fini
+06/01/2026,06/01/2026,88,"MOUTAOUAKIL Meryeme","Composite - Curetage et obturation coronaire de cavité simple",48,300,300,0,"Dr.Sara BCHI",Fini
+06/01/2026,,148,"BOULKROUCH Fatima","CCM Couronnes céramo-métal","11,21,22",6000,6000,0,"Dr.Sara BCHI","En cours"
+06/01/2026,09/03/2026,163,"KADDARI Mohammed","CCM Couronnes céramo-métal","11,12,21,22",10000,10000,0,"Dr.Sara BCHI",Fini
+06/01/2026,20/02/2026,163,"KADDARI Mohammed","Chaque élément du bridge sera compté comme couronne unitaire de même nature","13,14,15,16,17",12500,12500,0,"Dr.Sara BCHI",Fini
+06/01/2026,18/03/2026,163,"KADDARI Mohammed","Appareil sur plaque base en matière plastique d'un édentement de six dents",,2000,2000,0,"Dr.Sara BCHI",Fini
+07/01/2026,,164,"MOUHCINE Abbou","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+10/02/2026,27/02/2026,161,"EL HASSANI Janat","Composite - Curetage et obturation coronaire de cavité simple","14,15",800,800,0,"Dr.Sara BCHI",Fini
+07/01/2026,,163,"KADDARI Mohammed","Traitement endodontique du groupe inciso-canin","22,11,12",0,0,0,"Dr.Sara BCHI",Fini
+07/01/2026,,44,"RHRICH Ibtissam","Composite - Curetage et obturation coronaire de cavité simple","15,16",600,300,300,"Dr.Sara BCHI","En cours"
+09/01/2026,,44,"RHRICH Ibtissam","Extraction d'une dent permanente",17,200,200,0,"Dr.Sara BCHI",Fini
+06/04/2026,17/02/2026,162,"Ramli Latifa","CCM Couronnes céramo-métal",44,2000,2000,0,"Dr.Sara BCHI",Fini
+08/01/2026,,162,"Ramli Latifa","Extraction d'une dent permanente",36,0,0,0,"Dr.Sara BCHI",Fini
+08/01/2026,,148,"BOULKROUCH Fatima","CCM Couronnes céramo-métal",14,2000,2000,0,"Dr.Sara BCHI","En cours"
+08/01/2026,,88,"MOUTAOUAKIL Meryeme","Composite - Curetage et obturation coronaire de cavité simple",38,300,300,0,"Dr.Sara BCHI",Fini
+15/01/2026,,166,"SAKHIR Houssam","CCM Couronnes céramo-métal",45,3000,3000,0,"Dr.Sara BCHI",Fini
+09/01/2026,,163,"KADDARI Mohammed","Traitement endodontique du groupe inciso-canin",13,0,0,0,"Dr.Sara BCHI",Fini
+09/01/2026,,44,"RHRICH Ibtissam","Composite - Curetage et obturation coronaire de cavité simple",24,300,300,0,"Dr.Sara BCHI",Fini
+10/01/2026,,165,"BERRADA Amira","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+10/01/2026,,149,"Zakari Hatim","Extraction d'une dent permanente",35,0,0,0,"Dr.Sara BCHI",Fini
+12/01/2026,20/01/2026,32,"SALAH EDDINE Hasnaa","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI",Fini
+12/01/2026,,163,"KADDARI Mohammed","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",22,0,0,0,"Dr.Sara BCHI",Fini
+12/01/2026,,167,"Sanae Belaabid","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+12/01/2026,,168,"Badr Berrada","Traitement endodontique du groupe molaires",17,600,600,0,"Dr.Sara BCHI","En cours"
+12/01/2026,,153,"Ichcher Aicha","CCM Couronnes céramo-métal","37,47",0,0,0,"Dr.Sara BCHI",Fini
+15/04/2025,,169,"ALLOUCH Fatima Zahra","Composite - Curetage et obturation coronaire de cavité simple","37,26,27",950,950,0,"Dr.Sara BCHI",Fini
+13/01/2026,,149,"Zakari Hatim","Extraction d'une dent permanente",37,0,0,0,"Dr.Sara BCHI",Fini
+14/01/2026,,170,"Hamdi Taha","Extraction d'une dent lactéale, quelle que soit la technique",51,200,200,0,"Dr.Sara BCHI",Fini
+14/01/2026,,163,"KADDARI Mohammed","Traitement endodontique du groupe molaires",17,0,0,0,"Dr.Sara BCHI",Fini
+14/01/2026,,162,"Ramli Latifa","Extraction d'une dent permanente",16,0,0,0,"Dr.Sara BCHI","En cours"
+14/01/2026,16/01/2026,151,"Temouch Yahya","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI",Fini
+15/01/2026,,163,"KADDARI Mohammed","Dépose d’un ancrage radiculaire, coronaire, unitaire ou plural",11,0,0,0,"Dr.Sara BCHI",Fini
+07/12/2024,,32,"SALAH EDDINE Hasnaa","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+11/12/2024,,32,"SALAH EDDINE Hasnaa","Composite - Curetage et obturation coronaire de cavité simple","13,12,21,11",400,400,0,"Dr.Sara BCHI",Fini
+17/06/2025,,32,"SALAH EDDINE Hasnaa","CCM Couronnes céramo-métal",26,2500,2500,0,"Dr.Sara BCHI",Fini
+23/06/2025,,32,"SALAH EDDINE Hasnaa","Composite - Curetage et obturation coronaire de cavité simple",25,300,300,0,"Dr.Sara BCHI",Fini
+16/01/2026,,151,"Temouch Yahya","Composite - Curetage et obturation coronaire de cavité simple",36,0,0,0,"Dr.Sara BCHI",Fini
+16/01/2026,16/02/2026,163,"KADDARI Mohammed","Chaque élément du bridge sera compté comme couronne unitaire de même nature","13,14,15,16,17",0,0,0,"Dr.Sara BCHI",Fini
+07/05/2026,29/04/2026,95,"Ababou Chada","Composite - Curetage et obturation coronaire de cavité simple","15,16",600,600,0,"Dr.Sara BCHI",Fini
+17/01/2026,,10,"ALOUIZ Hassnae","Extraction d'une dent permanente",18,500,500,0,"Dr.Sara BCHI",Fini
+17/01/2026,,67,"BOUABDELAH Rawan","couronne provisoire",46,400,400,0,"Dr.Sara BCHI","En cours"
+19/01/2026,,151,"Temouch Yahya","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+20/01/2026,,10,"ALOUIZ Hassnae","Extraction d'une dent permanente",27,400,400,0,"Dr.Sara BCHI",Fini
+20/01/2026,,72,"Aziz Ziani","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+23/01/2026,,54,"ZAHID Kamal","Traitement endodontique du groupe molaires",46,0,0,0,"Dr.Sara BCHI",Fini
+27/02/2026,,161,"EL HASSANI Janat","Composite - Curetage et obturation coronaire de cavité simple",17,400,400,0,"Dr.Sara BCHI",Fini
+23/01/2026,,172,"EL KHABCH Rayhane","Extraction d'une dent lactéale, quelle que soit la technique","73,83",200,200,0,"Dr.Sara BCHI",Fini
+26/01/2026,,54,"ZAHID Kamal","CCM Couronnes céramo-métal",46,0,0,0,"Dr.Sara BCHI","En cours"
+27/01/2026,17/02/2026,162,"Ramli Latifa","Traitement endodontique du groupe prémolaires",34,450,450,0,"Dr.Sara BCHI",Fini
+28/01/2026,16/02/2026,163,"KADDARI Mohammed","Chaque élément du bridge sera compté comme couronne unitaire de même nature","12,11,21,22",0,0,0,"Dr.Sara BCHI",Fini
+27/01/2026,,173,"ZBIBET Manar","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+29/01/2026,30/01/2026,136,"MERIEM Touili","Traitement endodontique du groupe prémolaires",24,500,100,400,"Dr.Sara BCHI",Fini
+29/01/2026,,175,"ALAMI Fatimazohra","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+29/01/2026,,177,"MOUTAOUAKKIL Rkia","Composite - Curetage et obturation coronaire de cavité simple",44,300,300,0,"Dr.Sara BCHI",Fini
+30/01/2026,,136,"MERIEM Touili","Composite - Curetage et obturation coronaire de cavité simple",37,300,0,300,"Dr.Sara BCHI",Fini
+30/01/2026,,179,"Bouzar Aissam","Traitement endodontique du groupe prémolaires",34,0,0,0,"Dr.Sara BCHI","En cours"
+30/01/2026,,178,"TABZIOUI Naima","Extraction d'une dent permanente",44,200,200,0,"Dr.Sara BCHI",Fini
+02/02/2026,,158,"MANNI Alae","Composite - Curetage et obturation coronaire de cavité simple",12,300,300,0,"Dr.Sara BCHI",Fini
+02/02/2026,,182,"EL ALGUI Abdenbi","Traitement endodontique du groupe molaires",46,400,400,0,"Dr.Sara BCHI","En cours"
+02/02/2026,,177,"MOUTAOUAKKIL Rkia","Extraction d'une dent permanente","26,27",0,0,0,"Dr.Sara BCHI",Fini
+02/02/2026,09/02/2026,177,"MOUTAOUAKKIL Rkia","Composite - Curetage et obturation coronaire de cavité simple","12,22",600,600,0,"Dr.Sara BCHI",Fini
+02/02/2026,09/02/2026,177,"MOUTAOUAKKIL Rkia","Traitement endodontique du groupe inciso-canin",23,500,500,0,"Dr.Sara BCHI",Fini
+02/02/2026,,177,"MOUTAOUAKKIL Rkia","Appareil sur plaque base en matière plastique d'un édentement de huit dents",,900,900,0,"Dr.Sara BCHI","En cours"
+03/02/2026,,175,"ALAMI Fatimazohra","Extraction d'une dent permanente",24,0,0,0,"Dr.Sara BCHI",Fini
+03/02/2026,24/06/2026,180,"LEBIED Fatiha","reprise de traitement canalaire",21,0,0,0,"Dr.Sara BCHI",Fini
+03/02/2026,,181,"El moukafih Mourad","Traitement endodontique du groupe inciso-canin","11,12,13",0,0,0,"Dr.Sara BCHI",Fini
+04/02/2026,04/02/2026,183,"EL OUARTI Amal","Extraction d'une dent permanente",,200,200,0,"Dr.Sara BCHI",Fini
+04/02/2026,13/02/2026,177,"MOUTAOUAKKIL Rkia","Traitement endodontique du groupe inciso-canin",23,0,0,0,"Dr.Sara BCHI",Fini
+04/02/2026,,181,"El moukafih Mourad","Traitement endodontique du groupe inciso-canin",23,0,0,0,"Dr.Sara BCHI",Fini
+04/02/2026,11/02/2026,184,"EL MIMOUNI Mohammed","Traitement endodontique du groupe inciso-canin",22,500,500,0,"Dr.Sara BCHI",Fini
+04/02/2026,,172,"EL KHABCH Rayhane","Extraction d'une dent lactéale, quelle que soit la technique",54,150,150,0,"Dr.Sara BCHI",Fini
+05/02/2026,,183,"EL OUARTI Amal","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+05/02/2026,13/02/2026,181,"El moukafih Mourad","Traitement endodontique du groupe prémolaires",25,0,0,0,"Dr.Sara BCHI",Fini
+09/02/2026,,177,"MOUTAOUAKKIL Rkia","Composite - Curetage et obturation coronaire de cavité simple","12,22",0,0,0,"Dr.Sara BCHI",Fini
+09/02/2026,,181,"El moukafih Mourad","Traitement endodontique du groupe molaires",16,0,0,0,"Dr.Sara BCHI",Fini
+09/02/2026,,175,"ALAMI Fatimazohra","Extraction d'une dent permanente",25,0,0,0,"Dr.Sara BCHI",Fini
+10/02/2026,,189,"MOUSTAID Meryem","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+10/02/2026,,185,"ESSIOUR Hassan","Appareil sur plaque base en matière plastique d'un édentement de douze dents",,3500,3500,0,"Dr.Sara BCHI","En cours"
+10/02/2026,,182,"EL ALGUI Abdenbi","Composite - Curetage et obturation coronaire de cavité simple",46,200,200,0,"Dr.Sara BCHI",Fini
+10/03/2026,07/04/2026,186,"Zamrani Hind","Composite - Curetage et obturation coronaire de cavité simple",12,500,500,0,"Dr.Sara BCHI",Fini
+03/03/2026,07/04/2026,186,"Zamrani Hind","Composite - Curetage et obturation coronaire de cavité simple",22,350,350,0,"Dr.Sara BCHI",Fini
+11/02/2026,,192,"SAHSAH Zhour","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+11/02/2026,,193,"ESSEKSIKI Hayat","Composite - Curetage et obturation coronaire de cavité simple",36,350,350,0,"Dr.Sara BCHI",Fini
+11/02/2026,,194,"KAROUMI Khalid","Composite - Curetage et obturation coronaire de cavité simple",24,300,150,150,"Dr.Sara BCHI",Fini
+03/03/2026,12/05/2026,106,"JOUIDI Walid","Traitement endodontique du groupe molaires",26,500,500,0,"Dr.Sara BCHI",Fini
+11/02/2026,,163,"KADDARI Mohammed","Traitement endodontique du groupe inciso-canin",41,0,0,0,"Dr.Sara BCHI",Fini
+12/02/2026,,184,"EL MIMOUNI Mohammed","Composite - Curetage et obturation coronaire de cavité simple","11,12",600,600,0,"Dr.Sara BCHI","En cours"
+12/02/2026,,163,"KADDARI Mohammed","Traitement endodontique du groupe inciso-canin","31,32",0,0,0,"Dr.Sara BCHI",Fini
+13/02/2026,,190,"ESSEKSIKI Imane","Séance de détartrage complet sus et sous-gingival",,500,500,0,"Dr.Sara BCHI",Fini
+13/02/2026,23/02/2026,192,"SAHSAH Zhour","Appareil sur plaque base en matière plastique d'un édentement de quatre dents","14,35,37,45",0,0,0,"Dr.Sara BCHI",Fini
+13/02/2026,,181,"El moukafih Mourad","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",25,0,0,0,"Dr.Sara BCHI",Fini
+13/02/2026,26/02/2026,181,"El moukafih Mourad","CCM Couronnes céramo-métal","16,15,14,13,12,11,21,22,23,24,25,26",0,0,0,"Dr.Sara BCHI",Fini
+13/02/2026,16/02/2026,177,"MOUTAOUAKKIL Rkia","Extraction d'une dent permanente",48,400,400,0,"Dr.Sara BCHI",Fini
+13/02/2026,,194,"KAROUMI Khalid","Composite - Curetage et obturation coronaire de cavité simple",38,300,0,300,"Dr.Sara BCHI","En cours"
+14/02/2026,17/02/2026,175,"ALAMI Fatimazohra","Traitement endodontique du groupe molaires",26,0,0,0,"Dr.Sara BCHI",Fini
+05/03/2026,02/06/2026,106,"JOUIDI Walid","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",26,600,600,0,"Dr.Sara BCHI",Fini
+14/02/2026,08/06/2026,150,"KHATORI Loubna","Traitement endodontique du groupe prémolaires",14,500,500,0,"Dr.Sara BCHI",Fini
+14/02/2026,08/06/2026,150,"KHATORI Loubna","Composite - Curetage et obturation coronaire de cavité simple",15,500,300,200,"Dr.Sara BCHI","En cours"
+14/02/2026,,176,"Fathi Badr","Composite - Curetage et obturation coronaire de cavité simple",14,350,350,0,"Dr.Sara BCHI",Fini
+16/02/2026,,195,"AHMED BOULOUIZAT","Extraction d'une dent permanente","13,11,21,22",0,0,0,"Dr.Sara BCHI",Fini
+30/03/2026,,195,"AHMED BOULOUIZAT","Prothèse adjointe totale du maxillaire supérieur",,1800,1800,0,"Dr.Sara BCHI","En attente"
+16/02/2026,,196,"MOULKELLAH BOUCHRA","Extraction d'une dent permanente",46,200,200,0,"Dr.Sara BCHI",Fini
+16/02/2026,,177,"MOUTAOUAKKIL Rkia","Appareil sur plaque base en matière plastique d'un édentement de huit dents",,0,0,0,"Dr.Sara BCHI","En cours"
+21/02/2026,07/03/2026,180,"LEBIED Fatiha","CCM Couronnes céramo-métal",45,2500,2500,0,"Dr.Sara BCHI",Fini
+16/02/2026,,163,"KADDARI Mohammed","Extraction d'une dent permanente",42,0,0,0,"Dr.Sara BCHI",Fini
+17/02/2026,,198,"EL MOUKAFIH Azeddine","Composite - Curetage et obturation coronaire de cavité simple",11,300,300,0,"Dr.Sara BCHI",Fini
+17/02/2026,,198,"EL MOUKAFIH Azeddine","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+17/02/2026,,162,"Ramli Latifa","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+17/02/2026,,42,"BOUTARBOUCHE Safae","Séance de détartrage complet sus et sous-gingival",,200,200,0,"Dr.Sara BCHI",Fini
+17/02/2026,,200,"HAMMANI Salma","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+18/02/2026,,189,"MOUSTAID Meryem","Composite - Curetage et obturation coronaire de cavité simple","75,84",600,600,0,"Dr.Sara BCHI",Fini
+18/02/2026,,189,"MOUSTAID Meryem","Pulpotomie ou pulpectomie coronaire avec obturation de la chambre pulpaire",85,400,400,0,"Dr.Sara BCHI",Fini
+18/02/2026,,195,"AHMED BOULOUIZAT","Extraction d'une dent permanente",23,0,0,0,"Dr.Sara BCHI",Fini
+18/02/2026,,196,"MOULKELLAH BOUCHRA","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+18/02/2026,,202,"ZAHER Yassine","Traitement endodontique du groupe prémolaires",25,400,400,0,"Dr.Sara BCHI",Fini
+03/03/2026,12/05/2026,106,"JOUIDI Walid","Composite - Curetage et obturation coronaire de cavité simple",16,400,400,0,"Dr.Sara BCHI",Fini
+18/02/2026,,204,"ABDALI Mohamed","CCM Couronnes céramo-métal",21,3000,3000,0,"Dr.Sara BCHI","En cours"
+18/02/2026,,163,"KADDARI Mohammed","Extraction d'une dent permanente",34,0,0,0,"Dr.Sara BCHI",Fini
+18/02/2026,29/04/2026,163,"KADDARI Mohammed","CCM Couronnes céramo-métal","31,32,33,41",10000,10000,0,"Dr.Sara BCHI",Fini
+18/02/2026,,201,"SKALLI HOUSSAINI Lamiae","Composite - Curetage et obturation coronaire de cavité simple",37,400,400,0,"Dr.Sara BCHI",Fini
+19/02/2026,,202,"ZAHER Yassine","Composite - Curetage et obturation coronaire de cavité simple","14,15",700,700,0,"Dr.Sara BCHI",Fini
+19/02/2026,,202,"ZAHER Yassine","Composite - Curetage et obturation coronaire de cavité simple",25,200,200,0,"Dr.Sara BCHI",Fini
+27/02/2026,,207,"SLIGHOUA Souhail","CCM Couronnes céramo-métal",26,2500,2500,0,"Dr.Sara BCHI","En cours"
+19/02/2026,19/02/2026,207,"SLIGHOUA Souhail","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+24/02/2026,27/02/2026,207,"SLIGHOUA Souhail","Composite - Curetage et obturation coronaire de cavité composée de 3 faces et plus","24,25",800,800,0,"Dr.Sara BCHI",Fini
+19/02/2026,,205,"Diani Salma","CCM Couronnes céramo-métal",25,3000,3000,0,"Dr.Sara BCHI","En cours"
+20/02/2026,,162,"Ramli Latifa","Composite - Curetage et obturation coronaire de cavité simple","13,14",600,600,0,"Dr.Sara BCHI",Fini
+20/02/2026,,163,"KADDARI Mohammed","Traitement endodontique du groupe inciso-canin",33,0,0,0,"Dr.Sara BCHI",Fini
+03/02/2026,24/06/2026,180,"LEBIED Fatiha","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",,3500,3500,0,"Dr.Sara BCHI",Fini
+23/04/2026,24/03/2026,180,"LEBIED Fatiha","CCM Couronnes céramo-métal","13,14,15",7500,7500,0,"Dr.Sara BCHI",Fini
+23/02/2026,,192,"SAHSAH Zhour","Composite - Curetage et obturation coronaire de cavité simple",38,0,0,0,"Dr.Sara BCHI",Fini
+24/02/2026,,151,"Temouch Yahya","Traitement endodontique du groupe prémolaires","34,35",1000,1000,0,"Dr.Sara BCHI","En cours"
+24/02/2026,,33,"BOUSTAR Nabila","Composite - Curetage et obturation coronaire de cavité simple",34,300,300,0,"Dr.Sara BCHI",Fini
+26/02/2026,01/06/2026,27,"AMARI Fatima-zahra","CCM Couronnes céramo-métal","14,15,16,17",9000,9000,0,"Dr.Sara BCHI",Fini
+27/02/2026,,210,"BTITI Ali","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+27/02/2026,,211,"AMMOUR Abdellatif","Consultation chez un médecin généraliste ou médecin dentiste.",,200,200,0,"Dr.Sara BCHI",Fini
+02/03/2026,02/03/2026,192,"SAHSAH Zhour",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+02/03/2026,17/03/2026,210,"BTITI Ali","Traitement endodontique du groupe prémolaires",14,0,0,0,"Dr.Sara BCHI",Fini
+04/05/2026,27/03/2026,210,"BTITI Ali","CCM Couronnes céramo-métal","14,15,16,17",10000,10000,0,"Dr.Sara BCHI",Fini
+02/03/2026,,115,"Naji Chaimaa","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI",Fini
+02/04/2026,01/04/2026,33,"BOUSTAR Nabila","CCM Couronnes céramo-métal","12,11,21,22",10000,10000,0,"Dr.Sara BCHI",Fini
+02/03/2026,,33,"BOUSTAR Nabila","Traitement endodontique du groupe inciso-canin","12,22",0,0,0,"Dr.Sara BCHI",Fini
+03/03/2026,,180,"LEBIED Fatiha","Traitement endodontique du groupe inciso-canin",13,0,0,0,"Dr.Sara BCHI",Fini
+03/03/2026,17/03/2026,210,"BTITI Ali","Traitement endodontique du groupe molaires",17,0,0,0,"Dr.Sara BCHI",Fini
+03/03/2026,,212,"ABABOU Aya","Composite - Curetage et obturation coronaire de cavité simple",25,300,300,0,"Dr.Sara BCHI",Fini
+03/03/2026,03/03/2026,213,"ESSIOUR Walid","Séance de détartrage complet sus et sous-gingival",,500,500,0,"Dr.Sara BCHI","En cours"
+04/03/2026,,175,"ALAMI Fatimazohra","Traitement endodontique du groupe inciso-canin",23,0,0,0,"Dr.Sara BCHI",Fini
+04/03/2026,27/03/2026,175,"ALAMI Fatimazohra","CCM Couronnes céramo-métal","23,24,25,26",10000,10000,0,"Dr.Sara BCHI",Fini
+04/03/2026,04/03/2026,181,"El moukafih Mourad",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+05/03/2026,,53,"DIALLO Ibrahima","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+07/03/2026,24/06/2026,214,"Mohamed Charkaoui","reprise de traitement canalaire",37,200,200,0,"Dr.Sara BCHI",Fini
+06/03/2026,,180,"LEBIED Fatiha","Traitement endodontique du groupe prémolaires",15,0,0,0,"Dr.Sara BCHI",Fini
+03/02/2026,,180,"LEBIED Fatiha","Extraction d'une dent permanente",47,0,0,0,"Dr.Sara BCHI",Fini
+07/03/2026,,217,"EL GARTI Mohamed","Extraction d'une dent permanente",17,200,200,0,"Dr.Sara BCHI",Fini
+07/03/2026,25/04/2026,106,"JOUIDI Walid","Traitement endodontique du groupe molaires",46,600,600,0,"Dr.Sara BCHI",Fini
+07/03/2026,,216,"MANNI Mouad","Composite - Curetage et obturation coronaire de cavité simple",16,0,0,0,"Dr.Sara BCHI",Fini
+09/03/2026,,37,"JOUICHI Amira","Composite - Curetage et obturation coronaire de cavité simple",64,200,200,0,"Dr.Sara BCHI",Fini
+10/03/2026,,220,"AFKIR Said","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+01/06/2026,01/06/2026,27,"AMARI Fatima-zahra","CCM Couronnes céramo-métal","44,45",3000,3000,0,"Dr.Sara BCHI",Fini
+12/03/2026,,221,"BEN DAHMAN Ayoub","Consultation chez un médecin généraliste ou médecin dentiste.",,100,100,0,"Dr.Sara BCHI",Fini
+12/03/2026,,152,"ROUGUI Soufiane","Traitement endodontique du groupe molaires",37,400,400,0,"Dr.Sara BCHI","En cours"
+13/03/2026,,222,"RHRICH Yahya","Traitement endodontique du groupe molaires",16,500,500,0,"Dr.Sara BCHI","En cours"
+14/03/2026,01/06/2026,27,"AMARI Fatima-zahra","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",26,400,400,0,"Dr.Sara BCHI",Fini
+16/03/2026,,152,"ROUGUI Soufiane","Composite - Curetage et obturation coronaire de cavité simple",37,200,200,0,"Dr.Sara BCHI","En cours"
+16/03/2026,,223,"BOUALAM Halima","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+16/03/2026,,97,"DAKKOUNE Ikram","Traitement endodontique du groupe prémolaires",25,500,500,0,"Dr.Sara BCHI",Fini
+16/03/2026,11/04/2026,97,"DAKKOUNE Ikram","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents","24,25",1000,1000,0,"Dr.Sara BCHI",Fini
+17/03/2026,17/03/2026,220,"AFKIR Said",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+18/03/2026,18/03/2026,163,"KADDARI Mohammed",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+18/03/2026,,177,"MOUTAOUAKKIL Rkia",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+19/03/2026,27/03/2026,33,"BOUSTAR Nabila","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+23/03/2026,,35,"BOULOUIZAT Jamila","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+23/03/2026,29/06/2026,196,"MOULKELLAH BOUCHRA","CCM Couronnes céramo-métal",14,2000,2000,0,"Dr.Sara BCHI",Fini
+25/03/2026,,225,"Aatfaoui Zineb","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+25/03/2026,,226,"RHANNAMI Yasmine","Consultation chez un médecin généraliste ou médecin dentiste.",,150,0,150,"Dr.Sara BCHI",Fini
+26/03/2026,03/04/2026,229,"MEZOURI Oussama","Traitement endodontique du groupe molaires",17,600,600,0,"Dr.Sara BCHI",Fini
+27/03/2026,,228,"FENINE Said","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+27/03/2026,,136,"MERIEM Touili","Extraction d'une dent permanente",25,200,0,200,"Dr.Sara BCHI",Fini
+28/03/2026,28/03/2026,146,"EL MAKBOUL Nour El Houda","Consultation chez un médecin généraliste ou médecin dentiste.",,200,200,0,"Dr.Sara BCHI",Fini
+04/04/2026,25/04/2026,106,"JOUIDI Walid","Traitement endodontique du groupe prémolaires",45,500,500,0,"Dr.Sara BCHI",Fini
+30/03/2026,,228,"FENINE Said","Traitement endodontique du groupe prémolaires","45,44",0,0,0,"Dr.Sara BCHI",Fini
+06/04/2026,17/04/2026,228,"FENINE Said","CCM Couronnes céramo-métal","44,45",5000,5000,0,"Dr.Sara BCHI",Fini
+30/03/2026,,210,"BTITI Ali","Appareil sur plaque base en matière plastique d'un édentement de quatre dents",,1800,1800,0,"Dr.Sara BCHI","En cours"
+09/04/2026,,88,"MOUTAOUAKIL Meryeme","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+31/03/2026,,230,"Tafought Zineb","Traitement endodontique du groupe molaires",27,500,500,0,"Dr.Sara BCHI","En cours"
+01/04/2026,,136,"MERIEM Touili","Traitement endodontique du groupe molaires",27,600,0,600,"Dr.Sara BCHI","En cours"
+02/04/2026,,62,"BOULAHYA Lamiae","Traitement endodontique du groupe prémolaires",44,500,500,0,"Dr.Sara BCHI","En cours"
+02/04/2026,,62,"BOULAHYA Lamiae","Composite - Curetage et obturation coronaire de cavité simple",45,300,300,0,"Dr.Sara BCHI","En cours"
+02/04/2026,21/10/2026,33,"BOUSTAR Nabila","Appareil sur plaque base en matière plastique d'un édentement de huit dents","13,14,15,16,24,25,26,27",1800,1800,0,"Dr.Sara BCHI",Fini
+02/04/2026,,190,"ESSEKSIKI Imane",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+02/04/2026,02/04/2026,145,"MSSASSI Niema",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+03/04/2026,,234,"BOUNAR Fatima","Extraction d'une dent permanente",25,300,300,0,"Dr.Sara BCHI",Fini
+03/04/2026,,237,"CHAIOURA Zoubida","Extraction d'une dent permanente",15,200,200,0,"Dr.Sara BCHI","En cours"
+03/04/2026,,238,"BEN CHEIKH Fadwa","Traitement endodontique du groupe molaires",47,500,500,0,"Dr.Sara BCHI",Fini
+03/04/2026,,196,"MOULKELLAH BOUCHRA","Extraction d'une dent permanente",47,200,200,0,"Dr.Sara BCHI","En attente"
+03/04/2026,29/06/2026,196,"MOULKELLAH BOUCHRA","Composite - Curetage et obturation coronaire de cavité simple","11,21",800,800,0,"Dr.Sara BCHI",Fini
+04/04/2026,04/04/2026,225,"Aatfaoui Zineb",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+04/04/2026,,239,"MEKKAOUI Fatiha",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+18/04/2026,25/04/2026,106,"JOUIDI Walid","Traitement endodontique du groupe prémolaires",44,500,500,0,"Dr.Sara BCHI",Fini
+04/04/2026,,43,"BENDAHMAN Siham","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",14,300,300,0,"Dr.Sara BCHI","En cours"
+04/04/2026,,136,"MERIEM Touili","Composite - Curetage et obturation coronaire de cavité simple",47,300,0,300,"Dr.Sara BCHI",Fini
+04/04/2026,,233,"AMEUR Maha","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+04/04/2026,04/04/2026,241,"TABTI Latifa","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+06/04/2026,,229,"MEZOURI Oussama","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+06/04/2026,,244,"CHAHIN Kordo","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI","En cours"
+06/04/2026,,162,"Ramli Latifa","Composite - Curetage et obturation coronaire de cavité simple",17,300,300,0,"Dr.Sara BCHI",Fini
+06/04/2026,22/04/2026,181,"El moukafih Mourad","Traitement endodontique du groupe inciso-canin","41,42",0,0,0,"Dr.Sara BCHI",Fini
+07/04/2026,,242,"Regragui Ghita","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+09/04/2026,01/06/2026,242,"Regragui Ghita","Composite - Curetage et obturation coronaire de cavité simple","14,15",600,600,0,"Dr.Sara BCHI",Fini
+11/04/2026,01/06/2026,242,"Regragui Ghita","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+07/04/2026,06/05/2026,181,"El moukafih Mourad","CCM Couronnes céramo-métal","34,33,32,31,41,42,43,44",0,0,0,"Dr.Sara BCHI","En cours"
+07/04/2026,22/04/2026,181,"El moukafih Mourad","Traitement endodontique du groupe inciso-canin",43,0,0,0,"Dr.Sara BCHI",Fini
+07/04/2026,21/09/2026,20,"FATHI Meryem","CCM Couronnes céramo-métal",25,3000,3000,0,"Dr.Sara BCHI",Fini
+08/04/2026,,236,"Chaouni Dr.yasmine","Composite - Curetage et obturation coronaire de cavité simple",17,0,0,0,"Dr.Sara BCHI",Fini
+08/04/2026,,181,"El moukafih Mourad","Traitement endodontique du groupe prémolaires",44,0,0,0,"Dr.Sara BCHI",Fini
+08/04/2026,,162,"Ramli Latifa","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+09/04/2026,,32,"SALAH EDDINE Hasnaa","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+13/05/2026,13/05/2026,146,"EL MAKBOUL Nour El Houda","CCM Couronnes céramo-métal",22,2000,2000,0,"Dr.Sara BCHI",Fini
+09/04/2026,,245,"JHILAL Hiba","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/04/2026,,88,"MOUTAOUAKIL Meryeme",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+09/04/2026,,243,"EL MADANI Fatima-zahra","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+09/04/2026,,190,"ESSEKSIKI Imane","Composite - Curetage et obturation coronaire de cavité simple",16,400,400,0,"Dr.Sara BCHI",Fini
+09/04/2026,,235,"AKHENOUCH Amina","Extraction d'une dent permanente",24,200,200,0,"Dr.Sara BCHI",Fini
+09/04/2026,,181,"El moukafih Mourad","Traitement endodontique du groupe prémolaires",34,0,0,0,"Dr.Sara BCHI",Fini
+10/04/2026,,229,"MEZOURI Oussama","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI",Fini
+10/04/2026,,234,"BOUNAR Fatima","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+11/04/2026,27/06/2026,225,"Aatfaoui Zineb","Traitement endodontique du groupe molaires",36,500,500,0,"Dr.Sara BCHI",Fini
+11/04/2026,04/05/2026,162,"Ramli Latifa","CCM Couronnes céramo-métal",25,2000,2000,0,"Dr.Sara BCHI",Fini
+21/04/2026,15/04/2026,247,"BOUHAKI Khadija","PAT SUP ET INF",,2000,2000,0,"Dr.Sara BCHI",Fini
+13/04/2026,,145,"MSSASSI Niema","Composite - Curetage et obturation coronaire de cavité simple",17,0,0,0,"Dr.Sara BCHI",Fini
+13/04/2026,,145,"MSSASSI Niema","orthodontie par autoligaturants",,10000,7000,3000,"Dr.Sara BCHI","En cours"
+13/04/2026,,238,"BEN CHEIKH Fadwa","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+21/05/2026,25/04/2026,106,"JOUIDI Walid","Traitement endodontique du groupe prémolaires",25,500,500,0,"Dr.Sara BCHI",Fini
+15/04/2026,,243,"EL MADANI Fatima-zahra","Séance de détartrage complet sus et sous-gingival",,340,340,0,"Dr.Sara BCHI",Fini
+16/04/2026,,180,"LEBIED Fatiha","Composite - Curetage et obturation coronaire de cavité simple","22,11",0,0,0,"Dr.Sara BCHI",Fini
+16/04/2026,28/04/2026,249,"AMEZIANE Fatma","Appareil sur plaque base en matière plastique d'un édentement de douze dents",,1200,1200,0,"Dr.Sara BCHI",Fini
+16/04/2026,,234,"BOUNAR Fatima","Composite - Curetage et obturation coronaire de cavité simple","24,26",600,600,0,"Dr.Sara BCHI",Fini
+16/04/2026,,190,"ESSEKSIKI Imane","Composite - Curetage et obturation coronaire de cavité simple",36,400,400,0,"Dr.Sara BCHI",Fini
+16/04/2026,,235,"AKHENOUCH Amina","Composite - Curetage et obturation coronaire de cavité simple",25,300,300,0,"Dr.Sara BCHI",Fini
+17/04/2026,,98,"AMGHAR Abderrahim","Extraction de chacune des suivantes au cours de la même séance","14,16",300,300,0,"Dr.Sara BCHI",Fini
+17/04/2026,,233,"AMEUR Maha","Composite - Curetage et obturation coronaire de cavité simple",23,350,350,0,"Dr.Sara BCHI",Fini
+17/04/2026,,162,"Ramli Latifa","Composite - Curetage et obturation coronaire de cavité simple",24,300,300,0,"Dr.Sara BCHI",Fini
+18/04/2026,,250,"Abdelkader Tifrit","Extraction d'une dent permanente",47,400,400,0,"Dr.Sara BCHI",Fini
+18/04/2026,,254,"BRAHIMI Ritaj","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI","En cours"
+21/05/2026,25/04/2026,106,"JOUIDI Walid","Traitement endodontique du groupe prémolaires",24,500,500,0,"Dr.Sara BCHI",Fini
+18/04/2026,,243,"EL MADANI Fatima-zahra","Composite - Curetage et obturation coronaire de cavité simple",47,350,350,0,"Dr.Sara BCHI",Fini
+12/09/2026,,59,"Zakari Salma","Traitement endodontique du groupe molaires",46,300,300,0,"Dr.Sara BCHI",Fini
+20/04/2026,,248,"OUAZZANI Rkia","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",34,400,400,0,"Dr.Sara BCHI",Fini
+20/04/2026,,237,"CHAIOURA Zoubida","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",15,400,400,0,"Dr.Sara BCHI","En cours"
+20/04/2026,,206,"FATHI Mohammed","Extraction d'une dent permanente","12,11,22",300,300,0,"Dr.Sara BCHI",Fini
+21/04/2026,,258,"WUR Liep Gador","Traitement endodontique du groupe prémolaires",24,400,400,0,"Dr.Sara BCHI","En cours"
+21/04/2026,,252,"Ammari Khadija","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+25/04/2026,,106,"JOUIDI Walid","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+21/04/2026,,231,"ENNADIFI Imane","CCM Couronnes céramo-métal",15,2400,2400,0,"Dr.Sara BCHI",Fini
+21/04/2026,,234,"BOUNAR Fatima","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+21/04/2026,,98,"AMGHAR Abderrahim","CCM Couronnes céramo-métal","25,34",4000,3200,800,"Dr.Sara BCHI","En cours"
+21/04/2026,,255,"Nada El faydy","Séance de détartrage complet sus et sous-gingival",,350,350,0,"Dr.Sara BCHI",Fini
+30/04/2026,30/04/2026,235,"AKHENOUCH Amina","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents","24,26",700,700,0,"Dr.Sara BCHI",Fini
+21/04/2026,,181,"El moukafih Mourad","Traitement endodontique du groupe inciso-canin",33,0,0,0,"Dr.Sara BCHI",Fini
+21/04/2026,,181,"El moukafih Mourad","Traitement endodontique du groupe inciso-canin",31,0,0,0,"Dr.Sara BCHI",Fini
+22/04/2026,,228,"FENINE Said","Composite - Curetage et obturation coronaire de cavité simple",46,400,400,0,"Dr.Sara BCHI",Fini
+22/04/2026,,228,"FENINE Said","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI",Fini
+22/04/2026,,259,"BENKIRANE Rachida","Consultation chez un médecin généraliste ou médecin dentiste.",,200,200,0,"Dr.Sara BCHI","En attente"
+23/04/2026,,206,"FATHI Mohammed","Extraction d'une dent permanente","36,37",200,200,0,"Dr.Sara BCHI",Fini
+23/04/2026,,261,"HADRI Aya","Traitement endodontique du groupe molaires",16,600,600,0,"Dr.Sara BCHI","En cours"
+23/04/2026,23/04/2026,148,"BOULKROUCH Fatima",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+23/04/2026,,180,"LEBIED Fatiha",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+23/04/2026,,97,"DAKKOUNE Ikram",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+24/04/2026,,262,"BOULAJOUL Nada","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+24/04/2026,,206,"FATHI Mohammed","Extraction d'une dent permanente","34,42,32",300,300,0,"Dr.Sara BCHI",Fini
+24/04/2026,,250,"Abdelkader Tifrit",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+25/04/2026,,225,"Aatfaoui Zineb","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",36,200,200,0,"Dr.Sara BCHI",Fini
+25/04/2026,,206,"FATHI Mohammed","Extraction d'une dent permanente",21,100,100,0,"Dr.Sara BCHI",Fini
+25/04/2026,,106,"JOUIDI Walid","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI",Fini
+29/04/2026,14/05/2026,243,"EL MADANI Fatima-zahra","Traitement endodontique du groupe prémolaires",25,500,500,0,"Dr.Sara BCHI",Fini
+28/03/2026,12/05/2026,106,"JOUIDI Walid","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",46,600,600,0,"Dr.Sara BCHI",Fini
+14/04/2026,16/05/2026,106,"JOUIDI Walid","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",45,600,600,0,"Dr.Sara BCHI",Fini
+18/04/2026,16/05/2026,106,"JOUIDI Walid","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",44,600,600,0,"Dr.Sara BCHI",Fini
+05/06/2026,16/05/2026,106,"JOUIDI Walid","Composite - Curetage et obturation coronaire de cavité simple","24,25",600,600,0,"Dr.Sara BCHI",Fini
+04/05/2026,,26,"BTITI Mohammed","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",16,700,700,0,"Dr.Sara BCHI","En cours"
+27/04/2026,,265,"CHTAIBA Mariam","Traitement endodontique du groupe molaires",46,600,600,0,"Dr.Sara BCHI","En cours"
+28/04/2026,,106,"JOUIDI Walid","Composite - Curetage et obturation coronaire de cavité simple",17,0,0,0,"Dr.Sara BCHI",Fini
+28/04/2026,,33,"BOUSTAR Nabila",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+28/04/2026,,162,"Ramli Latifa","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI",Fini
+28/04/2026,,235,"AKHENOUCH Amina","Composite - Curetage et obturation coronaire de cavité simple",23,300,300,0,"Dr.Sara BCHI",Fini
+01/05/2026,,267,"BAJJI Jamal","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents",36,600,600,0,"Dr.Sara BCHI","En cours"
+28/04/2026,,253,"Bchi Najib","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents","26,37,46,47",0,0,0,"Dr.Sara BCHI",Fini
+29/04/2026,,206,"FATHI Mohammed","Traitement endodontique du groupe prémolaires",15,0,0,0,"Dr.Sara BCHI",Fini
+29/04/2026,,266,"MELLOUKA Safae","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+29/04/2026,,268,"LAAMIM Rajae","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+12/05/2026,,95,"Ababou Chada","Composite - Curetage et obturation coronaire de cavité simple",22,300,300,0,"Dr.Sara BCHI",Fini
+25/04/2026,,243,"EL MADANI Fatima-zahra","Traitement endodontique du groupe prémolaires",24,500,500,0,"Dr.Sara BCHI",Fini
+30/04/2026,,206,"FATHI Mohammed","Traitement endodontique du groupe inciso-canin",23,0,0,0,"Dr.Sara BCHI",Fini
+30/04/2026,14/05/2026,235,"AKHENOUCH Amina","Extraction d'une dent permanente",48,400,400,0,"Dr.Sara BCHI",Fini
+01/05/2026,10/07/2026,269,"Kharbouch Khadija","Appareil sur plaque base en matière plastique d'un édentement d'une à trois dents","25,36",1200,1200,0,"Dr.Sara BCHI",Fini
+02/05/2026,,221,"BEN DAHMAN Ayoub","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+02/05/2026,,270,"Hajar Boulouizat","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+04/05/2026,11/05/2026,206,"FATHI Mohammed","Traitement endodontique du groupe inciso-canin",13,0,0,0,"Dr.Sara BCHI",Fini
+04/05/2026,,26,"BTITI Mohammed","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+04/05/2026,,181,"El moukafih Mourad","Extraction d'une dent permanente",32,0,0,0,"Dr.Sara BCHI",Fini
+04/05/2026,22/09/2026,271,"EL QABLY Abdellali","Traitement endodontique du groupe inciso-canin",23,300,300,0,"Dr.Sara BCHI",Fini
+04/05/2026,,274,"MOUBACHIR Yassine","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+04/05/2026,,276,"EL FALAKI Ranim","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+05/05/2026,,267,"BAJJI Jamal","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+05/05/2026,10/07/2026,269,"Kharbouch Khadija","Composite - Curetage et obturation coronaire de cavité simple",17,300,300,0,"Dr.Sara BCHI",Fini
+05/05/2026,05/05/2026,206,"FATHI Mohammed","Traitement endodontique du groupe prémolaires",24,0,0,0,"Dr.Sara BCHI",Fini
+05/05/2026,05/05/2026,274,"MOUBACHIR Yassine","Composite - Curetage et obturation coronaire de cavité simple","47,48",600,600,0,"Dr.Sara BCHI",Fini
+06/05/2026,,277,"HACHAME Kenza","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+05/05/2026,,278,"Qandoussi Omar","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+06/05/2026,,279,"Qandoussi Kamal","Composite - Curetage et obturation coronaire de cavité simple",85,200,200,0,"Dr.Sara BCHI",Fini
+16/05/2026,16/05/2026,279,"Qandoussi Kamal","Composite - Curetage et obturation coronaire de cavité simple",75,200,200,0,"Dr.Sara BCHI",Fini
+06/05/2026,,271,"EL QABLY Abdellali","Composite - Curetage et obturation coronaire de cavité simple",23,200,200,0,"Dr.Sara BCHI",Fini
+07/05/2026,,206,"FATHI Mohammed","Traitement endodontique du groupe prémolaires",25,0,0,0,"Dr.Sara BCHI",Fini
+04/05/2026,,276,"EL FALAKI Ranim","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI","En attente"
+11/05/2026,,206,"FATHI Mohammed","Composite - Curetage et obturation coronaire de cavité simple",27,0,0,0,"Dr.Sara BCHI",Fini
+30/05/2026,01/06/2026,206,"FATHI Mohammed","CCM Couronnes céramo-métal","13,14,15",4000,4000,0,"Dr.Sara BCHI",Fini
+12/05/2026,,281,"ABARKI Samira","CCM Couronnes céramo-métal",14,2500,2500,0,"Dr.Sara BCHI","En cours"
+12/05/2026,,255,"Nada El faydy","Contention après traitement orthodontique : Pemière année","13,12,11,21,22,23",1200,1200,0,"Dr.Sara BCHI",Fini
+13/05/2026,,223,"BOUALAM Halima","Composite - Curetage et obturation coronaire de cavité simple",45,300,300,0,"Dr.Sara BCHI",Fini
+13/05/2026,12/06/2026,266,"MELLOUKA Safae","Extraction d'une dent permanente","46,47,45",600,600,0,"Dr.Sara BCHI",Fini
+13/05/2026,,285,"Fabrice Biolay","Consultation chez un médecin généraliste ou médecin dentiste.",,300,300,0,"Dr.Sara BCHI",Fini
+13/05/2026,,277,"HACHAME Kenza","Extraction d'une dent permanente",26,200,200,0,"Dr.Sara BCHI",Fini
+13/05/2026,,274,"MOUBACHIR Yassine","Composite - Curetage et obturation coronaire de cavité simple","17,18",600,600,0,"Dr.Sara BCHI",Fini
+14/05/2026,,280,"MAHIR Doaa","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+14/05/2026,,286,"BENBIGA Sara","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+14/05/2026,,243,"EL MADANI Fatima-zahra","Composite - Curetage et obturation coronaire de cavité simple","26,27",700,700,0,"Dr.Sara BCHI",Fini
+14/05/2026,25/05/2026,282,"MABECHOUR ILHAM","Traitement endodontique du groupe prémolaires",14,500,500,0,"Dr.Sara BCHI",Fini
+14/05/2026,25/05/2026,282,"MABECHOUR ILHAM","Composite - Curetage et obturation coronaire de cavité simple",15,300,300,0,"Dr.Sara BCHI",Fini
+16/05/2026,,289,"GUENNACH Mohamed","Traitement endodontique du groupe prémolaires",15,500,500,0,"Dr.Sara BCHI","En cours"
+16/05/2026,,264,"ZAHTI Karim","Composite - Curetage et obturation coronaire de cavité simple",36,350,350,0,"Dr.Sara BCHI",Fini
+19/05/2026,,106,"JOUIDI Walid","Composite - Curetage et obturation coronaire de cavité simple",34,300,300,0,"Dr.Sara BCHI",Fini
+19/05/2026,25/05/2026,95,"Ababou Chada","couronne provisoire",25,700,700,0,"Dr.Sara BCHI",Fini
+19/05/2026,,274,"MOUBACHIR Yassine","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+20/05/2026,,286,"BENBIGA Sara","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+21/05/2026,,283,"EL MAKBOUL Doha","blanchiment dentaire",,2500,2500,0,"Dr.Sara BCHI",Fini
+21/05/2026,,295,"TAGHREUT Abdaziz","Extraction d'une dent permanente",31,200,200,0,"Dr.Sara BCHI",Fini
+25/05/2026,25/05/2026,84,"Hnini Taha","Composite - Curetage et obturation coronaire de cavité simple","74,75",400,400,0,"Dr.Sara BCHI",Fini
+25/05/2026,,277,"HACHAME Kenza","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+25/05/2026,,293,"CHOUKRI Fatima","Consultation chez un médecin généraliste ou médecin dentiste.",,100,100,0,"Dr.Sara BCHI",Fini
+25/05/2026,,286,"BENBIGA Sara",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+25/05/2026,,255,"Nada El faydy",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+11/09/2026,,297,"Tadili Fariss Reda","CCM Couronnes céramo-métal",16,2600,2600,0,"Dr.Sara BCHI",Fini
+25/05/2026,29/05/2026,282,"MABECHOUR ILHAM","Traitement endodontique du groupe prémolaires",24,500,500,0,"Dr.Sara BCHI",Fini
+25/05/2026,09/06/2026,282,"MABECHOUR ILHAM","Composite - Curetage et obturation coronaire de cavité simple",25,300,300,0,"Dr.Sara BCHI",Fini
+25/05/2026,,122,"Aatfaoui Loubna","Composite - Curetage et obturation coronaire de cavité simple",12,300,300,0,"Dr.Sara BCHI",Fini
+26/05/2026,,298,"DAYAE Najib","Traitement endodontique du groupe molaires",16,300,300,0,"Dr.Sara BCHI","En cours"
+26/05/2026,,106,"JOUIDI Walid","Composite - Curetage et obturation coronaire de cavité simple","27,15",0,0,0,"Dr.Sara BCHI",Fini
+29/05/2026,,299,"Rotoba Lamyae","Composite - Curetage et obturation coronaire de cavité simple",21,400,400,0,"Dr.Sara BCHI",Fini
+29/05/2026,,300,"ELBAGHDADI Abderrahmane","CCM Couronnes céramo-métal",22,2700,2700,0,"Dr.Sara BCHI","En cours"
+30/05/2026,,225,"Aatfaoui Zineb","Extraction d'une dent permanente",46,200,200,0,"Dr.Sara BCHI",Fini
+30/05/2026,,300,"ELBAGHDADI Abderrahmane","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+01/06/2026,,299,"Rotoba Lamyae","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+16/06/2026,13/06/2026,27,"AMARI Fatima-zahra","CCM Couronnes céramo-métal",46,2000,2000,0,"Dr.Sara BCHI",Fini
+01/06/2026,08/06/2026,293,"CHOUKRI Fatima","Traitement endodontique du groupe prémolaires",14,500,500,0,"Dr.Sara BCHI",Fini
+01/06/2026,22/06/2026,288,"EL HASSANI Latefa","PAT SUP ET INF",,4000,4000,0,"Dr.Sara BCHI",Fini
+01/06/2026,,206,"FATHI Mohammed","CCM Couronnes céramo-métal","23,24,25",6000,6000,0,"Dr.Sara BCHI",Fini
+01/06/2026,,301,"ANABI Riad","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+01/06/2026,,299,"Rotoba Lamyae","Composite - Curetage et obturation coronaire de cavité simple",26,350,350,0,"Dr.Sara BCHI",Fini
+02/06/2026,08/06/2026,293,"CHOUKRI Fatima","Composite - Curetage et obturation coronaire de cavité simple",15,300,300,0,"Dr.Sara BCHI",Fini
+02/06/2026,23/06/2026,293,"CHOUKRI Fatima","CCM Couronnes céramo-métal",16,2500,2500,0,"Dr.Sara BCHI",Fini
+02/06/2026,,277,"HACHAME Kenza","Composite - Curetage et obturation coronaire de cavité simple","37,38",600,600,0,"Dr.Sara BCHI",Fini
+02/06/2026,,303,"CHAHIN Sara","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+02/06/2026,02/06/2026,302,"HANAFI Sabah","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+02/06/2026,16/06/2026,106,"JOUIDI Walid","couronne provisoire","24,25,26,44,45,46",0,0,0,"Dr.Sara BCHI",Fini
+03/06/2026,,302,"HANAFI Sabah","Extraction d'une dent permanente",48,500,500,0,"Dr.Sara BCHI",Fini
+03/06/2026,,303,"CHAHIN Sara","orthodontie par autoligaturants",,12000,3000,9000,"Dr.Sara BCHI","En cours"
+14/07/2026,13/07/2026,250,"Abdelkader Tifrit","CCM Couronnes céramo-métal","44,45",4600,4600,0,"Dr.Sara BCHI",Fini
+03/06/2026,18/07/2026,263,"AZFA Latifa","CCM Couronnes céramo-métal","21,22",4600,4600,0,"Dr.Sara BCHI",Fini
+03/06/2026,,262,"BOULAJOUL Nada","Composite - Curetage et obturation coronaire de cavité simple",46,300,300,0,"Dr.Sara BCHI",Fini
+04/06/2026,,277,"HACHAME Kenza","Composite - Curetage et obturation coronaire de cavité simple",28,300,300,0,"Dr.Sara BCHI",Fini
+04/06/2026,,305,"KOZMANE Siham","CCM Couronnes céramo-métal",25,1800,1800,0,"Dr.Sara BCHI","En cours"
+04/06/2026,,144,"Belmlih Ilham","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+08/06/2026,,243,"EL MADANI Fatima-zahra","Composite - Curetage et obturation coronaire de cavité simple",48,350,350,0,"Dr.Sara BCHI",Fini
+08/06/2026,,306,"Bouzaggour Mohamed","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+08/06/2026,20/07/2026,257,"JOUIDI Simohemmed","Traitement endodontique du groupe molaires",26,600,600,0,"Dr.Sara BCHI",Fini
+08/06/2026,,308,"RHERS Samia","Consultation chez un médecin généraliste ou médecin dentiste.",,200,200,0,"Dr.Sara BCHI",Fini
+09/06/2026,,307,"ZERIOUH Samira","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/06/2026,,308,"RHERS Samia","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/06/2026,09/06/2026,282,"MABECHOUR ILHAM","Traitement endodontique du groupe molaires",26,300,300,0,"Dr.Sara BCHI",Fini
+11/06/2026,25/06/2026,282,"MABECHOUR ILHAM","Composite - Curetage et obturation coronaire de cavité simple",26,200,200,0,"Dr.Sara BCHI",Fini
+10/06/2026,,277,"HACHAME Kenza","Composite - Curetage et obturation coronaire de cavité simple",48,300,300,0,"Dr.Sara BCHI",Fini
+10/06/2026,,262,"BOULAJOUL Nada","orthodontie par autoligaturants",,13000,3000,10000,"Dr.Sara BCHI","En cours"
+11/06/2026,25/06/2026,282,"MABECHOUR ILHAM","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+11/06/2026,,302,"HANAFI Sabah",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+11/06/2026,16/06/2026,206,"FATHI Mohammed","Prothèse adjointe totale du maxillaire inférieur",,2000,2000,0,"Dr.Sara BCHI",Fini
+11/06/2026,16/06/2026,206,"FATHI Mohammed","Prothèse adjointe partielle du maxillaire","16,17,12,11,21,22,26",2000,2000,0,"Dr.Sara BCHI",Fini
+12/06/2026,,266,"MELLOUKA Safae","Composite - Curetage et obturation coronaire de cavité simple","14,15",600,600,0,"Dr.Sara BCHI",Fini
+13/06/2026,,243,"EL MADANI Fatima-zahra","Composite - Curetage et obturation coronaire de cavité simple",38,340,340,0,"Dr.Sara BCHI",Fini
+13/06/2026,,233,"AMEUR Maha","Composite - Curetage et obturation coronaire de cavité simple",22,350,350,0,"Dr.Sara BCHI",Fini
+13/06/2026,,313,"ELKHADIR Anouar","Composite - Curetage et obturation coronaire de cavité simple",37,400,400,0,"Dr.Sara BCHI",Fini
+15/06/2026,,176,"Fathi Badr","Composite - Curetage et obturation coronaire de cavité simple",36,350,350,0,"Dr.Sara BCHI",Fini
+15/06/2026,04/07/2026,299,"Rotoba Lamyae","CCM Couronnes céramo-métal","11,21",6000,6000,0,"Dr.Sara BCHI",Fini
+15/06/2026,,277,"HACHAME Kenza","Composite - Curetage et obturation coronaire de cavité simple",17,300,300,0,"Dr.Sara BCHI",Fini
+15/06/2026,,299,"Rotoba Lamyae","Traitement endodontique du groupe inciso-canin",21,0,0,0,"Dr.Sara BCHI",Fini
+16/06/2026,19/09/2026,299,"Rotoba Lamyae","Traitement endodontique du groupe inciso-canin",11,0,0,0,"Dr.Sara BCHI",Fini
+16/06/2026,27/07/2026,243,"EL MADANI Fatima-zahra","CCM Couronnes céramo-métal",16,2700,2700,0,"Dr.Sara BCHI",Fini
+18/06/2026,,315,"HACHCHAME Hafssa","Composite - Curetage et obturation coronaire de cavité simple","36,37",600,600,0,"Dr.Sara BCHI",Fini
+18/06/2026,,316,"HACHCHAME Abdelali","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+23/06/2026,,320,"Mazin Abdelrahman Hassan Ibrahim","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+23/06/2026,01/08/2026,106,"JOUIDI Walid",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+23/06/2026,,293,"CHOUKRI Fatima","Composite - Curetage et obturation coronaire de cavité simple",17,300,300,0,"Dr.Sara BCHI",Fini
+23/06/2026,,87,"Azhari Rachida","Extraction d'une dent permanente","11,21",0,0,0,"Dr.Sara BCHI",Fini
+24/06/2026,,223,"BOUALAM Halima","Composite - Curetage et obturation coronaire de cavité simple","46,47",600,600,0,"Dr.Sara BCHI",Fini
+24/06/2026,03/07/2026,214,"Mohamed Charkaoui","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+25/06/2026,,317,"EL ATLATI Houyam","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+25/06/2026,27/06/2026,321,"MOUTAOUAKIL Yassmine","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+25/06/2026,06/07/2026,313,"ELKHADIR Anouar","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI",Fini
+25/06/2026,,322,"EL-BAHRAOUI Abdeladim","Consultation chez un médecin généraliste ou médecin dentiste.",,200,200,0,"Dr.Sara BCHI",Fini
+25/06/2026,,275,"GUENNOUNI Meryem","Séance de détartrage complet sus et sous-gingival",,200,200,0,"Dr.Sara BCHI",Fini
+26/06/2026,,315,"HACHCHAME Hafssa","Composite - Curetage et obturation coronaire de cavité simple","46,47",600,400,200,"Dr.Sara BCHI",Fini
+26/06/2026,,87,"Azhari Rachida","Extraction d'une dent permanente","31,32,41,42",0,0,0,"Dr.Sara BCHI",Fini
+27/06/2026,,323,"ALAOUI Meryem","Composite - Curetage et obturation coronaire de cavité simple",24,350,350,0,"Dr.Sara BCHI",Fini
+29/06/2026,,293,"CHOUKRI Fatima","Composite - Curetage et obturation coronaire de cavité simple","23,24",600,600,0,"Dr.Sara BCHI",Fini
+29/06/2026,,35,"BOULOUIZAT Jamila","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+29/06/2026,,315,"HACHCHAME Hafssa","Composite - Curetage et obturation coronaire de cavité simple",27,300,0,300,"Dr.Sara BCHI",Fini
+30/06/2026,09/07/2026,325,"JAWHARA El Hmidi","Traitement endodontique du groupe molaires",46,600,600,0,"Dr.Sara BCHI",Fini
+30/06/2026,,323,"ALAOUI Meryem","Composite - Curetage et obturation coronaire de cavité simple",23,300,300,0,"Dr.Sara BCHI",Fini
+30/06/2026,,319,"SAHID Touria","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+30/06/2026,01/07/2026,319,"SAHID Touria","blanchiment dentaire",,2500,2500,0,"Dr.Sara BCHI",Fini
+30/06/2026,31/07/2026,320,"Mazin Abdelrahman Hassan Ibrahim","Traitement endodontique du groupe molaires",46,450,450,0,"Dr.Sara BCHI",Fini
+30/06/2026,,87,"Azhari Rachida","Extraction d'une dent permanente","16,24",0,0,0,"Dr.Sara BCHI",Fini
+08/09/2026,04/08/2026,87,"Azhari Rachida","PAT SUP ET INF",,1800,1800,0,"Dr.Sara BCHI",Fini
+30/06/2026,,250,"Abdelkader Tifrit","Traitement endodontique du groupe prémolaires","44,45",0,0,0,"Dr.Sara BCHI",Fini
+30/06/2026,,328,"ZIANNI Aicha","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+01/07/2026,,323,"ALAOUI Meryem","Composite - Curetage et obturation coronaire de cavité simple","21,22",600,600,0,"Dr.Sara BCHI",Fini
+01/07/2026,,327,"NMIRA Saliha","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+02/07/2026,,330,"SABER Noura","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+02/07/2026,09/07/2026,325,"JAWHARA El Hmidi","CCM Couronnes céramo-métal",46,2400,2400,0,"Dr.Sara BCHI",Fini
+07/10/2026,06/08/2026,293,"CHOUKRI Fatima","CCM Couronnes céramo-métal",25,2500,2500,0,"Dr.Sara BCHI",Fini
+02/07/2026,05/11/2026,332,"KAIDI Siham","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+02/07/2026,,331,"BENZERAH Rayane","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+03/07/2026,,323,"ALAOUI Meryem","Composite - Curetage et obturation coronaire de cavité simple","11,12,13",900,900,0,"Dr.Sara BCHI",Fini
+03/07/2026,,329,"Nmira Imane","Composite - Curetage et obturation coronaire de cavité simple",36,350,350,0,"Dr.Sara BCHI",Fini
+03/07/2026,,327,"NMIRA Saliha","Composite - Curetage et obturation coronaire de cavité simple",36,0,0,0,"Dr.Sara BCHI",Fini
+03/07/2026,,327,"NMIRA Saliha","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+03/07/2026,,334,"ELMTIOUI Rokaya","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+04/07/2026,,272,"Belkadi Iyad","Composite - Curetage et obturation coronaire de cavité simple",46,250,250,0,"Dr.Sara BCHI",Fini
+07/10/2026,06/08/2026,293,"CHOUKRI Fatima","CCM Couronnes céramo-métal",26,2500,2500,0,"Dr.Sara BCHI",Fini
+04/08/2026,04/08/2026,228,"FENINE Said","CCM Couronnes céramo-métal","25,26,27",7000,7000,0,"Dr.Sara BCHI",Fini
+06/07/2026,11/09/2026,87,"Azhari Rachida","Extraction d'une dent permanente","34,37",0,0,0,"Dr.Sara BCHI",Fini
+07/07/2026,11/07/2026,336,"BOULOUIZAT Louay","CCM Couronnes céramo-métal",36,2000,2000,0,"Dr.Sara BCHI",Fini
+07/07/2026,,327,"NMIRA Saliha","Composite - Curetage et obturation coronaire de cavité simple","46,47",300,300,0,"Dr.Sara BCHI",Fini
+07/07/2026,,329,"Nmira Imane","Composite - Curetage et obturation coronaire de cavité simple","16,26",700,700,0,"Dr.Sara BCHI",Fini
+07/07/2026,,333,"LMOUM Jamal","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/07/2026,,325,"JAWHARA El Hmidi","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/07/2026,,87,"Azhari Rachida","Extraction d'une dent permanente",43,0,0,0,"Dr.Sara BCHI",Fini
+09/07/2026,,331,"BENZERAH Rayane","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/07/2026,,337,"BENZERAH Mouad","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+09/07/2026,,338,"EL QUABLY Ibrahim","Composite - Curetage et obturation coronaire de cavité simple",46,300,300,0,"Dr.Sara BCHI",Fini
+10/07/2026,,40,"FATHI Imane","Composite - Curetage et obturation coronaire de cavité simple","24,25",400,400,0,"Dr.Sara BCHI",Fini
+10/07/2026,,269,"Kharbouch Khadija","Composite - Curetage et obturation coronaire de cavité simple",36,200,200,0,"Dr.Sara BCHI",Fini
+10/07/2026,,269,"Kharbouch Khadija","Composite - Curetage et obturation coronaire de cavité simple",46,300,300,0,"Dr.Sara BCHI",Fini
+11/07/2026,,272,"Belkadi Iyad","Composite - Curetage et obturation coronaire de cavité simple",36,250,250,0,"Dr.Sara BCHI",Fini
+11/07/2026,27/07/2026,320,"Mazin Abdelrahman Hassan Ibrahim","Traitement endodontique du groupe molaires",36,450,450,0,"Dr.Sara BCHI",Fini
+13/07/2026,,339,"CHARBAK Fatimazohra","Extraction d'une dent permanente",28,400,400,0,"Dr.Sara BCHI",Fini
+13/07/2026,,340,"DAGHOURI Mourad","Consultation chez un médecin généraliste ou médecin dentiste.",,200,200,0,"Dr.Sara BCHI",Fini
+13/07/2026,,342,"ALAOUI Omar","Traitement endodontique du groupe molaires",37,500,500,0,"Dr.Sara BCHI","En cours"
+14/07/2026,,344,"TOUILI Hafid","Traitement endodontique du groupe inciso-canin",12,0,0,0,"Dr.Sara BCHI",Fini
+14/07/2026,03/08/2026,335,"Ichcher Zhor","Traitement endodontique du groupe inciso-canin","41,42",0,0,0,"Dr.Sara BCHI",Fini
+14/07/2026,22/07/2026,343,"ES SAMRY Abderrahmane","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI",Fini
+14/07/2026,,243,"EL MADANI Fatima-zahra","Composite - Curetage et obturation coronaire de cavité simple",17,0,0,0,"Dr.Sara BCHI",Fini
+15/07/2026,17/07/2026,330,"SABER Noura","Traitement endodontique du groupe prémolaires",14,500,500,0,"Dr.Sara BCHI",Fini
+15/07/2026,,346,"JEDDIDI Fakhita","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+15/07/2026,,40,"FATHI Imane","Contention après traitement orthodontique : Pemière année",,700,700,0,"Dr.Sara BCHI",Fini
+15/07/2026,,275,"GUENNOUNI Meryem",Contrôle,,200,200,0,"Dr.Sara BCHI",Fini
+16/07/2026,,346,"JEDDIDI Fakhita","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+16/07/2026,03/08/2026,335,"Ichcher Zhor","Traitement endodontique du groupe inciso-canin",23,0,0,0,"Dr.Sara BCHI",Fini
+16/07/2026,,335,"Ichcher Zhor","Extraction d'une dent permanente",22,0,0,0,"Dr.Sara BCHI",Fini
+17/07/2026,,330,"SABER Noura","Composite - Curetage et obturation coronaire de cavité simple",15,300,300,0,"Dr.Sara BCHI",Fini
+17/07/2026,,199,"LAMRABTI Amine","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+17/07/2026,,269,"Kharbouch Khadija","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+18/07/2026,,246,"ALIGOD Salwa",Consultation,,0,0,0,"Dr.Sara BCHI",Fini
+20/07/2026,,330,"SABER Noura","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+21/07/2026,,351,"Bchi Valérie","CCM Couronnes céramo-métal","42,43,44",0,0,0,"Dr.Sara BCHI","En cours"
+21/07/2026,,314,"HARCHAOUI Mehdi","orthodontie par autoligaturants",,13000,2600,10400,"Dr.Sara BCHI","En cours"
+21/07/2026,,330,"SABER Noura","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+17/09/2026,17/09/2026,246,"ALIGOD Salwa","CCM Couronnes céramo-métal","36,46",5400,5400,0,"Dr.Sara BCHI",Fini
+21/07/2026,10/08/2026,246,"ALIGOD Salwa","Traitement endodontique du groupe molaires",36,0,0,0,"Dr.Sara BCHI",Fini
+03/08/2026,,353,"SISSEN Zakia","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+22/07/2026,,257,"JOUIDI Simohemmed","Composite - Curetage et obturation coronaire de cavité simple",21,400,200,200,"Dr.Sara BCHI",Fini
+27/07/2026,31/07/2026,348,"RAMI Zineb","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI",Fini
+27/07/2026,,253,"Bchi Najib","CCM Couronnes céramo-métal","25,26,27",0,0,0,"Dr.Sara BCHI",Fini
+27/07/2026,,253,"Bchi Najib","Traitement endodontique du groupe prémolaires",25,0,0,0,"Dr.Sara BCHI",Fini
+27/07/2026,,355,"TNIFESSE Mohammed","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+27/07/2026,,330,"SABER Noura","Composite - Curetage et obturation coronaire de cavité simple",35,300,300,0,"Dr.Sara BCHI",Fini
+27/07/2026,,356,"ABID Meryem","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+14/08/2026,15/08/2026,243,"EL MADANI Fatima-zahra","CCM Couronnes céramo-métal","35,36,37",8100,8100,0,"Dr.Sara BCHI",Fini
+28/07/2026,,253,"Bchi Najib","Traitement endodontique du groupe molaires",27,0,0,0,"Dr.Sara BCHI",Fini
+28/07/2026,31/07/2026,348,"RAMI Zineb","CCM Couronnes céramo-métal",36,2000,2000,0,"Dr.Sara BCHI",Fini
+04/08/2026,,353,"SISSEN Zakia","Composite - Curetage et obturation coronaire de cavité simple",16,300,300,0,"Dr.Sara BCHI",Fini
+29/07/2026,31/07/2026,122,"Aatfaoui Loubna","Traitement endodontique du groupe prémolaires",34,500,500,0,"Dr.Sara BCHI",Fini
+29/07/2026,,278,"Qandoussi Omar","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+29/07/2026,,278,"Qandoussi Omar","orthodontie par autoligaturants",,12000,3000,9000,"Dr.Sara BCHI","En cours"
+29/07/2026,,344,"TOUILI Hafid","Composite - Curetage et obturation coronaire de cavité simple",22,0,0,0,"Dr.Sara BCHI",Fini
+29/07/2026,03/08/2026,335,"Ichcher Zhor","Traitement endodontique du groupe prémolaires",24,0,0,0,"Dr.Sara BCHI",Fini
+29/07/2026,03/08/2026,335,"Ichcher Zhor","Traitement endodontique du groupe inciso-canin",21,0,0,0,"Dr.Sara BCHI",Fini
+29/07/2026,03/08/2026,335,"Ichcher Zhor","Traitement endodontique du groupe inciso-canin",13,0,0,0,"Dr.Sara BCHI",Fini
+29/07/2026,,215,"Yasmine Manni","Extraction d'une dent lactéale, quelle que soit la technique",54,200,200,0,"Dr.Sara BCHI",Fini
+31/07/2026,,122,"Aatfaoui Loubna","Composite - Curetage et obturation coronaire de cavité simple",35,300,300,0,"Dr.Sara BCHI",Fini
+01/08/2026,,272,"Belkadi Iyad","Composite - Curetage et obturation coronaire de cavité simple",85,200,200,0,"Dr.Sara BCHI",Fini
+01/08/2026,,243,"EL MADANI Fatima-zahra","Traitement endodontique du groupe prémolaires",35,0,0,0,"Dr.Sara BCHI",Fini
+03/08/2026,,335,"Ichcher Zhor","Traitement endodontique du groupe inciso-canin","33,31",0,0,0,"Dr.Sara BCHI",Fini
+03/08/2026,03/08/2026,335,"Ichcher Zhor","Extraction d'une dent permanente",43,0,0,0,"Dr.Sara BCHI",Fini
+03/08/2026,05/08/2026,335,"Ichcher Zhor","Traitement endodontique du groupe inciso-canin","32,44",0,0,0,"Dr.Sara BCHI",Fini
+03/08/2026,,365,"FAIZA Jamali","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+04/08/2026,12/08/2026,362,"ELGUERZYFY Fatimazohra","CCM Couronnes céramo-métal","13,12,11,21,22,23",15000,15000,0,"Dr.Sara BCHI",Fini
+04/08/2026,,272,"Belkadi Iyad","Composite - Curetage et obturation coronaire de cavité simple",75,200,200,0,"Dr.Sara BCHI",Fini
+04/08/2026,,122,"Aatfaoui Loubna","Composite - Curetage et obturation coronaire de cavité simple",46,300,300,0,"Dr.Sara BCHI",Fini
+04/08/2026,,330,"SABER Noura","Composite - Curetage et obturation coronaire de cavité simple",48,300,300,0,"Dr.Sara BCHI",Fini
+04/08/2026,,330,"SABER Noura","Extraction d'une dent permanente",16,200,200,0,"Dr.Sara BCHI",Fini
+04/08/2026,14/08/2026,359,"ELOUAFI Mounia","CCM Couronnes céramo-métal","16,15",4000,4000,0,"Dr.Sara BCHI",Fini
+04/08/2026,11/08/2026,359,"ELOUAFI Mounia","Traitement endodontique du groupe molaires",16,0,0,0,"Dr.Sara BCHI",Fini
+04/08/2026,06/08/2026,366,"RANIA Rahmouni","Traitement endodontique du groupe prémolaires",35,500,500,0,"Dr.Sara BCHI",Fini
+05/08/2026,06/08/2026,198,"EL MOUKAFIH Azeddine","Traitement endodontique du groupe molaires",16,400,400,0,"Dr.Sara BCHI",Fini
+05/08/2026,,243,"EL MADANI Fatima-zahra","Traitement endodontique du groupe molaires",37,0,0,0,"Dr.Sara BCHI",Fini
+06/08/2026,11/08/2026,362,"ELGUERZYFY Fatimazohra","Traitement endodontique du groupe prémolaires",35,500,500,0,"Dr.Sara BCHI",Fini
+06/08/2026,,344,"TOUILI Hafid","Composite - Curetage et obturation coronaire de cavité simple",25,0,0,0,"Dr.Sara BCHI",Fini
+06/08/2026,11/08/2026,356,"ABID Meryem","Traitement endodontique du groupe molaires",16,600,600,0,"Dr.Sara BCHI",Fini
+07/08/2026,,353,"SISSEN Zakia","Composite - Curetage et obturation coronaire de cavité simple",45,300,300,0,"Dr.Sara BCHI",Fini
+08/08/2026,12/09/2026,225,"Aatfaoui Zineb","Traitement endodontique du groupe molaires",26,0,0,0,"Dr.Sara BCHI",Fini
+10/08/2026,,353,"SISSEN Zakia","Composite - Curetage et obturation coronaire de cavité simple",15,300,300,0,"Dr.Sara BCHI",Fini
+10/08/2026,,353,"SISSEN Zakia","Composite - Curetage et obturation coronaire de cavité simple",14,0,0,0,"Dr.Sara BCHI",Fini
+10/08/2026,,124,"Ouail Mernissi arifi","Traitement endodontique du groupe molaires",26,600,600,0,"Dr.Sara BCHI",Fini
+11/08/2026,,122,"Aatfaoui Loubna","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+11/08/2026,,370,"CHAAIBI Malika","CCM Couronnes céramo-métal",13,2500,2500,0,"Dr.Sara BCHI","En cours"
+11/08/2026,,370,"CHAAIBI Malika","CCM Couronnes céramo-métal",12,2500,2500,0,"Dr.Sara BCHI","En cours"
+11/08/2026,,370,"CHAAIBI Malika","CCM Couronnes céramo-métal",23,1500,1500,0,"Dr.Sara BCHI","En cours"
+11/08/2026,,362,"ELGUERZYFY Fatimazohra","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+11/08/2026,,368,"TOURIA Alami","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+12/08/2026,13/08/2026,362,"ELGUERZYFY Fatimazohra","Traitement endodontique du groupe molaires",36,600,600,0,"Dr.Sara BCHI",Fini
+12/08/2026,,373,"LABLALI Kawtar","Traitement endodontique du groupe molaires",36,450,200,250,"Dr.Sara BCHI","En cours"
+12/08/2026,,124,"Ouail Mernissi arifi","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+12/08/2026,,371,"HAMMAD Rahma","Consultation chez un médecin généraliste ou médecin dentiste.",,100,100,0,"Dr.Sara BCHI",Fini
+12/08/2026,15/08/2026,118,"Aissaoui Karima","CCM Couronnes céramo-métal",36,2600,2600,0,"Dr.Sara BCHI",Fini
+13/08/2026,,253,"Bchi Najib","Composite - Curetage et obturation coronaire de cavité simple","23,24",0,0,0,"Dr.Sara BCHI",Fini
+13/08/2026,,371,"HAMMAD Rahma","Extraction d'une dent permanente","11,12,22",200,200,0,"Dr.Sara BCHI",Fini
+13/08/2026,,362,"ELGUERZYFY Fatimazohra","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+13/08/2026,,272,"Belkadi Iyad","Extraction d'une dent lactéale, quelle que soit la technique",54,150,150,0,"Dr.Sara BCHI",Fini
+14/08/2026,,373,"LABLALI Kawtar","Traitement endodontique du groupe molaires",27,450,150,300,"Dr.Sara BCHI","En cours"
+14/08/2026,,124,"Ouail Mernissi arifi","Composite - Curetage et obturation coronaire de cavité simple",11,300,300,0,"Dr.Sara BCHI",Fini
+15/08/2026,,131,"ALAMI LYNA CHERIF","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+17/08/2026,,335,"Ichcher Zhor","CCM Couronnes céramo-métal","13,11,21,23,24",12500,0,12500,"Dr.Sara BCHI",Fini
+17/08/2026,,335,"Ichcher Zhor","CCM Couronnes céramo-métal","12,22",5000,0,5000,"Dr.Sara BCHI",Fini
+17/08/2026,,335,"Ichcher Zhor","CCM Couronnes céramo-métal","34,33,32,31,41,43",15000,0,15000,"Dr.Sara BCHI",Fini
+17/08/2026,,335,"Ichcher Zhor","CCM Couronnes céramo-métal",42,2500,0,2500,"Dr.Sara BCHI",Fini
+02/09/2026,15/09/2026,378,"MOUSTAINE Zaki","Traitement endodontique du groupe molaires",47,600,600,0,"Dr.Sara BCHI",Fini
+02/09/2026,,379,"EL BOUJANNANI Siham","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+02/09/2026,12/09/2026,381,"HAMIOUI Wafae","Traitement endodontique du groupe molaires",16,400,400,0,"Dr.Sara BCHI",Fini
+02/09/2026,14/09/2026,380,"HAMIOUI Ali","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+02/09/2026,08/09/2026,356,"ABID Meryem","Extraction d'une dent permanente",46,200,200,0,"Dr.Sara BCHI",Fini
+03/09/2026,,336,"BOULOUIZAT Louay","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+03/09/2026,09/09/2026,376,"ITRIMI Ghali","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+03/09/2026,12/09/2026,246,"ALIGOD Salwa","Traitement endodontique du groupe molaires",46,0,0,0,"Dr.Sara BCHI",Fini
+07/09/2026,,379,"EL BOUJANNANI Siham","Composite - Curetage et obturation coronaire de cavité simple",12,300,300,0,"Dr.Sara BCHI",Fini
+08/09/2026,11/09/2026,356,"ABID Meryem","Composite - Curetage et obturation coronaire de cavité simple",26,300,300,0,"Dr.Sara BCHI",Fini
+08/09/2026,18/09/2026,303,"CHAHIN Sara","Traitement endodontique du groupe molaires",16,500,500,0,"Dr.Sara BCHI",Fini
+03/09/2026,01/10/2026,375,"EL HAYOUNI Boujemaa","PAT SUP ET INF",,5000,5000,0,"Dr.Sara BCHI",Fini
+09/09/2026,09/09/2026,255,"Nada El faydy",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+11/09/2026,,157,"EL HASSANI Nisrine","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+14/09/2026,15/10/2026,381,"HAMIOUI Wafae","Composite - Curetage et obturation coronaire de cavité simple",16,200,200,0,"Dr.Sara BCHI",Fini
+14/09/2026,17/09/2026,202,"ZAHER Yassine","CCM Couronnes céramo-métal",25,2500,2500,0,"Dr.Sara BCHI",Fini
+15/09/2026,15/09/2026,94,"DRIA Mounia","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+15/09/2026,,202,"ZAHER Yassine","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+15/09/2026,,356,"ABID Meryem","Composite - Curetage et obturation coronaire de cavité simple",37,300,300,0,"Dr.Sara BCHI",Fini
+15/09/2026,,59,"Zakari Salma","Composite - Curetage et obturation coronaire de cavité simple",12,300,300,0,"Dr.Sara BCHI",Fini
+16/09/2026,,94,"DRIA Mounia","Traitement endodontique du groupe inciso-canin",23,0,0,0,"Dr.Sara BCHI",Fini
+16/09/2026,22/09/2026,384,"Salmi Hiba","Traitement endodontique du groupe molaires",16,500,500,0,"Dr.Sara BCHI",Fini
+17/09/2026,,202,"ZAHER Yassine","Composite - Curetage et obturation coronaire de cavité simple",15,0,0,0,"Dr.Sara BCHI",Fini
+17/09/2026,,97,"DAKKOUNE Ikram","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire",35,400,200,200,"Dr.Sara BCHI",Fini
+17/09/2026,,382,"TOUATI Khadija","Composite - Curetage et obturation coronaire de cavité simple",18,150,150,0,"Dr.Sara BCHI",Fini
+18/09/2026,,192,"SAHSAH Zhour","Composite - Curetage et obturation coronaire de cavité simple","15,16",0,0,0,"Dr.Sara BCHI",Fini
+18/09/2026,,387,"Bchi Bouchra","Composite - Curetage et obturation coronaire de cavité simple",34,300,300,0,"Dr.Sara BCHI",Fini
+20/10/2026,29/09/2026,94,"DRIA Mounia","CCM Couronnes céramo-métal","22,23",5000,3500,1500,"Dr.Sara BCHI",Fini
+18/09/2026,,353,"SISSEN Zakia","Composite - Curetage et obturation coronaire de cavité simple",25,300,300,0,"Dr.Sara BCHI",Fini
+19/09/2026,,225,"Aatfaoui Zineb","Traitement endodontique du groupe prémolaires",24,0,0,0,"Dr.Sara BCHI",Fini
+19/09/2026,,389,"AMARHIOUZ Asmae","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+19/09/2026,,299,"Rotoba Lamyae",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+19/09/2026,,390,"EL GHANDOR Bouchra","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+19/09/2026,,388,"Sembati Najat","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+14/09/2026,21/09/2026,59,"Zakari Salma","Composite - Curetage et obturation coronaire de cavité simple",46,200,200,0,"Dr.Sara BCHI",Fini
+21/09/2026,,379,"EL BOUJANNANI Siham","Composite - Curetage et obturation coronaire de cavité simple",21,300,300,0,"Dr.Sara BCHI",Fini
+21/09/2026,16/10/2026,335,"Ichcher Zhor","Appareil sur plaque base en matière plastique d'un édentement de huit dents",,0,0,0,"Dr.Sara BCHI",Fini
+21/09/2026,,124,"Ouail Mernissi arifi","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+21/09/2026,,20,"FATHI Meryem","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+22/09/2026,29/09/2026,94,"DRIA Mounia","Traitement endodontique du groupe inciso-canin",22,0,0,0,"Dr.Sara BCHI",Fini
+22/09/2026,01/10/2026,225,"Aatfaoui Zineb","CCM Couronnes céramo-métal","24,25,26",5000,0,5000,"Dr.Sara BCHI",Fini
+22/09/2026,23/10/2026,271,"EL QABLY Abdellali","Traitement endodontique du groupe prémolaires",35,500,500,0,"Dr.Sara BCHI",Fini
+23/09/2026,,393,"JABBARI Neima","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+24/09/2026,,356,"ABID Meryem","Extraction d'une dent permanente","27,28",800,800,0,"Dr.Sara BCHI",Fini
+24/09/2026,,394,"Souissi Abdessamad","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+25/09/2026,,192,"SAHSAH Zhour","Composite - Curetage et obturation coronaire de cavité simple",37,0,0,0,"Dr.Sara BCHI",Fini
+25/09/2026,28/09/2026,397,"TAYEB El Mokri","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+25/09/2026,,395,"Alaoui Mamoun","Séance de détartrage complet sus et sous-gingival",,200,200,0,"Dr.Sara BCHI",Fini
+26/09/2026,03/10/2026,389,"AMARHIOUZ Asmae","CCM Couronnes céramo-métal",36,3000,3000,0,"Dr.Sara BCHI",Fini
+26/09/2026,09/11/2026,397,"TAYEB El Mokri","CCM Couronnes céramo-métal","13,12,11,21,22,23,24,25,26,27",25000,22200,2800,"Dr.Sara BCHI",Fini
+26/09/2026,02/10/2026,397,"TAYEB El Mokri","Traitement endodontique du groupe inciso-canin","13,12",0,0,0,"Dr.Sara BCHI",Fini
+26/09/2026,,399,"KETTANI Rabiaa","Extraction d'une dent permanente",27,300,300,0,"Dr.Sara BCHI",Fini
+26/09/2026,,391,"MAMNOUN Fatima","PAT SUP ET INF",,1800,1800,0,"Dr.Sara BCHI","En cours"
+28/09/2026,,398,"RAJI Adil","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+28/09/2026,01/10/2026,397,"TAYEB El Mokri","Traitement endodontique du groupe inciso-canin","11,21",0,0,0,"Dr.Sara BCHI",Fini
+28/09/2026,,382,"TOUATI Khadija","Composite - Curetage et obturation coronaire de cavité simple","44,45",150,150,0,"Dr.Sara BCHI",Fini
+29/09/2026,,94,"DRIA Mounia","Composite - Curetage et obturation coronaire de cavité simple",13,300,0,300,"Dr.Sara BCHI",Fini
+29/09/2026,,402,"TNIFASSE Lahcen","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+29/09/2026,,401,"ESSAKI Ghalia","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+29/09/2026,,398,"RAJI Adil","Dépose d’un ancrage radiculaire, coronaire, unitaire ou plural",,300,300,0,"Dr.Sara BCHI",Fini
+29/09/2026,,353,"SISSEN Zakia","Composite - Curetage et obturation coronaire de cavité simple",35,300,300,0,"Dr.Sara BCHI",Fini
+30/09/2026,,404,"RABIA Chouichou","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+30/09/2026,08/10/2026,403,"LKHOMSSI Wiam","CCM Couronnes céramo-métal",22,2500,2500,0,"Dr.Sara BCHI",Fini
+30/09/2026,01/10/2026,397,"TAYEB El Mokri","Traitement endodontique du groupe inciso-canin","22,23",0,0,0,"Dr.Sara BCHI",Fini
+30/09/2026,,124,"Ouail Mernissi arifi","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+01/10/2026,05/10/2026,397,"TAYEB El Mokri","Extraction d'une dent permanente",26,0,0,0,"Dr.Sara BCHI",Fini
+01/10/2026,15/10/2026,397,"TAYEB El Mokri","Traitement endodontique du groupe molaires",27,0,0,0,"Dr.Sara BCHI",Fini
+01/10/2026,,405,"Yassir Jaddade","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+01/10/2026,,367,"ALAMI Majdouline","CCM Couronnes céramo-métal",26,2700,900,1800,"Dr.Sara BCHI","En cours"
+01/10/2026,,408,"HILALI Kaoutar","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+01/10/2026,,407,"Zakari Adam","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+02/10/2026,26/10/2026,397,"TAYEB El Mokri","FM: Faux Moignon Restauration par matériau inséré en phase plastique avec ancrage radiculaire","13,12,11,21,22,23",0,0,0,"Dr.Sara BCHI",Fini
+02/10/2026,,398,"RAJI Adil",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+02/10/2026,,405,"Yassir Jaddade","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+02/10/2026,05/10/2026,395,"Alaoui Mamoun","Composite - Curetage et obturation coronaire de cavité simple",16,300,0,300,"Dr.Sara BCHI",Fini
+03/10/2026,,389,"AMARHIOUZ Asmae","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+03/10/2026,,243,"EL MADANI Fatima-zahra",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+05/10/2026,,356,"ABID Meryem",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+05/10/2026,,406,"BOUZLAFA Bouchra","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+05/10/2026,,405,"Yassir Jaddade","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+06/10/2026,,401,"ESSAKI Ghalia","Extraction d'une dent permanente",64,0,0,0,"Dr.Sara BCHI",Fini
+06/10/2026,,401,"ESSAKI Ghalia","Composite - Curetage et obturation coronaire de cavité simple","54,74,84",750,750,0,"Dr.Sara BCHI",Fini
+06/10/2026,,401,"ESSAKI Ghalia","Composite - Curetage et obturation coronaire de cavité simple","75,85",500,500,0,"Dr.Sara BCHI",Fini
+06/10/2026,,406,"BOUZLAFA Bouchra","CCM Couronnes céramo-métal","12,11,21,22,23",10000,4700,5300,"Dr.Sara BCHI","En cours"
+06/10/2026,,406,"BOUZLAFA Bouchra","Traitement endodontique du groupe inciso-canin",12,0,0,0,"Dr.Sara BCHI",Fini
+06/10/2026,,408,"HILALI Kaoutar","CCM Couronnes céramo-métal",36,2500,1300,1200,"Dr.Sara BCHI","En cours"
+07/10/2026,,94,"DRIA Mounia","Extraction d'une dent permanente",47,200,0,200,"Dr.Sara BCHI",Fini
+07/10/2026,27/10/2026,406,"BOUZLAFA Bouchra","Traitement endodontique du groupe inciso-canin",21,0,0,0,"Dr.Sara BCHI",Fini
+07/10/2026,23/10/2026,406,"BOUZLAFA Bouchra","Traitement endodontique du groupe inciso-canin",11,0,0,0,"Dr.Sara BCHI",Fini
+07/10/2026,15/10/2026,397,"TAYEB El Mokri","Dent provisoire en résine (par élément)","13,12,11,21,22,23",0,0,0,"Dr.Sara BCHI",Fini
+07/10/2026,,415,"MOUBASHIR Yahya","Composite - Curetage et obturation coronaire de cavité simple",27,300,0,300,"Dr.Sara BCHI",Fini
+07/10/2026,,379,"EL BOUJANNANI Siham","Composite - Curetage et obturation coronaire de cavité simple",22,300,300,0,"Dr.Sara BCHI",Fini
+07/10/2026,13/10/2026,411,"EL HALOUI Khalid","CCM Couronnes céramo-métal","15,16",5400,5400,0,"Dr.Sara BCHI",Fini
+15/10/2026,13/10/2026,411,"EL HALOUI Khalid","Composite - Curetage et obturation coronaire de cavité simple","14,17",700,700,0,"Dr.Sara BCHI",Fini
+07/10/2026,,412,"LAAROUSI Meryem","Consultation chez un médecin généraliste ou médecin dentiste.",,100,100,0,"Dr.Sara BCHI",Fini
+08/10/2026,,414,"YAAKOUBI Ilham","Extraction d'une dent permanente","11,12,14",0,0,0,"Dr.Sara BCHI",Fini
+12/10/2026,26/10/2026,417,"Alami Samy cherif","Traitement endodontique du groupe prémolaires",35,500,500,0,"Dr.Sara BCHI",Fini
+12/10/2026,20/10/2026,28,"MRIKA Khalid","Traitement endodontique du groupe prémolaires",25,500,500,0,"Dr.Sara BCHI",Fini
+12/10/2026,23/10/2026,413,"EL HALOUI Youssra","Traitement endodontique du groupe molaires",16,600,200,400,"Dr.Sara BCHI",Fini
+12/10/2026,,419,"DRIGHIL Fatima Zahrae","Consultation chez un médecin généraliste ou médecin dentiste.",,100,100,0,"Dr.Sara BCHI",Fini
+13/10/2026,,406,"BOUZLAFA Bouchra","Dépose d’un ancrage radiculaire, coronaire, unitaire ou plural","22,23",0,0,0,"Dr.Sara BCHI",Fini
+13/10/2026,,412,"LAAROUSI Meryem","Extraction d'une dent permanente",25,0,0,0,"Dr.Sara BCHI",Fini
+13/10/2026,,403,"LKHOMSSI Wiam","Composite - Curetage et obturation coronaire de cavité simple",21,0,0,0,"Dr.Sara BCHI",Fini
+13/10/2026,,418,"KAIS Dib","Consultation chez un médecin généraliste ou médecin dentiste.",,200,200,0,"Dr.Sara BCHI",Fini
+13/10/2026,,414,"YAAKOUBI Ilham","Extraction d'une dent permanente",23,0,0,0,"Dr.Sara BCHI",Fini
+14/10/2026,,424,"ABOU EL GHAZI Ahmed","Composite - Curetage et obturation coronaire de cavité simple",27,0,0,0,"Dr.Sara BCHI",Fini
+14/10/2026,,94,"DRIA Mounia",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+14/10/2026,,417,"Alami Samy cherif","Composite - Curetage et obturation coronaire de cavité simple",34,300,300,0,"Dr.Sara BCHI",Fini
+14/10/2026,22/10/2026,425,"ES SOUISSI Bouchta","Traitement endodontique du groupe molaires",36,700,700,0,"Dr.Sara BCHI",Fini
+14/10/2026,,379,"EL BOUJANNANI Siham","Composite - Curetage et obturation coronaire de cavité simple",11,300,300,0,"Dr.Sara BCHI",Fini
+14/10/2026,,379,"EL BOUJANNANI Siham","Composite - Curetage et obturation coronaire de cavité simple",23,200,200,0,"Dr.Sara BCHI",Fini
+14/10/2026,,380,"HAMIOUI Ali","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+14/10/2026,31/10/2026,250,"Abdelkader Tifrit","CCM Couronnes céramo-métal",34,3000,0,3000,"Dr.Sara BCHI",Fini
+15/10/2026,,414,"YAAKOUBI Ilham","Extraction d'une dent permanente","45,46",0,0,0,"Dr.Sara BCHI",Fini
+15/10/2026,,426,"ZAKARI Nizar","Traitement endodontique du groupe molaires",16,600,0,600,"Dr.Sara BCHI","En cours"
+15/10/2026,,426,"ZAKARI Nizar","couronne provisoire",,600,0,600,"Dr.Sara BCHI","En cours"
+15/10/2026,,427,"LHARMAZI Zouhir","Séance de détartrage complet sus et sous-gingival",,300,200,100,"Dr.Sara BCHI",Fini
+16/10/2026,,406,"BOUZLAFA Bouchra","Traitement endodontique du groupe inciso-canin",23,0,0,0,"Dr.Sara BCHI",Fini
+16/10/2026,,395,"Alaoui Mamoun","Composite - Curetage et obturation coronaire de cavité simple",26,300,0,300,"Dr.Sara BCHI",Fini
+16/10/2026,,106,"JOUIDI Walid",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+17/10/2026,,414,"YAAKOUBI Ilham","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+17/10/2026,,431,"MENKAD Alae","Composite - Curetage et obturation coronaire de cavité simple",11,300,300,0,"Dr.Sara BCHI",Fini
+17/10/2026,,243,"EL MADANI Fatima-zahra","Composite - Curetage et obturation coronaire de cavité simple",47,200,200,0,"Dr.Sara BCHI",Fini
+19/10/2026,,435,"LAMBRABTI Amir","Extraction d'une dent lactéale, quelle que soit la technique",64,150,100,50,"Dr.Sara BCHI",Fini
+19/10/2026,,419,"DRIGHIL Fatima Zahrae","CCM Couronnes céramo-métal",14,2200,2200,0,"Dr.Sara BCHI","En cours"
+19/10/2026,,428,"KAABI Safae","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+20/10/2026,,366,"RANIA Rahmouni","Traitement endodontique du groupe molaires",26,600,0,600,"Dr.Sara BCHI","En cours"
+20/10/2026,,427,"LHARMAZI Zouhir","Composite - Curetage et obturation coronaire de cavité simple","22,23",700,400,300,"Dr.Sara BCHI",Fini
+20/10/2026,23/10/2026,407,"Zakari Adam","Composite - Curetage et obturation coronaire de cavité simple",16,300,0,300,"Dr.Sara BCHI",Fini
+20/10/2026,26/10/2026,417,"Alami Samy cherif","Composite - Curetage et obturation coronaire de cavité simple",17,300,300,0,"Dr.Sara BCHI",Fini
+21/10/2026,,398,"RAJI Adil","CCM Couronnes céramo-métal",16,2200,500,1700,"Dr.Sara BCHI","En cours"
+21/10/2026,26/10/2026,432,"Amine Darià","Traitement endodontique du groupe prémolaires",25,500,500,0,"Dr.Sara BCHI",Fini
+21/10/2026,21/10/2026,423,"DENDEN Alae","Séance de détartrage complet sus et sous-gingival",,300,0,300,"Dr.Sara BCHI",Fini
+17/10/2026,24/10/2026,423,"DENDEN Alae","Composite - Curetage et obturation coronaire de cavité simple",25,350,0,350,"Dr.Sara BCHI",Fini
+17/10/2026,06/11/2026,422,"DENDEN Lina","Séance de détartrage complet sus et sous-gingival",,400,0,400,"Dr.Sara BCHI",Fini
+17/10/2026,21/10/2026,422,"DENDEN Lina","Extraction d'une dent lactéale, quelle que soit la technique",85,0,0,0,"Dr.Sara BCHI",Fini
+21/10/2026,,27,"AMARI Fatima-zahra",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+21/10/2026,,434,"LAQBAQBI Yousra","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+21/10/2026,26/10/2026,433,"Khadija Achari","Traitement endodontique du groupe inciso-canin",11,0,0,0,"Dr.Sara BCHI",Fini
+21/10/2026,,395,"Alaoui Mamoun","Composite - Curetage et obturation coronaire de cavité simple",17,300,0,300,"Dr.Sara BCHI",Fini
+21/10/2026,,243,"EL MADANI Fatima-zahra",Contrôle,,0,0,0,"Dr.Sara BCHI",Fini
+22/10/2026,,424,"ABOU EL GHAZI Ahmed","CCM Couronnes céramo-métal",15,2500,2500,0,"Dr.Sara BCHI","En cours"
+22/10/2026,26/10/2026,432,"Amine Darià","Traitement endodontique du groupe molaires",26,600,600,0,"Dr.Sara BCHI",Fini
+22/10/2026,,199,"LAMRABTI Amine","Composite - Curetage et obturation coronaire de cavité simple",35,200,200,0,"Dr.Sara BCHI",Fini
+22/10/2026,,414,"YAAKOUBI Ilham","Composite - Curetage et obturation coronaire de cavité simple",35,0,0,0,"Dr.Sara BCHI",Fini
+22/10/2026,,441,"BEROUYALAD Hanae","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+22/10/2026,,431,"MENKAD Alae","Composite - Curetage et obturation coronaire de cavité simple",47,300,300,0,"Dr.Sara BCHI",Fini
+22/10/2026,,437,"KOUADIR Chaimae","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+23/10/2026,,438,"DIANI Kawtar","Extraction d'une dent permanente",26,0,0,0,"Dr.Sara BCHI",Fini
+23/10/2026,,436,"CHRIF ALAMI Naser","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI",Fini
+23/10/2026,26/10/2026,432,"Amine Darià","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+05/11/2026,,271,"EL QABLY Abdellali","Séance de détartrage complet sus et sous-gingival",,400,400,0,"Dr.Sara BCHI","En cours"
+24/10/2026,,439,"BENNIS Houda","Traitement endodontique du groupe prémolaires",25,500,500,0,"Dr.Sara BCHI","En cours"
+17/10/2026,03/11/2026,429,"DENDEN Hamza","Traitement endodontique du groupe molaires",26,600,0,600,"Dr.Sara BCHI",Fini
+26/10/2026,,428,"KAABI Safae","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+26/10/2026,,428,"KAABI Safae","orthodontie par autoligaturants",,11000,1500,9500,"Dr.Sara BCHI","En cours"
+27/10/2026,,431,"MENKAD Alae","Séance de détartrage complet sus et sous-gingival",,400,0,400,"Dr.Sara BCHI",Fini
+27/10/2026,,414,"YAAKOUBI Ilham","Composite - Curetage et obturation coronaire de cavité simple",27,0,0,0,"Dr.Sara BCHI",Fini
+27/10/2026,,30,"FARHTI Niema","Traitement endodontique du groupe molaires",46,600,500,100,"Dr.Sara BCHI","En cours"
+27/10/2026,03/11/2026,406,"BOUZLAFA Bouchra","Traitement endodontique du groupe inciso-canin",22,0,0,0,"Dr.Sara BCHI",Fini
+28/10/2026,29/10/2026,417,"Alami Samy cherif","Composite - Curetage et obturation coronaire de cavité simple",27,300,300,0,"Dr.Sara BCHI",Fini
+28/10/2026,,323,"ALAOUI Meryem","CCM Couronnes céramo-métal",46,2000,1500,500,"Dr.Sara BCHI","En cours"
+28/10/2026,,433,"Khadija Achari","Composite - Curetage et obturation coronaire de cavité simple",15,0,0,0,"Dr.Sara BCHI",Fini
+28/10/2026,,443,"ALAOUI Zineb","Traitement endodontique du groupe molaires",36,400,0,400,"Dr.Sara BCHI","En cours"
+28/10/2026,,444,"BOUFADNA Habiba","Extraction d'une dent permanente",34,200,0,200,"Dr.Sara BCHI",Fini
+29/10/2026,,30,"FARHTI Niema","Traitement endodontique du groupe prémolaires",45,500,100,400,"Dr.Sara BCHI","En cours"
+29/10/2026,03/11/2026,414,"YAAKOUBI Ilham","Traitement endodontique du groupe prémolaires",45,0,0,0,"Dr.Sara BCHI",Fini
+29/10/2026,,438,"DIANI Kawtar","Extraction d'une dent permanente",16,0,0,0,"Dr.Sara BCHI",Fini
+29/10/2026,,438,"DIANI Kawtar","CCM Couronnes céramo-métal","13,14,15,16,17",12500,0,12500,"Dr.Sara BCHI","En cours"
+29/10/2026,,398,"RAJI Adil","Extraction d'une dent permanente",17,200,0,200,"Dr.Sara BCHI",Fini
+29/10/2026,,447,"MESBAHI Amal","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+29/10/2026,,433,"Khadija Achari","Extraction d'une dent permanente","14,24",0,0,0,"Dr.Sara BCHI",Fini
+29/10/2026,,397,"TAYEB El Mokri","Extraction d'une dent permanente",16,0,0,0,"Dr.Sara BCHI",Fini
+30/10/2026,,436,"CHRIF ALAMI Naser","Composite - Curetage et obturation coronaire de cavité simple",22,300,300,0,"Dr.Sara BCHI",Fini
+30/10/2026,,395,"Alaoui Mamoun","Extraction d'une dent permanente",36,200,0,200,"Dr.Sara BCHI",Fini
+30/10/2026,,451,"ES-SOUKI Khadija","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+30/10/2026,,407,"Zakari Adam","Composite - Curetage et obturation coronaire de cavité simple",36,300,300,0,"Dr.Sara BCHI",Fini
+30/10/2026,,446,"KOUDADE Meryem","Traitement endodontique du groupe molaires",26,600,300,300,"Dr.Sara BCHI","En cours"
+30/10/2026,,444,"BOUFADNA Habiba","CCM Couronnes céramo-métal",37,2500,0,2500,"Dr.Sara BCHI","En cours"
+16/10/2026,,124,"Ouail Mernissi arifi","Composite - Curetage et obturation coronaire de cavité simple","45,46",300,300,0,"Dr.Sara BCHI",Fini
+31/10/2026,03/11/2026,414,"YAAKOUBI Ilham","Traitement endodontique du groupe prémolaires",44,0,0,0,"Dr.Sara BCHI",Fini
+02/11/2026,,443,"ALAOUI Zineb","couronne provisoire",36,400,0,400,"Dr.Sara BCHI","En cours"
+02/11/2026,,417,"Alami Samy cherif","Composite - Curetage et obturation coronaire de cavité simple",37,300,0,300,"Dr.Sara BCHI",Fini
+02/11/2026,,427,"LHARMAZI Zouhir","Composite - Curetage et obturation coronaire de cavité simple","24,25",600,600,0,"Dr.Sara BCHI",Fini
+02/11/2026,,449,"ALALI Hajar","Traitement endodontique du groupe molaires",36,500,500,0,"Dr.Sara BCHI","En cours"
+02/11/2026,,433,"Khadija Achari","Composite - Curetage et obturation coronaire de cavité simple",23,0,0,0,"Dr.Sara BCHI",Fini
+03/11/2026,,414,"YAAKOUBI Ilham","CCM Couronnes céramo-métal","44,45",0,0,0,"Dr.Sara BCHI","En attente"
+03/11/2026,,458,"FATHI Zhour","Consultation chez un médecin généraliste ou médecin dentiste.",,0,0,0,"Dr.Sara BCHI",Fini
+04/11/2026,,455,"LOUANI Mina","Consultation chez un médecin généraliste ou médecin dentiste.",,150,100,50,"Dr.Sara BCHI",Fini
+05/11/2026,,460,"ALAMI Hemza","Consultation chez un médecin généraliste ou médecin dentiste.",,100,100,0,"Dr.Sara BCHI",Fini
+05/11/2026,,433,"Khadija Achari","Composite - Curetage et obturation coronaire de cavité simple",12,0,0,0,"Dr.Sara BCHI",Fini
+05/11/2026,,433,"Khadija Achari","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+05/11/2026,,414,"YAAKOUBI Ilham","Composite - Curetage et obturation coronaire de cavité simple",31,0,0,0,"Dr.Sara BCHI",Fini
+05/11/2026,,357,"BAKKALI Sara","Séance de détartrage complet sus et sous-gingival",,300,300,0,"Dr.Sara BCHI",Fini
+05/11/2026,,332,"KAIDI Siham","Séance de détartrage complet sus et sous-gingival",,0,0,0,"Dr.Sara BCHI",Fini
+05/11/2026,,436,"CHRIF ALAMI Naser","Composite - Curetage et obturation coronaire de cavité simple",11,300,300,0,"Dr.Sara BCHI",Fini
+06/11/2026,,459,"AMINO Ismahan","Consultation chez un médecin généraliste ou médecin dentiste.",,150,150,0,"Dr.Sara BCHI",Fini
+06/11/2026,,429,"DENDEN Hamza","Composite - Curetage et obturation coronaire de cavité simple",36,350,0,350,"Dr.Sara BCHI",Fini
+06/11/2026,,199,"LAMRABTI Amine","Composite - Curetage et obturation coronaire de cavité simple","45,46",200,200,0,"Dr.Sara BCHI",Fini
+07/11/2026,,419,"DRIGHIL Fatima Zahrae","Composite - Curetage et obturation coronaire de cavité simple",25,300,300,0,"Dr.Sara BCHI",Fini
+07/11/2026,,419,"DRIGHIL Fatima Zahrae","Traitement endodontique du groupe prémolaires",24,0,0,0,"Dr.Sara BCHI","En attente"
+07/11/2026,,456,"LEGHNIDER Kaoutar","Séance de détartrage complet sus et sous-gingival",,400,300,100,"Dr.Sara BCHI",Fini
+07/11/2026,,407,"Zakari Adam","Composite - Curetage et obturation coronaire de cavité simple",46,300,0,300,"Dr.Sara BCHI",Fini
+09/11/2026,,397,"TAYEB El Mokri",Contrôle,,0,0,0,"Dr.Sara BCHI","En attente"
+09/11/2026,,397,"TAYEB El Mokri","Appareil sur plaque base en matière plastique d'un édentement de huit dents",,1800,0,1800,"Dr.Sara BCHI","En attente"
+09/11/2026,,281,"ABARKI Samira","CCM Couronnes céramo-métal",13,2500,0,2500,"Dr.Sara BCHI","En cours"
+09/11/2026,,281,"ABARKI Samira","CCM Couronnes céramo-métal","15,16,17",4500,300,4200,"Dr.Sara BCHI","En cours"

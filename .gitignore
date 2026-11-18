@@ -6,3 +6,10 @@ coverage/
 *.log
 .env*
 !.env.example
+native-packaging/tauri/target/
+native-packaging/tauri/gen/
+native-packaging/capacitor/node_modules/
+native-packaging/capacitor/package.json
+native-packaging/capacitor/package-lock.json
+native-packaging/capacitor/android/
+native-packaging/capacitor/ios/

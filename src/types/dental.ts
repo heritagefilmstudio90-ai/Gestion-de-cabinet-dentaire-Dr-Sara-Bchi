@@ -10,6 +10,7 @@ export const ROLE_LABELS: Record<StaffRole, string> = {
 export interface StaffMember {
   id: string;
   uid: string;
+  login?: string;
   email: string;
   displayName: string;
   role: StaffRole;
@@ -18,6 +19,7 @@ export interface StaffMember {
   color?: string;
   active: boolean;
   inviteId?: string;
+  createdBy?: string;
   createdAt?: unknown;
   updatedAt?: unknown;
 }
@@ -110,6 +112,7 @@ export interface Patient {
   fileNumber: string;
   firstName: string;
   lastName: string;
+  gender?: 'Féminin' | 'Masculin' | string;
   birthDate?: string;
   cin?: string;
   profession?: string;
@@ -117,6 +120,7 @@ export interface Patient {
   email?: string;
   address?: string;
   referringDoctor?: string;
+  referralSource?: string;
   insuranceType: InsuranceType;
   insuranceNumber?: string;
   coverageRate: number;
@@ -130,9 +134,40 @@ export interface Patient {
   createdBy: string;
   createdAt?: unknown;
   updatedAt?: unknown;
+  // Champs issus des exports CSV du cabinet
+  fullName?: string;
+  totalBilled?: number;
+  remainingDue?: number;
+  walletBalance?: number;
+  lastAppointmentDate?: string;
+  csvCreatedAt?: string;
+  csvCreatedBy?: string;
+  csvUpdatedAt?: string;
+  csvUpdatedBy?: string;
+  isCsvArchive?: boolean;
+}
+
+export interface PatientClinicalAct {
+  id: string;
+  date: string;
+  realizationDate?: string;
+  patientId: string;
+  patientFileNumber: string;
+  patientName: string;
+  actName: string;
+  teeth?: string;
+  price: number;
+  receivedAmount: number;
+  remainingAmount: number;
+  practitionerId: string;
+  practitionerName: string;
+  status: 'En attente' | 'En cours' | 'Fini' | string;
+  isCsvArchive?: boolean;
 }
 
 export type ImagingCategory =
+  | 'Photo Clinique'
+  | 'Cliché Intra-oral'
   | 'Panoramique'
   | 'Rétro-alvéolaire'
   | 'Téléradiographie'
@@ -259,12 +294,13 @@ export interface TreatmentPlan {
   id: string;
   quoteNumber: string;
   patientId: string;
+  patientFileNumber?: string;
   patientName: string;
   practitionerId: string;
   practitionerName: string;
   title: string;
   isAlternative?: boolean;
-  status: 'Brouillon' | 'Devis envoyé' | 'Accepté' | 'En cours' | 'Terminé' | 'Refusé';
+  status: 'Brouillon' | 'Devis envoyé' | 'Accepté' | 'En cours' | 'Terminé' | 'Refusé' | 'Noveaux' | 'Imprimé';
   items: TreatmentPlanItem[];
   totalAmount: number;
   insuranceEstimated?: number;
@@ -273,6 +309,10 @@ export interface TreatmentPlan {
   createdBy: string;
   createdAt?: unknown;
   updatedAt?: unknown;
+  quoteDate?: string;
+  validityDate?: string;
+  rawActsText?: string;
+  isCsvArchive?: boolean;
 }
 
 export type InvoiceStatus = 'Émise' | 'Partiellement payée' | 'Payée' | 'En retard' | 'Annulée';
@@ -291,6 +331,7 @@ export interface Invoice {
   id: string;
   invoiceNumber: string;
   patientId: string;
+  patientFileNumber?: string;
   patientName: string;
   practitionerId: string;
   practitionerName?: string;
@@ -309,28 +350,49 @@ export interface Invoice {
   createdBy: string;
   createdAt?: unknown;
   updatedAt?: unknown;
+  rawActsText?: string;
+  csvCreatedAt?: string;
+  csvUpdatedAt?: string;
+  isCsvArchive?: boolean;
 }
 
-export type PaymentMethod = 'Espèces' | 'Carte bancaire' | 'Virement' | 'Chèque';
+export type PaymentMethod = 'Espèces' | 'Carte bancaire' | 'Virement' | 'Chèque' | 'Solde Portefeuille';
 
 export interface Payment {
   id: string;
   receiptNumber: string;
   invoiceId: string;
   patientId: string;
+  patientFileNumber?: string;
   patientName: string;
   practitionerId: string;
+  practitionerName?: string;
   date: string;
   amount: number;
   method: PaymentMethod;
+  rawMethod?: string;
   payerType: 'Patient' | 'Mutuelle';
   isAdvance: boolean;
   chequeNumber?: string;
   bankName?: string;
   chequeDepositDate?: string;
+  chequeDate?: string;
+  chequeAmount?: number;
+  chequeStatus?: string;
+  chequeEncashmentDate?: string;
+  chequeGuarantee?: string;
+  actCode?: string;
+  actName?: string;
+  actFees?: number;
+  previousPayment?: number;
+  remainingBalance?: number;
+  enteredBy?: string;
+  csvCreatedAt?: string;
+  actIdRef?: string;
   notes?: string;
   createdBy: string;
   createdAt?: unknown;
+  isCsvArchive?: boolean;
 }
 
 export type LabOrderStatus =
@@ -345,15 +407,19 @@ export interface LabOrder {
   id: string;
   orderNumber: string;
   patientId: string;
+  patientFileNumber?: string;
   patientName: string;
   practitionerId: string;
   practitionerName?: string;
   labName: string;
+  labPhone?: string;
   prosthesisType: 'Zircone' | 'Céramo-métallique' | 'E-max' | 'Squeletté' | 'Résine amovible' | 'Gouttière' | 'Sur implant';
   shadeVita?: string;
   teeth?: string;
   impressionType?: 'Empreinte physique' | 'Fichier numérique STL';
   sentDate?: string;
+  returnDate?: string;
+  fittingDate?: string;
   dueDate?: string;
   nextAppointmentDate?: string;
   status: LabOrderStatus;
@@ -364,16 +430,19 @@ export interface LabOrder {
   createdBy: string;
   createdAt?: unknown;
   updatedAt?: unknown;
+  isCsvArchive?: boolean;
 }
 
 export type MedicalDocType =
   | 'Ordonnance'
+  | 'Certificat médical'
   | 'Certificat de présence'
   | 'Dispense'
   | 'Attestation de soins'
   | 'Consentement éclairé'
   | 'Lettre confrère'
-  | 'Feuille de soins';
+  | 'Feuille de soins'
+  | "Note d'honoraires";
 
 export interface PrescriptionLine {
   molecule: string;
@@ -386,6 +455,7 @@ export interface PrescriptionLine {
 export interface MedicalDocument {
   id: string;
   patientId: string;
+  patientFileNumber?: string;
   patientName: string;
   practitionerId: string;
   practitionerName?: string;
@@ -394,8 +464,21 @@ export interface MedicalDocument {
   title: string;
   prescriptions?: PrescriptionLine[];
   bodyText?: string;
+  durationDays?: number;
+  certificateType?: string;
+  amount?: number;
+  careSheetFund?: string;
+  careSheetExecutionType?: string;
+  paymentMethod?: string;
+  actsText?: string;
+  medicationsText?: string;
+  csvCreatedAt?: string;
+  csvCreatedBy?: string;
+  csvUpdatedAt?: string;
+  csvUpdatedBy?: string;
   createdBy: string;
   createdAt?: unknown;
+  isCsvArchive?: boolean;
 }
 
 export interface Recall {
@@ -426,6 +509,14 @@ export interface Expense {
   amount: number;
   paymentMethod: 'Espèces' | 'Virement' | 'Carte bancaire' | 'Chèque';
   receiptRef?: string;
+  rawType?: string;
+  description?: string;
+  practitionerName?: string;
+  enteredBy?: string;
+  rawPaymentMethod?: string;
+  settlementDate?: string;
+  declared?: string;
+  isCsvArchive?: boolean;
   createdBy: string;
   createdAt?: unknown;
 }
@@ -513,83 +604,191 @@ export type AppSection =
 export interface RolePermissions {
   canViewDashboard: boolean;
   canEditAppointments: boolean;
+  canManageBookingRequests: boolean;
   canEditPatientsIdentity: boolean;
   canEditOdontogramAndNotes: boolean;
+  canAccessImaging: boolean;
   canUploadImaging: boolean;
   canCreatePlansAndQuotes: boolean;
   canCreateInvoicesAndPayments: boolean;
   canViewFinancialTotals: boolean;
+  canManageCashClosures: boolean;
   canManageExpensesAndClosures: boolean;
+  canManageRecalls: boolean;
   canManageLabOrders: boolean;
   canCreateMedicalDocs: boolean;
   canManageInventory: boolean;
+  canAccessReports: boolean;
   canManageStaffAndSettings: boolean;
 }
 
-export function getPermissionsForRole(role: StaffRole): RolePermissions {
+export const NO_PERMISSIONS: RolePermissions = {
+  canViewDashboard: false,
+  canEditAppointments: false,
+  canManageBookingRequests: false,
+  canEditPatientsIdentity: false,
+  canEditOdontogramAndNotes: false,
+  canAccessImaging: false,
+  canUploadImaging: false,
+  canCreatePlansAndQuotes: false,
+  canCreateInvoicesAndPayments: false,
+  canViewFinancialTotals: false,
+  canManageCashClosures: false,
+  canManageExpensesAndClosures: false,
+  canManageRecalls: false,
+  canManageLabOrders: false,
+  canCreateMedicalDocs: false,
+  canManageInventory: false,
+  canAccessReports: false,
+  canManageStaffAndSettings: false,
+};
+
+export const ROLE_ALLOWED_SECTIONS: Record<StaffRole, AppSection[]> = {
+  titulaire: [
+    'dashboard',
+    'appointments',
+    'patients',
+    'treatment-plans',
+    'recalls',
+    'invoices',
+    'payments',
+    'insurance',
+    'cash-expenses',
+    'lab-orders',
+    'documents',
+    'inventory',
+    'staff',
+    'reports',
+    'settings',
+  ],
+  collaborateur: [
+    'dashboard',
+    'appointments',
+    'patients',
+    'treatment-plans',
+    'recalls',
+    'invoices',
+    'payments',
+    'insurance',
+    'lab-orders',
+    'documents',
+    'reports',
+  ],
+  secretaire: [
+    'dashboard',
+    'appointments',
+    'patients',
+    'treatment-plans',
+    'recalls',
+    'invoices',
+    'payments',
+    'insurance',
+    'cash-expenses',
+    'lab-orders',
+    'documents',
+  ],
+  assistant: [
+    'dashboard',
+    'appointments',
+    'patients',
+    'lab-orders',
+    'inventory',
+  ],
+};
+
+export function canAccessSection(
+  role: StaffRole | null | undefined,
+  section: AppSection
+): boolean {
+  if (!role) return false;
+  return ROLE_ALLOWED_SECTIONS[role]?.includes(section) ?? false;
+}
+
+export function getPermissionsForRole(role: StaffRole | null | undefined): RolePermissions {
+  if (!role) return NO_PERMISSIONS;
   switch (role) {
     case 'titulaire':
       return {
         canViewDashboard: true,
         canEditAppointments: true,
+        canManageBookingRequests: true,
         canEditPatientsIdentity: true,
         canEditOdontogramAndNotes: true,
+        canAccessImaging: true,
         canUploadImaging: true,
         canCreatePlansAndQuotes: true,
         canCreateInvoicesAndPayments: true,
         canViewFinancialTotals: true,
+        canManageCashClosures: true,
         canManageExpensesAndClosures: true,
+        canManageRecalls: true,
         canManageLabOrders: true,
         canCreateMedicalDocs: true,
         canManageInventory: true,
+        canAccessReports: true,
         canManageStaffAndSettings: true,
       };
     case 'collaborateur':
       return {
         canViewDashboard: true,
         canEditAppointments: true,
+        canManageBookingRequests: false,
         canEditPatientsIdentity: true,
         canEditOdontogramAndNotes: true,
+        canAccessImaging: true,
         canUploadImaging: true,
         canCreatePlansAndQuotes: true,
         canCreateInvoicesAndPayments: false,
         canViewFinancialTotals: true, // Ses honoraires uniquement
+        canManageCashClosures: false,
         canManageExpensesAndClosures: false,
+        canManageRecalls: true, // Ses rappels patients uniquement
         canManageLabOrders: true,
         canCreateMedicalDocs: true,
         canManageInventory: false,
+        canAccessReports: true, // Ses rapports uniquement
         canManageStaffAndSettings: false,
       };
     case 'secretaire':
       return {
         canViewDashboard: true,
         canEditAppointments: true,
+        canManageBookingRequests: true,
         canEditPatientsIdentity: true,
         canEditOdontogramAndNotes: false, // Lecture seule historique
+        canAccessImaging: false,
         canUploadImaging: false,
         canCreatePlansAndQuotes: true,
         canCreateInvoicesAndPayments: true,
         canViewFinancialTotals: true,
-        canManageExpensesAndClosures: false, // Encaissements & clôture du jour uniquement
+        canManageCashClosures: true, // Encaissements & clôture du jour uniquement
+        canManageExpensesAndClosures: false,
+        canManageRecalls: true,
         canManageLabOrders: false,
         canCreateMedicalDocs: false, // Impression uniquement
         canManageInventory: false,
+        canAccessReports: false,
         canManageStaffAndSettings: false,
       };
     case 'assistant':
       return {
         canViewDashboard: true,
         canEditAppointments: false, // Consultation planning
+        canManageBookingRequests: false,
         canEditPatientsIdentity: false,
         canEditOdontogramAndNotes: true, // Saisie assistée au fauteuil
+        canAccessImaging: true,
         canUploadImaging: true,
         canCreatePlansAndQuotes: false,
         canCreateInvoicesAndPayments: false,
         canViewFinancialTotals: false,
+        canManageCashClosures: false,
         canManageExpensesAndClosures: false,
+        canManageRecalls: false,
         canManageLabOrders: true,
         canCreateMedicalDocs: false,
         canManageInventory: true,
+        canAccessReports: false,
         canManageStaffAndSettings: false,
       };
   }
@@ -621,7 +820,7 @@ export const TOOTH_STATUS_META: Record<ToothStatus, { label: string; color: stri
 };
 
 export interface PrintableDocumentPayload {
-  kind: 'quote' | 'invoice' | 'receipt' | 'prescription' | 'certificate' | 'care-sheet';
+  kind: 'quote' | 'invoice' | 'receipt' | 'prescription' | 'certificate' | 'care-sheet' | 'fee-note';
   title: string;
   subtitle?: string;
   reference?: string;
@@ -661,5 +860,39 @@ export interface ActivityLogEntry {
   actorRole: StaffRole;
   section: AppSection;
   patientId?: string;
+}
+
+export type SyncErrorCategory =
+  | 'offline'
+  | 'permission'
+  | 'quota'
+  | 'timeout'
+  | 'validation'
+  | 'listener'
+  | 'unknown';
+
+export interface SyncRetryPayload {
+  kind: 'saveRecord' | 'removeRecord';
+  collectionName: string;
+  docId: string;
+  data?: Record<string, unknown>;
+  isCreate?: boolean;
+}
+
+export interface SyncErrorLog {
+  id: string;
+  timestamp: string;
+  operationType: 'create' | 'update' | 'delete' | 'list' | 'get' | 'write' | 'sync';
+  path: string;
+  collectionName: string;
+  errorCode: string;
+  message: string;
+  diagnosticHint: string;
+  category: SyncErrorCategory;
+  isOfflineAtOccurrence: boolean;
+  resolved: boolean;
+  resolvedAt?: string;
+  retryCount: number;
+  retryPayload?: SyncRetryPayload;
 }
 

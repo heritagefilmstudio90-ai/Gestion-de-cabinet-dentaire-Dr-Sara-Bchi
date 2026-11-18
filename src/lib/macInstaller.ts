@@ -167,10 +167,191 @@ function sanitizeShellUrl(rawUrl: string): string {
   return 'https://dentaflow.local';
 }
 
+function buildIcoBytes(png256: Uint8Array): Uint8Array {
+  // Windows ICO container wrapping a 256x256 PNG (supported since Windows Vista+)
+  const headerSize = 6 + 16;
+  const out = new Uint8Array(headerSize + png256.length);
+  const view = new DataView(out.buffer);
+
+  // ICONDIR (6 bytes)
+  view.setUint16(0, 0, true); // reserved
+  view.setUint16(2, 1, true); // type = 1 (icon)
+  view.setUint16(4, 1, true); // image count = 1
+
+  // ICONDIRENTRY (16 bytes)
+  out[6] = 0; // width: 0 means 256px
+  out[7] = 0; // height: 0 means 256px
+  out[8] = 0; // color palette count
+  out[9] = 0; // reserved
+  view.setUint16(10, 1, true); // color planes
+  view.setUint16(12, 32, true); // bits per pixel
+  view.setUint32(14, png256.length, true); // image byte size
+  view.setUint32(18, headerSize, true); // offset to PNG data
+
+  out.set(png256, headerSize);
+  return out;
+}
+
+export async function downloadWindowsAppPackage(rawOrigin?: string): Promise<void> {
+  const appUrl = sanitizeShellUrl(
+    rawOrigin || (typeof window !== 'undefined' ? window.location.origin : '')
+  );
+  const isDevProxyUrl = appUrl.includes('://ais-dev-');
+  const png256 = await fetchBinaryAsset('/pwa-256x256.png');
+  const icoBytes = buildIcoBytes(png256);
+
+  const vbsLauncher = `' Lanceur Windows (mode application autonome sans barre navigateur)
+Option Explicit
+Dim shell, fso, localAppData, profileDir, appUrl, browsers, b, cmd, extraArgs
+Set shell = CreateObject("WScript.Shell")
+Set fso = CreateObject("Scripting.FileSystemObject")
+
+appUrl = "${appUrl}"
+localAppData = shell.ExpandEnvironmentStrings("%LOCALAPPDATA%")
+profileDir = localAppData & "\\CabinetDrSaraBchi-Win\\Profile"
+extraArgs = ${
+    isDevProxyUrl
+      ? `"--no-first-run --no-default-browser-check --disable-features=msEdgeSidebarV2 --window-size=1440,900"`
+      : `"--user-data-dir=""" & profileDir & """ --no-first-run --no-default-browser-check --disable-features=msEdgeSidebarV2 --window-size=1440,900"`
+  }
+
+browsers = Array( _
+  shell.ExpandEnvironmentStrings("%ProgramFiles(x86)%") & "\\Microsoft\\Edge\\Application\\msedge.exe", _
+  shell.ExpandEnvironmentStrings("%ProgramFiles%") & "\\Microsoft\\Edge\\Application\\msedge.exe", _
+  localAppData & "\\Microsoft\\Edge\\Application\\msedge.exe", _
+  shell.ExpandEnvironmentStrings("%ProgramFiles%") & "\\Google\\Chrome\\Application\\chrome.exe", _
+  shell.ExpandEnvironmentStrings("%ProgramFiles(x86)%") & "\\Google\\Chrome\\Application\\chrome.exe", _
+  localAppData & "\\Google\\Chrome\\Application\\chrome.exe", _
+  shell.ExpandEnvironmentStrings("%ProgramFiles%") & "\\BraveSoftware\\Brave-Browser\\Application\\brave.exe" _
+)
+
+For Each b In browsers
+  If fso.FileExists(b) Then
+    cmd = """" & b & """ --app=""" & appUrl & """ " & extraArgs
+    shell.Run cmd, 1, False
+    WScript.Quit
+  End If
+Next
+
+shell.Run """" & appUrl & """", 1, False
+`;
+
+  const psInstaller = `$ErrorActionPreference = 'Stop'
+$SourceDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$InstallDir = Join-Path $env:LOCALAPPDATA 'CabinetDrSaraBchi-Win'
+New-Item -ItemType Directory -Force -Path $InstallDir | Out-Null
+
+$VbsSrc = Join-Path $SourceDir 'Lancer Gestion de cabinet dentaire Dr. Sara Bchi.vbs'
+$IcoSrc = Join-Path $SourceDir 'Cabinet-Dr-Sara-Bchi.ico'
+$VbsDst = Join-Path $InstallDir 'Lancer Gestion de cabinet dentaire Dr. Sara Bchi.vbs'
+$IcoDst = Join-Path $InstallDir 'Cabinet-Dr-Sara-Bchi.ico'
+
+if (-not (Test-Path $IcoSrc)) {
+  throw "Extrayez d'abord tout le dossier ZIP avant de lancer Installer sur Windows.bat."
+}
+
+Copy-Item -Path $VbsSrc -Destination $VbsDst -Force
+Copy-Item -Path $IcoSrc -Destination $IcoDst -Force
+try { Unblock-File -Path $VbsDst -ErrorAction SilentlyContinue } catch {}
+
+$AppUrl = '${appUrl}'
+$ProfileDir = Join-Path $InstallDir 'Profile'
+$Candidates = @(
+  (Join-Path $env:ProgramFiles 'Microsoft\\Edge\\Application\\msedge.exe'),
+  (Join-Path \${env:ProgramFiles(x86)} 'Microsoft\\Edge\\Application\\msedge.exe'),
+  (Join-Path $env:LOCALAPPDATA 'Microsoft\\Edge\\Application\\msedge.exe'),
+  (Join-Path $env:ProgramFiles 'Google\\Chrome\\Application\\chrome.exe'),
+  (Join-Path \${env:ProgramFiles(x86)} 'Google\\Chrome\\Application\\chrome.exe'),
+  (Join-Path $env:LOCALAPPDATA 'Google\\Chrome\\Application\\chrome.exe'),
+  (Join-Path $env:ProgramFiles 'BraveSoftware\\Brave-Browser\\Application\\brave.exe')
+)
+$BrowserExe = $Candidates | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
+
+$Wsh = New-Object -ComObject WScript.Shell
+$DesktopLink = Join-Path ([Environment]::GetFolderPath('Desktop')) 'Gestion de cabinet dentaire Dr. Sara Bchi.lnk'
+$StartMenuDir = Join-Path ([Environment]::GetFolderPath('Programs')) 'Gestion de cabinet dentaire Dr. Sara Bchi'
+New-Item -ItemType Directory -Force -Path $StartMenuDir | Out-Null
+$StartLink = Join-Path $StartMenuDir 'Gestion de cabinet dentaire Dr. Sara Bchi.lnk'
+
+$LaunchArgs = ${
+    isDevProxyUrl
+      ? `'"--app=' + $AppUrl + '" --no-first-run --no-default-browser-check --disable-features=msEdgeSidebarV2 --window-size=1440,900'`
+      : `'"--app=' + $AppUrl + '" "--user-data-dir=' + $ProfileDir + '" --no-first-run --no-default-browser-check --disable-features=msEdgeSidebarV2 --window-size=1440,900'`
+  }
+
+foreach ($TargetLink in @($DesktopLink, $StartLink)) {
+  $Shortcut = $Wsh.CreateShortcut($TargetLink)
+  if ($BrowserExe) {
+    $Shortcut.TargetPath = $BrowserExe
+    $Shortcut.Arguments = $LaunchArgs
+  } else {
+    $Shortcut.TargetPath = 'wscript.exe'
+    $Shortcut.Arguments = '"' + $VbsDst + '"'
+  }
+  $Shortcut.WorkingDirectory = $InstallDir
+  $Shortcut.IconLocation = $IcoDst + ',0'
+  $Shortcut.Description = 'Gestion de cabinet dentaire Dr. Sara Bchi'
+  $Shortcut.Save()
+}
+
+Write-Host 'Gestion de cabinet dentaire Dr. Sara Bchi installe sur le Bureau et dans le Menu Demarrer !' -ForegroundColor Green
+if ($BrowserExe) {
+  Start-Process -FilePath $BrowserExe -ArgumentList $LaunchArgs
+} else {
+  Start-Process 'wscript.exe' -ArgumentList ('"' + $VbsDst + '"')
+}
+`;
+
+  const batInstaller = `@echo off
+chcp 65001 >nul
+if not exist "%~dp0Cabinet-Dr-Sara-Bchi.ico" (
+  echo.
+  echo [ATTENTION] Vous devez d'abord extraire le fichier ZIP ^(Clic droit -^> Extraire tout...^) avant de lancer cet installateur.
+  echo.
+  pause
+  exit /b 1
+)
+echo Installation de Gestion de cabinet dentaire Dr. Sara Bchi sur Windows...
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0Installer-Cabinet-Dr-Sara-Bchi.ps1"
+if errorlevel 1 (
+  echo.
+  echo Erreur pendant l'installation. Essayez "Lancer Gestion de cabinet dentaire Dr. Sara Bchi.vbs".
+  pause
+)
+`;
+
+  const readmeWin = `Gestion de cabinet dentaire Dr. Sara Bchi (Windows 10 / 11)
+==================================================================
+
+INSTALLATION SUR WINDOWS (en 1 double-clic) :
+
+1. Faites un clic droit sur ce fichier ZIP -> "Extraire tout..."
+2. Ouvrez le dossier extrait et double-cliquez sur :
+   "Installer sur Windows.bat"
+   (Si Windows SmartScreen affiche un avertissement : "Informations complementaires" -> "Executer quand meme").
+3. Un raccourci "Gestion de cabinet dentaire Dr. Sara Bchi" (avec le logo du cabinet) est cree
+   automatiquement sur votre Bureau et dans votre Menu Demarrer.
+4. L'application s'ouvre dans sa propre fenetre bureau (sans barre navigateur ni onglets).
+
+URL liee : ${appUrl}
+`;
+
+  const blob = buildZipBlob([
+    { name: 'Cabinet-Dr-Sara-Bchi-Windows/Cabinet-Dr-Sara-Bchi.ico', data: icoBytes },
+    { name: 'Cabinet-Dr-Sara-Bchi-Windows/Lancer Gestion de cabinet dentaire Dr. Sara Bchi.vbs', data: vbsLauncher },
+    { name: 'Cabinet-Dr-Sara-Bchi-Windows/Installer-Cabinet-Dr-Sara-Bchi.ps1', data: psInstaller },
+    { name: 'Cabinet-Dr-Sara-Bchi-Windows/Installer sur Windows.bat', data: batInstaller },
+    { name: 'Cabinet-Dr-Sara-Bchi-Windows/LISEZ-MOI-WINDOWS.txt', data: readmeWin },
+  ]);
+
+  triggerBlobDownload(blob, 'Cabinet-Dr-Sara-Bchi-Windows.zip');
+}
+
 export async function downloadMacAppPackage(rawOrigin?: string): Promise<void> {
   const appUrl = sanitizeShellUrl(
     rawOrigin || (typeof window !== 'undefined' ? window.location.origin : '')
   );
+  const isDevProxyUrl = appUrl.includes('://ais-dev-');
   const [png256, png512] = await Promise.all([
     fetchBinaryAsset('/pwa-256x256.png'),
     fetchBinaryAsset('/pwa-512x512.png'),
@@ -182,9 +363,9 @@ export async function downloadMacAppPackage(rawOrigin?: string): Promise<void> {
 <plist version="1.0">
 <dict>
   <key>CFBundleName</key>
-  <string>DentaFlow Pro</string>
+  <string>Gestion de cabinet dentaire Dr. Sara Bchi</string>
   <key>CFBundleDisplayName</key>
-  <string>DentaFlow Pro</string>
+  <string>Gestion de cabinet dentaire Dr. Sara Bchi</string>
   <key>CFBundleIdentifier</key>
   <string>com.dentaflow.drsarabchi</string>
   <key>CFBundleVersion</key>
@@ -194,7 +375,7 @@ export async function downloadMacAppPackage(rawOrigin?: string): Promise<void> {
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleExecutable</key>
-  <string>DentaFlowPro</string>
+  <string>CabinetDrSaraBchi</string>
   <key>CFBundleIconFile</key>
   <string>AppIcon</string>
   <key>LSMinimumSystemVersion</key>
@@ -205,16 +386,32 @@ export async function downloadMacAppPackage(rawOrigin?: string): Promise<void> {
 </plist>
 `;
 
-  const macExecutable = `#!/bin/bash
+  const macExecutable = isDevProxyUrl
+    ? `#!/bin/bash
 APP_URL="${appUrl}"
-PROFILE_DIR="$HOME/Library/Application Support/DentaFlowPro-Mac"
 
-if [ -x "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" ]; then
-  exec "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --app="$APP_URL" --user-data-dir="$PROFILE_DIR/Chrome" >/dev/null 2>&1 &
-elif [ -x "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" ]; then
-  exec "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" --app="$APP_URL" --user-data-dir="$PROFILE_DIR/Edge" >/dev/null 2>&1 &
-elif [ -x "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" ]; then
-  exec "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" --app="$APP_URL" --user-data-dir="$PROFILE_DIR/Brave" >/dev/null 2>&1 &
+if [ -d "/Applications/Microsoft Edge.app" ]; then
+  open -na "/Applications/Microsoft Edge.app" --args --app="$APP_URL" --no-first-run --no-default-browser-check --new-window
+elif [ -d "/Applications/Google Chrome.app" ]; then
+  open -na "/Applications/Google Chrome.app" --args --app="$APP_URL" --no-first-run --no-default-browser-check --new-window
+elif [ -d "/Applications/Brave Browser.app" ]; then
+  open -na "/Applications/Brave Browser.app" --args --app="$APP_URL" --no-first-run --no-default-browser-check --new-window
+elif [ -d "/Applications/Safari.app" ]; then
+  open -a Safari "$APP_URL"
+else
+  open "$APP_URL"
+fi
+`
+    : `#!/bin/bash
+APP_URL="${appUrl}"
+PROFILE_DIR="$HOME/Library/Application Support/CabinetDrSaraBchi-Mac"
+
+if [ -d "/Applications/Microsoft Edge.app" ]; then
+  open -na "/Applications/Microsoft Edge.app" --args --app="$APP_URL" --user-data-dir="$PROFILE_DIR/Edge" --no-first-run --no-default-browser-check --new-window
+elif [ -d "/Applications/Brave Browser.app" ]; then
+  open -na "/Applications/Brave Browser.app" --args --app="$APP_URL" --user-data-dir="$PROFILE_DIR/Brave" --no-first-run --no-default-browser-check --new-window
+elif [ -d "/Applications/Google Chrome.app" ]; then
+  open -na "/Applications/Google Chrome.app" --args --app="$APP_URL" --user-data-dir="$PROFILE_DIR/Chrome" --no-first-run --no-default-browser-check --new-window
 elif [ -d "/Applications/Safari.app" ]; then
   open -a Safari "$APP_URL"
 else
@@ -225,49 +422,55 @@ fi
   const installCommand = `#!/bin/bash
 set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-APP_SRC="$SCRIPT_DIR/DentaFlow Pro.app"
+APP_SRC="$SCRIPT_DIR/Gestion de cabinet dentaire Dr. Sara Bchi.app"
 TARGET_DIR="/Applications"
 if [ ! -w "$TARGET_DIR" ]; then
   TARGET_DIR="$HOME/Applications"
   mkdir -p "$TARGET_DIR"
 fi
-TARGET_APP="$TARGET_DIR/DentaFlow Pro.app"
+TARGET_APP="$TARGET_DIR/Gestion de cabinet dentaire Dr. Sara Bchi.app"
 
-echo "Installation de DentaFlow Pro — Cabinet Dentaire Dr. Sara Bchi..."
+echo "Installation de Gestion de cabinet dentaire Dr. Sara Bchi..."
 rm -rf "$TARGET_APP"
 cp -R "$APP_SRC" "$TARGET_APP"
 xattr -dr com.apple.quarantine "$TARGET_APP" 2>/dev/null || true
-chmod +x "$TARGET_APP/Contents/MacOS/DentaFlowPro"
-echo "Installation réussie dans : $TARGET_APP"
+chmod +x "$TARGET_APP/Contents/MacOS/CabinetDrSaraBchi"
+
+if [ -d "$HOME/Desktop" ]; then
+  ln -sfn "$TARGET_APP" "$HOME/Desktop/Gestion de cabinet dentaire Dr. Sara Bchi.app"
+fi
+
+echo "Installation réussie dans : $TARGET_APP (et raccourci créé sur le Bureau)"
 open "$TARGET_APP"
 `;
 
-  const readmeTxt = `DentaFlow Pro — Cabinet Dentaire Dr. Sara Bchi (macOS)
+  const readmeTxt = `Gestion de cabinet dentaire Dr. Sara Bchi (macOS)
 ======================================================
 
-INSTALLATION DIRECTE SUR MAC (2 options simples) :
+INSTALLATION DIRECTE SUR MAC (fenêtre autonome sans barre navigateur) :
 
-Option 1 (Recommandée — Installation en 1 double-clic dans Applications) :
+Option 1 (Recommandée — 100 % Apple Safari WebKit, zéro Chrome même dans la barre des menus) :
+1. Ouvrez Safari sur votre Mac et allez sur :
+   ${appUrl}
+2. Dans la barre des menus en haut : Fichier -> "Ajouter au Dock..."
+3. L'application s'ouvre dans sa propre fenêtre macOS native avec son icône dans le Dock.
+
+Option 2 (Installeur .app + raccourci sur le Bureau) :
 1. Double-cliquez sur ce fichier ZIP s'il n'est pas déjà décompressé.
-2. Faites un Clic droit sur "Installer sur Mac.command" -> "Ouvrir"
-   (puis cliquez "Ouvrir" si macOS demande confirmation).
-3. L'application "DentaFlow Pro.app" (avec le logo Dr. Sara Bchi) sera
-   copiée dans votre dossier Applications et lancée en fenêtre dédiée.
-4. Vous pourrez ensuite la garder dans votre Dock !
-
-Option 2 (Manuel) :
-- Glissez "DentaFlow Pro.app" dans votre dossier Applications.
-- Au premier lancement, faites Clic droit -> Ouvrir pour autoriser
-  l'application sur macOS Gatekeeper.
+2. Si macOS bloque "Installer sur Mac.command" (développeur non identifié) :
+   Ouvrez Terminal et glissez-déposez le fichier "Installer sur Mac.command" précédé de "bash ",
+   ou autorisez-le dans Réglages Système -> Confidentialité et sécurité -> Ouvrir quand même.
+3. L'application "Gestion de cabinet dentaire Dr. Sara Bchi.app" est copiée dans Applications,
+   un raccourci est ajouté sur votre Bureau, et le logiciel démarre sans barre d'adresse.
 
 URL liée : ${appUrl}
 `;
 
   const blob = buildZipBlob([
-    { name: 'DentaFlow Pro.app/Contents/Info.plist', data: infoPlist },
-    { name: 'DentaFlow Pro.app/Contents/Resources/AppIcon.icns', data: icnsBytes },
+    { name: 'Gestion de cabinet dentaire Dr. Sara Bchi.app/Contents/Info.plist', data: infoPlist },
+    { name: 'Gestion de cabinet dentaire Dr. Sara Bchi.app/Contents/Resources/AppIcon.icns', data: icnsBytes },
     {
-      name: 'DentaFlow Pro.app/Contents/MacOS/DentaFlowPro',
+      name: 'Gestion de cabinet dentaire Dr. Sara Bchi.app/Contents/MacOS/CabinetDrSaraBchi',
       data: macExecutable,
       executable: true,
     },
@@ -275,7 +478,7 @@ URL liée : ${appUrl}
     { name: 'LISEZ-MOI-MAC.txt', data: readmeTxt },
   ]);
 
-  triggerBlobDownload(blob, 'DentaFlow-Pro-Mac.zip');
+  triggerBlobDownload(blob, 'Cabinet-Dr-Sara-Bchi-Mac.zip');
 }
 
 export async function downloadBrowserExtensionPackage(rawOrigin?: string): Promise<void> {
@@ -290,13 +493,13 @@ export async function downloadBrowserExtensionPackage(rawOrigin?: string): Promi
   const manifestJson = JSON.stringify(
     {
       manifest_version: 3,
-      name: 'DentaFlow Pro — Cabinet Dr. Sara Bchi',
-      short_name: 'DentaFlow',
+      name: 'Gestion de cabinet dentaire Dr. Sara Bchi',
+      short_name: 'Dr Sara Bchi',
       version: '1.0.0',
       description:
-        'Lanceur direct en fenêtre dédiée pour le logiciel DentaFlow Pro (Cabinet Dentaire Dr. Sara Bchi).',
+        'Lanceur direct en fenêtre dédiée pour Gestion de cabinet dentaire Dr. Sara Bchi.',
       action: {
-        default_title: 'Ouvrir DentaFlow Pro',
+        default_title: 'Ouvrir Gestion de cabinet dentaire Dr. Sara Bchi',
         default_icon: {
           '192': 'icon-192.png',
           '512': 'icon-512.png',
@@ -338,27 +541,27 @@ chrome.action.onClicked.addListener(async () => {
 });
 `;
 
-  const installGuideTxt = `Extension Chrome / Edge / Brave pour Mac & PC — DentaFlow Pro
+  const installGuideTxt = `Extension Chrome / Edge / Brave pour Mac & PC — Gestion de cabinet dentaire Dr. Sara Bchi
 =================================================================
 
-1. Décompressez ce fichier ZIP dans un dossier permanent (ex: Documents/DentaFlow-Extension).
-2. Ouvrez Google Chrome (ou Microsoft Edge / Brave) sur votre Mac.
+1. Décompressez ce fichier ZIP dans un dossier permanent (ex: Documents/Cabinet-Dr-Sara-Bchi-Extension).
+2. Ouvrez Google Chrome (ou Microsoft Edge / Brave).
 3. Dans la barre d'adresse, tapez : chrome://extensions  (ou edge://extensions)
 4. Activez "Mode développeur" en haut à droite.
 5. Cliquez sur "Charger l'extension non empaquetée" et sélectionnez le dossier décompressé.
-6. Épinglez l'icône DentaFlow Pro (logo Dr. Sara Bchi) dans votre barre Chrome :
+6. Épinglez l'icône Gestion de cabinet dentaire Dr. Sara Bchi (logo Dr. Sara Bchi) dans votre barre :
    un seul clic lance directement le logiciel dans sa fenêtre dédiée sans barre d'adresse !
 
 URL configurée : ${appUrl}
 `;
 
   const blob = buildZipBlob([
-    { name: 'DentaFlow-Extension/manifest.json', data: manifestJson },
-    { name: 'DentaFlow-Extension/background.js', data: backgroundJs },
-    { name: 'DentaFlow-Extension/icon-192.png', data: png192 },
-    { name: 'DentaFlow-Extension/icon-512.png', data: png512 },
-    { name: 'DentaFlow-Extension/INSTALLATION-EXTENSION.txt', data: installGuideTxt },
+    { name: 'Cabinet-Dr-Sara-Bchi-Extension/manifest.json', data: manifestJson },
+    { name: 'Cabinet-Dr-Sara-Bchi-Extension/background.js', data: backgroundJs },
+    { name: 'Cabinet-Dr-Sara-Bchi-Extension/icon-192.png', data: png192 },
+    { name: 'Cabinet-Dr-Sara-Bchi-Extension/icon-512.png', data: png512 },
+    { name: 'Cabinet-Dr-Sara-Bchi-Extension/INSTALLATION-EXTENSION.txt', data: installGuideTxt },
   ]);
 
-  triggerBlobDownload(blob, 'DentaFlow-Pro-Extension.zip');
+  triggerBlobDownload(blob, 'Cabinet-Dr-Sara-Bchi-Extension.zip');
 }

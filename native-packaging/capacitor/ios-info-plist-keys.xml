@@ -1,0 +1,11 @@
+<!-- À fusionner dans ios/App/App/Info.plist après `npx cap add ios` -->
+<key>NSCameraUsageDescription</key>
+<string>Gestion de cabinet dentaire Dr. Sara Bchi utilise l'appareil photo pour capturer des clichés dentaires et documents patients.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Gestion de cabinet dentaire Dr. Sara Bchi accède à la photothèque pour importer des radiographies et bilans patients.</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Gestion de cabinet dentaire Dr. Sara Bchi enregistre les ordonnances, devis et exports générés dans vos fichiers.</string>
+<key>UIFileSharingEnabled</key>
+<true/>
+<key>LSSupportsOpeningDocumentsInPlace</key>
+<true/>

@@ -10,6 +10,9 @@
 @layer base {
   html {
     font-family: var(--font-sans);
+    overflow-x: clip;
+    max-width: 100%;
+    -webkit-text-size-adjust: 100%;
   }
 
   html.dark {
@@ -18,7 +21,21 @@
 
   body {
     font-family: var(--font-sans);
+    overflow-x: clip;
+    max-width: 100%;
+    overscroll-behavior-y: contain;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
     @apply bg-[#EDF2F7] text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200;
+  }
+
+  button,
+  a,
+  select,
+  input,
+  textarea,
+  [role="button"] {
+    touch-action: manipulation;
   }
 
   h1, h2, h3, h4, .font-display {
@@ -28,6 +45,41 @@
   .font-mono,
   .tabular-nums {
     font-variant-numeric: tabular-nums;
+  }
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pl-safe {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+
+.pr-safe {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  select,
+  textarea {
+    font-size: 16px;
+    min-width: 0;
+    max-width: 100%;
   }
 }
 
@@ -48,8 +100,101 @@
   animation: section-progress 0.45s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
+@keyframes clinic-logo-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.86) translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes clinic-logo-breathe {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.045) translateY(-3px);
+  }
+}
+
+@keyframes clinic-halo-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes clinic-ring-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes clinic-bar-slide {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(240%);
+  }
+}
+
+.animate-clinic-enter {
+  animation: clinic-logo-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-clinic-breathe {
+  animation: clinic-logo-breathe 2.6s ease-in-out infinite;
+}
+
+.animate-clinic-halo {
+  animation: clinic-halo-pulse 2.6s ease-in-out infinite;
+}
+
+.animate-clinic-ring {
+  animation: clinic-ring-spin 2.8s linear infinite;
+}
+
+.animate-clinic-bar {
+  animation: clinic-bar-slide 1.35s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes tooth-select-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.035);
+  }
+}
+
+.animate-tooth-glow {
+  animation: tooth-select-glow 2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-section-progress {
+  .animate-section-progress,
+  .animate-clinic-enter,
+  .animate-clinic-breathe,
+  .animate-clinic-halo,
+  .animate-clinic-ring,
+  .animate-clinic-bar,
+  .animate-tooth-glow {
     animation: none;
     transform: none;
   }

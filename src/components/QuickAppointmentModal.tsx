@@ -305,14 +305,14 @@ export const QuickAppointmentModal: React.FC<QuickAppointmentModalProps> = ({
 
   return (
     <div
-      className="no-print fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 dark:bg-black/75 p-4"
+      className="no-print fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-slate-900/50 dark:bg-black/75 p-3 sm:p-4 pt-safe pb-safe overflow-y-auto"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-labelledby="quick-apt-title"
     >
       <div
-        className="w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xl"
+        className="my-auto w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-xl max-h-[90dvh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5">
@@ -433,14 +433,14 @@ export const QuickAppointmentModal: React.FC<QuickAppointmentModalProps> = ({
               </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <input
                 type="date"
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 aria-label="Date du rendez-vous"
-                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-2 font-mono tabular-nums text-slate-900 dark:text-slate-100 focus:border-sky-500 focus:outline-none"
+                className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-2 font-mono tabular-nums text-slate-900 dark:text-slate-100 focus:border-sky-500 focus:outline-none"
               />
               <input
                 type="time"
@@ -448,13 +448,13 @@ export const QuickAppointmentModal: React.FC<QuickAppointmentModalProps> = ({
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 aria-label="Heure du rendez-vous"
-                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-2 font-mono tabular-nums text-slate-900 dark:text-slate-100 focus:border-sky-500 focus:outline-none"
+                className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-2 font-mono tabular-nums text-slate-900 dark:text-slate-100 focus:border-sky-500 focus:outline-none"
               />
               <select
                 value={durationMinutes}
                 onChange={(e) => setDurationMinutes(Number(e.target.value))}
                 aria-label="Durée du rendez-vous"
-                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-2 font-mono tabular-nums text-slate-900 dark:text-slate-100 focus:border-sky-500 focus:outline-none"
+                className="w-full min-w-0 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-2 font-mono tabular-nums text-slate-900 dark:text-slate-100 focus:border-sky-500 focus:outline-none"
               >
                 {[15, 30, 45, 60, 90, 120].map((d) => (
                   <option key={d} value={d}>
@@ -558,11 +558,11 @@ export const QuickAppointmentModal: React.FC<QuickAppointmentModalProps> = ({
             />
           </div>
 
-          <div className="flex flex-wrap items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex flex-wrap-reverse sm:flex-nowrap items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-slate-200 dark:border-slate-700 px-3.5 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 whitespace-nowrap"
+              className="w-full sm:w-auto min-h-[44px] sm:min-h-0 rounded-lg border border-slate-200 dark:border-slate-700 px-3.5 py-2 font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 whitespace-nowrap"
             >
               Annuler
             </button>
@@ -570,14 +570,14 @@ export const QuickAppointmentModal: React.FC<QuickAppointmentModalProps> = ({
               type="button"
               disabled={submitting}
               onClick={() => void handleSave(true)}
-              className="rounded-lg border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/60 px-3.5 py-2 font-medium text-[#163B63] dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/60 disabled:opacity-60 whitespace-nowrap"
+              className="w-full sm:w-auto min-h-[44px] sm:min-h-0 rounded-lg border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/60 px-3.5 py-2 font-medium text-[#163B63] dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/60 disabled:opacity-60 whitespace-nowrap"
             >
-              Enregistrer & Voir l'agenda
+              Enregistrer &amp; Voir l&apos;agenda
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-lg bg-[#163B63] dark:bg-sky-600 px-4 py-2 font-semibold text-white hover:bg-[#0F2C4C] dark:hover:bg-sky-500 disabled:opacity-60 whitespace-nowrap"
+              className="w-full sm:w-auto min-h-[44px] sm:min-h-0 rounded-lg bg-[#163B63] dark:bg-sky-600 px-4 py-2 font-semibold text-white hover:bg-[#0F2C4C] dark:hover:bg-sky-500 disabled:opacity-60 whitespace-nowrap"
             >
               {submitting ? 'Enregistrement...' : 'Confirmer le rendez-vous'}
             </button>

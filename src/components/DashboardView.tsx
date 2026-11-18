@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -9,8 +9,10 @@ import {
   MessageCircle,
   MoreHorizontal,
   Package,
+  Phone,
   Plus,
   RefreshCw,
+  Send,
   ShieldAlert,
   SlidersHorizontal,
   Star,
@@ -28,13 +30,15 @@ import {
   generateSafeId,
   todayISO,
 } from '../lib/formatters';
-import { ActCategory, AdminDocument, AdminDocumentCategory, CatalogAct } from '../types/dental';
+import { ActCategory, AdminDocument, AdminDocumentCategory, CatalogAct, Recall } from '../types/dental';
 import {
   GradientProgressBar,
   SegmentedArcGauge,
   StatBarColumns,
   StatColumnItem,
 } from './AnalyticsPrimitives';
+import { AccessDeniedView } from './AccessDeniedView';
+import { canAccessSection } from '../types/dental';
 
 function addMinutesToTime(startTime: string, durationMinutes: number): string {
   const [hRaw, mRaw] = (startTime || '09:00').split(':').map(Number);
@@ -150,9 +154,10 @@ function resolveCareCategory(
 export const DashboardView: React.FC = () => {
   const {
     user,
-    actualRole,
+    activeRole,
     patients,
     appointments,
+    clinicalActs,
     actsCatalog,
     invoices,
     payments,
@@ -166,12 +171,15 @@ export const DashboardView: React.FC = () => {
     permissions,
     setActiveSection,
     openPatientFile,
+    dispatchRecallNotification,
     saveRecord,
     removeRecord,
     showToast,
   } = useClinic();
 
+  const [dashboardScope, setDashboardScope] = useState<'month' | 'all'>('month');
   const [growthRange, setGrowthRange] = useState<'today' | '7d' | 'month' | 'all'>('month');
+  const scopeAutoPickedRef = useRef(false);
   const [statTab, setStatTab] = useState<'appointments' | 'payments'>('appointments');
   const [listTab, setListTab] = useState<'today' | 'next7' | 'recalls'>('today');
   const [timelineFilter, setTimelineFilter] = useState<'upcoming' | 'all'>('upcoming');
@@ -181,6 +189,8 @@ export const DashboardView: React.FC = () => {
   const [showAdminDocModal, setShowAdminDocModal] = useState(false);
   const [editingAdminDoc, setEditingAdminDoc] = useState<AdminDocument | null>(null);
   const [savingAdminDoc, setSavingAdminDoc] = useState(false);
+  const [busyRecallId, setBusyRecallId] = useState<string | null>(null);
+  const [deletingAdminDocId, setDeletingAdminDocId] = useState<string | null>(null);
   const [adminDocForm, setAdminDocForm] = useState<{
     title: string;
     category: AdminDocumentCategory;
@@ -222,6 +232,18 @@ export const DashboardView: React.FC = () => {
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
+  useEffect(() => {
+    if (!permissions.canViewFinancialTotals && statTab === 'payments') {
+      setStatTab('appointments');
+    }
+  }, [permissions.canViewFinancialTotals, statTab]);
+
+  useEffect(() => {
+    if (!permissions.canManageRecalls && listTab === 'recalls') {
+      setListTab('today');
+    }
+  }, [permissions.canManageRecalls, listTab]);
+
   const today = todayISO();
   const currentMonth = today.slice(0, 7);
   const in7Days = addDaysISO(today, 7);
@@ -248,9 +270,26 @@ export const DashboardView: React.FC = () => {
 
   const activePatientsCount = useMemo(() => patients.filter((p) => p.active).length, [patients]);
 
+  useEffect(() => {
+    if (scopeAutoPickedRef.current) return;
+    if (payments.length === 0 && clinicalActs.length === 0 && invoices.length === 0) return;
+    scopeAutoPickedRef.current = true;
+    const hasCurrentMonthActivity =
+      payments.some((p) => (p.date || '').startsWith(currentMonth)) ||
+      clinicalActs.some((a) => (a.date || '').startsWith(currentMonth)) ||
+      invoices.some((i) => (i.issueDate || '').startsWith(currentMonth));
+    if (!hasCurrentMonthActivity) {
+      setDashboardScope('all');
+      setGrowthRange('all');
+    }
+  }, [payments, clinicalActs, invoices, currentMonth]);
+
   const monthPayments = useMemo(
-    () => payments.filter((p) => p.date.startsWith(currentMonth)),
-    [payments, currentMonth]
+    () =>
+      dashboardScope === 'all'
+        ? payments
+        : payments.filter((p) => p.date.startsWith(currentMonth)),
+    [payments, currentMonth, dashboardScope]
   );
 
   const revenueThisMonth = useMemo(
@@ -260,10 +299,11 @@ export const DashboardView: React.FC = () => {
 
   const expensesThisMonth = useMemo(
     () =>
-      expenses
-        .filter((e) => e.date.startsWith(currentMonth))
-        .reduce((sum, e) => sum + Number(e.amount || 0), 0),
-    [expenses, currentMonth]
+      (dashboardScope === 'all'
+        ? expenses
+        : expenses.filter((e) => e.date.startsWith(currentMonth))
+      ).reduce((sum, e) => sum + Number(e.amount || 0), 0),
+    [expenses, currentMonth, dashboardScope]
   );
 
   const netThisMonth = revenueThisMonth - expensesThisMonth;
@@ -271,10 +311,16 @@ export const DashboardView: React.FC = () => {
   const billedThisMonth = useMemo(
     () =>
       invoices
-        .filter((inv) => inv.status !== 'Annulée' && inv.issueDate.startsWith(currentMonth))
+        .filter(
+          (inv) =>
+            inv.status !== 'Annulée' &&
+            (dashboardScope === 'all' || inv.issueDate.startsWith(currentMonth))
+        )
         .reduce((sum, inv) => sum + Number(inv.totalAmount || 0), 0),
-    [invoices, currentMonth]
+    [invoices, currentMonth, dashboardScope]
   );
+
+  const scopeLabel = dashboardScope === 'all' ? 'Cumul Cabinet' : currentMonthLabel;
 
   const insuranceOutstanding = useMemo(
     () =>
@@ -288,17 +334,27 @@ export const DashboardView: React.FC = () => {
     [invoices]
   );
 
-  const unpaidPatientBalances = useMemo(
-    () =>
-      invoices
-        .filter((inv) => inv.status !== 'Annulée')
-        .reduce(
-          (sum, inv) =>
-            sum + Math.max(0, Number(inv.patientShare || 0) - Number(inv.paidAmount || 0)),
-          0
-        ),
-    [invoices]
-  );
+  const unpaidPatientBalances = useMemo(() => {
+    let totalDue = 0;
+    const csvInvoicedByPatient = new Map<string, number>();
+    for (const inv of invoices) {
+      if (inv.status === 'Annulée') continue;
+      totalDue += Math.max(0, Number(inv.patientShare || 0) - Number(inv.paidAmount || 0));
+      if (inv.isCsvArchive) {
+        csvInvoicedByPatient.set(
+          inv.patientId,
+          (csvInvoicedByPatient.get(inv.patientId) || 0) + Number(inv.totalAmount || 0)
+        );
+      }
+    }
+    for (const pat of patients) {
+      if (pat.isCsvArchive && typeof pat.remainingDue === 'number' && pat.remainingDue > 0) {
+        const csvInvoiced = csvInvoicedByPatient.get(pat.id) || 0;
+        totalDue += Math.max(0, pat.remainingDue - csvInvoiced);
+      }
+    }
+    return totalDue;
+  }, [invoices, patients]);
 
   const overdueRecalls = useMemo(
     () => recalls.filter((r) => r.status === 'En retard' || (r.status === 'À faire' && r.dueDate < today)),
@@ -357,9 +413,14 @@ export const DashboardView: React.FC = () => {
     [labOrders, today]
   );
 
+  const favoritePatientIdSet = useMemo(
+    () => new Set(favoritePatientIds),
+    [favoritePatientIds]
+  );
+
   const favoritePatients = useMemo(
-    () => patients.filter((p) => favoritePatientIds.includes(p.id)),
-    [patients, favoritePatientIds]
+    () => patients.filter((p) => favoritePatientIdSet.has(p.id)),
+    [patients, favoritePatientIdSet]
   );
 
   const canManageAdminDocs =
@@ -416,6 +477,8 @@ export const DashboardView: React.FC = () => {
       ['Chirurgie', 0],
     ]);
     const dedupKeys = new Set<string>();
+    const matchScope = (iso: string) =>
+      dashboardScope === 'all' || (iso || '').startsWith(currentMonth);
 
     const incrementCategory = (cat: string, dedupKey?: string) => {
       if (dedupKey) {
@@ -425,8 +488,18 @@ export const DashboardView: React.FC = () => {
       counts.set(cat, (counts.get(cat) || 0) + 1);
     };
 
+    for (const act of clinicalActs) {
+      if (!matchScope(act.date)) continue;
+      if (careChartScope === 'performed' && act.status !== 'Fini') {
+        continue;
+      }
+      const cat = resolveCareCategory(act.actName, actsCatalog);
+      counts.set(cat, (counts.get(cat) || 0) + 1);
+      dedupKeys.add(`${act.patientId}|${act.date}|${cat}`);
+    }
+
     for (const apt of appointments) {
-      if (!apt.date.startsWith(currentMonth) || apt.status === 'Annulé' || apt.status === 'Absent') {
+      if (!matchScope(apt.date) || apt.status === 'Annulé' || apt.status === 'Absent') {
         continue;
       }
       if (
@@ -441,7 +514,7 @@ export const DashboardView: React.FC = () => {
     }
 
     for (const inv of invoices) {
-      if (inv.status === 'Annulée' || !inv.issueDate.startsWith(currentMonth)) continue;
+      if (inv.status === 'Annulée' || !matchScope(inv.issueDate)) continue;
       for (const item of inv.items || []) {
         const cat = resolveCareCategory(item.actName || item.actCode, actsCatalog);
         const qty = Math.max(1, Number(item.quantity) || 1);
@@ -483,7 +556,7 @@ export const DashboardView: React.FC = () => {
         percent: total > 0 ? Math.round((count / total) * 100) : 0,
       })),
     };
-  }, [appointments, invoices, actsCatalog, currentMonth, careChartScope]);
+  }, [appointments, clinicalActs, invoices, actsCatalog, currentMonth, careChartScope, dashboardScope]);
 
   // Interactive middle card metrics ("User Growth" style)
   const growthMetrics = useMemo(() => {
@@ -622,13 +695,23 @@ export const DashboardView: React.FC = () => {
     }));
   }, [statTab, today, appointments, payments]);
 
-  const handleSendWhatsAppRecall = async (recallId: string, patientName: string) => {
-    await saveRecord('recalls', recallId, {
-      status: 'Envoyé',
-      deliveryStatus: 'Délivré',
-      lastSentAt: new Date().toISOString(),
-    });
-    showToast(`Rappel WhatsApp envoyé à ${patientName}.`, 'success');
+  const handleDispatchRecall = async (rec: Recall) => {
+    if (busyRecallId === rec.id) return;
+    setBusyRecallId(rec.id);
+    try {
+      await dispatchRecallNotification(rec, rec.channel);
+      if (rec.channel === 'SMS') {
+        showToast(`Rappel SMS envoyé à ${rec.patientName}.`, 'success');
+      } else if (rec.channel === 'WhatsApp') {
+        showToast(`WhatsApp ouvert pour ${rec.patientName}.`, 'success');
+      } else {
+        showToast(`Appel lancé vers ${rec.patientName}.`, 'success');
+      }
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : `Échec du rappel ${rec.channel}.`, 'error');
+    } finally {
+      setBusyRecallId(null);
+    }
   };
 
   const openNewAdminDocModal = () => {
@@ -707,22 +790,42 @@ export const DashboardView: React.FC = () => {
       }
       setShowAdminDocModal(false);
       setEditingAdminDoc(null);
+    } catch (err) {
+      showToast(
+        err instanceof Error ? err.message : "Impossible d'enregistrer le document administratif.",
+        'error'
+      );
     } finally {
       setSavingAdminDoc(false);
     }
   };
 
   const handleDeleteAdminDoc = async (docItem: AdminDocument) => {
-    await removeRecord('adminDocuments', docItem.id);
-    showToast(`Document « ${docItem.title} » supprimé.`, 'info');
+    if (deletingAdminDocId === docItem.id) return;
+    setDeletingAdminDocId(docItem.id);
+    try {
+      await removeRecord('adminDocuments', docItem.id);
+      showToast(`Document « ${docItem.title} » supprimé.`, 'info');
+    } catch (err) {
+      showToast(
+        err instanceof Error ? err.message : 'Impossible de supprimer ce document.',
+        'error'
+      );
+    } finally {
+      setDeletingAdminDocId(null);
+    }
   };
+
+  if (!canAccessSection(activeRole, 'dashboard')) {
+    return <AccessDeniedView sectionLabel="Tableau de bord" />;
+  }
 
   return (
     <div className="space-y-5">
       {/* Reference Overview Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             Aperçu du Cabinet
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -736,6 +839,31 @@ export const DashboardView: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-0.5 text-xs shadow-[0_1px_4px_rgba(15,23,42,0.04)]">
+            <button
+              type="button"
+              onClick={() => setDashboardScope('all')}
+              className={`rounded-full px-3 py-1.5 font-medium transition-colors whitespace-nowrap ${
+                dashboardScope === 'all'
+                  ? 'bg-[#163B63] dark:bg-sky-600 text-white'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Cumul Cabinet
+            </button>
+            <button
+              type="button"
+              onClick={() => setDashboardScope('month')}
+              className={`rounded-full px-3 py-1.5 font-medium transition-colors whitespace-nowrap ${
+                dashboardScope === 'month'
+                  ? 'bg-[#163B63] dark:bg-sky-600 text-white'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Ce mois
+            </button>
+          </div>
+
           {permissions.canEditPatientsIdentity && (
             <button
               type="button"
@@ -776,7 +904,7 @@ export const DashboardView: React.FC = () => {
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-100 dark:divide-slate-800">
           {/* Patients vus aujourd'hui */}
-          <div className="lg:col-span-3 p-5 flex flex-col justify-between gap-3">
+          <div className="lg:col-span-3 min-w-0 p-4 sm:p-5 flex flex-col justify-between gap-3">
             <div className="flex items-center justify-between gap-2">
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300">
                 <Users className="h-3.5 w-3.5 text-[#1598C7] dark:text-sky-400 shrink-0" />
@@ -803,19 +931,21 @@ export const DashboardView: React.FC = () => {
           </div>
 
           {/* Chiffre d'affaires cumulé du mois en cours */}
-          <div className="lg:col-span-4 p-5 flex flex-col justify-between gap-3">
+          <div className="lg:col-span-4 min-w-0 p-4 sm:p-5 flex flex-col justify-between gap-3">
             <div className="flex items-center justify-between gap-2">
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300">
                 <Wallet className="h-3.5 w-3.5 text-[#1598C7] dark:text-sky-400 shrink-0" />
-                <span className="truncate">CA cumulé ({currentMonthLabel})</span>
+                <span className="truncate">CA ({scopeLabel})</span>
               </span>
               {permissions.canViewFinancialTotals && (
                 <button
                   type="button"
-                  onClick={() => setActiveSection('reports')}
+                  onClick={() =>
+                    setActiveSection(permissions.canAccessReports ? 'reports' : 'payments')
+                  }
                   className="inline-flex items-center gap-0.5 text-[11px] font-medium text-[#1598C7] dark:text-sky-400 hover:underline whitespace-nowrap shrink-0"
                 >
-                  <span>Rapports</span>
+                  <span>{permissions.canAccessReports ? 'Rapports' : 'Paiements'}</span>
                   <ArrowUpRight className="h-3 w-3" />
                 </button>
               )}
@@ -836,7 +966,7 @@ export const DashboardView: React.FC = () => {
           </div>
 
           {/* Alertes Stock Critique */}
-          <div className="lg:col-span-5 p-5 flex flex-col justify-between gap-3">
+          <div className="lg:col-span-5 min-w-0 p-4 sm:p-5 flex flex-col justify-between gap-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-1.5 min-w-0">
                 <Package className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
@@ -1021,7 +1151,7 @@ export const DashboardView: React.FC = () => {
       {/* Widget Planning du jour (Timeline horizontale) */}
       <section
         aria-label="Planning du jour"
-        className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)]"
+        className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] overflow-hidden"
       >
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
@@ -1168,7 +1298,7 @@ export const DashboardView: React.FC = () => {
       {/* Top 3-Column Bento Grid (mirrors Sales Overview) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Column 1: Stacked Primary Navy Card + Secondary White Card */}
-        <div className="lg:col-span-4 flex flex-col gap-4">
+        <div className="lg:col-span-4 min-w-0 flex flex-col gap-4">
           <button
             type="button"
             onClick={() =>
@@ -1179,7 +1309,7 @@ export const DashboardView: React.FC = () => {
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-sky-100">
                 {permissions.canViewFinancialTotals
-                  ? 'Encaissements ce mois'
+                  ? `Encaissements (${dashboardScope === 'all' ? 'cumul' : 'ce mois'})`
                   : "Rendez-vous aujourd'hui"}
               </span>
               <MoreHorizontal className="h-4 w-4 text-sky-200/80" />
@@ -1214,7 +1344,7 @@ export const DashboardView: React.FC = () => {
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
                 {permissions.canManageExpensesAndClosures
-                  ? 'Charges ce mois'
+                  ? `Charges (${dashboardScope === 'all' ? 'cumul' : 'ce mois'})`
                   : permissions.canViewFinancialTotals
                   ? 'Soldes patients impayés'
                   : 'Alertes stock consommables'}
@@ -1247,7 +1377,7 @@ export const DashboardView: React.FC = () => {
         </div>
 
         {/* Column 2: Progress / Growth Card */}
-        <div className="lg:col-span-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col justify-between">
+        <div className="lg:col-span-4 min-w-0 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
@@ -1255,7 +1385,15 @@ export const DashboardView: React.FC = () => {
               </h2>
               <button
                 type="button"
-                onClick={() => setActiveSection(permissions.canViewFinancialTotals ? 'reports' : 'appointments')}
+                onClick={() =>
+                  setActiveSection(
+                    permissions.canAccessReports
+                      ? 'reports'
+                      : permissions.canViewFinancialTotals
+                      ? 'invoices'
+                      : 'appointments'
+                  )
+                }
                 aria-label="Ouvrir la vue détaillée"
                 className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
               >
@@ -1313,7 +1451,7 @@ export const DashboardView: React.FC = () => {
         </div>
 
         {/* Column 3: Segmented Arc Gauge Card ("Customers Volume") */}
-        <div className="lg:col-span-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col justify-between">
+        <div className="lg:col-span-4 min-w-0 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
               Volume Patients
@@ -1350,7 +1488,7 @@ export const DashboardView: React.FC = () => {
       {/* Bottom 2-Column Split: Statistics Columns + Operational Feed */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Bottom-Left: Gradient Bar Chart ("Statistics") */}
-        <div className="lg:col-span-7 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col justify-between">
+        <div className="lg:col-span-7 min-w-0 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col justify-between">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-sm font-semibold text-slate-900 dark:text-white">Statistiques</h2>
 
@@ -1382,7 +1520,13 @@ export const DashboardView: React.FC = () => {
               <button
                 type="button"
                 onClick={() =>
-                  setActiveSection(statTab === 'appointments' ? 'appointments' : 'reports')
+                  setActiveSection(
+                    statTab === 'appointments'
+                      ? 'appointments'
+                      : permissions.canAccessReports
+                      ? 'reports'
+                      : 'payments'
+                  )
                 }
                 className="inline-flex items-center gap-1 rounded-full border border-slate-200 dark:border-slate-700 px-2.5 py-1 text-[11px] font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
               >
@@ -1402,7 +1546,7 @@ export const DashboardView: React.FC = () => {
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 {statTab === 'appointments'
                   ? 'Charge prévisionnelle des consultations sur les 7 prochains jours.'
-                  : 'Volume des encaissements patients & mutuelles sur le mois en cours.'}
+                  : `Volume des encaissements patients & mutuelles (${scopeLabel}).`}
               </p>
             </div>
 
@@ -1413,7 +1557,7 @@ export const DashboardView: React.FC = () => {
         </div>
 
         {/* Bottom-Right: Live Appointments & Recalls Card (soft cyan backdrop like "Most Order by Country") */}
-        <div className="lg:col-span-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-gradient-to-br from-sky-50/80 via-white to-cyan-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-sky-950/30 p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col justify-between">
+        <div className="lg:col-span-5 min-w-0 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-gradient-to-br from-sky-50/80 via-white to-cyan-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-sky-950/30 p-4 sm:p-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)] flex flex-col justify-between">
           <div>
             <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
               <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
@@ -1442,17 +1586,19 @@ export const DashboardView: React.FC = () => {
                 >
                   7j ({next7Appointments.length})
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setListTab('recalls')}
-                  className={`rounded-full px-2.5 py-1 font-medium transition-colors ${
-                    listTab === 'recalls'
-                      ? 'bg-[#163B63] dark:bg-sky-600 text-white'
-                      : 'text-slate-600 dark:text-slate-300'
-                  }`}
-                >
-                  Relances ({overdueRecalls.length})
-                </button>
+                {permissions.canManageRecalls && (
+                  <button
+                    type="button"
+                    onClick={() => setListTab('recalls')}
+                    className={`rounded-full px-2.5 py-1 font-medium transition-colors ${
+                      listTab === 'recalls'
+                        ? 'bg-[#163B63] dark:bg-sky-600 text-white'
+                        : 'text-slate-600 dark:text-slate-300'
+                    }`}
+                  >
+                    Relances ({overdueRecalls.length})
+                  </button>
+                )}
               </div>
             </div>
 
@@ -1560,17 +1706,32 @@ export const DashboardView: React.FC = () => {
                           {rec.patientName}
                         </button>
                         <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                          {rec.reason} · {formatDateFR(rec.dueDate)}
+                          {rec.channel} · {rec.reason} · {formatDateFR(rec.dueDate)}
                         </p>
                       </div>
-                      {actualRole !== 'assistant' && (
+                      {permissions.canManageRecalls && (
                         <button
                           type="button"
-                          onClick={() => handleSendWhatsAppRecall(rec.id, rec.patientName)}
-                          className="inline-flex items-center gap-1 rounded-full bg-emerald-600 hover:bg-emerald-700 px-3 py-1 text-[11px] font-semibold text-white shrink-0"
+                          disabled={busyRecallId === rec.id}
+                          onClick={() => void handleDispatchRecall(rec)}
+                          className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-semibold text-white shrink-0 disabled:opacity-60 ${
+                            rec.channel === 'WhatsApp'
+                              ? 'bg-emerald-600 hover:bg-emerald-700'
+                              : rec.channel === 'Appel'
+                              ? 'bg-amber-600 hover:bg-amber-700'
+                              : 'bg-sky-600 hover:bg-sky-700'
+                          }`}
                         >
-                          <MessageCircle className="h-3 w-3" />
-                          <span>WhatsApp</span>
+                          {rec.channel === 'WhatsApp' ? (
+                            <MessageCircle className="h-3 w-3" />
+                          ) : rec.channel === 'Appel' ? (
+                            <Phone className="h-3 w-3" />
+                          ) : (
+                            <Send className="h-3 w-3" />
+                          )}
+                          <span>
+                            {busyRecallId === rec.id ? 'Envoi...' : rec.channel}
+                          </span>
                         </button>
                       )}
                     </div>
@@ -1609,10 +1770,10 @@ export const DashboardView: React.FC = () => {
             <BarChart3 className="h-4 w-4 text-[#1598C7] dark:text-sky-400 shrink-0" />
             <div>
               <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
-                Répartition des types de soins ({currentMonthLabel})
+                Répartition des types de soins ({scopeLabel})
               </h2>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 tabular-nums">
-                {monthlyCareDistribution.total} acte(s) comptabilisé(s) sur le mois en cours
+                {monthlyCareDistribution.total} acte(s) comptabilisé(s) ({dashboardScope === 'all' ? 'cumul complet' : 'mois en cours'})
               </p>
             </div>
           </div>
@@ -1638,7 +1799,7 @@ export const DashboardView: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-400'
               }`}
             >
-              Tous les soins du mois
+              Tous les soins
             </button>
           </div>
         </div>
@@ -1650,7 +1811,7 @@ export const DashboardView: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
             {/* Graphique à barres verticales */}
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-8 min-w-0">
               <div className="flex items-end gap-3 sm:gap-4 h-48 pt-4 pb-2 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
                 {monthlyCareDistribution.items.map((item, idx) => {
                   const heightPct =
@@ -1890,10 +2051,11 @@ export const DashboardView: React.FC = () => {
                         {canDeleteAdminDocs && (
                           <button
                             type="button"
+                            disabled={deletingAdminDocId === docItem.id}
                             onClick={() => handleDeleteAdminDoc(docItem)}
                             aria-label={`Supprimer ${docItem.title}`}
                             title="Supprimer ce suivi"
-                            className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-1.5 text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+                            className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-1.5 text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors disabled:opacity-50"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
@@ -1918,9 +2080,9 @@ export const DashboardView: React.FC = () => {
               ? 'Renouveler un document administratif'
               : 'Ajouter un document administratif'
           }
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-4 pt-safe pb-safe"
         >
-          <div className="w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden">
+          <div className="w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-y-auto max-h-[90dvh]">
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <ShieldAlert className="h-4 w-4 text-[#1598C7] dark:text-sky-400" />
